@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using _4thYearProject.Shared.Models;
 
@@ -26,6 +27,7 @@ namespace _4thYearProject.Api.Models
         public Employee AddEmployee(Employee employee)
         {
             var addedEntity = _appDbContext.Employees.Add(employee);
+            Console.WriteLine(addedEntity);
             _appDbContext.SaveChanges();
             return addedEntity.Entity;
         }

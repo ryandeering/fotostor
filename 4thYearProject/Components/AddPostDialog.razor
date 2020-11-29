@@ -1,0 +1,49 @@
+﻿
+@if (ShowDialog)
+{
+    <div class="modal fade show d-block" id="exampleModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="titleLabel">Add Post</h5>
+                    <button type="button" class="close" @onclick="@Close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <EditForm Model="@Post" OnValidSubmit="@HandleValidSubmit">
+
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+
+                        <div class="form-group">
+                            <label for="URL">URL: </label>
+                            <InputText id="URL" class="form-control" @bind-Value="@Post.URL" placeholder="URL"></InputText>
+                            <ValidationMessage For="@(() => Post.URL)" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ThumbnailURL">First name: </label>
+                            <InputText id="ThumbnailURL" class="form-control" @bind-Value="@Post.ThumbnailURL" placeholder="Enter first name"></InputText>
+                            <ValidationMessage For="@(() => Post.ThumbnailURL)" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Caption">Caption: </label>
+                            <InputText id="Caption" class="form-control" @bind-Value="@Post.Caption" placeholder="Enter caption"></InputText>
+                            <ValidationMessage For="@(() => Post.Caption)" />
+                        </div>
+
+
+
+
+                        <button type="submit" class="btn btn-primary">Save employee</button>
+                        <a class="btn btn-outline-primary" @onclick="@Close">Close</a>
+                    </EditForm>
+
+                </div>
+            </div>
+        </div>
+    </div>
+}

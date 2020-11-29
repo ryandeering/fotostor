@@ -1,0 +1,1 @@
+Add-Migration NewMigration -Project FourthYearProject.IDP // adds migrations for specific project, I use it for ApplicationUser class

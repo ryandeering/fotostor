@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using _4thYearProject.Api.Models;
 
-namespace _4thYearProject.Api.Migrations
+namespace _4thYearProject.Api.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20201108233534_CreateIdentitySchema")]
-    partial class CreateIdentitySchema
+    [Migration("20201129153254_User")]
+    partial class User
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -263,6 +263,37 @@ namespace _4thYearProject.Api.Migrations
                             JobCategoryId = 9,
                             JobCategoryName = "Bakery"
                         });
+                });
+
+            modelBuilder.Entity("_4thYearProject.Shared.Models.Post", b =>
+                {
+                    b.Property<int>("PostId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Caption")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(150)")
+                        .HasMaxLength(150);
+
+                    b.Property<int>("Likes")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ThumbnailURL")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("URL")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UploadDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("PostId");
+
+                    b.ToTable("Posts");
                 });
 
             modelBuilder.Entity("_4thYearProject.Shared.Models.Employee", b =>
