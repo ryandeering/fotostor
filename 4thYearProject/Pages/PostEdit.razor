@@ -1,0 +1,56 @@
+﻿@page "/postedit"
+@page "/postedit/{PostId}"
+@using _4thYearProject.Shared.Models
+
+@inherits PostEditBase
+
+<section class="post-edit">
+    @if (!Saved)
+    {
+        <div class="alert @StatusClass">@Message</div>
+
+
+
+
+        <EditForm Model="@Post" OnValidSubmit="@HandleValidSubmit">
+
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <div class="form-group row">
+                <label for="URL" class="col-sm-3">URL: </label>
+                <InputText id="URL" @bind-Value="@Post.URL" class="form-control col-sm-8" placeholder="URL"></InputText>
+                <ValidationMessage class="offset-sm-3 col-sm-8" For="@(() => Post.URL)" />
+            </div>
+
+            <div class="form-group row">
+                <label for="firstName" class="col-sm-3">ThumbnailURL: </label>
+                <InputText id="firstName" class="form-control col-sm-8" @bind-Value="@Post.ThumbnailURL" placeholder="ThumbnailURL"></InputText>
+                <ValidationMessage class="offset-sm-3 col-sm-8" For="@(() => Post.ThumbnailURL)" />
+            </div>
+
+
+            <div class="form-group row">
+                <label for="Caption" class="col-sm-3">Caption: </label>
+                <InputText id="Caption" class="form-control col-sm-8" @bind-Value="@Post.Caption" placeholder="Enter caption"></InputText>
+                <ValidationMessage class="offset-sm-3 col-sm-8" For="@(() => Post.Caption)" />
+            </div>
+
+
+            <button type="submit" class="btn btn-primary edit-btn">Save Post</button>
+
+            @if (Post.PostId > 0)
+            {
+                <a class="btn btn-danger" @onclick="@DeletePost">
+                    Delete
+                </a>
+            }
+
+        </EditForm>
+    }
+    else
+    {
+        <div class="alert @StatusClass">@Message</div>
+        <a class="btn btn-outline-primary" @onclick="@NavigateToOverview">Back to overview</a>
+
+    }
+</section>

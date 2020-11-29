@@ -14,6 +14,7 @@ namespace _4thYearProject.Api.Models
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<JobCategory> JobCategories { get; set; }
+        public DbSet<Post> Posts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -86,5 +87,6 @@ namespace _4thYearProject.Api.Models
                 Longitude = 4.3517
             });
         }
+
     }
 }

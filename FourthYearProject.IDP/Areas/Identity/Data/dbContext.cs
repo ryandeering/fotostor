@@ -16,6 +16,7 @@ namespace FourthYearProject.IDP.Areas.Identity.Data
         {
         }
 
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

@@ -30,10 +30,10 @@ namespace _4thYearProject.Api
             var requireAuthenticatedUserPolicy = new AuthorizationPolicyBuilder()
                .RequireAuthenticatedUser()
                .Build();   //change this later as we let posts become publicly visible
-            
 
 
 
+            services.AddHttpContextAccessor();
 
             services.AddAuthentication(
              IdentityServerAuthenticationDefaults.AuthenticationScheme)
@@ -48,10 +48,11 @@ namespace _4thYearProject.Api
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddScoped<IPostRepository, PostRepository>();
             services.AddScoped<ICountryRepository, CountryRepository>();
             services.AddScoped<IJobCategoryRepository, JobCategoryRepository>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>(); //necessary?
-
+          
             services.AddCors(options =>
             {
                 options.AddPolicy("Open", builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
