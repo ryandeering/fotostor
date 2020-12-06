@@ -8,6 +8,7 @@ using IdentityServer4.Quickstart.UI;
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,6 +33,8 @@ namespace FourthYearProject.IDP
             services.AddMvc();
 
             services.AddTransient<IEmailSender, DummyEmailSender>();
+
+          //  services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, MyUserClaimsPrincipalFactory>();
 
             //// configures IIS out-of-proc settings (see https://github.com/aspnet/AspNetCore/issues/14882)
             //services.Configure<IISOptions>(iis =>

@@ -22,6 +22,7 @@ namespace _4thYearProject.Server
             builder.Services.AddTransient<FourthYearProjectAPIAuthorizationMessageHandler>();
 
 
+
             builder.Services.AddOidcAuthentication(options =>
             {
                 builder.Configuration.Bind("OidcConfiguration", options.ProviderOptions);
@@ -44,6 +45,7 @@ namespace _4thYearProject.Server
             builder.Services.AddHttpClient<IJobCategoryDataService, JobCategoryDataService>(client => client.BaseAddress = new Uri("https://localhost:44340/"))
             .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
            
+
 
             //builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             //  builder.Services.AddHttpClient<IEmployeeDataService, EmployeeDataService>(client => client.BaseAddress = new Uri("https://4thyearprojectapi.azurewebsites.net/"));
