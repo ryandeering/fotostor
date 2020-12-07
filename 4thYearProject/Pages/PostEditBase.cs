@@ -5,9 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using _4thYearProject.Shared.Models;
-using BlazorInputFile;
 using System.Net.Http;
 using static System.Net.WebRequestMethods;
+using Microsoft.AspNetCore.Components.Forms;
+using System.IO;
 
 namespace _4thYearProject.Server.Pages
 {
@@ -26,12 +27,6 @@ namespace _4thYearProject.Server.Pages
         public Post Post { get; set; } = new Post();
 
 
-        private IFileListEntry _file;
-        private IFileListEntry[] _files;
-        private int _fileUploadCount = 0;
-        private string _uploadError = null;
-        private bool _uploadingFile = false;
-
         // protected string CountryId = string.Empty;
 
 
@@ -48,7 +43,7 @@ namespace _4thYearProject.Server.Pages
             if (PostId == 0) //new employee is being created
             {
                 //add some defaults
-                Post = new Post { URL = String.Empty, ThumbnailURL = String.Empty, Caption = String.Empty, UploadDate = DateTime.Now, Likes = 0 };
+                Post = new Post {Caption = String.Empty, Images = new List<UploadedFile>(), Thumbnails = new List<UploadedFile>(), UploadDate = DateTime.Now, Likes = 0 };
             }
             else
             {
@@ -57,11 +52,22 @@ namespace _4thYearProject.Server.Pages
 
         }
 
+        IReadOnlyList<IBrowserFile> selectedFiles;
 
-
-
-    protected async Task HandleValidSubmit()
+        protected void OnInputFileChange(InputFileChangeEventArgs e)
         {
+            selectedFiles = e.GetMultipleFiles();
+            Message = $"{selectedFiles.Count} file(s) selected";
+            this.StateHasChanged();
+        }
+
+
+
+
+
+        protected async Task HandleValidSubmit()
+        {
+
             Saved = false;
 
             if (Post.PostId == 0) //new
@@ -69,6 +75,7 @@ namespace _4thYearProject.Server.Pages
                 var addedPost = await PostDataService.AddPost(Post);
                 if (addedPost != null)
                 {
+
                     StatusClass = "alert-success";
                     Message = "New post added successfully.";
                     Saved = true;
@@ -82,6 +89,21 @@ namespace _4thYearProject.Server.Pages
             }
             else
             {
+                foreach (var file in selectedFiles)
+                {
+                    Stream stream = file.OpenReadStream();
+                    MemoryStream ms = new MemoryStream();
+                    await stream.CopyToAsync(ms);
+                    stream.Close();
+
+                    UploadedFile uploadedFile = new UploadedFile();
+                    uploadedFile.FileName = Path.GetRandomFileName();
+                    uploadedFile.FileContent = ms.ToArray();
+
+                    Post.Images.Add(uploadedFile);
+                }
+
+
                 await PostDataService.AddPost(Post); //FIX LATER HOLY FUCK
                 StatusClass = "alert-success";
                 Message = "Post updated successfully.";

@@ -1,6 +1,7 @@
 ﻿@page "/postedit"
 @page "/postedit/{PostId}"
 @using _4thYearProject.Shared.Models
+@using System.IO
 
 @inherits PostEditBase
 
@@ -9,44 +10,18 @@
     {
         <div class="alert @StatusClass">@Message</div>
 
-
-
-        <p>
-            <InputFile OnChange="@OnInputFileChange" multiple />
-        </p>
-
-        @if (imageDataUrls.Count > 0)
-        {
-            <h4>Images</h4>
-
-            <div class="card" style="width:30rem;">
-                <div class="card-body">
-                    @foreach (var imageDataUrl in imageDataUrls)
-                    {
-                        <img class="rounded m-1" src="@imageDataUrl" />
-                    }
-                </div>
-            </div>
-        }
-
-
-
         <EditForm Model="@Post" OnValidSubmit="@HandleValidSubmit">
 
+
             <DataAnnotationsValidator />
+
+
+            <p>
+                <InputFile OnChange="OnInputFileChange" multiple />
+            </p>
+
+
             <ValidationSummary />
-            <div class="form-group row">
-                <label for="URL" class="col-sm-3">URL: </label>
-                <InputText id="URL" @bind-Value="@Post.URL" class="form-control col-sm-8" placeholder="URL"></InputText>
-                <ValidationMessage class="offset-sm-3 col-sm-8" For="@(() => Post.URL)" />
-            </div>
-
-            <div class="form-group row">
-                <label for="firstName" class="col-sm-3">ThumbnailURL: </label>
-                <InputText id="firstName" class="form-control col-sm-8" @bind-Value="@Post.ThumbnailURL" placeholder="ThumbnailURL"></InputText>
-                <ValidationMessage class="offset-sm-3 col-sm-8" For="@(() => Post.ThumbnailURL)" />
-            </div>
-
 
             <div class="form-group row">
                 <label for="Caption" class="col-sm-3">Caption: </label>
