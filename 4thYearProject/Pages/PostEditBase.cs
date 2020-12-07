@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using _4thYearProject.Shared.Models;
+using BlazorInputFile;
+using System.Net.Http;
+using static System.Net.WebRequestMethods;
 
 namespace _4thYearProject.Server.Pages
 {
@@ -22,7 +25,14 @@ namespace _4thYearProject.Server.Pages
 
         public Post Post { get; set; } = new Post();
 
-       // protected string CountryId = string.Empty;
+
+        private IFileListEntry _file;
+        private IFileListEntry[] _files;
+        private int _fileUploadCount = 0;
+        private string _uploadError = null;
+        private bool _uploadingFile = false;
+
+        // protected string CountryId = string.Empty;
 
 
         protected string Message = string.Empty;
@@ -47,7 +57,10 @@ namespace _4thYearProject.Server.Pages
 
         }
 
-        protected async Task HandleValidSubmit()
+
+
+
+    protected async Task HandleValidSubmit()
         {
             Saved = false;
 
@@ -75,6 +88,9 @@ namespace _4thYearProject.Server.Pages
                 Saved = true;
             }
         }
+
+
+
 
         protected async Task DeletePost()
         {

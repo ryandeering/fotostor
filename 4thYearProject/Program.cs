@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using _4thYearProject.Server.Services;
 using _4thYearProject.Server.MessageHandlers;
 
+
 namespace _4thYearProject.Server
 {
     public class Program
@@ -21,6 +22,11 @@ namespace _4thYearProject.Server
 
             builder.Services.AddTransient<FourthYearProjectAPIAuthorizationMessageHandler>();
 
+            builder.Services.AddTransient(sp =>
+                new HttpClient
+                {
+                    BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)
+                });
 
 
             builder.Services.AddOidcAuthentication(options =>
