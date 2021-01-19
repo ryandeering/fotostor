@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using _4thYearProject.Shared.Models;
-
-
-namespace _4thYearProject.Api.Models
+﻿namespace _4thYearProject.Api.Models
 {
-  //  [Route("api/[controller]")]
-//[ApiController]
-public class PostRepository : IPostRepository
-{
+    using _4thYearProject.Shared.Models;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    //  [Route("api/[controller]")]
+    //[ApiController]
+    public class PostRepository : IPostRepository
+    {
         private readonly AppDbContext _appDbContext;
 
         public PostRepository(AppDbContext appDbContext)
@@ -27,6 +25,11 @@ public class PostRepository : IPostRepository
             return _appDbContext.Posts.FirstOrDefault(p => p.PostId == postId);
         }
 
+        public IEnumerable<Post> GetPostsByUserId(string id)
+        {
+            return _appDbContext.Posts.Where(p => p.UserId.Equals(id)).OrderByDescending(p => p.UploadDate);
+        }
+
         public Post AddPost(Post post)
         {
             var addedEntity = _appDbContext.Posts.Add(post);
@@ -41,10 +44,6 @@ public class PostRepository : IPostRepository
 
             if (foundPost != null)
             {
-              //  foundEmployee.CountryId = employee.CountryId;
-             //   foundEmployee.MaritalStatus = employee.MaritalStatus;
-               // foundEmployee.BirthDate = employee.BirthDate;
-   
                 _appDbContext.SaveChanges();
 
                 return foundPost;
@@ -62,8 +61,4 @@ public class PostRepository : IPostRepository
             _appDbContext.SaveChanges();
         }
     }
-
-
-
 }
-

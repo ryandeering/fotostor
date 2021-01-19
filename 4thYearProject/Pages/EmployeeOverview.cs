@@ -8,7 +8,7 @@ using _4thYearProject.Server.Components;
 
 namespace _4thYearProject.Server.Pages
 {
-    public partial class EmployeeOverview
+    public partial class EmployeeOverview : ComponentBase
     {
 
 
@@ -30,7 +30,7 @@ namespace _4thYearProject.Server.Pages
             AddEmployeeDialog.Show();
         }
 
-        public async void AddEmployeeDialog_OnDialogClose()
+        public async Task AddEmployeeDialog_OnDialogClose()
         {
             Employees = (await EmployeeDataService.GetAllEmployees()).ToList();
             StateHasChanged();

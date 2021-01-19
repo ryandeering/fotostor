@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FourthYearProject.IDP.Migrations
 {
     [DbContext(typeof(dbContext))]
-    [Migration("20201129160551_User2")]
-    partial class User2
+    [Migration("20210110211417_Migration4")]
+    partial class Migration4
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -65,9 +65,6 @@ namespace FourthYearProject.IDP.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
-
-                    b.Property<string>("ProfilePicURL")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");

@@ -71,7 +71,7 @@ namespace FourthYearProject.IDP
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy",
-                    builder => builder.WithOrigins("https://localhost:44341", "https://localhost:44304", "https://localhost:44333", "https://localhost:44340")
+                    builder => builder.WithOrigins("http://localhost:63811", "https://localhost:44304", "https://localhost:44333", "https://localhost:44340")
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials());

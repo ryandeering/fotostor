@@ -4,20 +4,41 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using _4thYearProject.Shared.Models;
+using _4thYearProject.Shared;
+using System.Security.Claims;
+using System.Linq;
+using System;
 
 namespace _4thYearProject.Server.Services
 {
     public class PostDataService : IPostDataService
     {
+
+        private readonly IUserService _userService;
         private readonly HttpClient _httpClient;
 
-        public PostDataService(HttpClient httpClient)
+        public PostDataService(HttpClient httpClient, IUserService userService)
         {
             _httpClient = httpClient;
+            _userService = userService;
         }
 
         public async Task<Post> AddPost(Post post)
         {
+            ClaimsPrincipal identity;
+            identity = await _userService.GetUserAsync();
+
+
+            //First get user claims    
+            var claims = identity.Claims.Where(c => c.Type.Equals("sub"))
+                  .Select(c => c.Value).SingleOrDefault();
+
+            //Filter specific claim    
+            String UserId = claims.ToString()[0..8];
+
+            post.UserId = UserId;
+            post.UploadDate = DateTime.Now;
+
             var postJson =
                 new StringContent(JsonSerializer.Serialize(post), Encoding.UTF8, "application/json");
 
@@ -56,6 +77,12 @@ namespace _4thYearProject.Server.Services
                 (await _httpClient.GetStreamAsync($"api/post/{postId}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
         }
 
+        public async Task<IEnumerable<Post>> GetPostsByUserId(string id)
+        {
 
+            return await JsonSerializer.DeserializeAsync<IEnumerable<Post>>
+                (await _httpClient.GetStreamAsync($"api/post/user/{id}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+
+        }
     }
 }

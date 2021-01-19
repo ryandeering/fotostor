@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FourthYearProject.IDP.Migrations
 {
-    public partial class User2 : Migration
+    public partial class Migration3 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -41,7 +41,7 @@ namespace FourthYearProject.IDP.Migrations
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
                     DisplayName = table.Column<string>(nullable: true),
-                    ProfilePicURL = table.Column<string>(nullable: true)
+                    PhotoFile = table.Column<byte[]>(nullable: true)
                 },
                 constraints: table =>
                 {
