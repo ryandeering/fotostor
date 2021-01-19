@@ -11,7 +11,7 @@ namespace _4thYearProject.Server.Services
         Task<Post> AddPost(Post post);
         Task UpdatePost(Post post);
         Task DeletePost(int postId);
-
+        Task<IEnumerable<Post>> GetPostsByUserId(string id);
     }
 }
 

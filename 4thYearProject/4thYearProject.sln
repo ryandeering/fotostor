@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "4thYearProject.Api", "..\4t
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FourthYearProject.IDP", "..\FourthYearProject.IDP\FourthYearProject.IDP.csproj", "{CFCF9217-9A00-49D9-986A-E9CD38CA0060}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FourthYearProject.UnitTesting", "..\FourthYearProject.UnitTesting\FourthYearProject.UnitTesting.csproj", "{62FA00CF-52E6-4863-8782-6FDCB1215620}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{CFCF9217-9A00-49D9-986A-E9CD38CA0060}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CFCF9217-9A00-49D9-986A-E9CD38CA0060}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CFCF9217-9A00-49D9-986A-E9CD38CA0060}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62FA00CF-52E6-4863-8782-6FDCB1215620}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62FA00CF-52E6-4863-8782-6FDCB1215620}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62FA00CF-52E6-4863-8782-6FDCB1215620}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62FA00CF-52E6-4863-8782-6FDCB1215620}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

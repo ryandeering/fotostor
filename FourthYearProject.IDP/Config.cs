@@ -39,10 +39,10 @@ namespace FourthYearProject.IDP
                     AllowedGrantTypes = GrantTypes.Code,
                     RequireClientSecret = false,
                     RequirePkce = true,
-                    RedirectUris = { "https://localhost:44341/authentication/login-callback" },
-                    PostLogoutRedirectUris = { "https://localhost:44341/authentication/logout-callback" },
+                    RedirectUris = { "http://localhost:63811/authentication/login-callback" },
+                    PostLogoutRedirectUris = { "http://localhost:63811/authentication/logout-callback" },
                     AllowedScopes = { "openid", "profile", "email", "_4thyearprojectapi" },
-                    AllowedCorsOrigins = { "https://localhost:44341" }
+                    AllowedCorsOrigins = { "http://localhost:44341" }
                 }             
             };
     }

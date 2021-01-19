@@ -1,15 +1,19 @@
+using _4thYearProject.Api.Controllers.Identity;
 using _4thYearProject.Api.Models;
 using _4thYearProject.Server.Services;
+using _4thYearProject.Shared;
 using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.Linq;
 
 namespace _4thYearProject.Api
 {
@@ -35,6 +39,13 @@ namespace _4thYearProject.Api
 
             services.AddHttpContextAccessor();
 
+
+            services.AddResponseCompression(opts =>
+            {
+                opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
+                    new[] { "application/octet-stream" });
+            });
+
             services.AddAuthentication(
              IdentityServerAuthenticationDefaults.AuthenticationScheme)
          .AddIdentityServerAuthentication(options =>
@@ -52,7 +63,7 @@ namespace _4thYearProject.Api
             services.AddScoped<ICountryRepository, CountryRepository>();
             services.AddScoped<IJobCategoryRepository, JobCategoryRepository>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>(); //necessary?
-          
+            services.AddScoped<IUserService, UserService>();
             services.AddCors(options =>
             {
                 options.AddPolicy("Open", builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
@@ -70,6 +81,9 @@ namespace _4thYearProject.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseResponseCompression();
+
 
             app.UseHttpsRedirection();
 

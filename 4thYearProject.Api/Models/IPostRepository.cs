@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using System.Collections.Generic;
 using _4thYearProject.Shared.Models;
 
 namespace _4thYearProject.Api.Models
@@ -11,6 +6,7 @@ namespace _4thYearProject.Api.Models
 public interface IPostRepository
 {
         IEnumerable<Post> GetAllPosts();
+        IEnumerable<Post> GetPostsByUserId(string id);
         Post GetPostById(int postId);
         Post AddPost(Post post);
         Post UpdatePost(Post post);

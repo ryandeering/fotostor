@@ -2,13 +2,10 @@
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using _4thYearProject.Shared.Models;
-using System.Net.Http;
 using static System.Net.WebRequestMethods;
 using Microsoft.AspNetCore.Components.Forms;
-using System.IO;
 
 namespace _4thYearProject.Server.Pages
 {
@@ -27,9 +24,6 @@ namespace _4thYearProject.Server.Pages
         public Post Post { get; set; } = new Post();
 
 
-        // protected string CountryId = string.Empty;
-
-
         protected string Message = string.Empty;
         protected string StatusClass = string.Empty;
         protected bool Saved;
@@ -38,12 +32,10 @@ namespace _4thYearProject.Server.Pages
         {
             Saved = false;
 
-           // int.TryParse(PostId, out var PostId);
-
             if (PostId == 0) //new employee is being created
             {
                 //add some defaults
-                Post = new Post {Caption = String.Empty, Images = new List<UploadedFile>(), Thumbnails = new List<UploadedFile>(), UploadDate = DateTime.Now, Likes = 0 };
+                Post = new Post {Caption = String.Empty, PhotoFile = null, Comments = new List<Comment>(), UploadDate = DateTime.Now, Likes = 0 };
             }
             else
             {
@@ -89,24 +81,11 @@ namespace _4thYearProject.Server.Pages
             }
             else
             {
-                foreach (var file in selectedFiles)
-                {
-                    Stream stream = file.OpenReadStream();
-                    MemoryStream ms = new MemoryStream();
-                    await stream.CopyToAsync(ms);
-                    stream.Close();
-
-                    UploadedFile uploadedFile = new UploadedFile();
-                    uploadedFile.FileName = Path.GetRandomFileName();
-                    uploadedFile.FileContent = ms.ToArray();
-
-                    Post.Images.Add(uploadedFile);
-                }
 
 
                 await PostDataService.AddPost(Post); //FIX LATER HOLY FUCK
                 StatusClass = "alert-success";
-                Message = "Post updated successfully.";
+                Message = "Fuck.";
                 Saved = true;
             }
         }

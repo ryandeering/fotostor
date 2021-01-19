@@ -1,8 +1,12 @@
 ﻿using _4thYearProject.Api.Models;
-using _4thYearProject.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using Microsoft.AspNetCore.Hosting;
+using _4thYearProject.Shared.Models;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats;
+using System.IO;
+using SixLabors.ImageSharp.Processing;
+using ImageMagick;
 
 namespace _4thYearProject.Api.Controllers
 {
@@ -11,10 +15,12 @@ namespace _4thYearProject.Api.Controllers
     public class PostController : Controller
     {
         private readonly IPostRepository _postRepository;
+        private readonly IWebHostEnvironment env;
 
-        public PostController(IPostRepository postRepository)
+        public PostController(IPostRepository postRepository, IWebHostEnvironment env)
         {
             _postRepository = postRepository;
+            this.env = env;
         }
 
         // GET: api/<controller>
@@ -31,20 +37,61 @@ namespace _4thYearProject.Api.Controllers
             return Ok(_postRepository.GetPostById(id));
         }
 
+        [HttpGet]
+        [Route("user/{id}")]
+        public IActionResult GetPostsByUserId(string id)
+        {
+            return Ok(_postRepository.GetPostsByUserId(id));
+        }
+
 
         [HttpPost]
-        public IActionResult CreatePost([FromBody] Post post)
+        public IActionResult CreatePostAsync([FromBody] Post post )
         {
+
+
+            //https://stackoverflow.com/questions/55298428/how-to-resize-center-and-crop-an-image-with-imagesharp
+
+
+            using (var inStream = new MemoryStream(post.PhotoFile))
+            using (var outStream = new MemoryStream())
+            using (var image = Image.Load(inStream, out IImageFormat format))
+            {
+                image.Mutate(
+                    i => i.Resize(110, 110));
+
+                image.Save(outStream, format);
+                
+
+                post.Thumbnail = outStream.ToArray();
+            }
+
+
+
+
+
+
+
             if (post == null)
                 return BadRequest();
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+
+
+
+                
+
             var createdPost = _postRepository.AddPost(post);
 
             return Created("post", createdPost);
+
+
+ 
         }
+
+
     }
 
 

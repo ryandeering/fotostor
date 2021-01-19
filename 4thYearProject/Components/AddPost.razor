@@ -1,0 +1,46 @@
+﻿@using _4thYearProject.Shared   
+@using _4thYearProject.Server.Services
+<MatCard>
+    <MatCardContent>
+        <EditForm Model="@post" OnValidSubmit="@(async ()=> await OnSave.InvokeAsync(post))">
+            <p>
+                <MatTextField @bind-Value="@post.Caption" Label="Description" TextArea FullWidth></MatTextField>
+            </p>
+            <p>
+                <MatFileUpload OnChange="@HandleMatFileSelected"></MatFileUpload>
+            </p>
+            <p>
+                <MatButton Type="submit">Upload</MatButton>
+            </p>
+        </EditForm>
+        <MatCardMedia Wide="true" ImageUrl="@(post.PhotoFile == null ? "" : $"data:{post.MimeType};base64,{Convert.ToBase64String(post.PhotoFile)}")"></MatCardMedia>
+    </MatCardContent>
+</MatCard>
+
+@code {
+    [Parameter]
+    public Post post { get; set; } 
+
+
+    [Parameter]
+    public EventCallback<Post> OnSave { get; set; }
+
+
+    async Task HandleMatFileSelected(IMatFileUploadEntry[] files)
+    {
+        IMatFileUploadEntry file = files.FirstOrDefault();
+        post.MimeType = file.Type;
+
+        if (file == null)
+        {
+            return;
+        }
+
+        using (var stream = new System.IO.MemoryStream())
+        {
+            await file.WriteToStreamAsync(stream);
+            post.PhotoFile = stream.ToArray();
+        }
+
+    }
+}

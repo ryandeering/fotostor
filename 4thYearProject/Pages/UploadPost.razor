@@ -1,0 +1,64 @@
+﻿@page "/posts/upload"
+@using _4thYearProject.Server.Services;
+@using _4thYearProject.Shared;
+@using MatBlazor
+@inject IPostDataService postsService
+@inject NavigationManager navigationManager
+
+<div class="mat-layout-grid">
+    <div class="mat-layout-grid-inner">
+        <div class="mat-layout-grid-cell mat-layout-grid-cell-span-12">
+            <MatCardContent>
+                <EditForm Model="@post" OnValidSubmit="Upload">
+                    <p>
+                        <MatTextField @bind-Value="@post.Caption" Label="Description" TextArea FullWidth></MatTextField>
+                    </p>
+                    <p>
+                        <MatFileUpload OnChange="@HandleMatFileSelected"></MatFileUpload>
+                    </p>
+                    <p>
+                        <MatButton Type="submit">Upload</MatButton>
+                    </p>
+                </EditForm>
+                <MatCardMedia Wide="true" ImageUrl="@(post.PhotoFile == null ? "" : $"data:{post.MimeType};base64,{Convert.ToBase64String(post.PhotoFile)}")"></MatCardMedia>
+            </MatCardContent>
+        </div>
+    </div>
+</div>
+
+@code{
+    Post post;
+
+    protected override void OnInitialized()
+    {
+        post = new Post();
+    }
+
+    private async Task Upload()
+    {
+        await postsService.AddPost(post);
+        navigationManager.NavigateTo("/");
+    }
+
+
+    async Task HandleMatFileSelected(IMatFileUploadEntry[] files)
+    {
+        IMatFileUploadEntry file = files.FirstOrDefault();
+        post.MimeType = file.Type;
+
+        if (file == null)
+        {
+            return;
+        }
+
+        using (var stream = new System.IO.MemoryStream())
+        {
+            await file.WriteToStreamAsync(stream);
+            post.PhotoFile = stream.ToArray();
+
+
+
+        }
+
+    }
+}

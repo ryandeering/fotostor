@@ -3,30 +3,54 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using _4thYearProject.Api.Models;
 
-namespace _4thYearProject.Api.Data.Migrations
+namespace _4thYearProject.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20201129160054_Us3")]
-    partial class Us3
+    partial class AppDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.9")
+                .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "5.0.0");
+
+            modelBuilder.Entity("_4thYearProject.Shared.Models.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Body")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PhotoId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("SubmittedOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("Comment");
+                });
 
             modelBuilder.Entity("_4thYearProject.Shared.Models.Country", b =>
                 {
                     b.Property<int>("CountryId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -88,7 +112,7 @@ namespace _4thYearProject.Api.Data.Migrations
                     b.Property<int>("EmployeeId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
@@ -97,8 +121,8 @@ namespace _4thYearProject.Api.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Comment")
-                        .HasColumnType("nvarchar(1000)")
-                        .HasMaxLength(1000);
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<int>("CountryId")
                         .HasColumnType("int");
@@ -112,8 +136,8 @@ namespace _4thYearProject.Api.Data.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("Gender")
                         .HasColumnType("int");
@@ -126,8 +150,8 @@ namespace _4thYearProject.Api.Data.Migrations
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<double>("Latitude")
                         .HasColumnType("float");
@@ -208,7 +232,7 @@ namespace _4thYearProject.Api.Data.Migrations
                     b.Property<int>("JobCategoryId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<string>("JobCategoryName")
                         .HasColumnType("nvarchar(max)");
@@ -270,30 +294,43 @@ namespace _4thYearProject.Api.Data.Migrations
                     b.Property<int>("PostId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<string>("Caption")
                         .IsRequired()
-                        .HasColumnType("nvarchar(150)")
-                        .HasMaxLength(150);
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<int>("Likes")
                         .HasColumnType("int");
 
-                    b.Property<string>("ThumbnailURL")
-                        .IsRequired()
+                    b.Property<string>("MimeType")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("URL")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<byte[]>("PhotoFile")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("Thumbnail")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<DateTime>("UploadDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("PostId");
 
                     b.ToTable("Posts");
+                });
+
+            modelBuilder.Entity("_4thYearProject.Shared.Models.Comment", b =>
+                {
+                    b.HasOne("_4thYearProject.Shared.Models.Post", "Post")
+                        .WithMany("Comments")
+                        .HasForeignKey("PostId");
+
+                    b.Navigation("Post");
                 });
 
             modelBuilder.Entity("_4thYearProject.Shared.Models.Employee", b =>
@@ -309,6 +346,15 @@ namespace _4thYearProject.Api.Data.Migrations
                         .HasForeignKey("JobCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Country");
+
+                    b.Navigation("JobCategory");
+                });
+
+            modelBuilder.Entity("_4thYearProject.Shared.Models.Post", b =>
+                {
+                    b.Navigation("Comments");
                 });
 #pragma warning restore 612, 618
         }
