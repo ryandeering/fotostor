@@ -10,8 +10,8 @@ using _4thYearProject.Api.Models;
 namespace _4thYearProject.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20210117224610_NewMigration3")]
-    partial class NewMigration3
+    [Migration("20210120143229_Migration20")]
+    partial class Migration20
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

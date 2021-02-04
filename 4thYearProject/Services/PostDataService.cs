@@ -34,7 +34,7 @@ namespace _4thYearProject.Server.Services
                   .Select(c => c.Value).SingleOrDefault();
 
             //Filter specific claim    
-            String UserId = claims.ToString()[0..8];
+            String UserId = claims.ToString();
 
             post.UserId = UserId;
             post.UploadDate = DateTime.Now;
@@ -77,6 +77,14 @@ namespace _4thYearProject.Server.Services
                 (await _httpClient.GetStreamAsync($"api/post/{postId}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
         }
 
+        public async Task<IEnumerable<Post>> GetAllPostsbyFollowing(string id)
+        {
+
+            return await JsonSerializer.DeserializeAsync<IEnumerable<Post>>
+                (await _httpClient.GetStreamAsync($"api/post/following/{id}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+
+        }
+
         public async Task<IEnumerable<Post>> GetPostsByUserId(string id)
         {
 
@@ -84,5 +92,7 @@ namespace _4thYearProject.Server.Services
                 (await _httpClient.GetStreamAsync($"api/post/user/{id}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
 
         }
+
+     
     }
 }

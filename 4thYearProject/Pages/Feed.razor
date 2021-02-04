@@ -1,16 +1,8 @@
-﻿@page "/profile/{DisplayName}"
+﻿@page "/feed/"
 
-<h1 class="page-title">All employees</h1>
 
 @if (User != null)
 {
-
-    <p>@User.DisplayName</p>
-
-    @if (!claimDisplayName.Equals(DisplayName))
-    {
-        <button class="btn btn-primary" onclick="@FollowUser();">Follow</button>
-    }
 
     if (Posts == null)
     {

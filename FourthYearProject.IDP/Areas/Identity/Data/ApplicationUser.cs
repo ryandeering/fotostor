@@ -1,6 +1,7 @@
-﻿using System;
-using Microsoft.AspNetCore.Identity;
-using _4thYearProject.Shared;
+﻿using Microsoft.AspNetCore.Identity;
+using _4thYearProject.Shared.Models;
+using System.Collections.Generic;
+
 namespace FourthYearProject.IDP.Areas.Identity.Data
 {
     public class ApplicationUser : IdentityUser
@@ -8,4 +9,3 @@ namespace FourthYearProject.IDP.Areas.Identity.Data
         public byte[] PhotoFile { get; set; }
     }
 }
-2
