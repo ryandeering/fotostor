@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using _4thYearProject.Api.Models;
 
 namespace _4thYearProject.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210119202054_Migration12")]
+    partial class Migration12
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,20 +31,20 @@ namespace _4thYearProject.Api.Migrations
                     b.Property<string>("Body")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PostId")
+                    b.Property<int>("PhotoId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PostId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("SubmittedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comment");
                 });
 
             modelBuilder.Entity("_4thYearProject.Shared.Models.Country", b =>
@@ -227,25 +229,6 @@ namespace _4thYearProject.Api.Migrations
                         });
                 });
 
-            modelBuilder.Entity("_4thYearProject.Shared.Models.Following", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<string>("Followed_ID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Follower_ID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Followers");
-                });
-
             modelBuilder.Entity("_4thYearProject.Shared.Models.JobCategory", b =>
                 {
                     b.Property<int>("JobCategoryId")
@@ -308,25 +291,6 @@ namespace _4thYearProject.Api.Migrations
                         });
                 });
 
-            modelBuilder.Entity("_4thYearProject.Shared.Models.Like", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<string>("Post_ID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("User_ID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Likes");
-                });
-
             modelBuilder.Entity("_4thYearProject.Shared.Models.Post", b =>
                 {
                     b.Property<int>("PostId")
@@ -362,52 +326,13 @@ namespace _4thYearProject.Api.Migrations
                     b.ToTable("Posts");
                 });
 
-            modelBuilder.Entity("_4thYearProject.Shared.Models.ProfilePic", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<byte[]>("PhotoFile")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ProfilePic");
-                });
-
-            modelBuilder.Entity("_4thYearProject.Shared.Models.UserData", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("DisplayName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PicId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("SecondName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PicId");
-
-                    b.ToTable("Users");
-                });
-
             modelBuilder.Entity("_4thYearProject.Shared.Models.Comment", b =>
                 {
-                    b.HasOne("_4thYearProject.Shared.Models.Post", null)
+                    b.HasOne("_4thYearProject.Shared.Models.Post", "Post")
                         .WithMany("Comments")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PostId");
+
+                    b.Navigation("Post");
                 });
 
             modelBuilder.Entity("_4thYearProject.Shared.Models.Employee", b =>
@@ -427,15 +352,6 @@ namespace _4thYearProject.Api.Migrations
                     b.Navigation("Country");
 
                     b.Navigation("JobCategory");
-                });
-
-            modelBuilder.Entity("_4thYearProject.Shared.Models.UserData", b =>
-                {
-                    b.HasOne("_4thYearProject.Shared.Models.ProfilePic", "Pic")
-                        .WithMany()
-                        .HasForeignKey("PicId");
-
-                    b.Navigation("Pic");
                 });
 
             modelBuilder.Entity("_4thYearProject.Shared.Models.Post", b =>
