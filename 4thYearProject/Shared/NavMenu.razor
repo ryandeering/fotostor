@@ -4,6 +4,10 @@
 @inject IAccessTokenProvider TokenProvider
 @inject NavigationManager Navigation
 @inject SignOutSessionStateManager SignOutManager
+@inject IUserDataService UserDataService
+@inject IUserService _userService
+
+
 
 
 <div class="bg-light" id="sidebar-wrapper">
@@ -11,12 +15,25 @@
         <img class="img-responsive" id="logo" src="images/projlogo.png" />
     </div>
     <div class="profile">
-        <div class="profile-bg">
-            <img class="img-responsive" src="images/profilePicture.jpg" />
-        </div>
-        <div class="profile-picture">
-            <img class="img-responsive circle account-photo" src="images/profilePicture.jpg" />
-        </div>
+        <AuthorizeView>
+            <Authorized>
+                <div class="profile-bg">
+                    <img class="img-responsive" src="https://storage.googleapis.com/4thyearprojectrd/@LoggedInID" />
+                </div>
+                <div class="profile-picture">
+                    <img class="img-responsive circle account-photo" src="https://storage.googleapis.com/4thyearprojectrd/@LoggedInID" />
+                </div>
+            </Authorized>
+            <NotAuthorized>
+                <div class="profile-bg">
+                    <img class="img-responsive" src="images/profilePicture.jpg" />
+                </div>
+                <div class="profile-picture">
+                    <img class="img-responsive circle account-photo" src="images/profilePicture.jpg" />
+                </div>
+            </NotAuthorized>
+        </AuthorizeView>
+
     </div>
     <div class="menu list-group list-group-flush">
         <AuthorizeView>
@@ -54,6 +71,25 @@
 </div>
 
 @code{
+
+    UserData user;
+    ClaimsPrincipal identity;
+    string LoggedInID = String.Empty;
+
+    protected async override Task OnInitializedAsync()
+    {
+
+        identity = await _userService.GetUserAsync();
+
+        if (identity.Identity.IsAuthenticated)
+        {
+            LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+                 .Select(c => c.Value).SingleOrDefault().ToString();
+            LoggedInID = LoggedInID + ".JPEG";
+            Console.WriteLine(LoggedInID);
+        }
+    }
+
     private async Task BeginSignOut(MouseEventArgs args)
     {
         await SignOutManager.SetSignOutState();

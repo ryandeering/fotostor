@@ -2,6 +2,7 @@
 
   <PropertyGroup>
 	  <TargetFramework>net5.0</TargetFramework>
+	  <UserSecretsId>e8e0edd3-856b-4947-9c90-b9f4050a80b3</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,9 +16,9 @@
     
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.0.0" />
     
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.3" />
     
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.0.0">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

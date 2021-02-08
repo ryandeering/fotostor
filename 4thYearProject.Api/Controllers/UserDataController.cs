@@ -1,8 +1,13 @@
-﻿using _4thYearProject.Api.Models;
+﻿using _4thYearProject.Api.CloudStorage;
+using _4thYearProject.Api.Models;
 using _4thYearProject.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats;
+using SixLabors.ImageSharp.Processing;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,10 +18,12 @@ namespace _4thYearProject.Api.Controllers
     public class UserDataController : Controller
     {
         private readonly IUserDataRepository _UserDataRepository;
+        private readonly ICloudStorage _cloudStorage;
 
-        public UserDataController(IUserDataRepository UserDataRepository)
+        public UserDataController(IUserDataRepository UserDataRepository, ICloudStorage cloudStorage)
         {
             _UserDataRepository = UserDataRepository;
+            _cloudStorage = cloudStorage;
         }
 
         [HttpGet]
@@ -39,7 +46,7 @@ namespace _4thYearProject.Api.Controllers
 
 
         [HttpPost]
-        public IActionResult CreateUserData(UserData UserData)
+        public IActionResult CreateUserData([FromBody] UserData UserData)
         {
             if (UserData == null)
                 return BadRequest();
@@ -58,7 +65,7 @@ namespace _4thYearProject.Api.Controllers
         }
 
         [HttpPut]
-        public IActionResult UpdateUserData([FromBody] UserData UserData)
+        public async Task<IActionResult> UpdateUserData([FromBody] UserData UserData)
         {
             if (UserData == null)
                 return BadRequest();
@@ -73,8 +80,37 @@ namespace _4thYearProject.Api.Controllers
 
             var UserDataToUpdate = _UserDataRepository.GetUserDataById(UserData.Id);
 
+
+
             if (UserDataToUpdate == null)
                 return NotFound();
+
+
+            byte[] ImagetoUpload = System.Convert.FromBase64String(UserData.ProfilePic);
+
+
+
+
+            using (var inStream = new MemoryStream(ImagetoUpload))
+            using (var outStream = new MemoryStream())
+            using (var image = Image.Load(inStream, out IImageFormat format))
+            {
+                image.Mutate(
+                    i => i.Resize(250, 250));
+
+                image.SaveAsJpegAsync(outStream);
+
+               
+
+
+                ImagetoUpload = outStream.ToArray();
+            }
+
+
+            UserData.ProfilePic = await _cloudStorage.UploadFileAsync(ImagetoUpload, UserData.Id + ".JPEG");
+
+
+
 
             _UserDataRepository.UpdateUserData(UserData);
 

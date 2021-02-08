@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace _4thYearProject.Server.Pages
 {
-    public partial class EmployeeDetail { 
+    public partial class EmployeeDetail : ComponentBase{ 
 
         [Parameter]
         public string EmployeeId { get; set; }

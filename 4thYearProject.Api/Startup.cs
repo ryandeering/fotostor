@@ -1,3 +1,4 @@
+using _4thYearProject.Api.CloudStorage;
 using _4thYearProject.Api.Controllers.Identity;
 using _4thYearProject.Api.Models;
 using _4thYearProject.Server.Services;
@@ -68,7 +69,8 @@ namespace _4thYearProject.Api
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ICommentRepository, CommentRepository>();
             services.AddScoped<ILikeRepository, LikeRepository>();
-        
+            services.AddSingleton<ICloudStorage, GoogleCloudStorage>();
+
             services.AddCors(options =>
             {
                 options.AddPolicy("Open", builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());

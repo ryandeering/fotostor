@@ -1,0 +1,29 @@
+﻿@page "/profile/settings"
+
+
+<MatCardContent>
+    <EditForm Model="@User" OnValidSubmit="@HandleValidSubmit">
+
+        <MatFileUpload OnChange="@HandleMatFileSelected" Label="Upload your profile picture here."></MatFileUpload>
+        <br><br />
+        <p>
+            <MatTextField @bind-Value="@User.DisplayName" Label="Username"></MatTextField>
+        </p>
+        <p>
+            <MatTextField @bind-Value="@User.FirstName" Label="First Name" HelperTextPersistent="true"></MatTextField>
+        </p>
+        <p>
+            <MatTextField @bind-Value="@User.SecondName" Label="Second Name" HelperTextPersistent="true" HelperTextValidation="true"></MatTextField>
+        </p>
+
+
+
+        <MatButton type="submit" name="action">OK</MatButton>
+
+
+    </EditForm>
+    </MatCardContent>
+
+
+
+

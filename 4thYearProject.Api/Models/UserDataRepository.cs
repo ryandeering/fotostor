@@ -40,6 +40,7 @@ namespace _4thYearProject.Api.Models
             {
                 if (GetUserDataById(User.Id.ToString()) == null)
                 {
+
                     var addedEntity = _appDbContext.Users.Add(User);
                     Console.WriteLine(addedEntity);
                     _appDbContext.SaveChanges();
@@ -63,7 +64,7 @@ namespace _4thYearProject.Api.Models
                 foundUserData.DisplayName = User.DisplayName;
                 foundUserData.FirstName = User.FirstName;
                 foundUserData.SecondName = User.SecondName;
-                foundUserData.Pic = User.Pic;
+                foundUserData.ProfilePic = User.ProfilePic;
 
 
                 _appDbContext.SaveChanges();

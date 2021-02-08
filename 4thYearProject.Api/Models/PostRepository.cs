@@ -6,55 +6,77 @@
 
     //  [Route("api/[controller]")]
     //[ApiController]
-    public class CommentRepository : ICommentRepository
+    public class PostRepository : IPostRepository
     {
         private readonly AppDbContext _appDbContext;
 
-        public CommentRepository(AppDbContext appDbContext)
+        public PostRepository(AppDbContext appDbContext)
         {
             _appDbContext = appDbContext;
         }
 
-
-        public IEnumerable<Comment> GetCommentsByPostId(int id)
+        public IEnumerable<Post> GetAllPosts()
         {
-
-            return _appDbContext.Comments.Where(c => c.PostId.Equals(id)).OrderBy(c => c.SubmittedOn); //make it so it's orderedby comment likes, date will do temporarily
+            return _appDbContext.Posts;
         }
 
-        public Comment GetCommentById(int Comment_Id)
+        public IEnumerable<Post> GetAllPostsbyFollowing(string id)
         {
-            return _appDbContext.Comments.FirstOrDefault(c => c.Id == Comment_Id);
+            List<Following> followings = _appDbContext.Followers.ToList();
+
+            HashSet<string> followingids = new HashSet<string>();
+
+            foreach (var follow in followings)
+            {
+                if (follow.Follower_ID.Equals(id))
+                {
+                    followingids.Add(follow.Followed_ID);
+                }
+            }
+
+
+            return _appDbContext.Posts.Where(x=>!followingids.Any(n=>n==x.UserId)).OrderByDescending(p => p.UploadDate);
         }
 
-        public Comment AddComment(Comment comment)
+        public Post GetPostById(int postId)
         {
-            var addedEntity = _appDbContext.Comments.Add(comment);
+            return _appDbContext.Posts.FirstOrDefault(p => p.PostId == postId);
+        }
+
+        public IEnumerable<Post> GetPostsByUserId(string id)
+        {
+            return _appDbContext.Posts.Where(p => p.UserId.Equals(id)).OrderByDescending(p => p.UploadDate);
+        }
+
+
+        public Post AddPost(Post post)
+        {
+            var addedEntity = _appDbContext.Posts.Add(post);
 
             _appDbContext.SaveChanges();
             return addedEntity.Entity;
         }
 
-        public Comment UpdateComment(Comment comment)
+        public Post UpdatePost(Post post)
         {
-            var foundComment = _appDbContext.Comments.FirstOrDefault(c => c.Id == comment.Id);
+            var foundPost = _appDbContext.Posts.FirstOrDefault(p => p.PostId == post.PostId);
 
-            if (foundComment != null)
+            if (foundPost != null)
             {
                 _appDbContext.SaveChanges();
 
-                return foundComment;
+                return foundPost;
             }
 
             return null;
         }
 
-        public void DeleteComment(int Comment_ID)
+        public void DeletePost(int postId)
         {
-            var foundComment = _appDbContext.Comments.FirstOrDefault(c => c.Id == Comment_ID);
-            if (foundComment == null) return;
+            var foundPost = _appDbContext.Posts.FirstOrDefault(p => p.PostId == postId);
+            if (foundPost == null) return;
 
-            _appDbContext.Comments.Remove(foundComment);
+            _appDbContext.Posts.Remove(foundPost);
             _appDbContext.SaveChanges();
         }
     }
