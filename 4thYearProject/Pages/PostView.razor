@@ -1,13 +1,9 @@
 ﻿@page "/post/{PostID}"
 
-<p>fuck!</p>
-
-
-
 @if (post == null)
 {
 
-<p><em>Post not found. Either moved, deleted.</em></p>
+    <p><em>Post not found. Either moved, deleted.</em></p>
 }
 else
 {
@@ -27,7 +23,59 @@ else
             </tr>
         </tbody>
     </table>
+
+
+
+
+
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>@Comments.Count Comments</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>
+                    @foreach (var Comment in Comments)
+                    {
+
+                        @if (User != null)
+                        {
+                            @if (Comment.UserId.Equals(User.Id) | post.UserId.Equals(User.Id))
+                            {
+                            <td> @Comment.UserId @Comment.Body </td>
+                            <MatButton OnClick="() => DeleteComment(Comment.Id)">Delete</MatButton>
+                        }
+                        }
+                        else
+                        {
+                            <td> @Comment.UserId @Comment.Body </td>
+                        }
+                    }
+                    </th>
+                </tr>
+        </tbody>
+    </table>
+
+
 }
+
+
+
+<EditForm Model="@extendcomment" OnValidSubmit="@MakeComment">
+    <ValidationSummary />
+    <fieldset>
+        <div class="form-group">
+            <MatTextField @bind-Value="@extendcomment.Body" Label="Comment Body" FullWidth="true"></MatTextField>
+        </div>
+    </fieldset>
+</EditForm>
+<MatButton OnClick="@MakeComment">Make Comment</MatButton>
+
+
 
 
 }

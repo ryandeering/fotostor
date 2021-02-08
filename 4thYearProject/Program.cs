@@ -11,6 +11,7 @@ using _4thYearProject.Server.Services;
 using _4thYearProject.Server.MessageHandlers;
 using _4thYearProject.Shared;
 using _4thYearProject.Server.Services.Identity;
+using MatBlazor;
 
 namespace _4thYearProject.Server
 {
@@ -35,33 +36,57 @@ namespace _4thYearProject.Server
                 builder.Configuration.Bind("OidcConfiguration", options.ProviderOptions);
             });
 
+            builder.Services.AddMatToaster(config =>
+            {
+                config.Position = MatToastPosition.BottomRight;
+                config.PreventDuplicates = true;
+                config.NewestOnTop = true;
+                config.ShowCloseButton = true;
+                config.MaximumOpacity = 95;
+                config.VisibleStateDuration = 3000;
+            });
 
-            //if (builder.HostEnvironment.IsDevelopment())
-            //{
-            //  builder.Services.AddHttpClient<IEmployeeDataService, EmployeeDataService>(client => client.BaseAddress = new Uri("https://localhost:44340/"));
-            //  builder.Services.AddHttpClient<ICountryDataService, CountryDataService>(client => client.BaseAddress = new Uri("https://localhost:44340/"));
-            // builder.Services.AddHttpClient<IJobCategoryDataService, JobCategoryDataService>(client => client.BaseAddress = new Uri("https://localhost:44340/"));
-            //
-            //  }
-
-            builder.Services.AddHttpClient<IPostDataService, PostDataService>(client => client.BaseAddress = new Uri("https://localhost:44340/")).AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
-            builder.Services.AddHttpClient<IUserDataService, UserDataService>(client => client.BaseAddress = new Uri("https://localhost:44340/"))
-       .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
-            builder.Services.AddHttpClient<IFollowingDataService, FollowingDataService>(client => client.BaseAddress = new Uri("https://localhost:44340/"))
-      .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
-            builder.Services.AddHttpClient<ICommentDataService, CommentDataService>(client => client.BaseAddress = new Uri("https://localhost:44340/"))
-            .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
-            builder.Services.AddHttpClient<ILikeDataService, LikeDataService>(client => client.BaseAddress = new Uri("https://localhost:44340/"))
+            if (builder.HostEnvironment.IsProduction())
+            {
+                builder.Services.AddHttpClient<IPostDataService, PostDataService>(client => client.BaseAddress = new Uri("https://4thyearprojectrd.azurewebsites.net")).AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
+                builder.Services.AddHttpClient<IUserDataService, UserDataService>(client => client.BaseAddress = new Uri("https://4thyearprojectrd.azurewebsites.net"))
            .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
+                builder.Services.AddHttpClient<IFollowingDataService, FollowingDataService>(client => client.BaseAddress = new Uri("https://4thyearprojectrd.azurewebsites.net"))
+          .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
+                builder.Services.AddHttpClient<ICommentDataService, CommentDataService>(client => client.BaseAddress = new Uri("https://4thyearprojectrd.azurewebsites.net"))
+                .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
+                builder.Services.AddHttpClient<ILikeDataService, LikeDataService>(client => client.BaseAddress = new Uri("https://4thyearprojectrd.azurewebsites.net"))
+               .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
 
-            builder.Services.AddHttpClient<IEmployeeDataService, EmployeeDataService>(client => client.BaseAddress = new Uri("https://localhost:44340/"))
-            .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
-            builder.Services.AddHttpClient<ICountryDataService, CountryDataService>(client => client.BaseAddress = new Uri("https://localhost:44340/"))
-            .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
-            builder.Services.AddHttpClient<IJobCategoryDataService, JobCategoryDataService>(client => client.BaseAddress = new Uri("https://localhost:44340/"))
-            .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
+                builder.Services.AddHttpClient<IEmployeeDataService, EmployeeDataService>(client => client.BaseAddress = new Uri("https://4thyearprojectrd.azurewebsites.net"))
+                .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
+                builder.Services.AddHttpClient<ICountryDataService, CountryDataService>(client => client.BaseAddress = new Uri("https://4thyearprojectrd.azurewebsites.net"))
+                .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
+                builder.Services.AddHttpClient<IJobCategoryDataService, JobCategoryDataService>(client => client.BaseAddress = new Uri("https://4thyearprojectrd.azurewebsites.net"))
+                .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
 
+            }
+            else
+            {
 
+                builder.Services.AddHttpClient<IPostDataService, PostDataService>(client => client.BaseAddress = new Uri("https://localhost:44340/")).AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
+                builder.Services.AddHttpClient<IUserDataService, UserDataService>(client => client.BaseAddress = new Uri("https://localhost:44340/"))
+           .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
+                builder.Services.AddHttpClient<IFollowingDataService, FollowingDataService>(client => client.BaseAddress = new Uri("https://localhost:44340/"))
+          .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
+                builder.Services.AddHttpClient<ICommentDataService, CommentDataService>(client => client.BaseAddress = new Uri("https://localhost:44340/"))
+                .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
+                builder.Services.AddHttpClient<ILikeDataService, LikeDataService>(client => client.BaseAddress = new Uri("https://localhost:44340/"))
+               .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
+
+                builder.Services.AddHttpClient<IEmployeeDataService, EmployeeDataService>(client => client.BaseAddress = new Uri("https://localhost:44340/"))
+                .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
+                builder.Services.AddHttpClient<ICountryDataService, CountryDataService>(client => client.BaseAddress = new Uri("https://localhost:44340/"))
+                .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
+                builder.Services.AddHttpClient<IJobCategoryDataService, JobCategoryDataService>(client => client.BaseAddress = new Uri("https://localhost:44340/"))
+                .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
+                
+            }
 
 
             //builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });

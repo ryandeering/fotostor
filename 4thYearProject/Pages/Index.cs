@@ -27,26 +27,32 @@ namespace _4thYearProject.Server.Pages
            
             if(identity.Identity.IsAuthenticated.Equals(true))
             {
-
+              
                 //First get user id
                 var ID = identity.Claims.Where(c => c.Type.Equals("sub"))
                       .Select(c => c.Value).SingleOrDefault();
 
+                if (await UserDataService.GetUserDataDetails(ID) == null) {
+
+                    Console.WriteLine("Can you hear me, Major Tom?");
+                    UserData newUser = new UserData();
 
 
-                        Console.WriteLine("Can you hear me, Major Tom?");
-                        UserData newUser = new UserData();
+                    //First get user id
+                    var DisplayName = identity.Claims.Where(c => c.Type.Equals("preferred_username"))
+                          .Select(c => c.Value).SingleOrDefault();
 
-                        newUser.Id = ID.ToString();
-                      
-                        //First get user id
-                        var DisplayName = identity.Claims.Where(c => c.Type.Equals("preferred_username"))
-                              .Select(c => c.Value).SingleOrDefault();
+                    newUser.Id = ID.ToString();
+                    newUser.DisplayName = DisplayName.ToString();
+
+                    await UserDataService.AddUserData(newUser);
 
 
-                        newUser.DisplayName = DisplayName.ToString();
 
-                        await UserDataService.AddUserData(newUser);
+                }
+
+
+          
 
 
 

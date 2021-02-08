@@ -1,6 +1,7 @@
 ﻿using _4thYearProject.Server.Services;
 using _4thYearProject.Shared;
 using _4thYearProject.Shared.Models;
+using MatBlazor;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,10 @@ namespace _4thYearProject.Server.Pages
         public UserData User { get; set; }
         public Post post { get; set; }
         public List<Comment> Comments { get; set; }
+        Following follow = new Following();
+        Comment extendcomment = new Comment();
+
+        bool dialogIsOpen = false;
 
         [Inject]
         public IPostDataService PostDataService { get; set; }
@@ -31,23 +36,85 @@ namespace _4thYearProject.Server.Pages
         [Inject]
         public IUserDataService UserDataService { get; set; }
 
+        [Inject]
+        public IMatToaster matToaster { get; set; }
+
+
+
         ClaimsPrincipal identity;
 
         string claimDisplayName { get; set; }
 
 
-        Following follow = new Following();
+
+
+
+        protected async Task MakeComment()
+        {
+
+            try
+            {
+                string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+                      .Select(c => c.Value).SingleOrDefault().ToString();
+                extendcomment.UserId = LoggedInID;
+                extendcomment.PostId = post.PostId;
+                extendcomment.SubmittedOn = DateTime.Now;
+                await CommentDataService.AddComment(extendcomment);
+                await OnInitializedAsync();
+
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+               // matToaster.Add(ex.GetBaseException().Message, MatToastType.Danger);
+            }
+
+
+        }
+
+
+
+        protected async Task DeleteComment(int CommentID)
+        {
+
+            try
+            {
+                await CommentDataService.DeleteComment(CommentID);
+                await OnInitializedAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                // matToaster.Add(ex.GetBaseException().Message, MatToastType.Danger);
+            }
+
+
+        }
+
+
+
+
+
+
 
         protected async override Task OnInitializedAsync()
         {
 
             identity = await _userService.GetUserAsync();
 
+            string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+                 .Select(c => c.Value).SingleOrDefault().ToString();
+
+            User = await UserDataService.GetUserDataDetails(LoggedInID);
+
+
+
             claimDisplayName = identity.Claims.Where(c => c.Type.Equals("preferred_username"))
                .Select(c => c.Value).SingleOrDefault().ToString();
 
             post = (await PostDataService.GetPostDetails(int.Parse(PostID)));
-          //  Comments = (await CommentDataService.GetCommentsByPostId(int.Parse(PostID))).ToList();
+          Comments = (await CommentDataService.GetCommentsByPostId(int.Parse(PostID))).ToList();
 
 
         }

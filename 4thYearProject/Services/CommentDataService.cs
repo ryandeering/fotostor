@@ -42,7 +42,7 @@ namespace _4thYearProject.Server.Services
             var commentJson =
                 new StringContent(JsonSerializer.Serialize(comment), Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PostAsync("api/post", commentJson);
+            var response = await _httpClient.PostAsync("api/comment", commentJson);
 
             if (response.IsSuccessStatusCode)
             {

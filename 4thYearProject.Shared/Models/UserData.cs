@@ -12,6 +12,6 @@ namespace _4thYearProject.Shared.Models
         public string DisplayName { get; set; }
         public string FirstName { get; set; }
         public string SecondName { get; set; }
-        public ProfilePic Pic { get; set; }
+        public string ProfilePic { get; set; }
     }
 }
