@@ -1,7 +1,6 @@
 using _4thYearProject.Api.CloudStorage;
 using _4thYearProject.Api.Controllers.Identity;
 using _4thYearProject.Api.Models;
-using _4thYearProject.Server.Services;
 using _4thYearProject.Shared;
 using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Authorization;
@@ -13,7 +12,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
 using System.Linq;
 
 namespace _4thYearProject.Api
@@ -78,7 +76,7 @@ namespace _4thYearProject.Api
 
             services.AddControllers(configure =>
             configure.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy)));
-                //.AddJsonOptions(options => options.JsonSerializerOptions.ca);
+            //.AddJsonOptions(options => options.JsonSerializerOptions.ca);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

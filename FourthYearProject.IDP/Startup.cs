@@ -3,12 +3,9 @@
 
 
 using FourthYearProject.IDP.Areas.Identity.Data;
-using IdentityServer4;
-using IdentityServer4.Quickstart.UI;
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,7 +22,7 @@ namespace FourthYearProject.IDP
         public Startup(IWebHostEnvironment environment, IConfiguration configuration)
         {
             Environment = environment;
-            Configuration = configuration;         
+            Configuration = configuration;
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -34,7 +31,7 @@ namespace FourthYearProject.IDP
 
             services.AddTransient<IEmailSender, DummyEmailSender>();
 
-          //  services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, MyUserClaimsPrincipalFactory>();
+            //  services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, MyUserClaimsPrincipalFactory>();
 
             //// configures IIS out-of-proc settings (see https://github.com/aspnet/AspNetCore/issues/14882)
             //services.Configure<IISOptions>(iis =>
@@ -57,25 +54,36 @@ namespace FourthYearProject.IDP
                 options.Events.RaiseFailureEvents = true;
                 options.Events.RaiseSuccessEvents = true;
             }).AddAspNetIdentity<ApplicationUser>();
-                
+
 
             // in-memory, code config
             builder.AddInMemoryIdentityResources(Config.Ids);
             builder.AddInMemoryApiResources(Config.Apis);
             builder.AddInMemoryClients(Config.Clients);
-             
+
             // not recommended for production - you need to store your key material somewhere secure
             builder.AddDeveloperSigningCredential();
 
             //// for demo purposes, allow cors requests
-            services.AddCors(options =>
-            {
-                options.AddPolicy("CorsPolicy",
-                    builder => builder.WithOrigins("http://localhost:63811", "https://localhost:44304", "https://localhost:44333", "https://localhost:44340")
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowCredentials());
+            //services.AddCors(options =>
+            //{
+            //    options.AddPolicy("CorsPolicy",
+            //        builder => builder.WithOrigins("http://localhost:63811", "https://localhost:44304", "https://localhost:44333", "https://localhost:44340")
+            //        .AllowAnyMethod()
+            //        .AllowAnyHeader()
+            //        .AllowCredentials());
+            //});
+
+            services.AddSingleton<ICorsPolicyService>((container) => {
+                var logger = container.GetRequiredService<ILogger<DefaultCorsPolicyService>>();
+                return new DefaultCorsPolicyService(logger)
+                {
+                    AllowAll = true
+                };
             });
+
+
+
 
             services.AddAuthentication();
         }

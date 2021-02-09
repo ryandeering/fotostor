@@ -1,12 +1,11 @@
 ﻿using _4thYearProject.Api.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Hosting;
 using _4thYearProject.Shared.Models;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats;
-using System.IO;
 using SixLabors.ImageSharp.Processing;
-using ImageMagick;
+using System.IO;
 
 namespace _4thYearProject.Api.Controllers
 {
@@ -52,7 +51,7 @@ namespace _4thYearProject.Api.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreatePostAsync([FromBody] Post post )
+        public IActionResult CreatePostAsync([FromBody] Post post)
         {
             //https://stackoverflow.com/questions/55298428/how-to-resize-center-and-crop-an-image-with-imagesharp
             using (var inStream = new MemoryStream(post.PhotoFile))
@@ -63,7 +62,7 @@ namespace _4thYearProject.Api.Controllers
                     i => i.Resize(110, 110));
 
                 image.Save(outStream, format);
-                
+
 
                 post.Thumbnail = outStream.ToArray();
             }
@@ -78,7 +77,7 @@ namespace _4thYearProject.Api.Controllers
             var createdPost = _postRepository.AddPost(post);
 
             return Created("post", createdPost);
- 
+
         }
 
 

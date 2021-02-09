@@ -2,7 +2,6 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using IdentityModel;
 using IdentityServer4.Models;
 using System.Collections.Generic;
 
@@ -23,15 +22,15 @@ namespace FourthYearProject.IDP
         public static IEnumerable<ApiResource> Apis =>
             new ApiResource[]
             {
-                new ApiResource("_4thyearprojectapi", 
-                    "4th Year Project API", 
+                new ApiResource("_4thyearprojectapi",
+                    "4th Year Project API",
                     new [] { "country" }) //useful when using an authorisation policy
             };
 
 
         public static IEnumerable<Client> Clients =>
             new Client[]
-            { 
+            {
                 new Client
                 {
                     ClientId = "_4thyearproject",
@@ -43,7 +42,7 @@ namespace FourthYearProject.IDP
                     PostLogoutRedirectUris = { "http://localhost:63811/authentication/logout-callback" },
                     AllowedScopes = { "openid", "profile", "email", "_4thyearprojectapi" },
                     AllowedCorsOrigins = { "http://localhost:44341" }
-                }             
+                }
             };
     }
 }

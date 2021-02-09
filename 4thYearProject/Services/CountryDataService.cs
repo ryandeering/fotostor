@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace _4thYearProject.Server.Services
 {
     public class CountryDataService : ICountryDataService
-{
+    {
         private readonly HttpClient _httpClient;
 
         public CountryDataService(HttpClient httpClient)

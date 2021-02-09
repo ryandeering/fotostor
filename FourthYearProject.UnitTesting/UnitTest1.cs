@@ -1,5 +1,5 @@
-using Xunit;
 using _4thYearProject.Api.Models;
+using Xunit;
 
 namespace FourthYearProject.UnitTesting
 {

@@ -1,16 +1,14 @@
 ﻿using _4thYearProject.Server.Services;
+using _4thYearProject.Shared.Models;
 using Microsoft.AspNetCore.Components;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using _4thYearProject.Shared.Models;
 
 namespace _4thYearProject.Server.Components
 {
     public partial class AddEmployeeDialog
     {
-        public Employee Employee { get; set; } = 
+        public Employee Employee { get; set; } =
             new Employee { CountryId = 1, JobCategoryId = 1, BirthDate = DateTime.Now, JoinedDate = DateTime.Now };
 
         [Inject]

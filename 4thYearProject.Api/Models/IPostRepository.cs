@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using _4thYearProject.Shared.Models;
+﻿using _4thYearProject.Shared.Models;
+using System.Collections.Generic;
 
 namespace _4thYearProject.Api.Models
 {
-public interface IPostRepository
-{
+    public interface IPostRepository
+    {
         IEnumerable<Post> GetAllPosts();
         IEnumerable<Post> GetPostsByUserId(string id);
         IEnumerable<Post> GetAllPostsbyFollowing(string id);

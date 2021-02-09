@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace _4thYearProject.Server.Services
 {
     public interface IJobCategoryDataService
-{
+    {
         Task<IEnumerable<JobCategory>> GetAllJobCategories();
         Task<JobCategory> GetJobCategoryById(int jobCategoryId);
     }

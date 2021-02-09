@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using _4thYearProject.Shared;
+using _4thYearProject.Shared.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using _4thYearProject.Shared.Models;
-using _4thYearProject.Shared;
-using System.Security.Claims;
-using System.Linq;
-using System;
 
 namespace _4thYearProject.Server.Services
 {
@@ -83,6 +83,6 @@ namespace _4thYearProject.Server.Services
 
         }
 
-     
+
     }
 }

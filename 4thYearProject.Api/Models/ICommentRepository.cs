@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using _4thYearProject.Shared.Models;
+﻿using _4thYearProject.Shared.Models;
+using System.Collections.Generic;
 
 namespace _4thYearProject.Api.Models
 {
-public interface ICommentRepository
-{
+    public interface ICommentRepository
+    {
         IEnumerable<Comment> GetCommentsByPostId(int id);
         Comment GetCommentById(int Comment_ID);
         Comment AddComment(Comment comment);

@@ -2,7 +2,6 @@
 using _4thYearProject.Shared;
 using _4thYearProject.Shared.Models;
 using Microsoft.AspNetCore.Components;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -11,7 +10,7 @@ using System.Threading.Tasks;
 namespace _4thYearProject.Server.Pages
 {
     public partial class Feed
-{
+    {
         [Parameter]
         public string DisplayName { get; set; }
         public UserData User { get; set; }

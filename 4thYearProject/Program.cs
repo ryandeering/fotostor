@@ -1,17 +1,15 @@
-using System;
-using System.Net.Http;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Text;
+using _4thYearProject.Server.MessageHandlers;
+using _4thYearProject.Server.Services;
+using _4thYearProject.Server.Services.Identity;
+using _4thYearProject.Shared;
+using MatBlazor;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using _4thYearProject.Server.Services;
-using _4thYearProject.Server.MessageHandlers;
-using _4thYearProject.Shared;
-using _4thYearProject.Server.Services.Identity;
-using MatBlazor;
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace _4thYearProject.Server
 {
@@ -19,6 +17,10 @@ namespace _4thYearProject.Server
     {
         public static async Task Main(string[] args)
         {
+
+
+
+
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("app");
 
@@ -29,6 +31,11 @@ namespace _4thYearProject.Server
                 {
                     BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)
                 });
+
+
+            string APIDevelop = builder.Configuration["APIDevelop"];
+            string APIProduction = builder.Configuration["APIProduction"];
+
 
 
             builder.Services.AddOidcAuthentication(options =>
@@ -48,44 +55,44 @@ namespace _4thYearProject.Server
 
             if (builder.HostEnvironment.IsProduction())
             {
-                builder.Services.AddHttpClient<IPostDataService, PostDataService>(client => client.BaseAddress = new Uri("https://4thyearprojectrd.azurewebsites.net")).AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
-                builder.Services.AddHttpClient<IUserDataService, UserDataService>(client => client.BaseAddress = new Uri("https://4thyearprojectrd.azurewebsites.net"))
+                builder.Services.AddHttpClient<IPostDataService, PostDataService>(client => client.BaseAddress = new Uri(APIProduction)).AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
+                builder.Services.AddHttpClient<IUserDataService, UserDataService>(client => client.BaseAddress = new Uri(APIProduction))
            .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
-                builder.Services.AddHttpClient<IFollowingDataService, FollowingDataService>(client => client.BaseAddress = new Uri("https://4thyearprojectrd.azurewebsites.net"))
+                builder.Services.AddHttpClient<IFollowingDataService, FollowingDataService>(client => client.BaseAddress = new Uri(APIProduction))
           .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
-                builder.Services.AddHttpClient<ICommentDataService, CommentDataService>(client => client.BaseAddress = new Uri("https://4thyearprojectrd.azurewebsites.net"))
+                builder.Services.AddHttpClient<ICommentDataService, CommentDataService>(client => client.BaseAddress = new Uri(APIProduction))
                 .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
-                builder.Services.AddHttpClient<ILikeDataService, LikeDataService>(client => client.BaseAddress = new Uri("https://4thyearprojectrd.azurewebsites.net"))
+                builder.Services.AddHttpClient<ILikeDataService, LikeDataService>(client => client.BaseAddress = new Uri(APIProduction))
                .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
 
-                builder.Services.AddHttpClient<IEmployeeDataService, EmployeeDataService>(client => client.BaseAddress = new Uri("https://4thyearprojectrd.azurewebsites.net"))
+                builder.Services.AddHttpClient<IEmployeeDataService, EmployeeDataService>(client => client.BaseAddress = new Uri(APIProduction))
                 .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
-                builder.Services.AddHttpClient<ICountryDataService, CountryDataService>(client => client.BaseAddress = new Uri("https://4thyearprojectrd.azurewebsites.net"))
+                builder.Services.AddHttpClient<ICountryDataService, CountryDataService>(client => client.BaseAddress = new Uri(APIProduction))
                 .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
-                builder.Services.AddHttpClient<IJobCategoryDataService, JobCategoryDataService>(client => client.BaseAddress = new Uri("https://4thyearprojectrd.azurewebsites.net"))
+                builder.Services.AddHttpClient<IJobCategoryDataService, JobCategoryDataService>(client => client.BaseAddress = new Uri(APIProduction))
                 .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
 
             }
             else
             {
 
-                builder.Services.AddHttpClient<IPostDataService, PostDataService>(client => client.BaseAddress = new Uri("https://localhost:44340/")).AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
-                builder.Services.AddHttpClient<IUserDataService, UserDataService>(client => client.BaseAddress = new Uri("https://localhost:44340/"))
+                builder.Services.AddHttpClient<IPostDataService, PostDataService>(client => client.BaseAddress = new Uri(APIDevelop)).AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
+                builder.Services.AddHttpClient<IUserDataService, UserDataService>(client => client.BaseAddress = new Uri(APIDevelop))
            .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
-                builder.Services.AddHttpClient<IFollowingDataService, FollowingDataService>(client => client.BaseAddress = new Uri("https://localhost:44340/"))
+                builder.Services.AddHttpClient<IFollowingDataService, FollowingDataService>(client => client.BaseAddress = new Uri(APIDevelop))
           .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
-                builder.Services.AddHttpClient<ICommentDataService, CommentDataService>(client => client.BaseAddress = new Uri("https://localhost:44340/"))
+                builder.Services.AddHttpClient<ICommentDataService, CommentDataService>(client => client.BaseAddress = new Uri(APIDevelop))
                 .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
-                builder.Services.AddHttpClient<ILikeDataService, LikeDataService>(client => client.BaseAddress = new Uri("https://localhost:44340/"))
+                builder.Services.AddHttpClient<ILikeDataService, LikeDataService>(client => client.BaseAddress = new Uri(APIDevelop))
                .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
 
-                builder.Services.AddHttpClient<IEmployeeDataService, EmployeeDataService>(client => client.BaseAddress = new Uri("https://localhost:44340/"))
+                builder.Services.AddHttpClient<IEmployeeDataService, EmployeeDataService>(client => client.BaseAddress = new Uri(APIDevelop))
                 .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
-                builder.Services.AddHttpClient<ICountryDataService, CountryDataService>(client => client.BaseAddress = new Uri("https://localhost:44340/"))
+                builder.Services.AddHttpClient<ICountryDataService, CountryDataService>(client => client.BaseAddress = new Uri(APIDevelop))
                 .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
-                builder.Services.AddHttpClient<IJobCategoryDataService, JobCategoryDataService>(client => client.BaseAddress = new Uri("https://localhost:44340/"))
+                builder.Services.AddHttpClient<IJobCategoryDataService, JobCategoryDataService>(client => client.BaseAddress = new Uri(APIDevelop))
                 .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
-                
+
             }
 
 

@@ -1,11 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using _4thYearProject.Server.Services;
 using _4thYearProject.Shared.Models;
-using _4thYearProject.Server.Services;
 using Microsoft.AspNetCore.Components;
+using System.Threading.Tasks;
 
 namespace _4thYearProject.Server.Pages
 {
-    public partial class EmployeeDetail : ComponentBase{ 
+    public partial class EmployeeDetail : ComponentBase
+    {
 
         [Parameter]
         public string EmployeeId { get; set; }
@@ -23,5 +24,5 @@ namespace _4thYearProject.Server.Pages
 
 
 
-}
+    }
 }

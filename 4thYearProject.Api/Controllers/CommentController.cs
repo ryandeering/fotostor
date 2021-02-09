@@ -1,12 +1,7 @@
 ﻿using _4thYearProject.Api.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Hosting;
 using _4thYearProject.Shared.Models;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Formats;
-using System.IO;
-using SixLabors.ImageSharp.Processing;
-using ImageMagick;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 
 namespace _4thYearProject.Api.Controllers
 {
@@ -39,7 +34,7 @@ namespace _4thYearProject.Api.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateCommentAsync(Comment comment )
+        public IActionResult CreateCommentAsync(Comment comment)
         {
 
             if (comment == null)
@@ -52,7 +47,7 @@ namespace _4thYearProject.Api.Controllers
             var createdComment = _commentRepository.AddComment(comment);
 
             return Created("comment", createdComment);
- 
+
         }
 
 
@@ -72,32 +67,32 @@ namespace _4thYearProject.Api.Controllers
         }
 
 
-    [HttpPut]
-    public IActionResult UpdateComment([FromBody] Comment comment)
-    {
-        if (comment == null)
-            return BadRequest();
+        [HttpPut]
+        public IActionResult UpdateComment([FromBody] Comment comment)
+        {
+            if (comment == null)
+                return BadRequest();
 
-        //if (comment.FirstNam == string.Empty || comment.LastName == string.Empty)
-        //{
-        //    ModelState.AddModelError("Name/FirstName", "The name or first name shouldn't be empty");
-        //}
+            //if (comment.FirstNam == string.Empty || comment.LastName == string.Empty)
+            //{
+            //    ModelState.AddModelError("Name/FirstName", "The name or first name shouldn't be empty");
+            //}
 
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-        var employeeToUpdate = _commentRepository.GetCommentById(comment.Id);
+            var employeeToUpdate = _commentRepository.GetCommentById(comment.Id);
 
-        if (employeeToUpdate == null)
-            return NotFound();
+            if (employeeToUpdate == null)
+                return NotFound();
 
-        _commentRepository.UpdateComment(comment);
+            _commentRepository.UpdateComment(comment);
 
-        return NoContent(); //success
+            return NoContent(); //success
+        }
+
+
     }
-
-
-}
 
 
 }

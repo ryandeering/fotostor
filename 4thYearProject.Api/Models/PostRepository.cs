@@ -35,7 +35,7 @@
             }
 
 
-            return _appDbContext.Posts.Where(x=>!followingids.Any(n=>n==x.UserId)).OrderByDescending(p => p.UploadDate);
+            return _appDbContext.Posts.Where(x => !followingids.Any(n => n == x.UserId)).OrderByDescending(p => p.UploadDate);
         }
 
         public Post GetPostById(int postId)

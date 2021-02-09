@@ -1,6 +1,6 @@
-﻿using System;
-using _4thYearProject.Shared.Models;
+﻿using _4thYearProject.Shared.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace _4thYearProject.Api.Models
 {

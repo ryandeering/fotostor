@@ -14,15 +14,14 @@ namespace _4thYearProject.Server.Pages
     public partial class PostView : ComponentBase
     {
         [Parameter]
-        public string PostID {get; set;}
-        
+        public string PostID { get; set; }
+
         public UserData User { get; set; }
         public Post post { get; set; }
         public List<Comment> Comments { get; set; }
         Following follow = new Following();
         Comment extendcomment = new Comment();
 
-        bool dialogIsOpen = false;
 
         [Inject]
         public IPostDataService PostDataService { get; set; }
@@ -67,7 +66,7 @@ namespace _4thYearProject.Server.Pages
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-               // matToaster.Add(ex.GetBaseException().Message, MatToastType.Danger);
+                // matToaster.Add(ex.GetBaseException().Message, MatToastType.Danger);
             }
 
 
@@ -114,7 +113,7 @@ namespace _4thYearProject.Server.Pages
                .Select(c => c.Value).SingleOrDefault().ToString();
 
             post = (await PostDataService.GetPostDetails(int.Parse(PostID)));
-          Comments = (await CommentDataService.GetCommentsByPostId(int.Parse(PostID))).ToList();
+            Comments = (await CommentDataService.GetCommentsByPostId(int.Parse(PostID))).ToList();
 
 
         }
@@ -127,7 +126,7 @@ namespace _4thYearProject.Server.Pages
             follow.Follower_ID = LoggedInID;
             follow.Followed_ID = User.Id;
             await FollowingService.AddFollowing(follow);
-            OnInitializedAsync();
+            await OnInitializedAsync();
 
         }
 
