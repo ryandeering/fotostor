@@ -1,8 +1,6 @@
 ﻿namespace _4thYearProject.Api.Models
 {
     using _4thYearProject.Shared.Models;
-    using System;
-    using System.Collections.Generic;
     using System.Linq;
 
     //  [Route("api/[controller]")]
@@ -26,14 +24,15 @@
             }
 
             return follow;
-           
+
         }
 
         public Following AddFollowing(Following follow)
         {
 
 
-            if (_appDbContext.Followers.FirstOrDefault(f => f.Follower_ID == follow.Follower_ID && f.Followed_ID == follow.Followed_ID) != null){
+            if (_appDbContext.Followers.FirstOrDefault(f => f.Follower_ID == follow.Follower_ID && f.Followed_ID == follow.Followed_ID) != null)
+            {
                 return null;
             }
             var addedEntity = _appDbContext.Followers.Add(follow);

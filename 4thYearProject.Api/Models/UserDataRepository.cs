@@ -1,8 +1,8 @@
-﻿using System;
+﻿using _4thYearProject.Shared.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using _4thYearProject.Shared.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace _4thYearProject.Api.Models
 {

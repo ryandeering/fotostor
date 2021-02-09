@@ -6,9 +6,7 @@ using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats;
 using SixLabors.ImageSharp.Processing;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace _4thYearProject.Api.Controllers
@@ -100,7 +98,7 @@ namespace _4thYearProject.Api.Controllers
 
                 image.SaveAsJpegAsync(outStream);
 
-               
+
 
 
                 ImagetoUpload = outStream.ToArray();

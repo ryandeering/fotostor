@@ -3,7 +3,6 @@ using _4thYearProject.Shared;
 using _4thYearProject.Shared.Models;
 using Microsoft.AspNetCore.Components;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -11,9 +10,9 @@ using System.Threading.Tasks;
 namespace _4thYearProject.Server.Pages
 {
     public partial class Index : ComponentBase
-{
+    {
 
-     
+
 
         [Inject]
         public IUserDataService UserDataService { get; set; }
@@ -24,15 +23,16 @@ namespace _4thYearProject.Server.Pages
         protected async override Task OnInitializedAsync()
         {
             ClaimsPrincipal identity = await _userService.GetUserAsync();
-           
-            if(identity.Identity.IsAuthenticated.Equals(true))
+
+            if (identity.Identity.IsAuthenticated.Equals(true))
             {
-              
+
                 //First get user id
                 var ID = identity.Claims.Where(c => c.Type.Equals("sub"))
                       .Select(c => c.Value).SingleOrDefault();
 
-                if (await UserDataService.GetUserDataDetails(ID) == null) {
+                if (await UserDataService.GetUserDataDetails(ID) == null)
+                {
 
                     Console.WriteLine("Can you hear me, Major Tom?");
                     UserData newUser = new UserData();
@@ -52,7 +52,7 @@ namespace _4thYearProject.Server.Pages
                 }
 
 
-          
+
 
 
 

@@ -1,11 +1,10 @@
 ﻿using _4thYearProject.Server.Services;
+using _4thYearProject.Shared.Models;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using _4thYearProject.Shared.Models;
-using static System.Net.WebRequestMethods;
-using Microsoft.AspNetCore.Components.Forms;
 
 namespace _4thYearProject.Server.Pages
 {
@@ -13,7 +12,7 @@ namespace _4thYearProject.Server.Pages
     {
         [Inject]
         public IPostDataService PostDataService { get; set; }
-    
+
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 
@@ -35,7 +34,7 @@ namespace _4thYearProject.Server.Pages
             if (PostId == 0) //new employee is being created
             {
                 //add some defaults
-                Post = new Post {Caption = String.Empty, PhotoFile = null, Comments = new List<Comment>(), UploadDate = DateTime.Now, Likes = 0 };
+                Post = new Post { Caption = String.Empty, PhotoFile = null, Comments = new List<Comment>(), UploadDate = DateTime.Now, Likes = 0 };
             }
             else
             {

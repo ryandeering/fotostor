@@ -1,8 +1,6 @@
 ﻿namespace _4thYearProject.Api.Models
 {
     using _4thYearProject.Shared.Models;
-    using System;
-    using System.Collections.Generic;
     using System.Linq;
 
     //  [Route("api/[controller]")]
@@ -26,12 +24,13 @@
             }
 
             return like;
-           
+
         }
 
         public Like AddLike(Like like)
         {
-            if (_appDbContext.Likes.FirstOrDefault(l => l.User_ID == like.User_ID && l.Post_ID == like.Post_ID) != null){
+            if (_appDbContext.Likes.FirstOrDefault(l => l.User_ID == like.User_ID && l.Post_ID == like.Post_ID) != null)
+            {
                 return null;
             }
             var addedEntity = _appDbContext.Likes.Add(like);

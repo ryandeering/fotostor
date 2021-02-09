@@ -1,10 +1,10 @@
 ﻿using _4thYearProject.Server.Services;
+using _4thYearProject.Shared.Models;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using _4thYearProject.Shared.Models;
 
 namespace _4thYearProject.Server.Pages
 {

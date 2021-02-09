@@ -6,6 +6,10 @@
 	  
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="Components\AddPostDialog.cs" />
   </ItemGroup>

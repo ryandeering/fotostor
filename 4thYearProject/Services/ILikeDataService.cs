@@ -1,5 +1,4 @@
 ﻿using _4thYearProject.Shared.Models;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace _4thYearProject.Server.Services
@@ -8,7 +7,7 @@ namespace _4thYearProject.Server.Services
     {
         Task<Like> AddLike(Like like);
         Task RemoveLike(string Post_ID, string User_ID);
-       // Task<IEnumerable<Following>> verifyFollowing(Following follow);
+        // Task<IEnumerable<Following>> verifyFollowing(Following follow);
     }
 }
 

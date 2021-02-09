@@ -1,12 +1,7 @@
 ﻿using _4thYearProject.Api.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Hosting;
 using _4thYearProject.Shared.Models;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Formats;
-using System.IO;
-using SixLabors.ImageSharp.Processing;
-using ImageMagick;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 
 namespace _4thYearProject.Api.Controllers
 {
@@ -35,7 +30,7 @@ namespace _4thYearProject.Api.Controllers
             var createdLike = _likeRepository.AddLike(like);
 
             return Created("like", createdLike); // I don't think this is necessary. Look up the one for a button.
- 
+
         }
 
         [HttpDelete("{Post_ID}/{User_ID}")]

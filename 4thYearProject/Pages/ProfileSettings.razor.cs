@@ -25,8 +25,6 @@
 
         private ClaimsPrincipal identity;
 
-        private string claimDisplayName;
-
         private bool Saved = false;
 
         private string Message = string.Empty;
@@ -59,7 +57,7 @@
                 await file.WriteToStreamAsync(stream);
                 User.ProfilePic = Convert.ToBase64String(stream.ToArray());
             }
-            
+
         }
 
         protected async Task HandleValidSubmit()

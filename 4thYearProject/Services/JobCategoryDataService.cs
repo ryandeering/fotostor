@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using _4thYearProject.Shared.Models;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
-using _4thYearProject.Shared.Models;
 
 namespace _4thYearProject.Server.Services
 {
     public class JobCategoryDataService : IJobCategoryDataService
-{
+    {
         private readonly HttpClient _httpClient;
 
         public JobCategoryDataService(HttpClient httpClient)
@@ -26,5 +26,5 @@ namespace _4thYearProject.Server.Services
             return await JsonSerializer.DeserializeAsync<JobCategory>
                 (await _httpClient.GetStreamAsync($"api/jobcategory/{jobCategoryId}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
         }
-}
+    }
 }

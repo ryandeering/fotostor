@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 
 
 
 namespace _4thYearProject.Shared.Models
 {
-  public class Post
+    public class Post
     {
         public int PostId { get; set; }
 
@@ -30,7 +28,7 @@ namespace _4thYearProject.Shared.Models
         public string Caption { get; set; }
 
         [Required]
-        public DateTime UploadDate{ get; set; }
+        public DateTime UploadDate { get; set; }
 
         [Required]
         public int Likes { get; set; }

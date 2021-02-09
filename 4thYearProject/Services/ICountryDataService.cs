@@ -9,4 +9,4 @@ namespace _4thYearProject.Server.Services
         Task<IEnumerable<Country>> GetAllCountries();
         Task<Country> GetCountryById(int countryId);
     }
-    }
+}

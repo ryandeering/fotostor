@@ -2,7 +2,6 @@
 using _4thYearProject.Shared;
 using _4thYearProject.Shared.Models;
 using Microsoft.AspNetCore.Components;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -58,7 +57,7 @@ namespace _4thYearProject.Server.Pages
             follow.Follower_ID = LoggedInID;
             follow.Followed_ID = User.Id;
             await FollowingService.AddFollowing(follow);
-            OnInitializedAsync();
+            await OnInitializedAsync();
 
         }
 
