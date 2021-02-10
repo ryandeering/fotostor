@@ -6,7 +6,10 @@ using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats;
 using SixLabors.ImageSharp.Processing;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace _4thYearProject.Api.Controllers
@@ -41,7 +44,6 @@ namespace _4thYearProject.Api.Controllers
         {
             return Ok(_UserDataRepository.GetUserDataByDisplayName(DisplayName));
         }
-
 
         [HttpPost]
         public IActionResult CreateUserData([FromBody] UserData UserData)
@@ -78,10 +80,10 @@ namespace _4thYearProject.Api.Controllers
 
             var UserDataToUpdate = _UserDataRepository.GetUserDataById(UserData.Id);
 
-
-
             if (UserDataToUpdate == null)
                 return NotFound();
+
+
 
 
             byte[] ImagetoUpload = System.Convert.FromBase64String(UserData.ProfilePic);
@@ -104,8 +106,9 @@ namespace _4thYearProject.Api.Controllers
                 ImagetoUpload = outStream.ToArray();
             }
 
-
-            UserData.ProfilePic = await _cloudStorage.UploadFileAsync(ImagetoUpload, UserData.Id + ".JPEG");
+            Random rand = new Random();
+            int rand_num = rand.Next(100, 200);
+            UserData.ProfilePic = await _cloudStorage.UploadFileAsync(ImagetoUpload, (UserData.Id + rand_num.ToString() + ".JPEG"));
 
 
 

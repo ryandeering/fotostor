@@ -72,6 +72,13 @@ namespace _4thYearProject.Server
                 builder.Services.AddHttpClient<IJobCategoryDataService, JobCategoryDataService>(client => client.BaseAddress = new Uri(APIProduction))
                 .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
 
+			builder.Services.AddOidcAuthentication(options =>
+            {
+                builder.Configuration.Bind("OidcConfigurationProduction", options.ProviderOptions);
+            });
+
+
+
             }
             else
             {
@@ -92,6 +99,13 @@ namespace _4thYearProject.Server
                 .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
                 builder.Services.AddHttpClient<IJobCategoryDataService, JobCategoryDataService>(client => client.BaseAddress = new Uri(APIDevelop))
                 .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
+
+			builder.Services.AddOidcAuthentication(options =>
+            {
+                builder.Configuration.Bind("OidcConfiguration", options.ProviderOptions);
+            });
+
+
 
             }
 

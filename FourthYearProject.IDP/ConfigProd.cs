@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace FourthYearProject.IDP
 {
-    public static class Config
+    public static class ConfigProd
     {
         public static IEnumerable<IdentityResource> Ids =>
             new IdentityResource[]
@@ -31,20 +31,6 @@ namespace FourthYearProject.IDP
         public static IEnumerable<Client> Clients =>
             new Client[]
             {
-                new Client
-                {
-                    ClientId = "_4thyearproject",
-                    ClientName = "4th Year Project",
-                    AllowedGrantTypes = GrantTypes.Code,
-                    RequireClientSecret = false,
-                    RequirePkce = true,
-                    RedirectUris = { "https://localhost:44366//authentication/login-callback" },
-                    PostLogoutRedirectUris = { "https://localhost:44366//authentication/logout-callback" },
-                    AllowedScopes = { "openid", "profile", "email", "_4thyearprojectapi" },
-                    AllowedCorsOrigins = { "http://localhost:44341" }
-                },
-
-
                  new Client
                 {
                     ClientId = "_4thyearprojectproj",

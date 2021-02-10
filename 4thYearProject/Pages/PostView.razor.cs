@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace _4thYearProject.Server.Pages
@@ -20,6 +21,8 @@ namespace _4thYearProject.Server.Pages
         public Post post { get; set; }
         public List<Comment> Comments { get; set; }
         Following follow = new Following();
+        Like like = new Like();
+        bool liked = false;
         Comment extendcomment = new Comment();
 
 
@@ -31,6 +34,8 @@ namespace _4thYearProject.Server.Pages
         public IUserService _userService { get; set; }
         [Inject]
         public IFollowingDataService FollowingService { get; set; }
+        [Inject]
+        public ILikeDataService LikeService { get; set; }
 
         [Inject]
         public IUserDataService UserDataService { get; set; }
@@ -44,9 +49,8 @@ namespace _4thYearProject.Server.Pages
 
         string claimDisplayName { get; set; }
 
-
-
-
+        public UsernameList Usernames = new UsernameList();
+        List<string> list = new List<string>();
 
         protected async Task MakeComment()
         {
@@ -92,6 +96,44 @@ namespace _4thYearProject.Server.Pages
         }
 
 
+        string getUsername(int pos)
+        {
+            return list.ElementAt(pos);
+        }
+
+
+
+        protected async Task GetUsernames()
+        {
+
+            try
+            {
+               UsernameList UsernameIds = new UsernameList();
+                Usernames = new UsernameList();
+
+
+                foreach (var Comment in Comments)
+                {
+                    UsernameIds.ListofUsernames.Add(Comment.UserId);
+                    Console.WriteLine(Comment.UserId);
+                }
+
+                Usernames = await UserDataService.GetUserNameFromId(UsernameIds);
+                for (int i = 0; i < Comments.Count; i++)
+                {
+                    Comments[i].Username = Usernames.ListofUsernames[i];
+                    Console.WriteLine(Comments[i].Username);
+                }
+                StateHasChanged();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+               
+            }
+
+
+        }
 
 
 
@@ -99,6 +141,9 @@ namespace _4thYearProject.Server.Pages
 
         protected async override Task OnInitializedAsync()
         {
+            Comments = (await CommentDataService.GetCommentsByPostId(int.Parse(PostID))).ToList();
+
+           // await GetUsernames();
 
             identity = await _userService.GetUserAsync();
 
@@ -106,14 +151,16 @@ namespace _4thYearProject.Server.Pages
                  .Select(c => c.Value).SingleOrDefault().ToString();
 
             User = await UserDataService.GetUserDataDetails(LoggedInID);
-
+         
 
 
             claimDisplayName = identity.Claims.Where(c => c.Type.Equals("preferred_username"))
                .Select(c => c.Value).SingleOrDefault().ToString();
 
             post = (await PostDataService.GetPostDetails(int.Parse(PostID)));
-            Comments = (await CommentDataService.GetCommentsByPostId(int.Parse(PostID))).ToList();
+
+
+       
 
 
         }
@@ -130,6 +177,33 @@ namespace _4thYearProject.Server.Pages
 
         }
 
+
+        protected async Task GiveLike()
+        {
+
+            if(!liked) { 
+
+            string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+                  .Select(c => c.Value).SingleOrDefault().ToString();
+
+            like.User_ID = LoggedInID;
+            like.Post_ID = post.PostId.ToString();
+            await LikeService.AddLike(like);
+            liked = true;
+            await OnInitializedAsync();
+            }
+            else
+            {
+                //validate
+            }
+        }
+
+
+
+
+
+
+
         protected async Task UnFollowUser()
         {
             string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
@@ -140,6 +214,7 @@ namespace _4thYearProject.Server.Pages
             await FollowingService.RemoveFollowing(LoggedInID, User.Id);
 
         }
+
 
 
         protected async Task<Following> VerifyFollowing()

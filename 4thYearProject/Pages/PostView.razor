@@ -23,57 +23,54 @@ else
             </tr>
         </tbody>
     </table>
+    <MatButton OnClick="() => GetUsernames()">test</MatButton>
+    @if (Comments.Count != 0 || !Comments.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>@Comments.Count Comments</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>
 
-
-
-
-
-
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>@Comments.Count Comments</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th>
-                    @foreach (var Comment in Comments)
-                    {
-
-                        @if (User != null)
+                        @for (int i = 0; i < Comments.Count; i++)
                         {
-                            @if (Comment.UserId.Equals(User.Id) | post.UserId.Equals(User.Id))
-                            {
-                            <td> @Comment.UserId @Comment.Body </td>
-                            <MatButton OnClick="() => DeleteComment(Comment.Id)">Delete</MatButton>
-                        }
-                        }
-                        else
+
+
+                        <td> @Comments[i].UserId @Comments[i].Body</td>
+
+                        @if (Comments[i].UserId.Equals(User.Id) | post.UserId.Equals(User.Id))
                         {
-                            <td> @Comment.UserId @Comment.Body </td>
+
+                            <MatButton OnClick="() => DeleteComment(Comments[i].Id)">Delete</MatButton>
                         }
                     }
-                    </th>
-                </tr>
-        </tbody>
-    </table>
+
+                        </th>
+                    </tr>
+                </tbody>
+            </table>
+
+        }
+
+    <button onclick="@GiveLike()"
+            class="btn @( liked == true ? "btn-primary" : "btn-secondary" )">
+        <i class="fas fa-thumbs-up fa-lg"></i>
+    </button>
 
 
-}
-
-
-
-<EditForm Model="@extendcomment" OnValidSubmit="@MakeComment">
-    <ValidationSummary />
-    <fieldset>
-        <div class="form-group">
-            <MatTextField @bind-Value="@extendcomment.Body" Label="Comment Body" FullWidth="true"></MatTextField>
-        </div>
-    </fieldset>
-</EditForm>
-<MatButton OnClick="@MakeComment">Make Comment</MatButton>
+    <EditForm Model="@extendcomment" OnValidSubmit="@MakeComment">
+        <ValidationSummary />
+        <fieldset>
+            <div class="form-group">
+                <MatTextField @bind-Value="@extendcomment.Body" Label="Comment Body" FullWidth="true"></MatTextField>
+            </div>
+        </fieldset>
+    </EditForm>
+    <MatButton OnClick="@MakeComment">Make Comment</MatButton>
 
 
 
