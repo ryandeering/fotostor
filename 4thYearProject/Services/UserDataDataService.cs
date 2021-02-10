@@ -31,6 +31,23 @@ namespace _4thYearProject.Server.Services
             return null;
         }
 
+        public async Task<UsernameList> GetUserNameFromId(UsernameList list)
+        {
+            var userJson =
+                       new StringContent(JsonSerializer.Serialize(list), Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync("api/username", userJson);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return await JsonSerializer.DeserializeAsync<UsernameList>(await response.Content.ReadAsStreamAsync());
+            }
+
+            return null;
+        }
+
+
+
         public async Task UpdateUserData(UserData User)
         {
             var userJson =
@@ -62,5 +79,8 @@ namespace _4thYearProject.Server.Services
             return await JsonSerializer.DeserializeAsync<UserData>
                 (await _httpClient.GetStreamAsync($"api/userdata/displayname/{DisplayName}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
         }
+
+       
+
     }
 }

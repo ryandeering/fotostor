@@ -1,11 +1,12 @@
-﻿using _4thYearProject.Shared.Models;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace _4thYearProject.Api.Models
+﻿namespace _4thYearProject.Api.Models
 {
+    using _4thYearProject.Shared.Models;
+    using Microsoft.EntityFrameworkCore;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Linq;
+
     public class UserDataRepository : IUserDataRepository
     {
         private readonly AppDbContext _appDbContext;
@@ -51,8 +52,6 @@ namespace _4thYearProject.Api.Models
 
 
             return new UserData(); //filthy hack
-
-
         }
 
         public UserData UpdateUserData(UserData User)
@@ -82,6 +81,28 @@ namespace _4thYearProject.Api.Models
 
             _appDbContext.Users.Remove(foundUserData);
             _appDbContext.SaveChanges();
+        }
+
+        public UsernameList GetUserNameFromId(UsernameList list)
+        {
+
+            if (list.ListofUsernames.Any())
+            {
+                UsernameList Usernames = new UsernameList();
+
+                foreach (var id in list.ListofUsernames)
+                {
+                    UserData user = _appDbContext.Users.FirstOrDefault(c => c.Id.Equals(id));
+                    Usernames.ListofUsernames.Add(user.DisplayName);
+                    Debug.WriteLine(user.DisplayName);
+                }
+
+                return Usernames;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

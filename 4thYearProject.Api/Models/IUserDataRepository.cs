@@ -1,4 +1,5 @@
 ﻿using _4thYearProject.Shared.Models;
+using System;
 using System.Collections.Generic;
 
 namespace _4thYearProject.Api.Models
@@ -11,5 +12,6 @@ namespace _4thYearProject.Api.Models
         UserData AddUserData(UserData User);
         UserData UpdateUserData(UserData User);
         void DeleteUserData(string Id);
+        UsernameList GetUserNameFromId(UsernameList list);
     }
 }

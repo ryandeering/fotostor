@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace _4thYearProject.Shared.Models
 {
@@ -11,4 +12,10 @@ namespace _4thYearProject.Shared.Models
         public string SecondName { get; set; }
         public string ProfilePic { get; set; }
     }
+
+    public class UsernameList
+    {
+        public List<string> ListofUsernames { get; set; }
+    }
+
 }

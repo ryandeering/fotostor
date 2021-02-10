@@ -6,6 +6,7 @@ using FourthYearProject.IDP.Areas.Identity.Data;
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -56,10 +57,22 @@ namespace FourthYearProject.IDP
             }).AddAspNetIdentity<ApplicationUser>();
 
 
+            //// in-memory, code config
+            
+
             // in-memory, code config
-            builder.AddInMemoryIdentityResources(Config.Ids);
-            builder.AddInMemoryApiResources(Config.Apis);
-            builder.AddInMemoryClients(Config.Clients);
+            if (Environment.IsProduction())
+            {
+                builder.AddInMemoryIdentityResources(ConfigProd.Ids);
+                builder.AddInMemoryApiResources(ConfigProd.Apis);
+                builder.AddInMemoryClients(ConfigProd.Clients);
+            } else
+            {
+                builder.AddInMemoryIdentityResources(Config.Ids);
+                builder.AddInMemoryApiResources(Config.Apis);
+                builder.AddInMemoryClients(Config.Clients);
+            }
+
 
             // not recommended for production - you need to store your key material somewhere secure
             builder.AddDeveloperSigningCredential();
@@ -68,7 +81,7 @@ namespace FourthYearProject.IDP
             //services.AddCors(options =>
             //{
             //    options.AddPolicy("CorsPolicy",
-            //        builder => builder.WithOrigins("http://localhost:63811", "https://localhost:44304", "https://localhost:44333", "https://localhost:44340")
+            //        builder => builder.WithOrigins("https://localhost:44366/", "https://localhost:44304", "https://localhost:44333", "https://localhost:44340")
             //        .AllowAnyMethod()
             //        .AllowAnyHeader()
             //        .AllowCredentials());
@@ -81,9 +94,6 @@ namespace FourthYearProject.IDP
                     AllowAll = true
                 };
             });
-
-
-
 
             services.AddAuthentication();
         }
@@ -101,6 +111,11 @@ namespace FourthYearProject.IDP
             app.UseRouting();
             app.UseIdentityServer();
             app.UseAuthorization();
+            app.UseHttpsRedirection();
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedProto
+            });
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
