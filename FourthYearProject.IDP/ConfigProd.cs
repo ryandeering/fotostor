@@ -41,7 +41,7 @@ namespace FourthYearProject.IDP
                     RedirectUris = { "https://fourthyrprojblazor.azurewebsites.net//authentication/login-callback" },
                     PostLogoutRedirectUris = { "https://fourthyrprojblazor.azurewebsites.net//authentication/logout-callback" },
                     AllowedScopes = { "openid", "profile", "email", "_4thyearprojectapi" },
-                    AllowedCorsOrigins = { "https://fourthyrprojblazor.azurewebsites.net","https://4thyearprojectrd.azurewebsites.net", }
+                    AllowedCorsOrigins = { "https://fourthyrprojblazor.azurewebsites.net","https://4thyearprojectrd.azurewebsites.net", "https://fourthyrprojidp.azurewebsites.net" }
                 }
 
 

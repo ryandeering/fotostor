@@ -61,19 +61,19 @@
                          href="authentication/login">
                     <span class="oi oi-list-rich" aria-hidden="true"></span> Log in
                 </NavLink>
-                @if(HostEnvironment.IsProduction()){
-                <NavLink class="list-group-item list-group-item-action bg-light"
-                         href="https://fourthyrprojidp.azurewebsites.net/Identity/Account/Register">
-                    <span class="oi oi-list-rich" aria-hidden="true"></span> Register
-                </NavLink>} else{
-                <NavLink class="list-group-item list-group-item-action bg-light"
-                         href="https://localhost:44333/Identity/Account/Register">
-                    <span class="oi oi-list-rich" aria-hidden="true"></span> Register
-                </NavLink>
-
-
-                }
-            </NotAuthorized>
+                <environment include="Staging,Production">
+                    <NavLink class="list-group-item list-group-item-action bg-light"
+                             href="https://fourthyrprojidp.azurewebsites.net/Identity/Account/Register">
+                        <span class="oi oi-list-rich" aria-hidden="true"></span> Register
+                    </NavLink>
+                </environment>
+                <environment include="Development">
+                    <NavLink class="list-group-item list-group-item-action bg-light"
+                             href="https://localhost:44333/Identity/Account/Register">
+                        <span class="oi oi-list-rich" aria-hidden="true"></span> Register
+                        </NavLink>
+                 </environment >
+</NotAuthorized>
         </AuthorizeView>
     </div>
 </div>
