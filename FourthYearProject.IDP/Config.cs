@@ -50,3 +50,6 @@ namespace FourthYearProject.IDP
             };
     }
 }
+
+
+//remember, I submitted localhost:44366.....to the hosted IDP and it worked.
