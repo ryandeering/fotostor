@@ -72,19 +72,34 @@ namespace FourthYearProject.IDP
 
 
 
-
-            // in-memory, code config
-            if (Environment.IsProduction())
-            {
-                builder.AddInMemoryIdentityResources(ConfigProd.Ids);
-                builder.AddInMemoryApiResources(ConfigProd.Apis);
-                builder.AddInMemoryClients(ConfigProd.Clients);
-            } else
+            if (Environment.IsDevelopment())
             {
                 builder.AddInMemoryIdentityResources(Config.Ids);
                 builder.AddInMemoryApiResources(Config.Apis);
                 builder.AddInMemoryClients(Config.Clients);
+            } else
+            {
+                builder.AddInMemoryIdentityResources(ConfigProd.Ids);
+                builder.AddInMemoryApiResources(ConfigProd.Apis);
+                builder.AddInMemoryClients(ConfigProd.Clients);
             }
+
+
+
+
+
+            //    // in-memory, code config
+            //    if (Environment.IsProduction())
+            //{
+            //    builder.AddInMemoryIdentityResources(ConfigProd.Ids);
+            //    builder.AddInMemoryApiResources(ConfigProd.Apis);
+            //    builder.AddInMemoryClients(ConfigProd.Clients);
+            //} else
+            //{
+            //    builder.AddInMemoryIdentityResources(Config.Ids);
+            //    builder.AddInMemoryApiResources(Config.Apis);
+            //    builder.AddInMemoryClients(Config.Clients);
+            //}
 
 
             // not recommended for production - you need to store your key material somewhere secure
