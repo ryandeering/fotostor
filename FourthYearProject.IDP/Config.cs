@@ -42,20 +42,6 @@ namespace FourthYearProject.IDP
                     PostLogoutRedirectUris = { "https://localhost:44366//authentication/logout-callback" },
                     AllowedScopes = { "openid", "profile", "email", "_4thyearprojectapi" },
                     AllowedCorsOrigins = { "http://localhost:44341" }
-                },
-
-
-                 new Client
-                {
-                    ClientId = "_4thyearprojectproj",
-                    ClientName = "4th Year Project",
-                    AllowedGrantTypes = GrantTypes.Code,
-                    RequireClientSecret = false,
-                    RequirePkce = true,
-                    RedirectUris = { "https://fourthyrprojblazor.azurewebsites.net//authentication/login-callback" },
-                    PostLogoutRedirectUris = { "https://fourthyrprojblazor.azurewebsites.net//authentication/logout-callback" },
-                    AllowedScopes = { "openid", "profile", "email", "_4thyearprojectapi" },
-                    AllowedCorsOrigins = { "https://fourthyrprojblazor.azurewebsites.net","https://4thyearprojectrd.azurewebsites.net", }
                 }
 
 

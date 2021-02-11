@@ -24,6 +24,8 @@ namespace _4thYearProject.Server
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("app");
 
+
+
             builder.Services.AddTransient<FourthYearProjectAPIAuthorizationMessageHandler>();
 
             builder.Services.AddTransient(sp =>
@@ -36,12 +38,6 @@ namespace _4thYearProject.Server
             string APIDevelop = builder.Configuration["APIDevelop"];
             string APIProduction = builder.Configuration["APIProduction"];
 
-
-
-            builder.Services.AddOidcAuthentication(options =>
-            {
-                builder.Configuration.Bind("OidcConfiguration", options.ProviderOptions);
-            });
 
             builder.Services.AddMatToaster(config =>
             {
