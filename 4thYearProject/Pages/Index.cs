@@ -1,19 +1,16 @@
-﻿using _4thYearProject.Server.Services;
-using _4thYearProject.Shared;
-using _4thYearProject.Shared.Models;
-using Microsoft.AspNetCore.Components;
-using System;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-
-namespace _4thYearProject.Server.Pages
+﻿namespace _4thYearProject.Server.Pages
 {
+    using _4thYearProject.Server.Services;
+    using _4thYearProject.Shared;
+    using _4thYearProject.Shared.Models;
+    using Microsoft.AspNetCore.Components;
+    using System;
+    using System.Linq;
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+
     public partial class Index : ComponentBase
     {
-
-
-
         [Inject]
         public IUserDataService UserDataService { get; set; }
 
@@ -31,24 +28,31 @@ namespace _4thYearProject.Server.Pages
                 var ID = identity.Claims.Where(c => c.Type.Equals("sub"))
                       .Select(c => c.Value).SingleOrDefault();
 
-                if (await UserDataService.GetUserDataDetails(ID) == null)
+
+                try
                 {
 
-                    Console.WriteLine("Can you hear me, Major Tom?");
-                    UserData newUser = new UserData();
+                  
+
+                        Console.WriteLine("Can you hear me, Major Tom?");
+                        UserData newUser = new UserData();
 
 
-                    //First get user id
-                    var DisplayName = identity.Claims.Where(c => c.Type.Equals("preferred_username"))
-                          .Select(c => c.Value).SingleOrDefault();
+                        //First get user id
+                        var DisplayName = identity.Claims.Where(c => c.Type.Equals("preferred_username"))
+                              .Select(c => c.Value).SingleOrDefault();
 
-                    newUser.Id = ID.ToString();
-                    newUser.DisplayName = DisplayName.ToString();
+                        newUser.Id = ID.ToString();
+                        newUser.DisplayName = DisplayName.ToString();
 
-                    await UserDataService.AddUserData(newUser);
+                        await UserDataService.AddUserData(newUser);
 
 
 
+                    
+                } catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
                 }
 
 
@@ -57,10 +61,6 @@ namespace _4thYearProject.Server.Pages
 
 
             }
-
-
-
         }
-
     }
 }

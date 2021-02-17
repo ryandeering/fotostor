@@ -22,7 +22,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\4thYearProject.Shared\4thYearProject.Shared.csproj" />
-    <ProjectReference Include="..\4thYearProject\4thYearProject.Server.csproj" />
   </ItemGroup>
 
   <ItemGroup>

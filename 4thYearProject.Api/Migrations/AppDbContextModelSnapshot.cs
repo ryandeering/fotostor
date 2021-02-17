@@ -348,11 +348,11 @@ namespace _4thYearProject.Api.Migrations
                     b.Property<string>("MimeType")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte[]>("PhotoFile")
-                        .HasColumnType("varbinary(max)");
+                    b.Property<string>("PhotoFile")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte[]>("Thumbnail")
-                        .HasColumnType("varbinary(max)");
+                    b.Property<string>("Thumbnail")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UploadDate")
                         .HasColumnType("datetime2");

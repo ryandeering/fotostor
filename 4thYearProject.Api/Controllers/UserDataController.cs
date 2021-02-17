@@ -49,7 +49,7 @@ namespace _4thYearProject.Api.Controllers
         public IActionResult CreateUserData([FromBody] UserData UserData)
         {
             if (UserData == null)
-                return BadRequest();
+                return null;
 
             //if (UserData.FirstName == string.Empty || UserData.LastName == string.Empty)
             //{

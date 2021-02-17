@@ -11,16 +11,16 @@ namespace _4thYearProject.Shared.Models
     {
         public int PostId { get; set; }
 
-        public string UserId { get; set; }
+        public String UserId { get; set; }
 
         [MaxLength]
-        public byte[] PhotoFile { get; set; }
+        public String PhotoFile { get; set; }
 
         [MaxLength]
-        public byte[] Thumbnail { get; set; }
+        public String Thumbnail { get; set; }
 
 
-        public string MimeType { get; set; }
+        public String MimeType { get; set; }
 
 
         [Required]
@@ -38,7 +38,7 @@ namespace _4thYearProject.Shared.Models
         public Post()
         {
             UserId = String.Empty;
-            PhotoFile = null;
+            PhotoFile = String.Empty;
             MimeType = String.Empty;
             Caption = String.Empty;
             UploadDate = DateTime.Now;

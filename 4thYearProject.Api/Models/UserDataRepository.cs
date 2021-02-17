@@ -37,6 +37,17 @@
             List<UserData> users = GetAllUsers().ToList();
 
 
+            if(users.Count == 0)
+            {
+                var addedEntity = _appDbContext.Users.Add(User);
+                Console.WriteLine(addedEntity);
+                _appDbContext.SaveChanges();
+                return addedEntity.Entity;
+
+            }
+
+
+
             foreach (UserData v in users)
             {
                 if (GetUserDataById(User.Id.ToString()) == null)
