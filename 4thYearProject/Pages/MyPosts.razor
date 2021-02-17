@@ -31,7 +31,7 @@
                 {
                     <tr>
                         <th>@Post.UploadDate.ToString("dd/MM/yyyy h:mm tt")</th>
-                        <td><img src=@(Post.PhotoFile == null ? "" : $"data:{Post.MimeType};base64,{Convert.ToBase64String(Post.Thumbnail)}") /></td>
+                        <td><img src=@Post.Thumbnail /></td>
                         <td>@Post.Caption</td>
                     </tr>
                 }

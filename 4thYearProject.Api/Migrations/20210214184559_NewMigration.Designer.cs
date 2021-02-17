@@ -10,8 +10,8 @@ using _4thYearProject.Api.Models;
 namespace _4thYearProject.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20210120143229_Migration20")]
-    partial class Migration20
+    [Migration("20210214184559_NewMigration")]
+    partial class NewMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,20 +31,23 @@ namespace _4thYearProject.Api.Migrations
                     b.Property<string>("Body")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PhotoId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PostId")
+                    b.Property<int>("PostId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("SubmittedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("Comment");
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("_4thYearProject.Shared.Models.Country", b =>
@@ -229,6 +232,25 @@ namespace _4thYearProject.Api.Migrations
                         });
                 });
 
+            modelBuilder.Entity("_4thYearProject.Shared.Models.Following", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Followed_ID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Follower_ID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Followers");
+                });
+
             modelBuilder.Entity("_4thYearProject.Shared.Models.JobCategory", b =>
                 {
                     b.Property<int>("JobCategoryId")
@@ -291,6 +313,25 @@ namespace _4thYearProject.Api.Migrations
                         });
                 });
 
+            modelBuilder.Entity("_4thYearProject.Shared.Models.Like", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Post_ID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("User_ID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Likes");
+                });
+
             modelBuilder.Entity("_4thYearProject.Shared.Models.Post", b =>
                 {
                     b.Property<int>("PostId")
@@ -309,11 +350,11 @@ namespace _4thYearProject.Api.Migrations
                     b.Property<string>("MimeType")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte[]>("PhotoFile")
-                        .HasColumnType("varbinary(max)");
+                    b.Property<string>("PhotoFile")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte[]>("Thumbnail")
-                        .HasColumnType("varbinary(max)");
+                    b.Property<string>("Thumbnail")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UploadDate")
                         .HasColumnType("datetime2");
@@ -326,13 +367,36 @@ namespace _4thYearProject.Api.Migrations
                     b.ToTable("Posts");
                 });
 
+            modelBuilder.Entity("_4thYearProject.Shared.Models.UserData", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProfilePic")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SecondName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+                });
+
             modelBuilder.Entity("_4thYearProject.Shared.Models.Comment", b =>
                 {
-                    b.HasOne("_4thYearProject.Shared.Models.Post", "Post")
+                    b.HasOne("_4thYearProject.Shared.Models.Post", null)
                         .WithMany("Comments")
-                        .HasForeignKey("PostId");
-
-                    b.Navigation("Post");
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("_4thYearProject.Shared.Models.Employee", b =>

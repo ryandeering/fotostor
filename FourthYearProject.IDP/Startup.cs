@@ -72,17 +72,33 @@ namespace FourthYearProject.IDP
 
 
 
-            if (Environment.IsDevelopment())
-            {
-                builder.AddInMemoryIdentityResources(Config.Ids);
-                builder.AddInMemoryApiResources(Config.Apis);
-                builder.AddInMemoryClients(Config.Clients);
-            } else
+            //if (Environment.IsDevelopment())
+            //{
+            //    builder.AddInMemoryIdentityResources(Config.Ids);
+            //    builder.AddInMemoryApiResources(Config.Apis);
+            //    builder.AddInMemoryClients(Config.Clients);
+            //} else
+            //{
+            //    builder.AddInMemoryIdentityResources(ConfigProd.Ids);
+            //    builder.AddInMemoryApiResources(ConfigProd.Apis);
+            //    builder.AddInMemoryClients(ConfigProd.Clients);
+            //}
+
+
+            if (!Environment.IsDevelopment())
             {
                 builder.AddInMemoryIdentityResources(ConfigProd.Ids);
                 builder.AddInMemoryApiResources(ConfigProd.Apis);
                 builder.AddInMemoryClients(ConfigProd.Clients);
             }
+            else
+            {
+                builder.AddInMemoryIdentityResources(Config.Ids);
+                builder.AddInMemoryApiResources(Config.Apis);
+                builder.AddInMemoryClients(Config.Clients);
+            }
+
+
 
 
 
