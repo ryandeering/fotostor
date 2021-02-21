@@ -46,6 +46,7 @@
                         newUser.DisplayName = DisplayName.ToString();
 
                         await UserDataService.AddUserData(newUser);
+                    
 
 
 
