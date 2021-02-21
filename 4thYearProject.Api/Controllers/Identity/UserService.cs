@@ -18,4 +18,10 @@ namespace _4thYearProject.Api.Controllers.Identity
             return Task.FromResult(accessor.HttpContext.User);
         }
     }
+
+
+
+
+
+
 }

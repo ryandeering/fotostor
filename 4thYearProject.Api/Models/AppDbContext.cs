@@ -1,4 +1,5 @@
 ﻿using _4thYearProject.Shared.Models;
+using _4thYearProject.Shared.Models.BusinessLogic;
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -19,6 +20,10 @@ namespace _4thYearProject.Api.Models
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Like> Likes { get; set; }
         public DbSet<UserData> Users { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<ShoppingCart> Carts { get; set;}
+        public DbSet<OrderLineItem> LineItems { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

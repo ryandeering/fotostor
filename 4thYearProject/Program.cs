@@ -60,6 +60,8 @@ namespace _4thYearProject.Server
                 .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
                 builder.Services.AddHttpClient<ILikeDataService, LikeDataService>(client => client.BaseAddress = new Uri(APIProduction))
                .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
+                builder.Services.AddHttpClient<IShoppingCartService, ShoppingCartDataService>(client => client.BaseAddress = new Uri(APIProduction))
+                .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
 
                 builder.Services.AddHttpClient<IEmployeeDataService, EmployeeDataService>(client => client.BaseAddress = new Uri(APIProduction))
                 .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
@@ -67,8 +69,10 @@ namespace _4thYearProject.Server
                 .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
                 builder.Services.AddHttpClient<IJobCategoryDataService, JobCategoryDataService>(client => client.BaseAddress = new Uri(APIProduction))
                 .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
+                
 
-			builder.Services.AddOidcAuthentication(options =>
+
+                builder.Services.AddOidcAuthentication(options =>
             {
                 builder.Configuration.Bind("OidcConfigurationProduction", options.ProviderOptions);
             });
@@ -87,6 +91,8 @@ namespace _4thYearProject.Server
                 builder.Services.AddHttpClient<ICommentDataService, CommentDataService>(client => client.BaseAddress = new Uri(APIDevelop))
                 .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
                 builder.Services.AddHttpClient<ILikeDataService, LikeDataService>(client => client.BaseAddress = new Uri(APIDevelop))
+               .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
+                builder.Services.AddHttpClient<IShoppingCartService, ShoppingCartDataService>(client => client.BaseAddress = new Uri(APIDevelop))
                .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
 
                 builder.Services.AddHttpClient<IEmployeeDataService, EmployeeDataService>(client => client.BaseAddress = new Uri(APIDevelop))

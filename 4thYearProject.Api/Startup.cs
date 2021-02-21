@@ -90,6 +90,7 @@ IdentityServerAuthenticationDefaults.AuthenticationScheme)
             services.AddScoped<ICommentRepository, CommentRepository>();
             services.AddScoped<ILikeRepository, LikeRepository>();
             services.AddSingleton<ICloudStorage, GoogleCloudStorage>();
+            services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
 
             services.AddCors(options =>
             {
