@@ -115,7 +115,7 @@
         public ShoppingCart EmptyBasket(String UserId)
         {
             ShoppingCart cart = _appDbContext.Carts.FirstOrDefault(c => c.UserId == UserId);
-            cart = new ShoppingCart();
+            cart.basketItems.Clear();
             _appDbContext.SaveChanges();
             return cart;
         }
@@ -135,6 +135,19 @@
             ShoppingCart cart = _appDbContext.Carts.FirstOrDefault(c => c.UserId == UserId);
             OrderLineItem temp = cart.basketItems.First(i => i.Id == LineItemId);
             cart.basketItems.Remove(temp);
+            _appDbContext.SaveChanges();
+            return cart;
+        }
+
+        public ShoppingCart GetCart(string UserId)
+        {
+            return _appDbContext.Carts.FirstOrDefault(c => c.UserId == UserId);
+        }
+
+        public ShoppingCart AddCart(ShoppingCart cart)
+        {
+
+            _appDbContext.Carts.Add(cart);
             _appDbContext.SaveChanges();
             return cart;
         }

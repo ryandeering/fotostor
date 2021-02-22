@@ -3,6 +3,7 @@
     using _4thYearProject.Server.Services;
     using _4thYearProject.Shared;
     using _4thYearProject.Shared.Models;
+    using _4thYearProject.Shared.Models.BusinessLogic;
     using Microsoft.AspNetCore.Components;
     using System;
     using System.Linq;
@@ -16,6 +17,9 @@
 
         [Inject]
         public IUserService _userService { get; set; }
+
+        [Inject]
+        public IShoppingCartService _shoppingCartService { get; set; }
 
         protected async override Task OnInitializedAsync()
         {
@@ -32,34 +36,37 @@
                 try
                 {
 
-                  
-
-                        Console.WriteLine("Can you hear me, Major Tom?");
-                        UserData newUser = new UserData();
 
 
-                        //First get user id
-                        var DisplayName = identity.Claims.Where(c => c.Type.Equals("preferred_username"))
-                              .Select(c => c.Value).SingleOrDefault();
+                    Console.WriteLine("Can you hear me, Major Tom?");
+                    UserData newUser = new UserData();
 
-                        newUser.Id = ID.ToString();
-                        newUser.DisplayName = DisplayName.ToString();
 
-                        await UserDataService.AddUserData(newUser);
+                    //First get user id
+                    var DisplayName = identity.Claims.Where(c => c.Type.Equals("preferred_username"))
+                          .Select(c => c.Value).SingleOrDefault();
+
+                    newUser.Id = ID.ToString();
+                    newUser.DisplayName = DisplayName.ToString();
+
+                    await UserDataService.AddUserData(newUser);
+
+
+                    ShoppingCart cart = await _shoppingCartService.GetCart(ID);
+
+                    if(cart == null)
+                    {
+                        await _shoppingCartService.AddCart(ID);
+                    } 
+
+
+
                     
-
-
-
-                    
-                } catch (Exception e)
+                }
+                catch (Exception e)
                 {
                     Console.WriteLine(e.Message);
                 }
-
-
-
-
-
 
             }
         }

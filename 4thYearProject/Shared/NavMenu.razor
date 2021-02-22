@@ -9,7 +9,6 @@
 @inject IWebAssemblyHostEnvironment HostEnvironment
 
 
-
 <div class="bg-light" id="sidebar-wrapper">
     <div class="sidebar-logo">
         <img class="img-responsive" id="logo" src="images/projlogo.png" />
@@ -81,8 +80,9 @@
 @code{
 
     ClaimsPrincipal identity;
+    UserData User;
     string LoggedInID = String.Empty;
-    string URI = String.Empty;
+    string URI = "images/profilePicture.jpg";
 
     protected async override Task OnInitializedAsync()
     {
@@ -93,12 +93,27 @@
         {
             LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
                  .Select(c => c.Value).SingleOrDefault().ToString();
-            var User = await UserDataService.GetUserDataDetails(LoggedInID);
-            URI = User.ProfilePic;
+            User = await UserDataService.GetUserDataDetails(LoggedInID);
 
-            Console.WriteLine(LoggedInID);
+
+
+
+            if (User.ProfilePic != String.Empty)
+            {
+                URI = User.ProfilePic;
+                await Task.Delay(1000);
+                StateHasChanged();
+            }
+
         }
     }
+
+
+
+
+
+
+
 
     private async Task BeginSignOut(MouseEventArgs args)
     {

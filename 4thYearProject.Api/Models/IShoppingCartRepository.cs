@@ -16,5 +16,7 @@ namespace _4thYearProject.Api.Models
         Order PlaceOrder(); // get user's basket
         IEnumerable<Order> GetOrders(string UserId);
         ShoppingCart RemoveItem(String UserId, String PostId);
-}
+        ShoppingCart GetCart(string UserId);
+        ShoppingCart AddCart(ShoppingCart cart);
+    }
 }

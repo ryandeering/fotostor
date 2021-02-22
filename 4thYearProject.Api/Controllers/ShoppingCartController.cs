@@ -19,37 +19,70 @@
             _postRepository = postRepository;
         }
 
-        [HttpPost("/add/{UserId}/{post}")]
-        public IActionResult AddToCart(string UserId, Post post)
+        [HttpPost]
+        [Route("add/{UserId}")]
+        public IActionResult AddToCart(string UserId, [FromBody] Post post)
         {
 
             return Ok(_cartRepository.AddToCart(UserId, post));
         }
 
-        [HttpGet("/orders/{UserId}")]
+        [HttpGet]
+        [Route("orders/{UserId}")]
         public IActionResult GetOrders(string UserId)
         {
             return Ok(_cartRepository.GetOrders(UserId));
         }
 
-        [HttpDelete("/empty/{UserId}")]
+        [HttpDelete]
+        [Route("empty/{UserId}")]
         public IActionResult EmptyBasket(string UserId)
         {
             return Ok(_cartRepository.EmptyBasket(UserId));
         }
 
-        [HttpPut("/remove/{UserId}/{LineItemId}")]
-        public IActionResult RemoveOne(string UserId, OrderLineItem lineItem)
+        [HttpPut]
+        [Route("remove/{UserId}")]
+        public IActionResult RemoveOne(string UserId, [FromBody] OrderLineItem lineItem)
         {
             return Ok(_cartRepository.RemoveOne(UserId, lineItem.Id));
         }
 
-        [HttpPut("add/incre/{UserId}/post")]
-        public IActionResult AddOne(string UserId, Post post)
+        [HttpPut]
+        [Route("add/incre/{UserId}")]
+        public IActionResult AddOne(string UserId, [FromBody] Post post)
         {
 
             return Ok(_cartRepository.AddOne(UserId, post.PostId));
         }
+
+        [HttpPost]
+        public IActionResult AddCart([FromBody] ShoppingCart cart)
+        {
+            if(_cartRepository.GetCart(cart.UserId) != null)
+            {
+                ModelState.AddModelError("UserId","Cart already exists.");
+            }
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+
+            return Ok(_cartRepository.AddCart(cart));
+        }
+
+        [HttpGet]
+        [Route("{UserId}")]
+        public IActionResult GetCart(string UserId)
+        {
+
+            return Ok(_cartRepository.GetCart(UserId));
+        }
+
+
+
+
+
 
         //[HttpDelete("/remove/")]
         //public IActionResult RemoveOne(string UserId, OrderLineItem lineItem)

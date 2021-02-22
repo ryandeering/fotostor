@@ -1,0 +1,44 @@
+﻿@page "/basket/"
+
+<AuthorizeView>
+    <Authorized>
+
+        @if (basket.basketItems == null)
+        {
+            <h1>No items found in basket.</h1>
+        }
+        else
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Number</th>
+                        <th>Order Number</th>
+                        <th>Date Placed</th>
+                        <th>Quantity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var orderLineItem in basket.basketItems)
+                    {
+                        <tr>
+                            <th>@orderLineItem.Id</th>
+                            <th>@orderLineItem.Post.UserId</th>
+                            <th>@orderLineItem.Post.Caption[0..10]</th>
+                            <th>@orderLineItem.Quantity</th>
+                        </tr>
+                    }
+                </tbody>
+                Price: @getPrice()
+            </table>
+        }
+
+    </Authorized>
+    <NotAuthorized>
+
+        <h1>Login or register to add items to basket.</h1>
+    </NotAuthorized>
+</AuthorizeView>
+
+
+

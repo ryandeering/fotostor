@@ -141,25 +141,32 @@ namespace _4thYearProject.Server.Pages
 
         protected async override Task OnInitializedAsync()
         {
-            Comments = (await CommentDataService.GetCommentsByPostId(int.Parse(PostID))).ToList();
 
-           // await GetUsernames();
+            try
+            {
+                Comments = (await CommentDataService.GetCommentsByPostId(int.Parse(PostID))).ToList();
 
-            identity = await _userService.GetUserAsync();
+                // await GetUsernames();
 
-            string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
-                 .Select(c => c.Value).SingleOrDefault().ToString();
+                identity = await _userService.GetUserAsync();
 
-            User = await UserDataService.GetUserDataDetails(LoggedInID);
-         
+                string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+                     .Select(c => c.Value).SingleOrDefault().ToString();
 
-
-            claimDisplayName = identity.Claims.Where(c => c.Type.Equals("preferred_username"))
-               .Select(c => c.Value).SingleOrDefault().ToString();
-
-            post = (await PostDataService.GetPostDetails(int.Parse(PostID)));
+                User = await UserDataService.GetUserDataDetails(LoggedInID);
 
 
+
+                claimDisplayName = identity.Claims.Where(c => c.Type.Equals("preferred_username"))
+                   .Select(c => c.Value).SingleOrDefault().ToString();
+
+                post = (await PostDataService.GetPostDetails(int.Parse(PostID)));
+
+            } catch(Exception e) {
+
+                Console.WriteLine(e.Message);
+            
+            }
        
 
 
