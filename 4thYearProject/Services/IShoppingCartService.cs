@@ -14,6 +14,8 @@ namespace _4thYearProject.Server.Services
     Task AddOne(string UserId, Post post);
     Task RemoveOne(string UserId, OrderLineItem lineItem);
     Task EmptyBasket(string UserId);
+    Task<ShoppingCart> AddCart(string UserId);
+    Task<ShoppingCart> GetCart(string UserId);
    // Task<ShoppingCart> RemoveItem(String UserId, String PostId);
     }
 }

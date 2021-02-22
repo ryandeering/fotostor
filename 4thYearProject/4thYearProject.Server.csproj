@@ -42,4 +42,13 @@
     <ProjectReference Include="..\4thYearProject.Shared\4thYearProject.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Pages\Orders - Copy - Copy.razor.cs">
+      <DependentUpon>Orders - Copy.razor.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Pages\Orders - Copy.razor.cs">
+      <DependentUpon>Orders.razor.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
 </Project>
