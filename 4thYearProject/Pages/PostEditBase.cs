@@ -23,6 +23,42 @@ namespace _4thYearProject.Server.Pages
         public Post Post { get; set; } = new Post();
 
 
+        [Parameter]
+        public EventCallback<bool> CloseEventCallback { get; set; }
+        public bool ShowDialog { get; set; }
+
+        public double Price { get; set; }
+
+        public bool value;
+
+        public void Show()
+        {
+            ResetDialog();
+            ShowDialog = true;
+            StateHasChanged();
+        }
+
+        public void Close()
+        {
+            ShowDialog = false;
+            StateHasChanged();
+        }
+
+        private void ResetDialog()
+        {
+            Price = 0.00;
+        }
+
+        protected async Task HandleValidSubmitPrice()
+        {
+            ShowDialog = false;
+
+            await CloseEventCallback.InvokeAsync(true);
+            StateHasChanged();
+        }
+
+
+
         protected string Message = string.Empty;
         protected string StatusClass = string.Empty;
         protected bool Saved;
@@ -106,5 +142,18 @@ namespace _4thYearProject.Server.Pages
         {
             NavigationManager.NavigateTo("/employeeoverview");
         }
+
+
+
+        public void OnChange(bool? value, string name)
+        {
+
+            if(value == true)
+            {
+                ShowDialog = true;
+            }  
+        }
+
+
     }
 }

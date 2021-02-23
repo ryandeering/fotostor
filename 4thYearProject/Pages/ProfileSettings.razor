@@ -1,28 +1,85 @@
 ﻿@page "/profile/settings"
-
-
-<MatCardContent>
-    <EditForm Model="@User" OnValidSubmit="@HandleValidSubmit">
-
-        <MatFileUpload OnChange="@HandleMatFileSelected" Label="Upload your profile picture here."></MatFileUpload>
-        <br><br />
-        <p>
-            <MatTextField @bind-Value="@User.DisplayName" Label="Username"></MatTextField>
-        </p>
-        <p>
-            <MatTextField @bind-Value="@User.FirstName" Label="First Name" HelperTextPersistent="true"></MatTextField>
-        </p>
-        <p>
-            <MatTextField @bind-Value="@User.SecondName" Label="Second Name" HelperTextPersistent="true" HelperTextValidation="true"></MatTextField>
-        </p>
+@using Radzen
+@using Radzen.Blazor
 
 
 
-        <MatButton type="submit" name="action">OK</MatButton>
+<RadzenContent Container="main">
+    <ChildContent>
+        <RadzenHeading Size="H1" Text="User">
+        </RadzenHeading>
+        <div style="height: 100%" class="row">
+            <div class="col-md-6">
+                <RadzenCard style="height: 100%; width: 856px">
+                    <ChildContent>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <RadzenTemplateForm Data="@User" TItem="UserData" Visible="@(User != null)" Submit="@HandleValidSubmit">
+                                    <ChildContent>
+                                        <div style="margin-bottom: 1rem" class="row">
+                                            <div class="col-md-3">
+                                                <RadzenLabel Component="DisplayName" style="width: 100%" Text="Display Name">
+                                                </RadzenLabel>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <RadzenTextBox style="display: block; width: 100%" @bind-Value="@(@User.DisplayName)" Name="DisplayName">
+                                                </RadzenTextBox>
+                                                <RadzenRequiredValidator Component="DisplayName" style="position: absolute" Text="DisplayName is required">
+                                                </RadzenRequiredValidator>
+                                            </div>
+                                        </div>
+                                        <div style="margin-bottom: 1rem" class="row">
+                                            <div class="col-md-3">
+                                                <RadzenLabel Component="FirstName" style="width: 100%" Text="First Name">
+                                                </RadzenLabel>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <RadzenTextBox style="width: 100%" @bind-Value="@(User.FirstName)" Name="FirstName">
+                                                </RadzenTextBox>
+                                            </div>
+                                        </div>
+                                        <div style="margin-bottom: 1rem" class="row">
+                                            <div class="col-md-3">
+                                                <RadzenLabel Component="SecondName" style="width: 100%" Text="Second Name">
+                                                </RadzenLabel>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <RadzenTextBox style="width: 100%" @bind-Value="@(User.SecondName)" Name="SecondName">
+                                                </RadzenTextBox>
+                                            </div>
+                                        </div>
+                                        <div style="margin-bottom: 1rem" class="row">
+                                            <div class="col-md-3">
+                                                <MatFileUpload OnChange="@HandleMatFileSelected" Label="Upload your profile picture here."></MatFileUpload>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col offset-sm-3">
+                                                <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save">
+                                                </RadzenButton>
+                                                <RadzenButton ButtonStyle="ButtonStyle.Light" style="margin-left: 1rem" Text="Cancel" Visible="false">
+                                                </RadzenButton>
+                                            </div>
+                                        </div>
+                                    </ChildContent>
+                                </RadzenTemplateForm>
+                            </div>
+                        </div>
+                    </ChildContent>
+                </RadzenCard>
+                <RadzenGoogleMap>
+                </RadzenGoogleMap>
+            </div>
+        </div>
+    </ChildContent>
+</RadzenContent>
 
 
-    </EditForm>
-    </MatCardContent>
+
+
+
+
+
 
 
 

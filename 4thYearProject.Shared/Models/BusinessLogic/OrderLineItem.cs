@@ -7,12 +7,9 @@
         [Key]
         public int Id { get; set; }
 
-
-
-
-
-
         public int PostId { get; set; }
+
+        public ProductType Type { get; set; }
 
         public double Price { get; set; }
 

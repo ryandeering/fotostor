@@ -16,18 +16,76 @@
                     <p>
                         <MatFileUpload OnChange="HandleMatFileSelected"></MatFileUpload>
                     </p>
+                    <Radzen.Blazor.RadzenLabel Text="Earnings"></Radzen.Blazor.RadzenLabel>
+                    <div class="col-xl-6">
+                        <Radzen.Blazor.RadzenLabel Text="License"></Radzen.Blazor.RadzenLabel>
+                        <RadzenSwitch @bind-Value=@post.LicenseEnabled Style="margin-bottom: 20px" Change=@(args => OnChange(args, "license")) />
+                    </div>
+                    <div class="col-xl-6">
+                        <Radzen.Blazor.RadzenLabel Text="T-Shirt"></Radzen.Blazor.RadzenLabel>
+                        <RadzenSwitch @bind-Value=@post.ShirtsEnabled Style="margin-bottom: 20px" Change=@(args => OnChange(args, "shirt")) />
+                        </div>
+                        <div class="col-xl-6">
+                            <Radzen.Blazor.RadzenLabel Text="Prints"></Radzen.Blazor.RadzenLabel>
+                            <RadzenSwitch @bind-Value=@post.PrintsEnabled Style="margin-bottom: 20px" Change=@(args => OnChange(args, "print")) />
+                        </div>
+
+
                     <p>
                         <MatButton Type="submit">Upload</MatButton>
                     </p>
                 </EditForm>
-               
+
             </MatCardContent>
         </div>
     </div>
 </div>
 
+
+
+@if (ShowDialog)
+{
+    <div class="modal fade show d-block" id="exampleModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="titleLabel">Set Price</h5>
+                    <button type="button" class="close" @onclick="@Close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <EditForm Model="@Price" OnValidSubmit="@HandleValidSubmitPrice">
+
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+
+                        <div class="form-group">
+                            <label for="Price">Price for License: </label>
+                            <InputNumber id="Price" class="form-control" @bind-Value="@Price" placeholder="Enter how much you'd like to sell the license for"></InputNumber>
+                            <ValidationMessage For="@(() => Price)" />
+                        </div>
+
+
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <a class="btn btn-outline-primary" @onclick="@Close">Close</a>
+                    </EditForm>
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
 @code{
     Post post;
+    public double Price { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> CloseEventCallback { get; set; }
+    public bool ShowDialog { get; set; }
+
 
     protected override void OnInitialized()
     {
@@ -36,6 +94,7 @@
 
     private async Task Upload()
     {
+        post.LicensePrice = Price;
         await postsService.AddPost(post);
         navigationManager.NavigateTo("/");
     }
@@ -61,4 +120,45 @@
         }
 
     }
+
+    public void Show()
+    {
+        ResetDialog();
+        ShowDialog = true;
+        StateHasChanged();
+    }
+
+    public void Close()
+    {
+        ShowDialog = false;
+        if(Price <= 0)
+        {
+            post.LicenseEnabled = false;
+        }
+        StateHasChanged();
+    }
+
+    private void ResetDialog()
+    {
+        Price = 0.00;
+    }
+
+    protected async Task HandleValidSubmitPrice()
+    {
+        ShowDialog = false;
+
+        await CloseEventCallback.InvokeAsync(true);
+        StateHasChanged();
+    }
+
+    public void OnChange(bool? value, string name)
+    {
+
+        if (name.Equals("license"))
+        {
+            ShowDialog = true;
+        }
+    }
+
+
 }

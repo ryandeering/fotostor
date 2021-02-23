@@ -1,40 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace _4thYearProject.Shared.Models.BusinessLogic
+﻿namespace _4thYearProject.Shared.Models.BusinessLogic
 {
-   abstract class ProductType
+    public abstract class ProductType
     {
+        public int Id { get; set; }
 
-        public virtual double Price()
-        {
-            return 0;
-        }
-
+        public virtual double Price => 0;
     }
 
-
-    class License : ProductType
+    public class License : ProductType
     {
-        
-
-
     }
 
-    class Print : ProductType
+    public class Print : ProductType
     {
-        //SIZES
-
-
+        public string PrintSize { get; set; }
     }
 
-    class Shirt : ProductType
+    public class Shirt : ProductType
     {
-        //SIZES
-
-
+        public string ShirtSize { get; set; }
     }
-
-
 }

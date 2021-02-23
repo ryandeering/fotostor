@@ -23,6 +23,15 @@ namespace _4thYearProject.Shared.Models
         public String MimeType { get; set; }
 
 
+        public bool LicenseEnabled { get; set; }
+        public double LicensePrice { get; set; }
+        public bool PrintsEnabled { get; set; }
+        public bool ShirtsEnabled { get; set; }
+
+
+
+
+
         [Required]
         [StringLength(150, ErrorMessage = "Your caption exceeds 150 characters.")]
         public string Caption { get; set; }
