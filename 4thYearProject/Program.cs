@@ -9,6 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Blazored.Modal.Services;
+using Blazored.Modal;
 using Microsoft.Extensions.Configuration;
 
 namespace _4thYearProject.Server
@@ -48,6 +50,8 @@ namespace _4thYearProject.Server
                 config.MaximumOpacity = 95;
                 config.VisibleStateDuration = 3000;
             });
+
+            builder.Services.AddBlazoredModal();
 
             if (builder.HostEnvironment.IsProduction())
             {

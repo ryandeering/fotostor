@@ -1,6 +1,8 @@
 ﻿using _4thYearProject.Server.Services;
+using _4thYearProject.Server.Shared;
 using _4thYearProject.Shared;
 using _4thYearProject.Shared.Models;
+using Blazored.Modal.Services;
 using Microsoft.AspNetCore.Components;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +28,9 @@ namespace _4thYearProject.Server.Pages
         [Inject]
         public IUserDataService UserDataService { get; set; }
 
+        [CascadingParameter] public IModalService Modal { get; set; }
+        //https://github.com/Blazored/Modal/blob/main/samples/BlazorWebAssembly/Pages/PassDataToModal.razor
+
         ClaimsPrincipal identity;
 
         protected async override Task OnInitializedAsync()
@@ -44,6 +49,13 @@ namespace _4thYearProject.Server.Pages
 
 
 
+        }
+
+
+        async Task ShowModal(int PostId)
+        {
+            var addLicense = Modal.Show<AddLicense>();
+            var result = await addLicense.Result;
         }
     }
 }

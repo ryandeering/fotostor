@@ -1,0 +1,54 @@
+﻿@inject IPostDataService PostDataService
+
+
+
+@if (PostIn.LicenseEnabled)
+{
+    <div class="card mb-4">
+        <div class="card-body">
+            <p class="card-text">
+                <h3>Adding License</h3>
+
+                <img src=@PostIn.Thumbnail />
+
+                @PostIn.LicensePrice
+
+                <button @onclick="AddtoCart" class="btn btn-primary">Submit</button>
+            </p>
+        </div>
+    </div>
+}
+else
+{
+    <h3>Invalid.</h3>
+}
+
+@code {
+
+    [CascadingParameter] BlazoredModalInstance ModalInstance { get; set; }
+
+
+    [Parameter] public int PostId { get; set; }
+
+    Post PostIn { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        PostIn = await PostDataService.GetPostDetails(PostId);
+    }
+
+
+    void AddtoCart()
+    {
+        Console.WriteLine("hmmm");
+    }
+
+
+
+    //void SaveMovie()
+    //{
+    //    MovieService.Save(Movie);
+    //    ModalInstance.CloseAsync(ModalResult.Ok<Movie>(Movie));
+    //}
+
+}

@@ -1,7 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using Microsoft.AspNetCore.Components.WebAssembly.Hosting
-@inject IAccessTokenProvider TokenProvider
 @inject NavigationManager Navigation
 @inject SignOutSessionStateManager SignOutManager
 @inject IUserDataService UserDataService
@@ -9,72 +8,58 @@
 @inject IWebAssemblyHostEnvironment HostEnvironment
 
 
-<div class="bg-light" id="sidebar-wrapper">
-    <div class="sidebar-logo">
-        <img class="img-responsive" id="logo" src="images/projlogo.png" />
+<div class="navigation">
+    <div class="logo">
+        <a class="no-underline" href="#">
+            <h1>fótostór.</h1>
+        </a>
     </div>
-    <div class="profile">
-        <AuthorizeView>
-            <Authorized>
-                <div class="profile-bg">
-                    <img class="img-responsive" src="@URI" />
-                </div>
-                <div class="profile-picture">
-                    <img class="img-responsive circle account-photo" src="@URI" />
-                </div>
-            </Authorized>
-            <NotAuthorized>
-                <div class="profile-bg">
-                    <img class="img-responsive" src="images/profilePicture.jpg" />
-                </div>
-                <div class="profile-picture">
-                    <img class="img-responsive circle account-photo" src="images/profilePicture.jpg" />
-                </div>
-            </NotAuthorized>
-        </AuthorizeView>
+    <div class="navigation-search-container">
+        <i class="fa fa-search"></i>
+        <input class="search-field" type="text" placeholder="Search">
+        <div class="search-container">
+            <div class="search-container-box">
+                <div class="search-results">
 
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="menu list-group list-group-flush">
-        <AuthorizeView>
-            <Authorized>
-                <NavLink class="list-group-item list-group-item-action bg-light" href="/" Match="NavLinkMatch.All">
-                    <span class="oi oi-home" aria-hidden="true"></span> Home
-                </NavLink>
-                <NavLink class="list-group-item list-group-item-action bg-light" href="/employeeoverview">
-                    <span class="oi oi-list-rich" aria-hidden="true"></span> Employees
-                </NavLink>
-                <NavLink class="list-group-item list-group-item-action bg-light" href="/employeeedit">
-                    <span class="oi oi-list-rich" aria-hidden="true"></span> Add new employee
-                </NavLink>
-                <button class="list-group-item list-group-item-action bg-light"
-                        @onclick="BeginSignOut">
-                    <span class="oi oi-list-rich" aria-hidden="true"></span> Log out
-                    (@context.User.Identity.Name)
-                </button>
-                <button class="list-group-item list-group-item-action bg-light" @onclick="WriteToken">
-                    <span class="oi oi-list-rich" aria-hidden="true"></span> Write token
-                </button>
-            </Authorized>
-            <NotAuthorized>
-                <NavLink class="list-group-item list-group-item-action bg-light"
-                         href="authentication/login">
-                    <span class="oi oi-list-rich" aria-hidden="true"></span> Log in
-                </NavLink>
-                <environment include="Staging,Production">
-                    <NavLink class="list-group-item list-group-item-action bg-light"
-                             href="">
-                        <span class="oi oi-list-rich" aria-hidden="true"></span> Register
-                    </NavLink>
-                </environment>
-                <environment include="Development">
-                    <NavLink class="list-group-item list-group-item-action bg-light"
-                             href="https://localhost:44333/Identity/Account/Register">
-                        <span class="oi oi-list-rich" aria-hidden="true"></span> Register
-                        </NavLink>
-                 </environment >
-</NotAuthorized>
-        </AuthorizeView>
-    </div>
+    <AuthorizeView>
+        <NotAuthorized>
+            <div class="navigation-icons">
+
+                <a href="https://localhost:44333/Identity/Account/Register" id="register" class="navigation-link">
+                    <i class="fas fa-user-plus"></i>
+                </a>
+                <a href="authentication/login" id="signin" class="navigation-link">
+                    <i class="fas fa-sign-in-alt"></i>
+                </a>
+            </div>
+        </NotAuthorized>
+        <Authorized>
+            <div class="navigation-icons">
+                <a href="posts/upload" id="upload" class="navigation-link">
+                    <i class="far fa-plus-square"></i>
+                </a>
+                <a class="navigation-link notifica">
+                    <i class="far fa-heart">
+                        <div class="notification-bubble-wrapper">
+                            <div class="notification-bubble">
+                                <span class="notifications-count">99</span>
+                            </div>
+                        </div>
+                    </i>
+                </a>
+                <a href="/profile/@ProfileName" class="navigation-link">
+                    <i class="far fa-user-circle"></i>
+                </a>
+                <a id="signout" class="navigation-link" @onclick="BeginSignOut">
+                    <i class="fas fa-sign-out-alt"></i>
+                </a>
+            </div>
+        </Authorized>
+    </AuthorizeView>
 </div>
 
 @code{
@@ -82,6 +67,7 @@
     ClaimsPrincipal identity;
     UserData User;
     string LoggedInID = String.Empty;
+    string ProfileName = String.Empty;
     string URI = "images/profilePicture.jpg";
 
     protected async override Task OnInitializedAsync()
@@ -89,29 +75,25 @@
 
         identity = await _userService.GetUserAsync();
 
+
         if (identity.Identity.IsAuthenticated)
         {
             LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
                  .Select(c => c.Value).SingleOrDefault().ToString();
             User = await UserDataService.GetUserDataDetails(LoggedInID);
+            ProfileName = User.DisplayName;
+
+            //if (User.ProfilePic != String.Empty)
+            //{
+            //    URI = User.ProfilePic;
+            //    await Task.Delay(1000);
+            //    StateHasChanged();
+            //}
 
 
-
-
-            if (User.ProfilePic != String.Empty)
-            {
-                URI = User.ProfilePic;
-                await Task.Delay(1000);
-                StateHasChanged();
-            }
 
         }
     }
-
-
-
-
-
 
 
 
@@ -122,12 +104,5 @@
     }
 
 
-    private async Task WriteToken()
-    {
-        var tokenResult = await TokenProvider.RequestAccessToken();
-        if (tokenResult.TryGetToken(out var token))
-        {
-            System.Diagnostics.Debug.WriteLine(token.Value);
-        }
-    }
+
 }
