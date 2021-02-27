@@ -9,7 +9,7 @@ namespace _4thYearProject.Api.Models
 {
     public interface IShoppingCartRepository
 {
-        ShoppingCart AddToCart(String UserId, Post post);
+        ShoppingCart AddToCart(String UserId, OrderLineItem olOG);
         ShoppingCart AddOne(string UserId, int PostId);
         ShoppingCart RemoveOne(string UserId, int LineItemId);
         ShoppingCart EmptyBasket(string UserId);

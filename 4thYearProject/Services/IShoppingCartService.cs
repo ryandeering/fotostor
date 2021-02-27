@@ -10,7 +10,7 @@ namespace _4thYearProject.Server.Services
     public interface IShoppingCartService
 {
     Task<IEnumerable<Order>> GetAllOrders(string UserId);
-    Task<ShoppingCart> AddToCart(string UserId, int PostId);
+        Task<ShoppingCart> AddToCart(string UserId, OrderLineItem olOG);
     Task AddOne(string UserId, Post post);
     Task RemoveOne(string UserId, OrderLineItem lineItem);
     Task EmptyBasket(string UserId);

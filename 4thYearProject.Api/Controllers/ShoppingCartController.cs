@@ -21,10 +21,10 @@
 
         [HttpPost]
         [Route("add/{UserId}")]
-        public IActionResult AddToCart(string UserId, [FromBody] Post post)
+        public IActionResult AddToCart(string UserId, [FromBody] OrderLineItem ol)
         {
 
-            return Ok(_cartRepository.AddToCart(UserId, post));
+            return Ok(_cartRepository.AddToCart(UserId, ol));
         }
 
         [HttpGet]

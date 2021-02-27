@@ -7,7 +7,9 @@ using System.Net.Http;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
+using Dahomey.Json;
 using System.Threading.Tasks;
+using Dahomey.Json.Serialization.Conventions;
 
 namespace _4thYearProject.Server.Services
 {
@@ -15,6 +17,7 @@ namespace _4thYearProject.Server.Services
     {
         private readonly HttpClient _httpClient;
         private readonly IUserService _userService;
+        JsonSerializerOptions options = new JsonSerializerOptions();
 
 
         public ShoppingCartDataService(HttpClient httpClient, IUserService userService)
@@ -23,12 +26,22 @@ namespace _4thYearProject.Server.Services
             _userService = userService;
         }
 
-        public async Task<ShoppingCart> AddToCart(string UserId, Post post)
+        public async Task<ShoppingCart> AddToCart(string UserId, OrderLineItem olOG)
         {
-            var cartJson =
-                new StringContent(JsonSerializer.Serialize(post), Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PostAsync("api/shoppingcart/add/{UserId}/", cartJson);
+            JsonSerializerOptions options = new JsonSerializerOptions();
+            options.SetupExtensions();
+            DiscriminatorConventionRegistry registry = options.GetDiscriminatorConventionRegistry();
+            registry.ClearConventions();
+
+
+
+
+
+            var cartJson =
+                new StringContent(JsonSerializer.Serialize(olOG), Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync($"api/shoppingcart/add/{UserId}/", cartJson);
 
            if (response.IsSuccessStatusCode)
             {

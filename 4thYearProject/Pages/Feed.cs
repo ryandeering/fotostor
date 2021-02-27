@@ -2,6 +2,7 @@
 using _4thYearProject.Server.Shared;
 using _4thYearProject.Shared;
 using _4thYearProject.Shared.Models;
+using Blazored.Modal;
 using Blazored.Modal.Services;
 using Microsoft.AspNetCore.Components;
 using System.Collections.Generic;
@@ -52,9 +53,24 @@ namespace _4thYearProject.Server.Pages
         }
 
 
+
+        async void BuyLicense(int PostId)
+        {
+
+        }
+
+
+
         async Task ShowModal(int PostId)
         {
-            var addLicense = Modal.Show<AddLicense>();
+
+            var parameters = new ModalParameters();
+            parameters.Add(nameof(AddLicense.PostId), PostId);
+
+
+
+
+            var addLicense = Modal.Show<AddLicense>("PostId",parameters);
             var result = await addLicense.Result;
         }
     }

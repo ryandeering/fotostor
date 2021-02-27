@@ -1,15 +1,18 @@
 ﻿namespace _4thYearProject.Shared.Models.BusinessLogic
 {
+    using System;
     using System.ComponentModel.DataAnnotations;
 
     public class OrderLineItem
     {
+
+
         [Key]
         public int Id { get; set; }
 
         public int PostId { get; set; }
 
-        public ProductType Type { get; set; }
+        public string Type { get; set; }
 
         public double Price { get; set; }
 

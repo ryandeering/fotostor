@@ -10,8 +10,8 @@ using _4thYearProject.Api.Models;
 namespace _4thYearProject.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20210220171930_Migration69")]
-    partial class Migration69
+    [Migration("20210227213407_222")]
+    partial class _222
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -72,6 +72,9 @@ namespace _4thYearProject.Api.Migrations
 
                     b.Property<int?>("ShoppingCartId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -141,53 +144,6 @@ namespace _4thYearProject.Api.Migrations
                     b.HasKey("CountryId");
 
                     b.ToTable("Countries");
-
-                    b.HasData(
-                        new
-                        {
-                            CountryId = 1,
-                            Name = "Belgium"
-                        },
-                        new
-                        {
-                            CountryId = 2,
-                            Name = "Germany"
-                        },
-                        new
-                        {
-                            CountryId = 3,
-                            Name = "Netherlands"
-                        },
-                        new
-                        {
-                            CountryId = 4,
-                            Name = "USA"
-                        },
-                        new
-                        {
-                            CountryId = 5,
-                            Name = "Japan"
-                        },
-                        new
-                        {
-                            CountryId = 6,
-                            Name = "China"
-                        },
-                        new
-                        {
-                            CountryId = 7,
-                            Name = "UK"
-                        },
-                        new
-                        {
-                            CountryId = 8,
-                            Name = "France"
-                        },
-                        new
-                        {
-                            CountryId = 9,
-                            Name = "Brazil"
-                        });
                 });
 
             modelBuilder.Entity("_4thYearProject.Shared.Models.Employee", b =>
@@ -264,50 +220,6 @@ namespace _4thYearProject.Api.Migrations
                     b.HasIndex("JobCategoryId");
 
                     b.ToTable("Employees");
-
-                    b.HasData(
-                        new
-                        {
-                            EmployeeId = 1,
-                            BirthDate = new DateTime(1979, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "Brussels",
-                            Comment = "Lorem Ipsum",
-                            CountryId = 1,
-                            Email = "bethany@bethanyspieshop.com",
-                            FirstName = "Bethany",
-                            Gender = 1,
-                            JobCategoryId = 1,
-                            JoinedDate = new DateTime(2015, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            LastName = "Smith",
-                            Latitude = 50.850299999999997,
-                            Longitude = 4.3517000000000001,
-                            MaritalStatus = 1,
-                            PhoneNumber = "324777888773",
-                            Smoker = false,
-                            Street = "Grote Markt 1",
-                            Zip = "1000"
-                        },
-                        new
-                        {
-                            EmployeeId = 2,
-                            BirthDate = new DateTime(1979, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            City = "Antwerp",
-                            Comment = "Lorem Ipsum",
-                            CountryId = 2,
-                            Email = "gill@bethanyspieshop.com",
-                            FirstName = "Gill",
-                            Gender = 0,
-                            JobCategoryId = 1,
-                            JoinedDate = new DateTime(2017, 12, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            LastName = "Cleeren",
-                            Latitude = 50.850299999999997,
-                            Longitude = 4.3517000000000001,
-                            MaritalStatus = 0,
-                            PhoneNumber = "33999909923",
-                            Smoker = false,
-                            Street = "New Street",
-                            Zip = "2000"
-                        });
                 });
 
             modelBuilder.Entity("_4thYearProject.Shared.Models.Following", b =>
@@ -342,53 +254,6 @@ namespace _4thYearProject.Api.Migrations
                     b.HasKey("JobCategoryId");
 
                     b.ToTable("JobCategories");
-
-                    b.HasData(
-                        new
-                        {
-                            JobCategoryId = 1,
-                            JobCategoryName = "Pie research"
-                        },
-                        new
-                        {
-                            JobCategoryId = 2,
-                            JobCategoryName = "Sales"
-                        },
-                        new
-                        {
-                            JobCategoryId = 3,
-                            JobCategoryName = "Management"
-                        },
-                        new
-                        {
-                            JobCategoryId = 4,
-                            JobCategoryName = "Store staff"
-                        },
-                        new
-                        {
-                            JobCategoryId = 5,
-                            JobCategoryName = "Finance"
-                        },
-                        new
-                        {
-                            JobCategoryId = 6,
-                            JobCategoryName = "QA"
-                        },
-                        new
-                        {
-                            JobCategoryId = 7,
-                            JobCategoryName = "IT"
-                        },
-                        new
-                        {
-                            JobCategoryId = 8,
-                            JobCategoryName = "Cleaning"
-                        },
-                        new
-                        {
-                            JobCategoryId = 9,
-                            JobCategoryName = "Bakery"
-                        });
                 });
 
             modelBuilder.Entity("_4thYearProject.Shared.Models.Like", b =>
@@ -422,6 +287,12 @@ namespace _4thYearProject.Api.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
+                    b.Property<bool>("LicenseEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<double>("LicensePrice")
+                        .HasColumnType("float");
+
                     b.Property<int>("Likes")
                         .HasColumnType("int");
 
@@ -430,6 +301,12 @@ namespace _4thYearProject.Api.Migrations
 
                     b.Property<string>("PhotoFile")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PrintsEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("ShirtsEnabled")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Thumbnail")
                         .HasColumnType("nvarchar(max)");

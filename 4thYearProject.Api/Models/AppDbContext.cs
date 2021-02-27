@@ -23,35 +23,15 @@ namespace _4thYearProject.Api.Models
         public DbSet<Order> Orders { get; set; }
         public DbSet<ShoppingCart> Carts { get; set;}
         public DbSet<OrderLineItem> LineItems { get; set; }
-        public DbSet<ProductType> Types { get; set; }
-
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<License>();
-            modelBuilder.Entity<Print>();
-            modelBuilder.Entity<Shirt>();
-
+  
 
 
 
             base.OnModelCreating(modelBuilder);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

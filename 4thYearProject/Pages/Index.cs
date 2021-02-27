@@ -52,12 +52,10 @@
                     await UserDataService.AddUserData(newUser);
 
 
-                    ShoppingCart cart = await _shoppingCartService.GetCart(ID);
+                  //  ShoppingCart cart = await _shoppingCartService.GetCart(ID);
 
-                    if(cart == null)
-                    {
                         await _shoppingCartService.AddCart(ID);
-                    } 
+                    
 
 
 

@@ -1,7 +1,7 @@
 ﻿namespace _4thYearProject.Api.Models
 {
-    using _4thYearProject.Shared.Models;
     using _4thYearProject.Shared.Models.BusinessLogic;
+    using Microsoft.EntityFrameworkCore;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -38,20 +38,23 @@
             return cart;
         }
 
-        public ShoppingCart AddToCart(String UserId, Post post)
+        public ShoppingCart AddToCart(String UserId, OrderLineItem olOG)
         {
-            ShoppingCart cart = _appDbContext.Carts.FirstOrDefault(c => c.UserId == UserId);
+            ShoppingCart cart = _appDbContext.Carts.Where(c => c.UserId == UserId).Include(c => c.basketItems).FirstOrDefault();
 
             Boolean itemFound = false;
 
             //TODO, validate the item is actually possible to be added
 
-
-
+            if (cart.basketItems == null)
+            {
+                cart.basketItems = new List<OrderLineItem>();;
+            } else
+            {
             foreach (OrderLineItem ol in cart.basketItems)
             {
 
-                if (ol.Post.PostId.Equals(post.PostId)) //TODO, something for type of item here.
+                if (ol.Post.PostId.Equals(olOG.Post.PostId) && ol.Type.GetType() == olOG.Type.GetType())
                 {
 
                     ol.Quantity++;
@@ -64,11 +67,12 @@
 
             if (!itemFound)
             {
-
-                OrderLineItem NewItem = new OrderLineItem(post);
-                cart.basketItems.Add(NewItem);
+                cart.basketItems.Add(olOG);
+            }
             }
 
+            cart.basketItems.Add(olOG);
+            _appDbContext.Carts.Update(cart);
             _appDbContext.SaveChanges();
             return cart;
         }
@@ -85,6 +89,9 @@
 
 
             //TODO, validate the item is actually possible to be added
+
+
+
 
 
 
@@ -146,7 +153,7 @@
 
         public ShoppingCart AddCart(ShoppingCart cart)
         {
-
+            cart.basketItems = new List<OrderLineItem>();
             _appDbContext.Carts.Add(cart);
             _appDbContext.SaveChanges();
             return cart;

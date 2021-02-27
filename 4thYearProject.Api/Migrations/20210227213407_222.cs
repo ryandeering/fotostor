@@ -3,10 +3,23 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace _4thYearProject.Api.Migrations
 {
-    public partial class NewMigration : Migration
+    public partial class _222 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Carts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Carts", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Countries",
                 columns: table => new
@@ -62,6 +75,24 @@ namespace _4thYearProject.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Orders",
+                columns: table => new
+                {
+                    OrderId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DatePlaced = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserCity = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserCountry = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Orders", x => x.OrderId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Posts",
                 columns: table => new
                 {
@@ -71,6 +102,10 @@ namespace _4thYearProject.Api.Migrations
                     PhotoFile = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Thumbnail = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     MimeType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LicenseEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    LicensePrice = table.Column<double>(type: "float", nullable: false),
+                    PrintsEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    ShirtsEnabled = table.Column<bool>(type: "bit", nullable: false),
                     Caption = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     UploadDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Likes = table.Column<int>(type: "int", nullable: false)
@@ -160,47 +195,41 @@ namespace _4thYearProject.Api.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.InsertData(
-                table: "Countries",
-                columns: new[] { "CountryId", "Name" },
-                values: new object[,]
+            migrationBuilder.CreateTable(
+                name: "LineItems",
+                columns: table => new
                 {
-                    { 1, "Belgium" },
-                    { 8, "France" },
-                    { 7, "UK" },
-                    { 6, "China" },
-                    { 9, "Brazil" },
-                    { 4, "USA" },
-                    { 3, "Netherlands" },
-                    { 2, "Germany" },
-                    { 5, "Japan" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "JobCategories",
-                columns: new[] { "JobCategoryId", "JobCategoryName" },
-                values: new object[,]
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PostId = table.Column<int>(type: "int", nullable: false),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Price = table.Column<double>(type: "float", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    OrderId = table.Column<int>(type: "int", nullable: true),
+                    ShoppingCartId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
                 {
-                    { 8, "Cleaning" },
-                    { 1, "Pie research" },
-                    { 2, "Sales" },
-                    { 3, "Management" },
-                    { 4, "Store staff" },
-                    { 5, "Finance" },
-                    { 6, "QA" },
-                    { 7, "IT" },
-                    { 9, "Bakery" }
+                    table.PrimaryKey("PK_LineItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_LineItems_Carts_ShoppingCartId",
+                        column: x => x.ShoppingCartId,
+                        principalTable: "Carts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_LineItems_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "OrderId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_LineItems_Posts_PostId",
+                        column: x => x.PostId,
+                        principalTable: "Posts",
+                        principalColumn: "PostId",
+                        onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.InsertData(
-                table: "Employees",
-                columns: new[] { "EmployeeId", "BirthDate", "City", "Comment", "CountryId", "Email", "ExitDate", "FirstName", "Gender", "JobCategoryId", "JoinedDate", "LastName", "Latitude", "Longitude", "MaritalStatus", "PhoneNumber", "Smoker", "Street", "Zip" },
-                values: new object[] { 1, new DateTime(1979, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), "Brussels", "Lorem Ipsum", 1, "bethany@bethanyspieshop.com", null, "Bethany", 1, 1, new DateTime(2015, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Smith", 50.850299999999997, 4.3517000000000001, 1, "324777888773", false, "Grote Markt 1", "1000" });
-
-            migrationBuilder.InsertData(
-                table: "Employees",
-                columns: new[] { "EmployeeId", "BirthDate", "City", "Comment", "CountryId", "Email", "ExitDate", "FirstName", "Gender", "JobCategoryId", "JoinedDate", "LastName", "Latitude", "Longitude", "MaritalStatus", "PhoneNumber", "Smoker", "Street", "Zip" },
-                values: new object[] { 2, new DateTime(1979, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), "Antwerp", "Lorem Ipsum", 2, "gill@bethanyspieshop.com", null, "Gill", 0, 1, new DateTime(2017, 12, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), "Cleeren", 50.850299999999997, 4.3517000000000001, 0, "33999909923", false, "New Street", "2000" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_PostId",
@@ -216,6 +245,21 @@ namespace _4thYearProject.Api.Migrations
                 name: "IX_Employees_JobCategoryId",
                 table: "Employees",
                 column: "JobCategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LineItems_OrderId",
+                table: "LineItems",
+                column: "OrderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LineItems_PostId",
+                table: "LineItems",
+                column: "PostId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LineItems_ShoppingCartId",
+                table: "LineItems",
+                column: "ShoppingCartId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -233,16 +277,25 @@ namespace _4thYearProject.Api.Migrations
                 name: "Likes");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "LineItems");
 
             migrationBuilder.DropTable(
-                name: "Posts");
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Countries");
 
             migrationBuilder.DropTable(
                 name: "JobCategories");
+
+            migrationBuilder.DropTable(
+                name: "Carts");
+
+            migrationBuilder.DropTable(
+                name: "Orders");
+
+            migrationBuilder.DropTable(
+                name: "Posts");
         }
     }
 }
