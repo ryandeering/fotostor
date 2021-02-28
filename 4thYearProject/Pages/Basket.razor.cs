@@ -5,6 +5,8 @@
     using _4thYearProject.Shared.Models.BusinessLogic;
     using Microsoft.AspNetCore.Components;
     using Microsoft.AspNetCore.Components.Authorization;
+    using Microsoft.AspNetCore.Components.Web;
+    using Microsoft.JSInterop;
     using System.Collections.Generic;
     using System.Linq;
     using System.Security.Claims;
@@ -21,6 +23,13 @@
 
         [Inject]
         public IShoppingCartService shoppingCartDataService { get; set; }
+
+
+        [Inject]
+        public IStripePaymentService stripePaymentService { get; set; }
+
+        [Inject]
+        public IJSRuntime jsRuntime { get; set; }
 
 
         public AuthenticationStateProvider _AuthenticationStateProvider { get; set; }
@@ -50,6 +59,36 @@
         {
 
 
+        }
+
+        private async Task PlaceOrder(MouseEventArgs e)
+        {
+            int Price = 0;
+            foreach (var item in basket.basketItems)
+            {
+                Price += ConvertEuroToCents(item.Price);
+            }
+
+            StripePaymentDTO order = new StripePaymentDTO();
+
+            order.CartId = basket.Id;
+            LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+                   .Select(c => c.Value).SingleOrDefault().ToString();
+
+            order.UserId = LoggedInID;
+            order.Amount = Price;
+
+            var result = await stripePaymentService.CheckOut(order);
+
+
+            await jsRuntime.InvokeVoidAsync("redirectToCheckout", result.Data.ToString());
+        }
+
+
+
+        public static int ConvertEuroToCents(double euros)
+        {
+            return (int)(euros * 100);
         }
 
 

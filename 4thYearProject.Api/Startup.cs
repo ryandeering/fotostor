@@ -14,6 +14,7 @@ namespace _4thYearProject.Api
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Stripe;
     using System.Linq;
 
     public class Startup
@@ -104,6 +105,8 @@ IdentityServerAuthenticationDefaults.AuthenticationScheme)
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
+            StripeConfiguration.ApiKey = Configuration.GetSection("Stripe")["ApiKey"];
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

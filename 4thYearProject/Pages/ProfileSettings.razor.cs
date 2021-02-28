@@ -72,7 +72,7 @@
             }
             catch
             {
-                Console.WriteLine("ruh roh");
+                Console.WriteLine("ruh roh"); //todo
             }
         }
     }
