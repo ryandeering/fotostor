@@ -12,7 +12,7 @@
 
     public partial class Basket : ComponentBase
     {
-   
+
         [Inject]
         public IUserDataService UserDataService { get; set; }
 
@@ -23,7 +23,7 @@
         public IShoppingCartService shoppingCartDataService { get; set; }
 
 
-        public AuthenticationStateProvider  _AuthenticationStateProvider { get; set; }
+        public AuthenticationStateProvider _AuthenticationStateProvider { get; set; }
 
         public ShoppingCart basket = new ShoppingCart();
 
@@ -36,6 +36,7 @@
 
         protected async override Task OnInitializedAsync()
         {
+            basket.basketItems = new List<OrderLineItem>();
             identity = await _userService.GetUserAsync();
             LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
                    .Select(c => c.Value).SingleOrDefault().ToString();
@@ -47,8 +48,8 @@
 
         protected override async Task OnParametersSetAsync()
         {
-         
-           
+
+
         }
 
 

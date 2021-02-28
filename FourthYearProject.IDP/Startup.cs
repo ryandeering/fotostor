@@ -131,7 +131,8 @@ namespace FourthYearProject.IDP
             //        .AllowCredentials());
             //});
 
-            services.AddSingleton<ICorsPolicyService>((container) => {
+            services.AddSingleton<ICorsPolicyService>((container) =>
+            {
                 var logger = container.GetRequiredService<ILogger<DefaultCorsPolicyService>>();
                 return new DefaultCorsPolicyService(logger)
                 {

@@ -148,10 +148,10 @@ namespace _4thYearProject.Server.Pages
         public void OnChange(bool? value, string name)
         {
 
-            if(value == true)
+            if (value == true)
             {
                 ShowDialog = true;
-            }  
+            }
         }
 
 

@@ -59,9 +59,9 @@
         [HttpPost]
         public IActionResult AddCart([FromBody] ShoppingCart cart)
         {
-            if(_cartRepository.GetCart(cart.UserId) != null)
+            if (_cartRepository.GetCart(cart.UserId) != null)
             {
-                ModelState.AddModelError("UserId","Cart already exists.");
+                ModelState.AddModelError("UserId", "Cart already exists.");
             }
 
             if (!ModelState.IsValid)

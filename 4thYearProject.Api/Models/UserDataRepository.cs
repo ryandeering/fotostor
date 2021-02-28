@@ -37,7 +37,7 @@
             List<UserData> users = GetAllUsers().ToList();
 
 
-            if(users.Count == 0)
+            if (users.Count == 0)
             {
                 var addedEntity = _appDbContext.Users.Add(User);
                 Console.WriteLine(addedEntity);

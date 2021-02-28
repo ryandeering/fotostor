@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace _4thYearProject.Server.Pages
@@ -108,7 +107,7 @@ namespace _4thYearProject.Server.Pages
 
             try
             {
-               UsernameList UsernameIds = new UsernameList();
+                UsernameList UsernameIds = new UsernameList();
                 Usernames = new UsernameList();
 
 
@@ -129,7 +128,7 @@ namespace _4thYearProject.Server.Pages
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-               
+
             }
 
 
@@ -162,12 +161,14 @@ namespace _4thYearProject.Server.Pages
 
                 post = (await PostDataService.GetPostDetails(int.Parse(PostID)));
 
-            } catch(Exception e) {
+            }
+            catch (Exception e)
+            {
 
                 Console.WriteLine(e.Message);
-            
+
             }
-       
+
 
 
         }
@@ -188,16 +189,17 @@ namespace _4thYearProject.Server.Pages
         protected async Task GiveLike()
         {
 
-            if(!liked) { 
+            if (!liked)
+            {
 
-            string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
-                  .Select(c => c.Value).SingleOrDefault().ToString();
+                string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+                      .Select(c => c.Value).SingleOrDefault().ToString();
 
-            like.User_ID = LoggedInID;
-            like.Post_ID = post.PostId.ToString();
-            await LikeService.AddLike(like);
-            liked = true;
-            await OnInitializedAsync();
+                like.User_ID = LoggedInID;
+                like.Post_ID = post.PostId.ToString();
+                await LikeService.AddLike(like);
+                liked = true;
+                await OnInitializedAsync();
             }
             else
             {

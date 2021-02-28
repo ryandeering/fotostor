@@ -80,7 +80,7 @@ namespace _4thYearProject.Server.Services
                 (await _httpClient.GetStreamAsync($"api/userdata/displayname/{DisplayName}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
         }
 
-       
+
 
     }
 }

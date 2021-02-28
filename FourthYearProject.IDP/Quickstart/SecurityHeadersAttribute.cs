@@ -21,7 +21,7 @@ namespace IdentityServer4.Quickstart.UI
                 }
 
                 // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
-            
+
 
                 // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
                 var csp = "default-src 'self'; object-src 'none'; sandbox allow-forms allow-same-origin allow-scripts; base-uri 'self';";

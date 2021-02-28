@@ -3,7 +3,6 @@
     using _4thYearProject.Server.Services;
     using _4thYearProject.Shared;
     using _4thYearProject.Shared.Models;
-    using _4thYearProject.Shared.Models.BusinessLogic;
     using Microsoft.AspNetCore.Components;
     using System;
     using System.Linq;
@@ -52,14 +51,14 @@
                     await UserDataService.AddUserData(newUser);
 
 
-                  //  ShoppingCart cart = await _shoppingCartService.GetCart(ID);
+                    //  ShoppingCart cart = await _shoppingCartService.GetCart(ID);
 
-                        await _shoppingCartService.AddCart(ID);
-                    
-
+                    await _shoppingCartService.AddCart(ID);
 
 
-                    
+
+
+
                 }
                 catch (Exception e)
                 {

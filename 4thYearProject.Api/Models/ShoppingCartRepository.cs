@@ -48,27 +48,28 @@
 
             if (cart.basketItems == null)
             {
-                cart.basketItems = new List<OrderLineItem>();;
-            } else
+                cart.basketItems = new List<OrderLineItem>(); ;
+            }
+            else
             {
-            foreach (OrderLineItem ol in cart.basketItems)
-            {
-
-                if (ol.Post.PostId.Equals(olOG.Post.PostId) && ol.Type.GetType() == olOG.Type.GetType())
+                foreach (OrderLineItem ol in cart.basketItems)
                 {
 
-                    ol.Quantity++;
-                    itemFound = true;
-                    break;
+                    if (ol.Post.PostId.Equals(olOG.Post.PostId) && ol.Type.GetType() == olOG.Type.GetType())
+                    {
+
+                        ol.Quantity++;
+                        itemFound = true;
+                        break;
+
+                    }
 
                 }
 
-            }
-
-            if (!itemFound)
-            {
-                cart.basketItems.Add(olOG);
-            }
+                if (!itemFound)
+                {
+                    cart.basketItems.Add(olOG);
+                }
             }
 
             cart.basketItems.Add(olOG);
@@ -148,7 +149,14 @@
 
         public ShoppingCart GetCart(string UserId)
         {
-            return _appDbContext.Carts.FirstOrDefault(c => c.UserId == UserId);
+            //return _appDbContext.Carts.Where(c => c.UserId == UserId).Include(c => c.basketItems).Where(p => p.).FirstOrDefault();
+            var result = _appDbContext.Carts
+       .Where(x => x.UserId == UserId)
+       .Include(x => x.basketItems)
+       .ThenInclude(x => x.Post)
+       .SingleOrDefault();
+
+            return result;
         }
 
         public ShoppingCart AddCart(ShoppingCart cart)

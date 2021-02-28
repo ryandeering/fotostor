@@ -70,7 +70,7 @@ namespace _4thYearProject.Server.Pages
 
 
 
-            var addLicense = Modal.Show<AddLicense>("PostId",parameters);
+            var addLicense = Modal.Show<AddLicense>("PostId", parameters);
             var result = await addLicense.Result;
         }
     }

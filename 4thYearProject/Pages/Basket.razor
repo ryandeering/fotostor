@@ -2,35 +2,42 @@
 
 <AuthorizeView>
     <Authorized>
-
-        @if (basket.basketItems == null)
+        @if (basket != null)
         {
-            <h1>No items found in basket.</h1>
+            @if (basket.basketItems == null)
+            {
+                <h1>No items found in basket.</h1>
+            }
+            else
+            {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Number</th>
+                            <th>Order Number</th>
+                            <th>Date Placed</th>
+                            <th>Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var orderLineItem in basket.basketItems)
+                        {
+                        <tr>
+                            <th>@orderLineItem.Id</th>
+                            <th>@orderLineItem.Post.UserId[0..3]</th>
+                            <th><img src=@orderLineItem.Post.Thumbnail width="100" height="100" /></th>
+                            <th>@orderLineItem.Type</th>
+                            <th>@orderLineItem.Quantity</th>
+                        </tr>
+                        }
+                    </tbody>
+                    Price: @getPrice()
+                </table>
+            }
         }
         else
         {
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Number</th>
-                        <th>Order Number</th>
-                        <th>Date Placed</th>
-                        <th>Quantity</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var orderLineItem in basket.basketItems)
-                    {
-                        <tr>
-                            <th>@orderLineItem.Id</th>
-                            <th>@orderLineItem.Post.UserId</th>
-                            <th>@orderLineItem.Post.Caption[0..10]</th>
-                            <th>@orderLineItem.Quantity</th>
-                        </tr>
-                    }
-                </tbody>
-                Price: @getPrice()
-            </table>
+            <h1>No items in basket.</h1>
         }
 
     </Authorized>

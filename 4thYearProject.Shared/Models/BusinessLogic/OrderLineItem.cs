@@ -1,6 +1,5 @@
 ﻿namespace _4thYearProject.Shared.Models.BusinessLogic
 {
-    using System;
     using System.ComponentModel.DataAnnotations;
 
     public class OrderLineItem

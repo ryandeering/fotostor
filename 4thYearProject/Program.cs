@@ -2,6 +2,7 @@ using _4thYearProject.Server.MessageHandlers;
 using _4thYearProject.Server.Services;
 using _4thYearProject.Server.Services.Identity;
 using _4thYearProject.Shared;
+using Blazored.Modal;
 using MatBlazor;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -9,9 +10,6 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Blazored.Modal.Services;
-using Blazored.Modal;
-using Microsoft.Extensions.Configuration;
 
 namespace _4thYearProject.Server
 {
@@ -73,7 +71,7 @@ namespace _4thYearProject.Server
                 .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
                 builder.Services.AddHttpClient<IJobCategoryDataService, JobCategoryDataService>(client => client.BaseAddress = new Uri(APIProduction))
                 .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
-                
+
 
 
                 builder.Services.AddOidcAuthentication(options =>
@@ -106,10 +104,10 @@ namespace _4thYearProject.Server
                 builder.Services.AddHttpClient<IJobCategoryDataService, JobCategoryDataService>(client => client.BaseAddress = new Uri(APIDevelop))
                 .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
 
-			builder.Services.AddOidcAuthentication(options =>
-            {
-                builder.Configuration.Bind("OidcConfiguration", options.ProviderOptions);
-            });
+                builder.Services.AddOidcAuthentication(options =>
+                {
+                    builder.Configuration.Bind("OidcConfiguration", options.ProviderOptions);
+                });
 
 
 

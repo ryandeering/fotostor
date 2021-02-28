@@ -39,11 +39,11 @@
             string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
                       .Select(c => c.Value).SingleOrDefault().ToString();
 
-            if(identity.Identity.IsAuthenticated && LoggedInID.Equals(UserId))
+            if (identity.Identity.IsAuthenticated && LoggedInID.Equals(UserId))
             {
-             
-                    LoggedIn = true;
-                    orders = (await shoppingCartDataService.GetAllOrders(LoggedInID)).ToList();
+
+                LoggedIn = true;
+                orders = (await shoppingCartDataService.GetAllOrders(LoggedInID)).ToList();
             }
         }
     }

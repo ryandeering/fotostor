@@ -1,9 +1,7 @@
 ﻿namespace _4thYearProject.Api.Models
 {
-    using _4thYearProject.Api.CloudStorage;
     using _4thYearProject.Shared.Models;
     using Microsoft.AspNetCore.Mvc;
-    using System.Diagnostics;
 
     [Route("api/[controller]")]
     [ApiController]

@@ -1,15 +1,15 @@
 ﻿using _4thYearProject.Shared;
 using _4thYearProject.Shared.Models;
 using _4thYearProject.Shared.Models.BusinessLogic;
+using Dahomey.Json;
+using Dahomey.Json.Serialization.Conventions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
-using Dahomey.Json;
 using System.Threading.Tasks;
-using Dahomey.Json.Serialization.Conventions;
 
 namespace _4thYearProject.Server.Services
 {
@@ -43,10 +43,10 @@ namespace _4thYearProject.Server.Services
 
             var response = await _httpClient.PostAsync($"api/shoppingcart/add/{UserId}/", cartJson);
 
-           if (response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode)
             {
                 return await JsonSerializer.DeserializeAsync<ShoppingCart>(await response.Content.ReadAsStreamAsync());
-           }
+            }
 
             return null;
         }
@@ -60,7 +60,8 @@ namespace _4thYearProject.Server.Services
                   .Select(c => c.Value).SingleOrDefault();
 
 
-            if (!UserId.Equals(UserIdClaim)){
+            if (!UserId.Equals(UserIdClaim))
+            {
                 return null;
             }
 
@@ -68,7 +69,7 @@ namespace _4thYearProject.Server.Services
 
             cart.UserId = UserId;
             cart.basketItems = new List<OrderLineItem>();
-           
+
 
             var cartJson =
                 new StringContent(JsonSerializer.Serialize(cart), Encoding.UTF8, "application/json");
@@ -126,9 +127,9 @@ namespace _4thYearProject.Server.Services
 
         public async Task<ShoppingCart> AddOne(string UserId, int LineItemId)
         {
-            var response = await _httpClient.PutAsync("api/shoppingcart/add/incre/{UserId}/{LineItemId}", null) ;
+            var response = await _httpClient.PutAsync("api/shoppingcart/add/incre/{UserId}/{LineItemId}", null);
 
-                return await JsonSerializer.DeserializeAsync<ShoppingCart>(await response.Content.ReadAsStreamAsync());
+            return await JsonSerializer.DeserializeAsync<ShoppingCart>(await response.Content.ReadAsStreamAsync());
 
 
         }
