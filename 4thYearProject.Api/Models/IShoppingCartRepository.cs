@@ -10,7 +10,7 @@ namespace _4thYearProject.Api.Models
         ShoppingCart AddOne(string UserId, int PostId);
         ShoppingCart RemoveOne(string UserId, int LineItemId);
         ShoppingCart EmptyBasket(string UserId);
-        Order PlaceOrder(); // get user's basket
+        Order PlaceOrder(string UserId); // get user's basket
         IEnumerable<Order> GetOrders(string UserId);
         ShoppingCart RemoveItem(String UserId, String PostId);
         ShoppingCart GetCart(string UserId);

@@ -1,39 +1,61 @@
-﻿using _4thYearProject.Shared;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Stripe;
-using Stripe.Checkout;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace _4thYearProject.Api.Controllers
+﻿namespace _4thYearProject.Api.Controllers
 {
+    using _4thYearProject.Api.Models;
+    using _4thYearProject.Shared;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Configuration;
+    using Stripe.Checkout;
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class StripePaymentController : Controller
     {
         private readonly IConfiguration _configuration;
 
-        public StripePaymentController(IConfiguration configuration)
+        private readonly IShoppingCartRepository _shoppingCartRepository;
+
+        public StripePaymentController(IConfiguration configuration, IShoppingCartRepository shoppingCartRepository)
         {
             _configuration = configuration;
+            _shoppingCartRepository = shoppingCartRepository;
         }
 
-
-        [HttpGet("/order/success")]
-        public ActionResult OrderSuccess([FromQuery] string session_id)
+        [HttpGet("{UserId}/{session_id}")]
+        public ContentResult OrderSuccess(string UserId, string session_id)
         {
             var sessionService = new SessionService();
             Session session = sessionService.Get(session_id);
+            string detail = String.Empty;
+            int? OrderId = 0;
 
-            var customerService = new CustomerService();
-            Customer customer = customerService.Get(session.CustomerId);
+            switch (session.PaymentStatus)
+            {
+                case "paid":
 
-            return Content($"<html><body><h1>Thanks for your order, {customer.Name}!</h1></body></html>");
+                    var temp = _shoppingCartRepository.PlaceOrder(UserId);
+                    OrderId = temp.OrderId;
+
+                    foreach (var ol in temp.LineItems)
+                    {
+
+                        detail += "<tr><td>" + "<img>" + ol.Post.Thumbnail + "</img>" + "</td><td>" + ol.Quantity.ToString() + "</td><td> " + ol.Price.ToString() + " Euro</td><td>" + ol.OrderId.ToString() + " Euro</td></tr>";
+
+
+                    }
+
+                    break;
+
+                case "unpaid":
+                    break;
+            }
+
+
+
+            return Content($"<html><body><h1>Order Id: {OrderId} Thanks for your order: {detail}!</h1></body></html>");
         }
-
 
         [HttpPost]
         public async Task<IActionResult> Create(StripePaymentDTO payment)

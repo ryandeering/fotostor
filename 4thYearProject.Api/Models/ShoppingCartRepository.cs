@@ -133,9 +133,44 @@
             return _appDbContext.Orders.Where(o => o.UserId.Equals(UserId));
         }
 
-        public Order PlaceOrder()
+        public Order PlaceOrder(string UserId)
         {
-            throw new NotImplementedException();
+            var result = _appDbContext.Carts
+      .Where(x => x.UserId == UserId)
+      .Include(x => x.basketItems)
+      .ThenInclude(x => x.Post)
+      .FirstOrDefault();
+
+
+            Order order = new Order();
+
+
+            try
+            {
+                order.UserId = UserId;
+                List<OrderLineItem> items = new List<OrderLineItem>(result.basketItems);
+                //set address
+                order.DatePlaced = DateTime.Now;
+                order.LineItems = items;
+            } catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+
+            _appDbContext.Orders.Add(order);
+            result.basketItems.Clear();
+            _appDbContext.SaveChanges();
+
+
+
+
+
+
+
+
+
+
+            return new Order();
         }
 
         public ShoppingCart RemoveOne(string UserId, int LineItemId)
@@ -166,5 +201,9 @@
             _appDbContext.SaveChanges();
             return cart;
         }
+
+
+
+
     }
 }

@@ -11,6 +11,7 @@ namespace _4thYearProject.Shared.Models
         public string FirstName { get; set; }
         public string SecondName { get; set; }
         public string ProfilePic { get; set; }
+        public List<Address> Addresses { get; set; }
     }
 
     public class UsernameList

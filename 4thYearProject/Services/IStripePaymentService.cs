@@ -11,6 +11,6 @@ namespace _4thYearProject.Server.Services
     public interface IStripePaymentService
     {
         public Task<SuccessModel> CheckOut(StripePaymentDTO model);
-        public Task<HttpContent> OrderSuccess(String token);
+        public Task<HttpContent> OrderSuccess(string UserId, string token);
     }
 }

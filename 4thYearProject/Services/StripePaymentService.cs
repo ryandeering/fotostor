@@ -37,9 +37,9 @@ namespace _4thYearProject.Server.Services
         }
     }
 
-        public async Task<HttpContent> OrderSuccess(String token)
+        public async Task<HttpContent> OrderSuccess(string UserId, string token)
         {
-            var response = await _client.GetAsync($"api/stripepayment/order/success/{token}");
+            var response = await _client.GetAsync($"api/stripepayment/OrderSuccess/{UserId}/{token}");
 
             return response.Content;
 
