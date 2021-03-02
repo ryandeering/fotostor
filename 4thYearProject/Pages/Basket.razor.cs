@@ -14,7 +14,6 @@
 
     public partial class Basket : ComponentBase
     {
-
         [Inject]
         public IUserDataService UserDataService { get; set; }
 
@@ -24,13 +23,11 @@
         [Inject]
         public IShoppingCartService shoppingCartDataService { get; set; }
 
-
         [Inject]
         public IStripePaymentService stripePaymentService { get; set; }
 
         [Inject]
         public IJSRuntime jsRuntime { get; set; }
-
 
         public AuthenticationStateProvider _AuthenticationStateProvider { get; set; }
 
@@ -45,38 +42,28 @@
 
         protected async override Task OnInitializedAsync()
         {
+            price = 0;
             basket.basketItems = new List<OrderLineItem>();
             identity = await _userService.GetUserAsync();
             LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
                    .Select(c => c.Value).SingleOrDefault().ToString();
 
             basket = await shoppingCartDataService.GetCart(LoggedInID);
-
-            Task.Delay(1000);
-        }
-
-        protected override async Task OnParametersSetAsync()
-        {
-
-
         }
 
         private async Task PlaceOrder(MouseEventArgs e)
         {
-            int Price = 0;
-            foreach (var item in basket.basketItems)
-            {
-                Price += ConvertEuroToCents(item.Price);
-            }
+
+
+
 
             StripePaymentDTO order = new StripePaymentDTO();
 
             order.CartId = basket.Id;
-            LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
-                   .Select(c => c.Value).SingleOrDefault().ToString();
+
 
             order.UserId = LoggedInID;
-            order.Amount = Price;
+            order.Amount = ConvertEuroToCents(price);
 
             var result = await stripePaymentService.CheckOut(order);
 
@@ -84,26 +71,28 @@
             await jsRuntime.InvokeVoidAsync("redirectToCheckout", result.Data.ToString());
         }
 
+        private async Task EmptyBasket(MouseEventArgs e)
+        {
 
+           await shoppingCartDataService.EmptyBasket(LoggedInID);
+            basket = await shoppingCartDataService.GetCart(LoggedInID);
+            getPrice();
+            StateHasChanged();
+        }
 
         public static int ConvertEuroToCents(double euros)
         {
             return (int)(euros * 100);
         }
 
-
-
-        double getPrice()
+        internal double getPrice()
         {
             foreach (var orderLineItem in basket.basketItems)
             {
-                price += orderLineItem.Price;
+                price += orderLineItem.Price * orderLineItem.Quantity;
             }
 
             return price;
         }
-
-
     }
 }
-

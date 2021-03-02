@@ -14,17 +14,19 @@
             _appDbContext = appDbContext;
         }
 
-
         public Following VerifyFollowing(Following follow)
         {
 
-            if (!_appDbContext.Followers.Any(f => f.Follower_ID == follow.Follower_ID && f.Followed_ID == follow.Followed_ID))
+
+            bool following = _appDbContext.Followers.Where(f => f.Follower_ID == follow.Follower_ID && f.Followed_ID == follow.Followed_ID).Any();
+
+
+            if (!following)
             {
-                return null;
+                follow = null;
             }
 
             return follow;
-
         }
 
         public Following AddFollowing(Following follow)
@@ -39,7 +41,6 @@
             _appDbContext.SaveChanges();
             return addedEntity.Entity;
         }
-
 
         public void RemoveFollowing(string FollowerID, string FollowingID)
         {

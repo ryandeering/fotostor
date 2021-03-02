@@ -1,0 +1,146 @@
+﻿@inject IPostDataService PostDataService
+@inject IShoppingCartService Cart
+@inject IUserService UserService
+@if (PostIn != null)
+{
+    <div class="card mb-4">
+        <div class="card-body">
+            <p class="card-text">
+
+
+
+                @if (PostIn.LicenseEnabled)
+                {
+                    <h3>Purchase Shirt</h3>
+
+                    <img src=@PostIn.Thumbnail />
+
+
+
+                   <p> Price: 25 Euro </p>
+
+
+
+                    <select class="form-control selectpicker" @bind="size">
+                        <option>--select--</option>
+                        @foreach (var item in sizes)
+                        {
+                            <option>@item</option>
+                        }
+                    </select>
+
+                    <button @onclick="AddtoCart" class="btn btn-primary">Submit</button>
+                    <button @onclick="Cancel" class="btn btn-secondary">Cancel</button>
+                }
+                else
+                {
+                    <h3>Invalid.</h3>
+                }
+
+
+            </p>
+        </div>
+    </div>
+
+}
+else
+{
+    <div class="card mb-4">
+        <div class="card-body">
+            <p class="card-text">
+                <h3>Invalid.</h3>
+            </p>
+        </div>
+    </div>
+
+}
+
+@code{
+
+    [CascadingParameter] internal BlazoredModalInstance ModalInstance { get; set; }
+
+    public String Thumbnail = String.Empty;
+
+    [Parameter] public int PostId { get; set; }
+
+    internal Post PostIn { get; set; }
+
+    internal ClaimsPrincipal identity;
+
+    public string UserId { get; set; }
+
+    private List<String> sizes = new List<String>(new String[] { "XS", "S", "M", "L", "XL", "XXL" });
+    private String size;
+
+    protected async override Task OnInitializedAsync()
+    {
+        identity = await UserService.GetUserAsync();
+        PostIn = await PostDataService.GetPostDetails(PostId);
+        Thumbnail = PostIn.Thumbnail;
+
+
+        //    WebClient imgClient = new WebClient();
+        //    client.GetStringAsync(new Uri("https://i.imgur.com/b2syjUN.png", UriKind.Absolute));
+        //    String imgURL = ;
+
+        //    byte[] imageByteArray = imgClient.DownloadData(imgURL);
+        //    MemoryStream ms = new MemoryStream(imageByteArray);
+
+        //    System.Drawing.Image img = System.Drawing.Image.FromStream(ms);
+        //    var position = new Point();
+
+
+        //    var imagelayer = new ImageLayer
+        //    {
+        //        Image = img,
+        //        Position = position,
+        //        Opacity = 100,
+        //    };
+
+
+
+
+
+
+        //   // byte[] photoBytes = new System.Net.WebClient().DownloadData(new Uri(PostIn.PhotoFile, UriKind.Absolute));
+
+
+        //    // Format is automatically detected though can be changed.
+        //    ISupportedImageFormat format = new JpegFormat { Quality = 70 };
+        //    Size size = new Size(150, 0);
+        //using (MemoryStream inStream = new MemoryStream(photoBytes))
+        //    {
+        //        using (MemoryStream outStream = new MemoryStream())
+        //        {
+        //            // Initialize the ImageFactory using the overload to preserve EXIF metadata.
+        //            using (ImageFactory imageFactory = new ImageFactory(preserveExifData: true))
+        //            {
+        //                // Load, resize, set the format and quality and save an image.
+        //                imageFactory.Load(inStream)
+        //                            //.Resize(size)
+        //                            .Format(format)
+        //                            .Save(outStream);
+        //            }
+        //            // Do something with the stream.
+        //        }
+        //    }
+
+
+
+        StateHasChanged();
+    }
+
+    internal void AddtoCart()
+    {
+        string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+                 .Select(c => c.Value).SingleOrDefault().ToString();
+        OrderLineItem ol = new OrderLineItem(PostIn);
+        ol.Price = 25.00;
+        ol.Type = "Shirt";
+        ol.Size = size;
+
+        Cart.AddToCart(LoggedInID, ol);
+    }
+
+    internal async Task Cancel() => await ModalInstance.CancelAsync();
+}

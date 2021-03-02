@@ -55,9 +55,17 @@
             await _httpClient.DeleteAsync($"api/following/{Follower_ID}/{Following_ID}");
         }
 
-        //public Task<Task<Following>> verifyFollowing(Following follow)
+        //public Task<Task<bool>> verifyFollowing(Following follow)
         //{
-        //    throw new NotImplementedException();
+
+        //    var followingJson =
+        //        new StringContent(JsonSerializer.Serialize(follow), Encoding.UTF8, "application/json");
+
+        //    var response = await _httpClient.GetAsync("api/following", followingJson);
+
+
+
+
         //}
     }
 }

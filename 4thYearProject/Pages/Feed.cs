@@ -52,18 +52,8 @@ namespace _4thYearProject.Server.Pages
 
         }
 
-
-
-        async void BuyLicense(int PostId)
+        async Task BuyLicense(int PostId)
         {
-
-        }
-
-
-
-        async Task ShowModal(int PostId)
-        {
-
             var parameters = new ModalParameters();
             parameters.Add(nameof(AddLicense.PostId), PostId);
 
@@ -73,5 +63,23 @@ namespace _4thYearProject.Server.Pages
             var addLicense = Modal.Show<AddLicense>("PostId", parameters);
             var result = await addLicense.Result;
         }
+
+        async Task BuyShirt(int PostId)
+        {
+            var parameters = new ModalParameters();
+            parameters.Add(nameof(AddShirt.PostId), PostId);
+
+
+
+
+            var addShirt = Modal.Show<AddShirt>("PostId", parameters);
+            var result = await addShirt.Result;
+        }
+
+
+
+
+
+
     }
 }

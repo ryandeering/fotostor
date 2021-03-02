@@ -24,12 +24,13 @@
         }
 
         [HttpGet("{UserId}/{session_id}")]
-        public ContentResult OrderSuccess(string UserId, string session_id)
+        public SuccessModel OrderSuccess(string UserId, string session_id)
         {
             var sessionService = new SessionService();
             Session session = sessionService.Get(session_id);
             string detail = String.Empty;
             int? OrderId = 0;
+            SuccessModel s = new SuccessModel();
 
             switch (session.PaymentStatus)
             {
@@ -41,9 +42,7 @@
                     foreach (var ol in temp.LineItems)
                     {
 
-                        detail += "<tr><td>" + "<img>" + ol.Post.Thumbnail + "</img>" + "</td><td>" + ol.Quantity.ToString() + "</td><td> " + ol.Price.ToString() + " Euro</td><td>" + ol.OrderId.ToString() + " Euro</td></tr>";
-
-
+                        s.SuccessMessage += "<tr><td>" + "<img>" + ol.Post.Thumbnail + "</img>" + "</td><td>" + ol.Quantity.ToString() + "</td><td> " + ol.Price.ToString() + " Euro</td><td>" + ol.OrderId.ToString() + " Euro</td></tr>";
                     }
 
                     break;
@@ -52,9 +51,9 @@
                     break;
             }
 
+            s.SuccessMessage += $"<html><body><h1>Order Id: {OrderId} Thanks for your order: {detail}!</h1></body></html>";
 
-
-            return Content($"<html><body><h1>Order Id: {OrderId} Thanks for your order: {detail}!</h1></body></html>");
+            return s;
         }
 
         [HttpPost]

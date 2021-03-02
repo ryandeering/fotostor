@@ -37,11 +37,11 @@ namespace _4thYearProject.Server.Services
         }
     }
 
-        public async Task<HttpContent> OrderSuccess(string UserId, string token)
+        public async Task<SuccessModel> OrderSuccess(string UserId, string token)
         {
-            var response = await _client.GetAsync($"api/stripepayment/OrderSuccess/{UserId}/{token}");
-
-            return response.Content;
+            var response = await _client.GetStringAsync($"api/stripepayment/OrderSuccess/{UserId}/{token}");
+            var result = JsonConvert.DeserializeObject<SuccessModel>(response);
+            return result;
 
         }
     }

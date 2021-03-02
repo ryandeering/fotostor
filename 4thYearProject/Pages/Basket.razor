@@ -13,21 +13,20 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Number</th>
-                            <th>Order Number</th>
-                            <th>Date Placed</th>
-                            <th>Quantity</th>
+                            <th>Thumbnail</th>
+                            <th>Type</th>
+                            <th>Quanity</th>
+                            <th>Item Total</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var orderLineItem in basket.basketItems)
                         {
                             <tr>
-                                <th>@orderLineItem.Id</th>
-                                <th>@orderLineItem.Post.UserId[0..3]</th>
                                 <th><img src=@orderLineItem.Post.Thumbnail width="100" height="100" /></th>
                                 <th>@orderLineItem.Type</th>
                                 <th>@orderLineItem.Quantity</th>
+                                <th>@orderLineItem.GetItemTotal()</th>
                             </tr>
                         }
                     </tbody>
@@ -36,6 +35,10 @@
 
                 <button class="btn btn-success btn-sm" @onclick="PlaceOrder">
                     <span class="glyphicon glyphicon-euro"></span> Place Order
+                </button>
+
+                <button class="btn btn-success btn-sm" @onclick="EmptyBasket">
+                    <span class="glyphicon glyphicon-euro"></span> Empty Basket
                 </button>
 
 

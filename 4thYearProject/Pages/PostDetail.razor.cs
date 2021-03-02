@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace _4thYearProject.Server.Pages
 {
-    public partial class PostView : ComponentBase
+    public partial class PostDetail : ComponentBase
     {
         [Parameter]
         public string PostID { get; set; }

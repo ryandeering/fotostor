@@ -21,7 +21,6 @@
 
             ShoppingCart cart = _appDbContext.Carts.FirstOrDefault(c => c.UserId == UserId);
 
-
             //TODO, validate the item is actually possible to be added
 
             foreach (OrderLineItem ol in cart.basketItems)
@@ -40,7 +39,15 @@
 
         public ShoppingCart AddToCart(String UserId, OrderLineItem olOG)
         {
-            ShoppingCart cart = _appDbContext.Carts.Where(c => c.UserId == UserId).Include(c => c.basketItems).FirstOrDefault();
+
+
+
+
+            ShoppingCart cart = _appDbContext.Carts
+              .Where(x => x.UserId == UserId)
+              .Include(x => x.basketItems)
+              .ThenInclude(x => x.Post)
+              .FirstOrDefault();
 
             Boolean itemFound = false;
 
@@ -48,19 +55,33 @@
 
             if (cart.basketItems == null)
             {
-                cart.basketItems = new List<OrderLineItem>(); ;
+                cart.basketItems = new List<OrderLineItem>();
             }
             else
             {
                 foreach (OrderLineItem ol in cart.basketItems)
                 {
 
-                    if (ol.Post.PostId.Equals(olOG.Post.PostId) && ol.Type.GetType() == olOG.Type.GetType())
+                    if (ol.Post.PostId.Equals(olOG.Post.PostId) && ol.Type == olOG.Type)
                     {
 
-                        ol.Quantity++;
-                        itemFound = true;
-                        break;
+                        if (ol.Type == "License")
+                        {
+                            ol.Quantity++;
+                            itemFound = true;
+                            break;
+                        }
+                        else
+                        {
+
+                            if (ol.Size.Equals(olOG.Size))
+                            {
+                                ol.Quantity++;
+                                itemFound = true;
+                                break;
+                            }
+
+                        }
 
                     }
 
@@ -71,9 +92,16 @@
                     cart.basketItems.Add(olOG);
                 }
             }
+            try
+            {
+                _appDbContext.Entry(cart).CurrentValues.SetValues(cart);
+                // _appDbContext.Carts.Update(cart);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
 
-            cart.basketItems.Add(olOG);
-            _appDbContext.Carts.Update(cart);
             _appDbContext.SaveChanges();
             return cart;
         }
@@ -83,18 +111,9 @@
 
             //TODO validate if user is the intended user
 
-
-
-
             ShoppingCart cart = _appDbContext.Carts.FirstOrDefault(c => c.UserId == UserId);
 
-
             //TODO, validate the item is actually possible to be added
-
-
-
-
-
 
             foreach (OrderLineItem ol in cart.basketItems)
             {
@@ -122,7 +141,10 @@
 
         public ShoppingCart EmptyBasket(String UserId)
         {
-            ShoppingCart cart = _appDbContext.Carts.FirstOrDefault(c => c.UserId == UserId);
+            ShoppingCart cart = _appDbContext.Carts
+              .Where(x => x.UserId == UserId)
+              .Include(x => x.basketItems)
+              .FirstOrDefault();
             cart.basketItems.Clear();
             _appDbContext.SaveChanges();
             return cart;
@@ -136,14 +158,12 @@
         public Order PlaceOrder(string UserId)
         {
             var result = _appDbContext.Carts
-      .Where(x => x.UserId == UserId)
-      .Include(x => x.basketItems)
-      .ThenInclude(x => x.Post)
-      .FirstOrDefault();
-
+              .Where(x => x.UserId == UserId)
+              .Include(x => x.basketItems)
+              .ThenInclude(x => x.Post)
+              .FirstOrDefault();
 
             Order order = new Order();
-
 
             try
             {
@@ -152,7 +172,8 @@
                 //set address
                 order.DatePlaced = DateTime.Now;
                 order.LineItems = items;
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 Console.WriteLine(e);
             }
@@ -161,16 +182,7 @@
             result.basketItems.Clear();
             _appDbContext.SaveChanges();
 
-
-
-
-
-
-
-
-
-
-            return new Order();
+            return order;
         }
 
         public ShoppingCart RemoveOne(string UserId, int LineItemId)
@@ -186,10 +198,10 @@
         {
             //return _appDbContext.Carts.Where(c => c.UserId == UserId).Include(c => c.basketItems).Where(p => p.).FirstOrDefault();
             var result = _appDbContext.Carts
-       .Where(x => x.UserId == UserId)
-       .Include(x => x.basketItems)
-       .ThenInclude(x => x.Post)
-       .SingleOrDefault();
+              .Where(x => x.UserId == UserId)
+              .Include(x => x.basketItems)
+              .ThenInclude(x => x.Post)
+              .SingleOrDefault();
 
             return result;
         }
@@ -201,9 +213,5 @@
             _appDbContext.SaveChanges();
             return cart;
         }
-
-
-
-
     }
 }

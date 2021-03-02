@@ -45,6 +45,22 @@ namespace _4thYearProject.Api.Controllers
         }
 
 
+        //[HttpDelete("{Follower_ID}/{Followed_ID}")]
+        //public IActionResult RemoveFollowing(string Follower_ID, string Followed_ID)
+        //{
+        //    if (Follower_ID == string.Empty ^ Followed_ID == string.Empty)
+        //        return BadRequest();
+
+        //    _followingRepository.RemoveFollowing(Follower_ID, Followed_ID);
+
+        //    return NoContent();//success
+        //}
+
+
+
+
+
+
     }
 
 
