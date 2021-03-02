@@ -2,12 +2,14 @@ namespace _4thYearProject.Api
 {
     using _4thYearProject.Api.CloudStorage;
     using _4thYearProject.Api.Controllers.Identity;
+    using _4thYearProject.Api.Emailing;
     using _4thYearProject.Api.Models;
     using _4thYearProject.Shared;
     using IdentityServer4.AccessTokenValidation;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.AspNetCore.Mvc.Authorization;
     using Microsoft.AspNetCore.ResponseCompression;
     using Microsoft.EntityFrameworkCore;
@@ -15,6 +17,7 @@ namespace _4thYearProject.Api
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Stripe;
+    using System;
     using System.Linq;
 
     public class Startup
@@ -92,6 +95,16 @@ IdentityServerAuthenticationDefaults.AuthenticationScheme)
             services.AddScoped<ILikeRepository, LikeRepository>();
             services.AddSingleton<ICloudStorage, GoogleCloudStorage>();
             services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
+            services.AddTransient<IEmailSender, MailKitEmailSender>();
+            services.Configure<MailKitEmailSenderOptions>(options =>
+            {
+                options.Host_Address = Configuration["ExternalProviders:MailKit:SMTP:Address"];
+                options.Host_Port = Convert.ToInt32(Configuration["ExternalProviders:MailKit:SMTP:Port"]);
+                options.Host_Username = Configuration["ExternalProviders:MailKit:SMTP:Account"];
+                options.Host_Password = Configuration["ExternalProviders:MailKit:SMTP:Password"];
+                options.Sender_EMail = Configuration["ExternalProviders:MailKit:SMTP:SenderEmail"];
+                options.Sender_Name = Configuration["ExternalProviders:MailKit:SMTP:SenderName"];
+            });
 
             services.AddCors(options =>
             {

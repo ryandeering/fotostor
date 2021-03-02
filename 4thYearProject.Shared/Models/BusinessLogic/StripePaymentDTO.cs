@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace _4thYearProject.Shared
+﻿namespace _4thYearProject.Shared
 {
     public class StripePaymentDTO
     {
@@ -13,5 +7,6 @@ namespace _4thYearProject.Shared
         public int OrderId { get; set; }
         public string UserId { get; set; }
         public int CartId { get; set; }
+        public string Email { get; set; }
     }
 }

@@ -27,6 +27,7 @@ namespace _4thYearProject.Shared.Models
         public double LicensePrice { get; set; }
         public bool PrintsEnabled { get; set; }
         public bool ShirtsEnabled { get; set; }
+        public bool PostDeleted { get; set; }
 
 
 

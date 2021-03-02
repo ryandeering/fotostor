@@ -155,6 +155,15 @@
             return _appDbContext.Orders.Where(o => o.UserId.Equals(UserId));
         }
 
+        public IEnumerable<OrderLineItem> GetOrderLinesForUser(string UserId)
+        {
+            List<OrderLineItem> lineitems = _appDbContext.LineItems.Where(ol => ol.Post.UserId.Contains(UserId)).ToList();
+
+            return lineitems;
+        }
+
+
+
         public Order PlaceOrder(string UserId)
         {
             var result = _appDbContext.Carts

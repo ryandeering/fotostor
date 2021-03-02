@@ -5,38 +5,102 @@
 @if (User != null)
 {
 
-    <p>@User.DisplayName</p>
+    <header>
+        <div class="container">
 
-    @if (!claimDisplayName.Equals(DisplayName))
-    {
-        <button class="btn btn-primary" onclick="@FollowUser();">Follow</button>
-    }
+            <div class="profile">
 
+                <div class="profile-image">
+
+                    <img src=@User.ProfilePic alt="">
+
+                </div>
+
+                <div class="profile-user-settings">
+
+                    <h1 class="profile-user-name">@DisplayName</h1>
+
+                    @if (claimDisplayName.Equals(DisplayName))
+                    {
+                        <button class="btn profile-edit-btn">Edit Profile</button>
+                    }
+                </div>
+
+                <div class="profile-stats">
+
+                    <ul>
+                        <li><span class="profile-stat-count">164</span> posts</li>
+                        <li><span class="profile-stat-count">188</span> followers</li>
+                        <li><span class="profile-stat-count">206</span> following</li>
+                    </ul>
+
+                </div>
+
+                <div class="profile-bio">
+                    @if (User.FirstName != String.Empty)
+                    {
+                        <p><span class="profile-real-name">@User.FirstName </span></p>
+                    }
+
+                    @if (User.FirstName != String.Empty && User.SecondName != String.Empty)
+                    {
+                        <p><span class="profile-real-name">@User.FirstName @User.SecondName</span> Just an average guy. </p>
+                    }
+                </div>
+
+                @if (!claimDisplayName.Equals(DisplayName))
+                {
+                    <button class="btn btn-primary" onclick="@FollowUser();">Follow</button>
+                }
+
+            </div>
+            <!-- End of profile section -->
+
+        </div>
+        <!-- End of container -->
+    </header>
     if (Posts == null)
     {
-        <p><em>Loading...</em></p>
+        <div class="loader"></div>
     }
     else
     {
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Submission Time</th>
-                    <th>Image</th>
-                    <th>Caption</th>
-                </tr>
-            </thead>
-            <tbody>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+
+
+        <div class="container-fluid bg-dark">
+            <div class="row">
                 @foreach (var Post in Posts)
                 {
-                    <tr>
-                        <th>@Post.UploadDate.ToString("dd/MM/yyyy h:mm tt")</th>
-                        <td><img src=@Post.Thumbnail /></td>
-                        <td>@Post.Caption</td>
-                    </tr>
+                    <a href="@Post.Thumbnail" class="col-md-4 p-1 h-150"></a>
+
+
                 }
-            </tbody>
-        </table>
+            </div>
+
+        </div>
     }
 
 

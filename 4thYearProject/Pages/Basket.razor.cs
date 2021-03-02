@@ -40,12 +40,17 @@
         [Parameter]
         public string LoggedInID { get; set; }
 
+        public string Email { get; set; }
+
         protected async override Task OnInitializedAsync()
         {
             price = 0;
             basket.basketItems = new List<OrderLineItem>();
             identity = await _userService.GetUserAsync();
             LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+                   .Select(c => c.Value).SingleOrDefault().ToString();
+
+            Email = identity.Claims.Where(c => c.Type.Equals("email"))
                    .Select(c => c.Value).SingleOrDefault().ToString();
 
             basket = await shoppingCartDataService.GetCart(LoggedInID);
@@ -64,6 +69,10 @@
 
             order.UserId = LoggedInID;
             order.Amount = ConvertEuroToCents(price);
+            order.Email = Email;
+
+
+
 
             var result = await stripePaymentService.CheckOut(order);
 
@@ -74,7 +83,7 @@
         private async Task EmptyBasket(MouseEventArgs e)
         {
 
-           await shoppingCartDataService.EmptyBasket(LoggedInID);
+            await shoppingCartDataService.EmptyBasket(LoggedInID);
             basket = await shoppingCartDataService.GetCart(LoggedInID);
             getPrice();
             StateHasChanged();
