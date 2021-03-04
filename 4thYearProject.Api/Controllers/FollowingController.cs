@@ -2,6 +2,10 @@
 using _4thYearProject.Shared.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace _4thYearProject.Api.Controllers
 {
@@ -55,6 +59,64 @@ namespace _4thYearProject.Api.Controllers
 
         //    return NoContent();//success
         //}
+
+
+        [HttpGet("{Follower_ID}/{Followed_ID}")]
+        public IActionResult VerifyFollowing(string Follower_ID, string Followed_ID)
+        {
+            if (Follower_ID == string.Empty ^ Followed_ID == string.Empty)
+                return BadRequest();
+
+           Following IsFollowing = _followingRepository.VerifyFollowing(Follower_ID, Followed_ID);
+
+            if (IsFollowing == null)
+            {
+                return BadRequest();
+            } else
+            {
+                return Created("following", IsFollowing);
+            }
+        }
+
+
+        [HttpGet("{Followed_ID}")]
+        public IActionResult GetFollowers(string Followed_ID)
+        {
+            if (Followed_ID == string.Empty)
+                return BadRequest();
+
+            List<Following> FollowingList = _followingRepository.GetFollowers(Followed_ID);
+
+            if (FollowingList == null)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                return Created("following", FollowingList);
+            }
+        }
+
+        [HttpGet("fa/{Follower_ID}")]
+        public IActionResult GetFollowing(string Follower_ID)
+        {
+            if (Follower_ID == string.Empty)
+                return BadRequest();
+
+            List<Following> FollowingList = _followingRepository.GetFollowing(Follower_ID);
+
+            if (FollowingList == null)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                return Created("following", FollowingList);
+            }
+        }
+
+
+
 
 
 

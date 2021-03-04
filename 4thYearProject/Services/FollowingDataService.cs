@@ -3,6 +3,7 @@
     using _4thYearProject.Shared;
     using _4thYearProject.Shared.Models;
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Net.Http;
     using System.Security.Claims;
@@ -50,22 +51,43 @@
             return null;
         }
 
+        public async Task<List<Following>> GetFollowers(string Following_ID)
+        {
+            var response = await _httpClient.GetAsync($"api/following/{Following_ID}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return await JsonSerializer.DeserializeAsync<List<Following>>(await response.Content.ReadAsStreamAsync());
+            }
+            else { return null; }
+        }
+
+        public async Task<List<Following>> GetFollowing(string Follower_ID)
+        {
+            var response = await _httpClient.GetAsync($"api/following/fa/{Follower_ID}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return await JsonSerializer.DeserializeAsync<List<Following>>(await response.Content.ReadAsStreamAsync());
+            }
+            else { return null; }
+        }
+
         public async Task RemoveFollowing(string Follower_ID, string Following_ID)
         {
             await _httpClient.DeleteAsync($"api/following/{Follower_ID}/{Following_ID}");
         }
 
-        //public Task<Task<bool>> verifyFollowing(Following follow)
-        //{
+        public async Task<Following> verifyFollowing(string Follower_ID, string Following_ID)
+        {
 
-        //    var followingJson =
-        //        new StringContent(JsonSerializer.Serialize(follow), Encoding.UTF8, "application/json");
+            var response = await _httpClient.GetAsync($"api/following/{Follower_ID}/{Following_ID}");
 
-        //    var response = await _httpClient.GetAsync("api/following", followingJson);
-
-
-
-
-        //}
+            if (response.IsSuccessStatusCode)
+            {
+                return await JsonSerializer.DeserializeAsync<Following>(await response.Content.ReadAsStreamAsync());
+            }
+            else { return null; }
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using _4thYearProject.Shared.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace _4thYearProject.Server.Services
@@ -7,7 +8,9 @@ namespace _4thYearProject.Server.Services
     {
         Task<Following> AddFollowing(Following follow);
         Task RemoveFollowing(string Follower_ID, string Following_ID);
-        // Task<IEnumerable<Following>> verifyFollowing(Following follow);
+        Task<Following> verifyFollowing(string Follower_ID, string Following_ID);
+        Task<List<Following>> GetFollowers(string Following_ID);
+        Task<List<Following>> GetFollowing(string Follower_ID);
     }
 }
 

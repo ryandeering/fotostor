@@ -1,4 +1,5 @@
 ﻿using _4thYearProject.Shared.Models;
+using System.Collections.Generic;
 
 namespace _4thYearProject.Api.Models
 {
@@ -6,6 +7,8 @@ namespace _4thYearProject.Api.Models
     {
         Following AddFollowing(Following follow);
         void RemoveFollowing(string FollowerID, string FollowingID);
-        Following VerifyFollowing(Following follow);
+        Following VerifyFollowing(string FollowerID, string FollowedID);
+        List<Following> GetFollowers(string FollowingID);
+        List<Following> GetFollowing(string FollowingID);
     }
 }

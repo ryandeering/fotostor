@@ -1,4 +1,5 @@
 ﻿using _4thYearProject.Server.Services;
+using _4thYearProject.Server.Shared;
 using _4thYearProject.Shared;
 using _4thYearProject.Shared.Models;
 using Blazored.Modal;
@@ -27,6 +28,13 @@ namespace _4thYearProject.Server.Pages
 
         [Inject]
         public IUserDataService UserDataService { get; set; }
+
+ 
+
+
+
+
+
 
         [CascadingParameter] public IModalService Modal { get; set; }
         //https://github.com/Blazored/Modal/blob/main/samples/BlazorWebAssembly/Pages/PassDataToModal.razor

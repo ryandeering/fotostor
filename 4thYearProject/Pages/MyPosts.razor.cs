@@ -2,6 +2,7 @@
 using _4thYearProject.Shared;
 using _4thYearProject.Shared.Models;
 using Microsoft.AspNetCore.Components;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -32,10 +33,19 @@ namespace _4thYearProject.Server.Pages
 
 
         Following follow = new Following();
+        List<Following> followers { get; set; }
+        List<Following> following { get; set; }
+
+        bool IsFollowing { get; set; }
+        int FollowerCount { get; set; }
+        int FollowingCount { get; set; }
+        
+
+
+        
 
         protected async override Task OnInitializedAsync()
         {
-
             identity = await _userService.GetUserAsync();
             //First get user claims    
             claimDisplayName = identity.Claims.Where(c => c.Type.Equals("preferred_username"))
@@ -46,8 +56,17 @@ namespace _4thYearProject.Server.Pages
 
             Posts = (await PostDataService.GetPostsByUserId(User.Id)).ToList();
 
+            followers = await GetFollowers();
+            following = await GetFollowing();
+            FollowerCount = followers.Count;
+            FollowingCount = following.Count;
+
+            await VerifyFollowing();
+
 
         }
+
+
 
         protected async Task FollowUser()
         {
@@ -57,7 +76,8 @@ namespace _4thYearProject.Server.Pages
             follow.Follower_ID = LoggedInID;
             follow.Followed_ID = User.Id;
             await FollowingService.AddFollowing(follow);
-            await OnInitializedAsync();
+            IsFollowing = true;
+            FollowerCount++;
 
         }
 
@@ -69,22 +89,51 @@ namespace _4thYearProject.Server.Pages
             follow.Follower_ID = LoggedInID;
             follow.Followed_ID = User.Id;
             await FollowingService.RemoveFollowing(LoggedInID, User.Id);
-
+            IsFollowing = false;
+            FollowerCount--;
         }
 
 
-        protected async Task<Following> VerifyFollowing()
+        protected async Task VerifyFollowing()
         {
             string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
                   .Select(c => c.Value).SingleOrDefault().ToString();
             follow.Follower_ID = LoggedInID;
-            follow.Followed_ID = User.Id;
-            // follow = await FollowingService.verifyFollowing(follow);
+            Following temp = await FollowingService.verifyFollowing(LoggedInID, User.Id);
+            if (temp != null)
+            {
+                IsFollowing = true;
+            }
+            else
+            {
+                IsFollowing = false;
+            }
+        }
 
 
+        protected async Task<List<Following>> GetFollowers()
+        {
+            string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+                  .Select(c => c.Value).SingleOrDefault().ToString();
+            List<Following> followerstemp = await FollowingService.GetFollowers(User.Id);
+           
 
-            return null;
+            return followerstemp;
 
         }
+
+        protected async Task<List<Following>> GetFollowing()
+        {
+            List<Following> followingtemp = await FollowingService.GetFollowing(User.Id);
+
+            return followingtemp;
+
+        }
+
+
+
+
+
+
     }
 }

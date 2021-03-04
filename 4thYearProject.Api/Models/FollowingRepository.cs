@@ -1,6 +1,7 @@
 ﻿namespace _4thYearProject.Api.Models
 {
     using _4thYearProject.Shared.Models;
+    using System.Collections.Generic;
     using System.Linq;
 
     //  [Route("api/[controller]")]
@@ -14,19 +15,12 @@
             _appDbContext = appDbContext;
         }
 
-        public Following VerifyFollowing(Following follow)
+        public Following VerifyFollowing(string FollowerID, string FollowedID)
         {
+            var foundFollower = _appDbContext.Followers.FirstOrDefault(f => f.Follower_ID == FollowerID && f.Followed_ID == FollowedID);
+            if (foundFollower == null) return null;
 
-
-            bool following = _appDbContext.Followers.Where(f => f.Follower_ID == follow.Follower_ID && f.Followed_ID == follow.Followed_ID).Any();
-
-
-            if (!following)
-            {
-                follow = null;
-            }
-
-            return follow;
+            return foundFollower;
         }
 
         public Following AddFollowing(Following follow)
@@ -50,5 +44,22 @@
             _appDbContext.Followers.Remove(foundFollower);
             _appDbContext.SaveChanges();
         }
+
+        public List<Following> GetFollowers(string FollowingID)
+        {
+            List<Following> foundFollowers = _appDbContext.Followers.Where(f => f.Followed_ID == FollowingID).ToList();
+            return foundFollowers;
+        }
+
+        public List<Following> GetFollowing(string FollowingID)
+        {
+            List<Following> foundFollowers = _appDbContext.Followers.Where(f => f.Follower_ID == FollowingID).ToList();
+            return foundFollowers;
+        }
+
+
+
+
+
     }
 }
