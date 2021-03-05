@@ -6,6 +6,7 @@
 @inject IUserDataService UserDataService
 @inject IUserService _userService
 @inject IWebAssemblyHostEnvironment HostEnvironment
+@inject NavigationManager UriHelper
 
 
 <div class="navigation">
@@ -51,8 +52,14 @@
                         </div>
                     </i>
                 </a>
-                <a href="/profile/@ProfileName" class="navigation-link">
+                @if (User != null)
+                {
+                <a @onclick="() => Navigate()" class="navigation-link">
                     <i class="far fa-user-circle"></i>
+                </a>
+                }
+                <a href="/basket/" class="navigation-link">
+                    <i class="fas fa-shopping-basket"></i>
                 </a>
                 <a id="signout" class="navigation-link" @onclick="BeginSignOut">
                     <i class="fas fa-sign-out-alt"></i>
@@ -93,6 +100,32 @@
 
 
         }
+
+    }
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            if (identity.Identity.IsAuthenticated)
+            {
+                LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+                     .Select(c => c.Value).SingleOrDefault().ToString();
+                User = await UserDataService.GetUserDataDetails(LoggedInID);
+                ProfileName = User.DisplayName;
+
+                //if (User.ProfilePic != String.Empty)
+                //{
+                //    URI = User.ProfilePic;
+                //    await Task.Delay(1000);
+                //    StateHasChanged();
+                //}
+
+
+
+            }
+        }
     }
 
 
@@ -103,6 +136,10 @@
         Navigation.NavigateTo("authentication/logout");
     }
 
+    void Navigate()
+    {
+        UriHelper.NavigateTo("/profile/" + User.DisplayName,true);
+    }
 
 
 }

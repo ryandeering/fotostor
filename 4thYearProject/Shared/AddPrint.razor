@@ -9,51 +9,46 @@
 
 
 
-                @if (PostIn.ShirtsEnabled)
+                @if (PostIn.PrintsEnabled)
                 {
-                    <h3>Purchase Shirt</h3>
+                    <h3>Purchase Print</h3>
 
                     <img src=@PostIn.Thumbnail />
 
 
+                <select class="form-control selectpicker" @bind="size">
+                    <option>--select--</option>
+                    @foreach (var item in sizes)
+                    {
+                        <option>@item</option>
+                    }
+                </select>
 
-                   <p> Price: 25 Euro </p>
-
-
-
-                    <select class="form-control selectpicker" @bind="size">
-                        <option>--select--</option>
-                        @foreach (var item in sizes)
-                        {
-                            <option>@item</option>
-                        }
-                    </select>
-
-                    <button @onclick="AddtoCart" class="btn btn-primary">Submit</button>
-                    <button @onclick="Cancel" class="btn btn-secondary">Cancel</button>
-                }
-                else
-                {
-                    <h3>Invalid.</h3>
-                }
-
-
-            </p>
-        </div>
-    </div>
-
-}
-else
-{
-    <div class="card mb-4">
-        <div class="card-body">
-            <p class="card-text">
+                <button @onclick="AddtoCart" class="btn btn-primary">Submit</button>
+                <button @onclick="Cancel" class="btn btn-secondary">Cancel</button>
+            }
+            else
+            {
                 <h3>Invalid.</h3>
-            </p>
-        </div>
-    </div>
+            }
 
-}
+
+                </p>
+            </div>
+        </div>
+
+    }
+    else
+    {
+        <div class="card mb-4">
+            <div class="card-body">
+                <p class="card-text">
+                    <h3>Invalid.</h3>
+                </p>
+            </div>
+        </div>
+
+    }
 
 @code{
 
@@ -69,7 +64,7 @@ else
 
     public string UserId { get; set; }
 
-    private List<String> sizes = new List<String>(new String[] { "XS", "S", "M", "L", "XL", "XXL" });
+    private List<String> sizes = new List<String>(new String[] { "Small 39.5 x 59cm", "Medium 56.3 x 84cm", "Large 79.7 x 119cm" });
     private String size;
 
     protected async override Task OnInitializedAsync()
@@ -135,9 +130,24 @@ else
         string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
                  .Select(c => c.Value).SingleOrDefault().ToString();
         OrderLineItem ol = new OrderLineItem(PostIn);
-        ol.Price = 25.00;
-        ol.Type = "Shirt";
+        ol.Type = "Print";
         ol.Size = size;
+
+        switch (size)
+        {
+            case "Small 39.5 x 59cm":
+                ol.Price = 8.84;
+                break;
+
+            case "Medium 56.3 x 84cm":
+                ol.Price = 14.17;
+                break;
+
+            case "Large 79.7 x 119cm":
+                ol.Price = 22.13;
+                break;
+        }
+
 
         Cart.AddToCart(LoggedInID, ol);
     }

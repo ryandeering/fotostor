@@ -4,12 +4,13 @@
     using _4thYearProject.Shared;
     using _4thYearProject.Shared.Models.BusinessLogic;
     using Microsoft.AspNetCore.Components;
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
-    public partial class Orders : ComponentBase
+    public partial class OrderDetails : ComponentBase
     {
 
         [Inject]
@@ -24,29 +25,32 @@
         [Inject]
         public NavigationManager UriHelper { get; set; }
 
+        [Parameter]
+        public string OrderId { get; set; }
 
-        private List<Order> orders;
+        private Order Order;
 
+        public double TotalPrice { get; set; }
         internal ClaimsPrincipal identity;
 
         protected async override Task OnInitializedAsync()
         {
 
-
+            //TODO validate user is owner
             identity = await _userService.GetUserAsync();
 
 
             string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
                       .Select(c => c.Value).SingleOrDefault().ToString();
 
-                orders = (await shoppingCartDataService.GetAllOrders(LoggedInID)).ToList();
 
+                Order = (await shoppingCartDataService.GetOrderById(Int32.Parse(OrderId)));
         }
 
 
-        void Navigate(int OrderId)
+        void Navigate()
         {
-            UriHelper.NavigateTo("/orders/" + OrderId);
+            UriHelper.NavigateTo("/orders/");
         }
     }
 }

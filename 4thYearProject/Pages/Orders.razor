@@ -1,36 +1,32 @@
-﻿@page "/orders/{UserId}"
-
-@if (LoggedIn)
-{
-
-    <h3>Orders</h3>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Order Number</th>
-                <th>Date Placed</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var Order in orders)
-            {
+﻿@page "/orders/"
+    @if (orders != null)
+    {
+        <h3>Orders</h3>
+        <table class="table">
+            <thead>
                 <tr>
-                    <th>@Order.OrderId</th>
-                    <th>@Order.DatePlaced</th>
+                    <th>Order Number</th>
+                    <th>Date Placed</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var Order in orders)
+                {
+                    <tr>
+                        <th>@Order.OrderId</th>
+                        <th>@Order.DatePlaced</th>
+                    </tr>
+                    <MatButton @onclick="() => Navigate(Order.OrderId.Value)">View Details</MatButton>
+                }
 
-}
-else
-{
+            </tbody>
+        </table>
+    }
+    else
+    {
 
 
 
-    <h1>Invalid Page.</h1>
+        <h1>No orders found.</h1>
 
-}
-
-
-}
+    }

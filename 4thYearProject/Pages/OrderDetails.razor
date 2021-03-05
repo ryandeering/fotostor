@@ -1,0 +1,42 @@
+﻿@page "/orders/{OrderId}"
+
+    @if (Order != null)
+    {
+
+
+        <h3>Order Details: @OrderId</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Thumbnail</th>
+                    <th>Item Type</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var row in Order.LineItems)
+                {
+                    <tr>
+                        <th><img src=@row.Post.Thumbnail width="100" height="100" /></th>
+                        <th>@row.Type</th>
+                        <th>@row.Quantity</th>
+                        <th>@row.Price</th>
+                    </tr>
+
+                    TotalPrice += row.Price;
+                }
+
+                <MatH3>Price: @TotalPrice</MatH3>
+
+
+
+                <MatButton @onclick="() => Navigate()">Go Back</MatButton>
+
+            </tbody>
+        </table>
+    } else
+    {
+
+    <div class="loader"></div>
+    }

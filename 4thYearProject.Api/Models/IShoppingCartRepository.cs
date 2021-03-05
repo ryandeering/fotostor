@@ -15,5 +15,6 @@ namespace _4thYearProject.Api.Models
         ShoppingCart RemoveItem(String UserId, String PostId);
         ShoppingCart GetCart(string UserId);
         ShoppingCart AddCart(ShoppingCart cart);
+        Order GetOrderById(int OrderId);
     }
 }

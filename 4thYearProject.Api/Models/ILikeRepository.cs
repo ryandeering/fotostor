@@ -6,6 +6,6 @@ namespace _4thYearProject.Api.Models
     {
         Like AddLike(Like like);
         void RemoveLike(string UserID, string PostID);
-        Like VerifyLike(Like like);
+        Like VerifyLike(string UserID, string PostID);
     }
 }

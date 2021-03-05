@@ -26,6 +26,8 @@ namespace _4thYearProject.Server.Pages
 
         [Inject]
         public IUserDataService UserDataService { get; set; }
+        [Inject]
+        public NavigationManager UriHelper { get; set; }
 
         ClaimsPrincipal identity;
 
@@ -129,6 +131,17 @@ namespace _4thYearProject.Server.Pages
             return followingtemp;
 
         }
+
+        void Navigate(int PostId)
+        {
+            UriHelper.NavigateTo("/post/"+PostId);
+        }
+
+        void ProfileSettings()
+        {
+            UriHelper.NavigateTo("/profile/settings");
+        }
+
 
 
 

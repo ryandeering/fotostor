@@ -22,6 +22,7 @@ namespace _4thYearProject.Server.Pages
         Following follow = new Following();
         Like like = new Like();
         bool liked = false;
+        int LikeCount { get; set; }
         Comment extendcomment = new Comment();
 
 
@@ -41,7 +42,6 @@ namespace _4thYearProject.Server.Pages
 
         [Inject]
         public IMatToaster matToaster { get; set; }
-
 
 
         ClaimsPrincipal identity;
@@ -160,6 +160,7 @@ namespace _4thYearProject.Server.Pages
                    .Select(c => c.Value).SingleOrDefault().ToString();
 
                 post = (await PostDataService.GetPostDetails(int.Parse(PostID)));
+                await VerifyLiked();
 
             }
             catch (Exception e)
@@ -186,6 +187,22 @@ namespace _4thYearProject.Server.Pages
         }
 
 
+
+        protected async Task VerifyLiked()
+        {
+            string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+                  .Select(c => c.Value).SingleOrDefault().ToString();
+            Like temp = await LikeService.VerifyLike(LoggedInID, post.PostId.ToString());
+            if (temp != null)
+            {
+                liked = true;
+            }
+            else
+            {
+                liked = false;
+            }
+        }
+
         protected async Task GiveLike()
         {
 
@@ -201,9 +218,22 @@ namespace _4thYearProject.Server.Pages
                 liked = true;
                 await OnInitializedAsync();
             }
-            else
+        }
+
+        protected async Task UnLike()
+        {
+
+            if (!liked)
             {
-                //validate
+
+                string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+                      .Select(c => c.Value).SingleOrDefault().ToString();
+
+                like.User_ID = LoggedInID;
+                like.Post_ID = post.PostId.ToString();
+                await LikeService.RemoveLike(like.Post_ID,like.User_ID);
+                liked = false;
+                await OnInitializedAsync();
             }
         }
 

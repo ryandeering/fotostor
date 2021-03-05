@@ -27,7 +27,7 @@
         {
             Post = p;
             Quantity = 1;
-            Price = 69.00; //TODO, to be calculated.
+            Price = 00.00;
         }
 
         public OrderLineItem()

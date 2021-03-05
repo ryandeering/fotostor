@@ -47,5 +47,14 @@
             _appDbContext.Likes.Remove(foundLike);
             _appDbContext.SaveChanges();
         }
+
+        public Like VerifyLike(string PostId, string UserId)
+        {
+            var foundLike = _appDbContext.Likes.FirstOrDefault(p => p.User_ID == UserId && p.Post_ID == PostId);
+            if (foundLike == null) return null;
+
+            return foundLike;
+        }
+
     }
 }

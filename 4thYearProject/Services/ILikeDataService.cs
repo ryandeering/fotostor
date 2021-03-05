@@ -7,7 +7,7 @@ namespace _4thYearProject.Server.Services
     {
         Task<Like> AddLike(Like like);
         Task RemoveLike(string Post_ID, string User_ID);
-        // Task<IEnumerable<Following>> verifyFollowing(Following follow);
+        Task<Like> VerifyLike(string Post_ID, string User_ID);
     }
 }
 

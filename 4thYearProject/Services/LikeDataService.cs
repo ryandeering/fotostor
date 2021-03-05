@@ -55,9 +55,16 @@
             await _httpClient.DeleteAsync($"api/like/{Post_ID}/{User_ID}");
         }
 
-        //public Task<Task<Following>> verifyFollowing(Following follow)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public async Task<Like> VerifyLike(string Post_ID, string User_ID)
+        {
+
+            var response = await _httpClient.GetAsync($"api/like/{Post_ID}/{User_ID}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return await JsonSerializer.DeserializeAsync<Like>(await response.Content.ReadAsStreamAsync());
+            }
+            else { return null; }
+        }
     }
 }

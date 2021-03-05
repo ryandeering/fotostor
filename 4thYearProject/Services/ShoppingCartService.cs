@@ -113,6 +113,14 @@ namespace _4thYearProject.Server.Services
                     (await _httpClient.GetStreamAsync($"api/shoppingcart/orders/{UserId}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
         }
 
+
+        public async Task<Order> GetOrderById(int OrderID)
+        {
+            return await JsonSerializer.DeserializeAsync<Order>
+                    (await _httpClient.GetStreamAsync($"api/shoppingcart/orders/spec/{OrderID}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+        }
+
+
         public async Task<ShoppingCart> GetCart(string UserId)
         {
             return await JsonSerializer.DeserializeAsync<ShoppingCart>

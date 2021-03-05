@@ -18,13 +18,13 @@ else
         <tbody>
             <tr>
                 <th>@post.UploadDate.ToString("dd/MM/yyyy h:mm tt")</th>
-                <td><img src=@post.Thumbnail  /></td>
+                <td><img src=@post.Thumbnail /></td>
                 <td>@post.Caption</td>
             </tr>
         </tbody>
     </table>
 
-    
+
     <MatButton OnClick="() => GetUsernames()">test</MatButton>
     @if (Comments.Count != 0 || !Comments.Any())
     {
@@ -58,10 +58,16 @@ else
 
         }
 
-    <button onclick="@GiveLike()"
-            class="btn @( liked == true ? "btn-primary" : "btn-secondary" )">
-        <i class="fas fa-thumbs-up fa-lg"></i>
-    </button>
+    @if (liked)
+    {
+        <MatButton OnClick="GiveLike"><i class="far fa-thumbs-up"></i></MatButton>
+    }
+    else
+    {
+        <MatButton OnClick="UnLike">
+            <i class="fas fa-thumbs-up"></i>
+        </MatButton>
+    }
 
 
     <EditForm Model="@extendcomment" OnValidSubmit="@MakeComment">

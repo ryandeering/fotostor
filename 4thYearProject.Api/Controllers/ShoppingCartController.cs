@@ -34,6 +34,18 @@
             return Ok(_cartRepository.GetOrders(UserId));
         }
 
+        [HttpGet]
+        [Route("orders/spec/{OrderId}")]
+        public IActionResult GetOrderById(int OrderId)
+        {
+            return Ok(_cartRepository.GetOrderById(OrderId));
+        }
+
+
+
+
+
+
         [HttpDelete]
         [Route("empty/{UserId}")]
         public IActionResult EmptyBasket(string UserId)

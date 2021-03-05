@@ -44,6 +44,24 @@ namespace _4thYearProject.Api.Controllers
             return NoContent();//success
         }
 
+        [HttpGet("{Post_ID}/{User_ID}")]
+        public IActionResult VerifyLike(string Post_ID, string User_ID)
+        {
+            if (Post_ID == string.Empty ^ User_ID == string.Empty)
+                return BadRequest();
+
+            Like IsLiked = _likeRepository.VerifyLike(User_ID, Post_ID);
+
+            if (IsLiked == null)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                return Created("like", IsLiked);
+            }
+        }
+
 
     }
 

@@ -155,6 +155,12 @@
             return _appDbContext.Orders.Where(o => o.UserId.Equals(UserId));
         }
 
+        public Order GetOrderById(int OrderId)
+        {
+            return _appDbContext.Orders.Where(o => o.OrderId.Equals(OrderId)).Include(o => o.LineItems)
+              .ThenInclude(ol => ol.Post).First();
+        }
+
         public IEnumerable<OrderLineItem> GetOrderLinesForUser(string UserId)
         {
             List<OrderLineItem> lineitems = _appDbContext.LineItems.Where(ol => ol.Post.UserId.Contains(UserId)).ToList();

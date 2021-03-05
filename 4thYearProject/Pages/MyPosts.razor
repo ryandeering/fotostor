@@ -28,15 +28,18 @@
 
                     @if (claimDisplayName.Equals(DisplayName))
                     {
-                        <button class="btn profile-edit-btn">Edit Profile</button>
+                        <button class="btn profile-edit-btn" @onclick="ProfileSettings">Edit Profile</button>
                     }
                 </div>
 
                 <div class="profile-stats">
 
                     <ul>
+                        @if (Posts != null)
+                        {
+                            <li><span class="profile-stat-count">@Posts.Count()</span> posts</li>
+                        }
 
-                        <li><span class="profile-stat-count">164</span> posts</li>
                         @if (FollowerCount != null)
                         {
                             <li><span class="profile-stat-count">@FollowerCount</span> followers</li>
@@ -50,15 +53,9 @@
                 </div>
 
                 <div class="profile-bio">
-                    @if (User.FirstName != String.Empty)
-                    {
-                        <p><span class="profile-real-name">@User.FirstName </span></p>
-                    }
 
-                    @if (User.FirstName != String.Empty && User.SecondName != String.Empty)
-                    {
-                        <p><span class="profile-real-name">@User.FirstName @User.SecondName</span> Just an average guy. </p>
-                    }
+                        <p><span class="profile-real-name">@User.FirstName @User.SecondName</span>  Just an average guy. </p>
+                    
                 </div>
 
                 @if (!claimDisplayName.Equals(DisplayName))
@@ -82,38 +79,49 @@
     <main>
         @if (Posts == null)
         {
-        <div class="loader"></div>
+            <div class="loader"></div>
         }
         else
         {
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
 
-        <div class="container">
-            <div class="gallery">
-                @foreach (var Post in Posts)
-                {
 
-                    <div class="gallery-item" tabindex="0">
+            <div class="container">
+                <div class="gallery">
+                    @foreach (var Post in Posts)
+                    {
 
-                        <img src="@Post.Thumbnail" class="gallery-image" alt="">
+                        <div class="gallery-item" tabindex="0">
 
-                    </div>
+                            <img src="@Post.Thumbnail" @onclick="() => Navigate(Post.PostId)" class="gallery-image" alt="">
+
+                        </div>
 
 
-                }
+                    }
+                </div>
             </div>
-        </div>
         }
     </main>
 

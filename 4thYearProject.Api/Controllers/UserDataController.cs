@@ -80,32 +80,47 @@ namespace _4thYearProject.Api.Controllers
             if (UserDataToUpdate == null)
                 return NotFound();
 
+            if(UserData.ProfilePic != UserDataToUpdate.ProfilePic) {
+
+                byte[] ImagetoUpload = System.Convert.FromBase64String(UserData.ProfilePic);
 
 
 
-            byte[] ImagetoUpload = System.Convert.FromBase64String(UserData.ProfilePic);
+                try
+                {
+                    using (var inStream = new MemoryStream(ImagetoUpload))
+                    using (var outStream = new MemoryStream())
+                    using (var image = Image.Load(inStream, out IImageFormat format))
+                    {
+                        image.Mutate(
+                            i => i.Resize(250, 250));
+
+                        image.SaveAsJpegAsync(outStream);
 
 
 
 
-            using (var inStream = new MemoryStream(ImagetoUpload))
-            using (var outStream = new MemoryStream())
-            using (var image = Image.Load(inStream, out IImageFormat format))
-            {
-                image.Mutate(
-                    i => i.Resize(250, 250));
+                        ImagetoUpload = outStream.ToArray();
+                    }
 
-                image.SaveAsJpegAsync(outStream);
+                    Random rand = new Random();
+                    int rand_num = rand.Next(100, 200);
+                    UserData.ProfilePic = await _cloudStorage.UploadFileAsync(ImagetoUpload, (UserData.Id + rand_num.ToString() + ".JPEG"));
+
+                }
+                catch(Exception e)
+                {
+                    Console.WriteLine(e.Message); //todo: move this logic to repository
+                }
+
+                }
 
 
 
 
-                ImagetoUpload = outStream.ToArray();
-            }
 
-            Random rand = new Random();
-            int rand_num = rand.Next(100, 200);
-            UserData.ProfilePic = await _cloudStorage.UploadFileAsync(ImagetoUpload, (UserData.Id + rand_num.ToString() + ".JPEG"));
+
+
 
 
 
