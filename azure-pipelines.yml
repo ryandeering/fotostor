@@ -1,34 +1,74 @@
-# ASP.NET Core (.NET Framework)
-# Build and test ASP.NET Core projects targeting the full .NET Framework.
-# Add steps that publish symbols, save build artifacts, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
-
 trigger:
-- master
-
-pool:
-  vmImage: 'windows-latest'
+  branches:
+    include:
+    - main
 
 variables:
-  solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
+  vmImageName: 'windows-latest'
 
-steps:
-- task: NuGetToolInstaller@1
+stages:
+- stage: Build
+  displayName: Build stage
 
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
+  jobs:
+  - job: Build
+    displayName: Build
 
-- task: VSBuild@1
-  inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    pool:
+      vmImage: $(vmImageName)
 
-- task: VSTest@2
-  inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    steps:
+    - task: UseDotNet@2
+      displayName: Force .NET 5
+      inputs:
+        packageType: 'sdk'
+        version: '5.x'
+    - task: DotNetCoreCLI@2
+      displayName: Restore project
+      inputs:
+        command: 'restore'
+        projects: '**/4thYearProject.Api.csproj'
+        feedsToUse: 'select'
+    - task: DotNetCoreCLI@2
+      displayName: Build API
+      inputs:
+        command: 'build'
+        projects: '**/4thYearProject.Api.csproj'
+
+
+- stage: Release  
+  displayName: Release stage
+
+  jobs:
+  - job: Release
+    displayName: Release to Azure
+
+    pool:
+        vmImage: $(vmImageName)
+    steps:
+    - task: UseDotNet@2
+      displayName: Force .NET 5
+      inputs:
+        packageType: 'sdk'
+        version: '5.x'
+    - task: DotNetCoreCLI@2
+      displayName: Restore project
+      inputs:
+        command: 'restore'
+        projects: '**/4thYearProject.Api.csproj'
+        feedsToUse: 'select'
+    - task: DotNetCoreCLI@2
+      displayName: Publish project
+      inputs:
+        command: 'publish'
+        publishWebProjects: false
+        projects: '**/4thYearProject.Api.csproj'
+    - task: AzureRmWebAppDeployment@4
+      displayName: Deploy to Azure
+      inputs:
+        ConnectionType: 'AzureRM'
+        azureSubscription: 'RyanDeering(da902503-2b76-48ef-903a-0a4a7a5f03a3)'
+        appType: 'webApp'
+        WebAppName: '4thYearProjectRD'
+        packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
