@@ -71,4 +71,4 @@ stages:
         azureSubscription: 'fotostop'
         appType: 'webApp'
         WebAppName: 'fotostopAPI'
-        packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+        packageForLinux: '$(System.DefaultWorkingDirectory)/**/4thYearProject.Api.zip'
