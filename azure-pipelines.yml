@@ -62,7 +62,7 @@ stages:
       displayName: Publish project
       inputs:
         command: 'publish'
-        publishWebProjects: false
+        publishWebProjects: true
         projects: '**/4thYearProject.Api.csproj'
     - task: AzureRmWebAppDeployment@4
       displayName: Deploy to Azure
