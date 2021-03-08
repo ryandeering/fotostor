@@ -68,7 +68,7 @@ stages:
       displayName: Deploy to Azure
       inputs:
         ConnectionType: 'AzureRM'
-        azureSubscription: 'RyanDeering(da902503-2b76-48ef-903a-0a4a7a5f03a3)'
+        azureSubscription: 'Azure for Students Starter(5d27ca07-2248-4170-a7a8-870c4c1fdf9a)'
         appType: 'webApp'
-        WebAppName: '4thYearProjectRD'
+        WebAppName: 'fotostopAPI'
         packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
