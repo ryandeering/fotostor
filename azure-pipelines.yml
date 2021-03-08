@@ -67,7 +67,7 @@ stages:
       displayName: Publish project
       inputs:
         command: 'publish'
-        publishWebProjects: true
+        publishWebProjects: false
         projects: '**/*.csproj'
     - task: AzureRmWebAppDeployment@4
       displayName: Deploy to Azure
@@ -76,7 +76,7 @@ stages:
         azureSubscription: 'fotostop'
         appType: 'webApp'
         WebAppName: 'fotostopAPI'
-        packageForLinux: '$(System.DefaultWorkingDirectory)/4thYearProject.Api/*.zip'
+        packageForLinux: '$(System.DefaultWorkingDirectory)/4thYearProject.Api/'
     - task: AzureRmWebAppDeployment@4
       displayName: Deploy Blazor WebAssembly to Azure
       inputs:
@@ -84,4 +84,4 @@ stages:
         azureSubscription: 'fotostop'
         appType: 'webApp'
         WebAppName: 'fotostopBlazor'
-        packageForLinux: '$(System.DefaultWorkingDirectory)/4thYearProject/*.zip'
+        packageForLinux: '$(System.DefaultWorkingDirectory)/4thYearProject/'
