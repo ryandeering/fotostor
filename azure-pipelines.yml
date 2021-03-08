@@ -28,13 +28,18 @@ stages:
       displayName: Restore project
       inputs:
         command: 'restore'
-        projects: '**/4thYearProject.Api.csproj'
+        projects: '**/*.csproj'
         feedsToUse: 'select'
     - task: DotNetCoreCLI@2
       displayName: Build API
       inputs:
         command: 'build'
         projects: '**/4thYearProject.Api.csproj'
+    - task: DotNetCoreCLI@2
+      displayName: Build Blazor WebAssembly
+      inputs:
+        command: 'build'
+        projects: '**/4thYearProject.Server.csproj'
 
 
 - stage: Release  
@@ -56,14 +61,14 @@ stages:
       displayName: Restore project
       inputs:
         command: 'restore'
-        projects: '**/4thYearProject.Api.csproj'
+        projects: '**/*.csproj'
         feedsToUse: 'select'
     - task: DotNetCoreCLI@2
       displayName: Publish project
       inputs:
         command: 'publish'
         publishWebProjects: true
-        projects: '**/4thYearProject.Api.csproj'
+        projects: '**/*.csproj'
     - task: AzureRmWebAppDeployment@4
       displayName: Deploy to Azure
       inputs:
