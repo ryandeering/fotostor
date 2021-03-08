@@ -72,3 +72,11 @@ stages:
         appType: 'webApp'
         WebAppName: 'fotostopAPI'
         packageForLinux: '$(System.DefaultWorkingDirectory)/4thYearProject.Api'
+    - task: AzureRmWebAppDeployment@4
+      displayName: Deploy Blazor WebAssembly to Azure
+      inputs:
+        ConnectionType: 'AzureRM'
+        azureSubscription: 'fotostop'
+        appType: 'webApp'
+        WebAppName: 'fotostopBlazor'
+        packageForLinux: '$(System.DefaultWorkingDirectory)/4thYearProject.Server'
