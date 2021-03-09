@@ -10,6 +10,11 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
 
+	<PropertyGroup>
+	 <PublishIISAssets>true</PublishIISAssets>
+	</PropertyGroup>
+	
+	
   <ItemGroup>
     <Compile Remove="Components\AddPostDialog.cs" />
   </ItemGroup>
