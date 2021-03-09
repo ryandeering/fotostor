@@ -83,5 +83,5 @@ stages:
         ConnectionType: 'AzureRM'
         azureSubscription: 'fotostop'
         appType: 'webApp'
-        WebAppName: 'fotostopBlazor'
+        WebAppName: '4thYearProjectServer20210308215801'
         packageForLinux: '$(System.DefaultWorkingDirectory)/4thYearProject/'
