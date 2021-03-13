@@ -21,7 +21,7 @@ namespace _4thYearProject.Api.Controllers
 
         // GET api/<controller>/5
         [HttpGet("{id}")]
-        public IActionResult GetCommentsbyPostId(int id)
+        public IActionResult GetCommentsByPostId(int id)
         {
             return Ok(_commentRepository.GetCommentsByPostId(id));
         }
@@ -36,7 +36,6 @@ namespace _4thYearProject.Api.Controllers
         [HttpPost]
         public IActionResult CreateCommentAsync(Comment comment)
         {
-
             if (comment == null)
                 return BadRequest();
 
@@ -47,7 +46,6 @@ namespace _4thYearProject.Api.Controllers
             var createdComment = _commentRepository.AddComment(comment);
 
             return Created("comment", createdComment);
-
         }
 
 
@@ -63,7 +61,7 @@ namespace _4thYearProject.Api.Controllers
 
             _commentRepository.DeleteComment(id);
 
-            return NoContent();//success
+            return NoContent(); //success
         }
 
 
@@ -90,9 +88,5 @@ namespace _4thYearProject.Api.Controllers
 
             return NoContent(); //success
         }
-
-
     }
-
-
 }

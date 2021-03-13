@@ -1,25 +1,25 @@
+using System;
+using System.Linq;
+using _4thYearProject.Api.CloudStorage;
+using _4thYearProject.Api.Controllers.Identity;
+using _4thYearProject.Api.Emailing;
+using _4thYearProject.Api.Models;
+using _4thYearProject.Shared;
+using IdentityServer4.AccessTokenValidation;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Stripe;
+
 namespace _4thYearProject.Api
 {
-    using _4thYearProject.Api.CloudStorage;
-    using _4thYearProject.Api.Controllers.Identity;
-    using _4thYearProject.Api.Emailing;
-    using _4thYearProject.Api.Models;
-    using _4thYearProject.Shared;
-    using IdentityServer4.AccessTokenValidation;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Identity.UI.Services;
-    using Microsoft.AspNetCore.Mvc.Authorization;
-    using Microsoft.AspNetCore.ResponseCompression;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Hosting;
-    using Stripe;
-    using System;
-    using System.Linq;
-
     public class Startup
     {
         public Startup(IConfiguration configuration, IWebHostEnvironment environment)
@@ -38,9 +38,8 @@ namespace _4thYearProject.Api
             //services.AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase(databaseName: "_4thYearProject"));
 
             var requireAuthenticatedUserPolicy = new AuthorizationPolicyBuilder()
-               .RequireAuthenticatedUser()
-               .Build();   //change this later as we let posts become publicly visible
-
+                .RequireAuthenticatedUser()
+                .Build(); //change this later as we let posts become publicly visible
 
 
             services.AddHttpContextAccessor();
@@ -49,36 +48,26 @@ namespace _4thYearProject.Api
             services.AddResponseCompression(opts =>
             {
                 opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
-                    new[] { "application/octet-stream" });
+                    new[] {"application/octet-stream"});
             });
 
 
             if (Environment.IsDevelopment())
-            {
                 services.AddAuthentication(
-            IdentityServerAuthenticationDefaults.AuthenticationScheme)
-        .AddIdentityServerAuthentication(options =>
-        {
-            options.Authority = "https://localhost:44333/";
-            options.ApiName = "_4thyearprojectapi";
-        });
-
-            }
+                        IdentityServerAuthenticationDefaults.AuthenticationScheme)
+                    .AddIdentityServerAuthentication(options =>
+                    {
+                        options.Authority = "https://localhost:44333/";
+                        options.ApiName = "_4thyearprojectapi";
+                    });
             else
-            {
                 services.AddAuthentication(
-IdentityServerAuthenticationDefaults.AuthenticationScheme)
-.AddIdentityServerAuthentication(options =>
-{
-    options.Authority = "https://fourthyrprojidp.azurewebsites.net";
-    options.ApiName = "_4thyearprojectapi";
-});
-            }
-
-
-
-
-
+                        IdentityServerAuthenticationDefaults.AuthenticationScheme)
+                    .AddIdentityServerAuthentication(options =>
+                    {
+                        options.Authority = "https://fourthyrprojidp.azurewebsites.net";
+                        options.ApiName = "_4thyearprojectapi";
+                    });
 
 
             services.AddDbContext<AppDbContext>(options =>
@@ -112,18 +101,14 @@ IdentityServerAuthenticationDefaults.AuthenticationScheme)
             });
 
             services.AddControllers(configure =>
-            configure.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy)));
+                configure.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy)));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-
             StripeConfiguration.ApiKey = Configuration.GetSection("Stripe")["ApiKey"];
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
 
             app.UseResponseCompression();
 
@@ -138,10 +123,7 @@ IdentityServerAuthenticationDefaults.AuthenticationScheme)
 
             app.UseCors("Open");
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }
 }

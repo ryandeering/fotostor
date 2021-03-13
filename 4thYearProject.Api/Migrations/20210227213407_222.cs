@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace _4thYearProject.Api.Migrations
 {
@@ -8,294 +8,270 @@ namespace _4thYearProject.Api.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Carts",
-                columns: table => new
+                "Carts",
+                table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>("int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    UserId = table.Column<string>("nvarchar(max)", nullable: true)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Carts", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_Carts", x => x.Id); });
 
             migrationBuilder.CreateTable(
-                name: "Countries",
-                columns: table => new
+                "Countries",
+                table => new
                 {
-                    CountryId = table.Column<int>(type: "int", nullable: false)
+                    CountryId = table.Column<int>("int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Name = table.Column<string>("nvarchar(max)", nullable: true)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Countries", x => x.CountryId);
-                });
+                constraints: table => { table.PrimaryKey("PK_Countries", x => x.CountryId); });
 
             migrationBuilder.CreateTable(
-                name: "Followers",
-                columns: table => new
+                "Followers",
+                table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
+                    ID = table.Column<int>("int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Follower_ID = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Followed_ID = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Follower_ID = table.Column<string>("nvarchar(max)", nullable: false),
+                    Followed_ID = table.Column<string>("nvarchar(max)", nullable: true)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Followers", x => x.ID);
-                });
+                constraints: table => { table.PrimaryKey("PK_Followers", x => x.ID); });
 
             migrationBuilder.CreateTable(
-                name: "JobCategories",
-                columns: table => new
+                "JobCategories",
+                table => new
                 {
-                    JobCategoryId = table.Column<int>(type: "int", nullable: false)
+                    JobCategoryId = table.Column<int>("int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    JobCategoryName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    JobCategoryName = table.Column<string>("nvarchar(max)", nullable: true)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_JobCategories", x => x.JobCategoryId);
-                });
+                constraints: table => { table.PrimaryKey("PK_JobCategories", x => x.JobCategoryId); });
 
             migrationBuilder.CreateTable(
-                name: "Likes",
-                columns: table => new
+                "Likes",
+                table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
+                    ID = table.Column<int>("int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    User_ID = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Post_ID = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    User_ID = table.Column<string>("nvarchar(max)", nullable: false),
+                    Post_ID = table.Column<string>("nvarchar(max)", nullable: true)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Likes", x => x.ID);
-                });
+                constraints: table => { table.PrimaryKey("PK_Likes", x => x.ID); });
 
             migrationBuilder.CreateTable(
-                name: "Orders",
-                columns: table => new
+                "Orders",
+                table => new
                 {
-                    OrderId = table.Column<int>(type: "int", nullable: false)
+                    OrderId = table.Column<int>("int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DatePlaced = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserCity = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserCountry = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    UserId = table.Column<string>("nvarchar(max)", nullable: true),
+                    DatePlaced = table.Column<DateTime>("datetime2", nullable: true),
+                    UserName = table.Column<string>("nvarchar(max)", nullable: true),
+                    UserAddress = table.Column<string>("nvarchar(max)", nullable: true),
+                    UserCity = table.Column<string>("nvarchar(max)", nullable: true),
+                    UserCountry = table.Column<string>("nvarchar(max)", nullable: true)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Orders", x => x.OrderId);
-                });
+                constraints: table => { table.PrimaryKey("PK_Orders", x => x.OrderId); });
 
             migrationBuilder.CreateTable(
-                name: "Posts",
-                columns: table => new
+                "Posts",
+                table => new
                 {
-                    PostId = table.Column<int>(type: "int", nullable: false)
+                    PostId = table.Column<int>("int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhotoFile = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Thumbnail = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MimeType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LicenseEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    LicensePrice = table.Column<double>(type: "float", nullable: false),
-                    PrintsEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    ShirtsEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    Caption = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    UploadDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Likes = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<string>("nvarchar(max)", nullable: true),
+                    PhotoFile = table.Column<string>("nvarchar(max)", nullable: true),
+                    Thumbnail = table.Column<string>("nvarchar(max)", nullable: true),
+                    MimeType = table.Column<string>("nvarchar(max)", nullable: true),
+                    LicenseEnabled = table.Column<bool>("bit", nullable: false),
+                    LicensePrice = table.Column<double>("float", nullable: false),
+                    PrintsEnabled = table.Column<bool>("bit", nullable: false),
+                    ShirtsEnabled = table.Column<bool>("bit", nullable: false),
+                    Caption = table.Column<string>("nvarchar(150)", maxLength: 150, nullable: false),
+                    UploadDate = table.Column<DateTime>("datetime2", nullable: false),
+                    Likes = table.Column<int>("int", nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Posts", x => x.PostId);
-                });
+                constraints: table => { table.PrimaryKey("PK_Posts", x => x.PostId); });
 
             migrationBuilder.CreateTable(
-                name: "Users",
-                columns: table => new
+                "Users",
+                table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    DisplayName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SecondName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ProfilePic = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<string>("nvarchar(450)", nullable: false),
+                    DisplayName = table.Column<string>("nvarchar(max)", nullable: false),
+                    FirstName = table.Column<string>("nvarchar(max)", nullable: true),
+                    SecondName = table.Column<string>("nvarchar(max)", nullable: true),
+                    ProfilePic = table.Column<string>("nvarchar(max)", nullable: true)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_Users", x => x.Id); });
 
             migrationBuilder.CreateTable(
-                name: "Employees",
-                columns: table => new
+                "Employees",
+                table => new
                 {
-                    EmployeeId = table.Column<int>(type: "int", nullable: false)
+                    EmployeeId = table.Column<int>("int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    BirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Street = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Zip = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CountryId = table.Column<int>(type: "int", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Smoker = table.Column<bool>(type: "bit", nullable: false),
-                    MaritalStatus = table.Column<int>(type: "int", nullable: false),
-                    Gender = table.Column<int>(type: "int", nullable: false),
-                    Comment = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
-                    JoinedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ExitDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    JobCategoryId = table.Column<int>(type: "int", nullable: false),
-                    Latitude = table.Column<double>(type: "float", nullable: false),
-                    Longitude = table.Column<double>(type: "float", nullable: false)
+                    FirstName = table.Column<string>("nvarchar(50)", maxLength: 50, nullable: false),
+                    LastName = table.Column<string>("nvarchar(50)", maxLength: 50, nullable: false),
+                    BirthDate = table.Column<DateTime>("datetime2", nullable: false),
+                    Email = table.Column<string>("nvarchar(max)", nullable: false),
+                    Street = table.Column<string>("nvarchar(max)", nullable: true),
+                    Zip = table.Column<string>("nvarchar(max)", nullable: true),
+                    City = table.Column<string>("nvarchar(max)", nullable: true),
+                    CountryId = table.Column<int>("int", nullable: false),
+                    PhoneNumber = table.Column<string>("nvarchar(max)", nullable: true),
+                    Smoker = table.Column<bool>("bit", nullable: false),
+                    MaritalStatus = table.Column<int>("int", nullable: false),
+                    Gender = table.Column<int>("int", nullable: false),
+                    Comment = table.Column<string>("nvarchar(1000)", maxLength: 1000, nullable: true),
+                    JoinedDate = table.Column<DateTime>("datetime2", nullable: true),
+                    ExitDate = table.Column<DateTime>("datetime2", nullable: true),
+                    JobCategoryId = table.Column<int>("int", nullable: false),
+                    Latitude = table.Column<double>("float", nullable: false),
+                    Longitude = table.Column<double>("float", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Employees", x => x.EmployeeId);
                     table.ForeignKey(
-                        name: "FK_Employees_Countries_CountryId",
-                        column: x => x.CountryId,
-                        principalTable: "Countries",
-                        principalColumn: "CountryId",
+                        "FK_Employees_Countries_CountryId",
+                        x => x.CountryId,
+                        "Countries",
+                        "CountryId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Employees_JobCategories_JobCategoryId",
-                        column: x => x.JobCategoryId,
-                        principalTable: "JobCategories",
-                        principalColumn: "JobCategoryId",
+                        "FK_Employees_JobCategories_JobCategoryId",
+                        x => x.JobCategoryId,
+                        "JobCategories",
+                        "JobCategoryId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Comments",
-                columns: table => new
+                "Comments",
+                table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>("int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PostId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Body = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SubmittedOn = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    PostId = table.Column<int>("int", nullable: false),
+                    UserId = table.Column<string>("nvarchar(max)", nullable: true),
+                    Body = table.Column<string>("nvarchar(max)", nullable: true),
+                    Username = table.Column<string>("nvarchar(max)", nullable: true),
+                    SubmittedOn = table.Column<DateTime>("datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Comments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Comments_Posts_PostId",
-                        column: x => x.PostId,
-                        principalTable: "Posts",
-                        principalColumn: "PostId",
+                        "FK_Comments_Posts_PostId",
+                        x => x.PostId,
+                        "Posts",
+                        "PostId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "LineItems",
-                columns: table => new
+                "LineItems",
+                table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>("int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PostId = table.Column<int>(type: "int", nullable: false),
-                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Price = table.Column<double>(type: "float", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
-                    OrderId = table.Column<int>(type: "int", nullable: true),
-                    ShoppingCartId = table.Column<int>(type: "int", nullable: true)
+                    PostId = table.Column<int>("int", nullable: false),
+                    Type = table.Column<string>("nvarchar(max)", nullable: true),
+                    Price = table.Column<double>("float", nullable: false),
+                    Quantity = table.Column<int>("int", nullable: false),
+                    OrderId = table.Column<int>("int", nullable: true),
+                    ShoppingCartId = table.Column<int>("int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_LineItems", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_LineItems_Carts_ShoppingCartId",
-                        column: x => x.ShoppingCartId,
-                        principalTable: "Carts",
-                        principalColumn: "Id",
+                        "FK_LineItems_Carts_ShoppingCartId",
+                        x => x.ShoppingCartId,
+                        "Carts",
+                        "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_LineItems_Orders_OrderId",
-                        column: x => x.OrderId,
-                        principalTable: "Orders",
-                        principalColumn: "OrderId",
+                        "FK_LineItems_Orders_OrderId",
+                        x => x.OrderId,
+                        "Orders",
+                        "OrderId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_LineItems_Posts_PostId",
-                        column: x => x.PostId,
-                        principalTable: "Posts",
-                        principalColumn: "PostId",
+                        "FK_LineItems_Posts_PostId",
+                        x => x.PostId,
+                        "Posts",
+                        "PostId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_PostId",
-                table: "Comments",
-                column: "PostId");
+                "IX_Comments_PostId",
+                "Comments",
+                "PostId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Employees_CountryId",
-                table: "Employees",
-                column: "CountryId");
+                "IX_Employees_CountryId",
+                "Employees",
+                "CountryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Employees_JobCategoryId",
-                table: "Employees",
-                column: "JobCategoryId");
+                "IX_Employees_JobCategoryId",
+                "Employees",
+                "JobCategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_LineItems_OrderId",
-                table: "LineItems",
-                column: "OrderId");
+                "IX_LineItems_OrderId",
+                "LineItems",
+                "OrderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_LineItems_PostId",
-                table: "LineItems",
-                column: "PostId");
+                "IX_LineItems_PostId",
+                "LineItems",
+                "PostId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_LineItems_ShoppingCartId",
-                table: "LineItems",
-                column: "ShoppingCartId");
+                "IX_LineItems_ShoppingCartId",
+                "LineItems",
+                "ShoppingCartId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Comments");
+                "Comments");
 
             migrationBuilder.DropTable(
-                name: "Employees");
+                "Employees");
 
             migrationBuilder.DropTable(
-                name: "Followers");
+                "Followers");
 
             migrationBuilder.DropTable(
-                name: "Likes");
+                "Likes");
 
             migrationBuilder.DropTable(
-                name: "LineItems");
+                "LineItems");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                "Users");
 
             migrationBuilder.DropTable(
-                name: "Countries");
+                "Countries");
 
             migrationBuilder.DropTable(
-                name: "JobCategories");
+                "JobCategories");
 
             migrationBuilder.DropTable(
-                name: "Carts");
+                "Carts");
 
             migrationBuilder.DropTable(
-                name: "Orders");
+                "Orders");
 
             migrationBuilder.DropTable(
-                name: "Posts");
+                "Posts");
         }
     }
 }

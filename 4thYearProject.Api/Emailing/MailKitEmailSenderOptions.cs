@@ -2,7 +2,6 @@
 
 namespace _4thYearProject.Api.Emailing
 {
-
     public class MailKitEmailSenderOptions
     {
         public MailKitEmailSenderOptions()

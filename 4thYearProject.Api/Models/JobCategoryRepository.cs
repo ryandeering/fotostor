@@ -1,7 +1,6 @@
-﻿using _4thYearProject.Shared.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-
+using _4thYearProject.Shared.Models;
 
 namespace _4thYearProject.Api.Models
 {

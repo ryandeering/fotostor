@@ -7,9 +7,9 @@ namespace _4thYearProject.Api.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<bool>(
-                name: "PostDeleted",
-                table: "Posts",
-                type: "bit",
+                "PostDeleted",
+                "Posts",
+                "bit",
                 nullable: false,
                 defaultValue: false);
         }
@@ -17,8 +17,8 @@ namespace _4thYearProject.Api.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "PostDeleted",
-                table: "Posts");
+                "PostDeleted",
+                "Posts");
         }
     }
 }

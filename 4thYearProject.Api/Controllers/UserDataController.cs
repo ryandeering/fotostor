@@ -1,13 +1,12 @@
-﻿using _4thYearProject.Api.CloudStorage;
+﻿using System;
+using System.IO;
+using System.Threading.Tasks;
+using _4thYearProject.Api.CloudStorage;
 using _4thYearProject.Api.Models;
 using _4thYearProject.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
 using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Formats;
 using SixLabors.ImageSharp.Processing;
-using System;
-using System.IO;
-using System.Threading.Tasks;
 
 namespace _4thYearProject.Api.Controllers
 {
@@ -15,8 +14,8 @@ namespace _4thYearProject.Api.Controllers
     [ApiController]
     public class UserDataController : Controller
     {
-        private readonly IUserDataRepository _UserDataRepository;
         private readonly ICloudStorage _cloudStorage;
+        private readonly IUserDataRepository _UserDataRepository;
 
         public UserDataController(IUserDataRepository UserDataRepository, ICloudStorage cloudStorage)
         {
@@ -80,17 +79,16 @@ namespace _4thYearProject.Api.Controllers
             if (UserDataToUpdate == null)
                 return NotFound();
 
-            if(UserData.ProfilePic != UserDataToUpdate.ProfilePic) {
-
-                byte[] ImagetoUpload = System.Convert.FromBase64String(UserData.ProfilePic);
-
+            if (UserData.ProfilePic != UserDataToUpdate.ProfilePic)
+            {
+                var ImagetoUpload = Convert.FromBase64String(UserData.ProfilePic);
 
 
                 try
                 {
                     using (var inStream = new MemoryStream(ImagetoUpload))
                     using (var outStream = new MemoryStream())
-                    using (var image = Image.Load(inStream, out IImageFormat format))
+                    using (var image = Image.Load(inStream, out var format))
                     {
                         image.Mutate(
                             i => i.Resize(250, 250));
@@ -98,31 +96,19 @@ namespace _4thYearProject.Api.Controllers
                         image.SaveAsJpegAsync(outStream);
 
 
-
-
                         ImagetoUpload = outStream.ToArray();
                     }
 
-                    Random rand = new Random();
-                    int rand_num = rand.Next(100, 200);
-                    UserData.ProfilePic = await _cloudStorage.UploadFileAsync(ImagetoUpload, (UserData.Id + rand_num.ToString() + ".JPEG"));
-
+                    var rand = new Random();
+                    var rand_num = rand.Next(100, 200);
+                    UserData.ProfilePic =
+                        await _cloudStorage.UploadFileAsync(ImagetoUpload, UserData.Id + rand_num + ".JPEG");
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     Console.WriteLine(e.Message); //todo: move this logic to repository
                 }
-
-                }
-
-
-
-
-
-
-
-
-
+            }
 
 
             _UserDataRepository.UpdateUserData(UserData);
@@ -133,7 +119,7 @@ namespace _4thYearProject.Api.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteUserData(string id)
         {
-            if (id == String.Empty ^ id == null)
+            if ((id == string.Empty) ^ (id == null))
                 return BadRequest();
 
             var UserDataToDelete = _UserDataRepository.GetUserDataById(id);
@@ -142,7 +128,7 @@ namespace _4thYearProject.Api.Controllers
 
             _UserDataRepository.DeleteUserData(id);
 
-            return NoContent();//success
+            return NoContent(); //success
         }
     }
 }

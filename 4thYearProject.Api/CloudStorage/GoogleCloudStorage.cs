@@ -1,16 +1,16 @@
-﻿using Google.Apis.Auth.OAuth2;
+﻿using System.IO;
+using System.Threading.Tasks;
+using Google.Apis.Auth.OAuth2;
 using Google.Cloud.Storage.V1;
 using Microsoft.Extensions.Configuration;
-using System.IO;
-using System.Threading.Tasks;
 
 namespace _4thYearProject.Api.CloudStorage
 {
     public class GoogleCloudStorage : ICloudStorage
     {
+        private readonly string bucketName;
         private readonly GoogleCredential googleCredential;
         private readonly StorageClient storageClient;
-        private readonly string bucketName;
 
         public GoogleCloudStorage(IConfiguration configuration)
         {
@@ -23,8 +23,9 @@ namespace _4thYearProject.Api.CloudStorage
         {
             using (var memoryStream = new MemoryStream(imageFile))
             {
-                var dataObject = await storageClient.UploadObjectAsync(bucketName, fileNameForStorage, null, memoryStream);
-                return dataObject.MediaLink.ToString();
+                var dataObject =
+                    await storageClient.UploadObjectAsync(bucketName, fileNameForStorage, null, memoryStream);
+                return dataObject.MediaLink;
             }
         }
 

@@ -1,10 +1,10 @@
-﻿namespace _4thYearProject.Api.Controllers
-{
-    using _4thYearProject.Api.Models;
-    using _4thYearProject.Shared.Models;
-    using _4thYearProject.Shared.Models.BusinessLogic;
-    using Microsoft.AspNetCore.Mvc;
+﻿using _4thYearProject.Api.Models;
+using _4thYearProject.Shared.Models;
+using _4thYearProject.Shared.Models.BusinessLogic;
+using Microsoft.AspNetCore.Mvc;
 
+namespace _4thYearProject.Api.Controllers
+{
     [Route("api/[controller]")]
     [ApiController]
     public class ShoppingCartController : Controller
@@ -23,7 +23,6 @@
         [Route("add/{UserId}")]
         public IActionResult AddToCart(string UserId, [FromBody] OrderLineItem ol)
         {
-
             return Ok(_cartRepository.AddToCart(UserId, ol));
         }
 
@@ -40,10 +39,6 @@
         {
             return Ok(_cartRepository.GetOrderById(OrderId));
         }
-
-
-
-
 
 
         [HttpDelete]
@@ -64,7 +59,6 @@
         [Route("add/incre/{UserId}")]
         public IActionResult AddOne(string UserId, [FromBody] Post post)
         {
-
             return Ok(_cartRepository.AddOne(UserId, post.PostId));
         }
 
@@ -72,9 +66,7 @@
         public IActionResult AddCart([FromBody] ShoppingCart cart)
         {
             if (_cartRepository.GetCart(cart.UserId) != null)
-            {
                 ModelState.AddModelError("UserId", "Cart already exists.");
-            }
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -87,14 +79,8 @@
         [Route("{UserId}")]
         public IActionResult GetCart(string UserId)
         {
-
             return Ok(_cartRepository.GetCart(UserId));
         }
-
-
-
-
-
 
 
         //[HttpDelete("/remove/")]
@@ -102,6 +88,5 @@
         //{
         //    return Ok(_cartRepository.RemoveOne(UserId, lineItem.Id));
         //}
-
     }
 }

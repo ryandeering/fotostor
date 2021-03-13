@@ -1,12 +1,12 @@
-﻿namespace _4thYearProject.Api.Models
-{
-    using _4thYearProject.Shared.Models;
-    using Microsoft.EntityFrameworkCore;
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using _4thYearProject.Shared.Models;
+using Microsoft.EntityFrameworkCore;
 
+namespace _4thYearProject.Api.Models
+{
     public class UserDataRepository : IUserDataRepository
     {
         private readonly AppDbContext _appDbContext;
@@ -33,8 +33,7 @@
 
         public UserData AddUserData(UserData User)
         {
-
-            List<UserData> users = GetAllUsers().ToList();
+            var users = GetAllUsers().ToList();
 
 
             if (users.Count == 0)
@@ -43,23 +42,17 @@
                 Console.WriteLine(addedEntity);
                 _appDbContext.SaveChanges();
                 return addedEntity.Entity;
-
             }
 
 
-
-            foreach (UserData v in users)
-            {
-                if (GetUserDataById(User.Id.ToString()) == null)
+            foreach (var v in users)
+                if (GetUserDataById(User.Id) == null)
                 {
-
                     var addedEntity = _appDbContext.Users.Add(User);
                     Console.WriteLine(addedEntity);
                     _appDbContext.SaveChanges();
                     return addedEntity.Entity;
                 }
-
-            }
 
 
             return new UserData(); //filthy hack
@@ -96,24 +89,21 @@
 
         public UsernameList GetUserNameFromId(UsernameList list)
         {
-
             if (list.ListofUsernames.Any())
             {
-                UsernameList Usernames = new UsernameList();
+                var Usernames = new UsernameList();
 
                 foreach (var id in list.ListofUsernames)
                 {
-                    UserData user = _appDbContext.Users.FirstOrDefault(c => c.Id.Equals(id));
+                    var user = _appDbContext.Users.FirstOrDefault(c => c.Id.Equals(id));
                     Usernames.ListofUsernames.Add(user.DisplayName);
                     Debug.WriteLine(user.DisplayName);
                 }
 
                 return Usernames;
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
         }
     }
 }

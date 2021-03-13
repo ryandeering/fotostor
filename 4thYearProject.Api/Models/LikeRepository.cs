@@ -1,8 +1,8 @@
-﻿namespace _4thYearProject.Api.Models
-{
-    using _4thYearProject.Shared.Models;
-    using System.Linq;
+﻿using System.Linq;
+using _4thYearProject.Shared.Models;
 
+namespace _4thYearProject.Api.Models
+{
     //  [Route("api/[controller]")]
     //[ApiController]
     public class LikeRepository : ILikeRepository
@@ -14,25 +14,10 @@
             _appDbContext = appDbContext;
         }
 
-
-        public Like VerifyLike(Like like)
-        {
-
-            if (!_appDbContext.Likes.Any(l => l.User_ID == like.User_ID && l.Post_ID == like.Post_ID))
-            {
-                return null;
-            }
-
-            return like;
-
-        }
-
         public Like AddLike(Like like)
         {
-            if (_appDbContext.Likes.FirstOrDefault(l => l.User_ID == like.User_ID && l.Post_ID == like.Post_ID) != null)
-            {
-                return null;
-            }
+            if (_appDbContext.Likes.FirstOrDefault(l => l.User_ID == like.User_ID && l.Post_ID == like.Post_ID) !=
+                null) return null;
             var addedEntity = _appDbContext.Likes.Add(like);
             _appDbContext.SaveChanges();
             return addedEntity.Entity;
@@ -56,5 +41,12 @@
             return foundLike;
         }
 
+
+        public Like VerifyLike(Like like)
+        {
+            if (!_appDbContext.Likes.Any(l => l.User_ID == like.User_ID && l.Post_ID == like.Post_ID)) return null;
+
+            return like;
+        }
     }
 }

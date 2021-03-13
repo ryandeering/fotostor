@@ -1,9 +1,9 @@
-﻿namespace _4thYearProject.Api.Models
-{
-    using _4thYearProject.Shared.Models;
-    using System.Collections.Generic;
-    using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using _4thYearProject.Shared.Models;
 
+namespace _4thYearProject.Api.Models
+{
     //  [Route("api/[controller]")]
     //[ApiController]
     public class PostRepository : IPostRepository
@@ -22,20 +22,17 @@
 
         public IEnumerable<Post> GetAllPostsbyFollowing(string id)
         {
-            List<Following> followings = _appDbContext.Followers.ToList();
+            var followings = _appDbContext.Followers.ToList();
 
-            HashSet<string> followingids = new HashSet<string>();
+            var followingids = new HashSet<string>();
 
             foreach (var follow in followings)
-            {
                 if (follow.Follower_ID.Equals(id))
-                {
                     followingids.Add(follow.Followed_ID);
-                }
-            }
 
 
-            return _appDbContext.Posts.Where(x => followingids.Any(n => n == x.UserId)).OrderByDescending(p => p.UploadDate);
+            return _appDbContext.Posts.Where(x => followingids.Any(n => n == x.UserId))
+                .OrderByDescending(p => p.UploadDate);
         }
 
         public Post GetPostById(int postId)

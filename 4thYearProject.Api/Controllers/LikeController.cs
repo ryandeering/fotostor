@@ -30,40 +30,30 @@ namespace _4thYearProject.Api.Controllers
             var createdLike = _likeRepository.AddLike(like);
 
             return Created("like", createdLike); // I don't think this is necessary. Look up the one for a button.
-
         }
 
         [HttpDelete("{Post_ID}/{User_ID}")]
         public IActionResult RemoveLike(string Post_ID, string User_ID)
         {
-            if (Post_ID == string.Empty ^ User_ID == string.Empty)
+            if ((Post_ID == string.Empty) ^ (User_ID == string.Empty))
                 return BadRequest();
 
             _likeRepository.RemoveLike(Post_ID, User_ID);
 
-            return NoContent();//success
+            return NoContent(); //success
         }
 
         [HttpGet("{Post_ID}/{User_ID}")]
         public IActionResult VerifyLike(string Post_ID, string User_ID)
         {
-            if (Post_ID == string.Empty ^ User_ID == string.Empty)
+            if ((Post_ID == string.Empty) ^ (User_ID == string.Empty))
                 return BadRequest();
 
-            Like IsLiked = _likeRepository.VerifyLike(User_ID, Post_ID);
+            var IsLiked = _likeRepository.VerifyLike(User_ID, Post_ID);
 
             if (IsLiked == null)
-            {
                 return BadRequest();
-            }
-            else
-            {
-                return Created("like", IsLiked);
-            }
+            return Created("like", IsLiked);
         }
-
-
     }
-
-
 }

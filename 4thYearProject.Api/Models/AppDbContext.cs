@@ -8,7 +8,6 @@ namespace _4thYearProject.Api.Models
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
-
         }
 
         public DbSet<Employee> Employees { get; set; }
@@ -26,13 +25,7 @@ namespace _4thYearProject.Api.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
-
-
-
             base.OnModelCreating(modelBuilder);
-
-
 
 
             ////seed categories
@@ -102,6 +95,5 @@ namespace _4thYearProject.Api.Models
             //    Longitude = 4.3517
             //});
         }
-
     }
 }
