@@ -1,13 +1,22 @@
-﻿namespace _4thYearProject.Shared.Models.BusinessLogic
-{
-    using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
+namespace _4thYearProject.Shared.Models.BusinessLogic
+{
     public class OrderLineItem
     {
+        public OrderLineItem(Post p)
+        {
+            Post = p;
+            Quantity = 1;
+            Price = 00.00;
+        }
+
+        public OrderLineItem()
+        {
+        }
 
 
-        [Key]
-        public int Id { get; set; }
+        [Key] public int Id { get; set; }
 
         public int PostId { get; set; }
 
@@ -22,17 +31,6 @@
         public int? OrderId { get; set; }
 
         public Post Post { get; set; }
-
-        public OrderLineItem(Post p)
-        {
-            Post = p;
-            Quantity = 1;
-            Price = 00.00;
-        }
-
-        public OrderLineItem()
-        {
-        }
 
         public double GetItemTotal()
         {

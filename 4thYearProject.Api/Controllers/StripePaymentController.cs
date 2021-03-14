@@ -1,24 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using _4thYearProject.Api.Models;
-using _4thYearProject.Shared;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Stripe.Checkout;
-
-namespace _4thYearProject.Api.Controllers
+﻿namespace _4thYearProject.Api.Controllers
 {
+    using _4thYearProject.Api.Models;
+    using _4thYearProject.Shared;
+    using _4thYearProject.Shared.Models.BusinessLogic;
+    using Microsoft.AspNetCore.Identity.UI.Services;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Configuration;
+    using Stripe.Checkout;
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+    using System.Threading.Tasks;
+
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class StripePaymentController : Controller
     {
         private readonly IConfiguration _configuration;
+
         private readonly IEmailSender _emailSender;
 
         private readonly IShoppingCartRepository _shoppingCartRepository;
+
         private readonly IUserDataRepository _userDataRepository;
 
         public StripePaymentController(IConfiguration configuration, IShoppingCartRepository shoppingCartRepository,

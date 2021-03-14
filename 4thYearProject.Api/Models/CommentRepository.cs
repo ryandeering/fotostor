@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using _4thYearProject.Shared.Models;
-
-namespace _4thYearProject.Api.Models
+﻿namespace _4thYearProject.Api.Models
 {
+    using _4thYearProject.Shared.Models;
+    using System.Collections.Generic;
+    using System.Linq;
+
     //  [Route("api/[controller]")]
     //[ApiController]
     public class CommentRepository : ICommentRepository
@@ -14,7 +14,6 @@ namespace _4thYearProject.Api.Models
         {
             _appDbContext = appDbContext;
         }
-
 
         public IEnumerable<Comment> GetCommentsByPostId(int id)
         {

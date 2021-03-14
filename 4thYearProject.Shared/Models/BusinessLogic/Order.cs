@@ -26,8 +26,5 @@ namespace _4thYearProject.Shared.Models.BusinessLogic
         public string UserCountry { get; set; }
 
         public List<OrderLineItem> LineItems { get; set; }
-
-
-
     }
 }

@@ -1,12 +1,12 @@
-using IdentityServer4.Stores;
 using System.Threading.Tasks;
+using IdentityServer4.Stores;
 
 namespace IdentityServer4.Quickstart.UI
 {
     public static class Extensions
     {
         /// <summary>
-        /// Determines whether the client is configured to use PKCE.
+        ///     Determines whether the client is configured to use PKCE.
         /// </summary>
         /// <param name="store">The store.</param>
         /// <param name="client_id">The client identifier.</param>

@@ -6,6 +6,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\**" />
+    <Content Remove="Migrations\**" />
+    <EmbeddedResource Remove="Migrations\**" />
+    <None Remove="Migrations\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Migrations\20210314151224_resharperedits.cs" />
+    <Compile Include="Migrations\20210314151224_resharperedits.Designer.cs" />
+    <Compile Include="Migrations\20210314225709_hashtags.cs" />
+    <Compile Include="Migrations\20210314225709_hashtags.Designer.cs" />
+    <Compile Include="Migrations\AppDbContextModelSnapshot.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Azure.Storage.Blobs" Version="12.7.0" />
     <PackageReference Include="Dahomey.Json" Version="1.10.3" />
     <PackageReference Include="Google.Cloud.Storage.V1" Version="3.4.0" />

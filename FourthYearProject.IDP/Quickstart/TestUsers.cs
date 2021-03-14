@@ -2,18 +2,21 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using IdentityModel;
-using IdentityServer4.Test;
 using System.Collections.Generic;
 using System.Security.Claims;
+using IdentityModel;
+using IdentityServer4.Test;
 
 namespace FourthYearProject.IDP
 {
     public class TestUsers
     {
-        public static List<TestUser> Users = new List<TestUser>
+        public static List<TestUser> Users = new()
         {
-            new TestUser{SubjectId = "06c71238-0137-4df6-bb6a-e50e62a4a7c5", Username = "ryandeering1@gmail.com", Password = "Mywifedied1!",
+            new()
+            {
+                SubjectId = "06c71238-0137-4df6-bb6a-e50e62a4a7c5", Username = "ryandeering1@gmail.com",
+                Password = "Mywifedied1!",
                 Claims =
                 {
                     new Claim(JwtClaimTypes.Name, "Ryan Deering"),
@@ -23,7 +26,9 @@ namespace FourthYearProject.IDP
                     new Claim("country", "BE")
                 }
             },
-            new TestUser{SubjectId = "37d0f2fa-1069-489f-9d65-48c9ba44639b", Username = "Wendy", Password = "password",
+            new()
+            {
+                SubjectId = "37d0f2fa-1069-489f-9d65-48c9ba44639b", Username = "Wendy", Password = "password",
                 Claims =
                 {
                     new Claim(JwtClaimTypes.Name, "Wendy Torrance"),

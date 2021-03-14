@@ -1,8 +1,8 @@
-﻿using System.Linq;
-using _4thYearProject.Shared.Models;
-
-namespace _4thYearProject.Api.Models
+﻿namespace _4thYearProject.Api.Models
 {
+    using _4thYearProject.Shared.Models;
+    using System.Linq;
+
     //  [Route("api/[controller]")]
     //[ApiController]
     public class LikeRepository : ILikeRepository
@@ -23,7 +23,6 @@ namespace _4thYearProject.Api.Models
             return addedEntity.Entity;
         }
 
-
         public void RemoveLike(string UserID, string PostID)
         {
             var foundLike = _appDbContext.Likes.FirstOrDefault(l => l.User_ID == UserID);
@@ -40,7 +39,6 @@ namespace _4thYearProject.Api.Models
 
             return foundLike;
         }
-
 
         public Like VerifyLike(Like like)
         {

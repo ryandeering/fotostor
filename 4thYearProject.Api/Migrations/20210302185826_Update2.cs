@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace _4thYearProject.Api.Migrations
+﻿namespace _4thYearProject.Api.Migrations
 {
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class Update2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

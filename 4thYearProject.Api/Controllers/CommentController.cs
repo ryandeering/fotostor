@@ -1,15 +1,16 @@
-﻿using _4thYearProject.Api.Models;
-using _4thYearProject.Shared.Models;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-
-namespace _4thYearProject.Api.Controllers
+﻿namespace _4thYearProject.Api.Controllers
 {
+    using _4thYearProject.Api.Models;
+    using _4thYearProject.Shared.Models;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Mvc;
+
     [Route("api/[controller]")]
     [ApiController]
     public class CommentController : Controller
     {
         private readonly ICommentRepository _commentRepository;
+
         private readonly IWebHostEnvironment env;
 
         public CommentController(ICommentRepository commentRepository, IWebHostEnvironment env)
@@ -17,7 +18,6 @@ namespace _4thYearProject.Api.Controllers
             _commentRepository = commentRepository;
             this.env = env;
         }
-
 
         // GET api/<controller>/5
         [HttpGet("{id}")]
@@ -48,7 +48,6 @@ namespace _4thYearProject.Api.Controllers
             return Created("comment", createdComment);
         }
 
-
         [HttpDelete("{id}")]
         public IActionResult DeleteComment(int id)
         {
@@ -63,7 +62,6 @@ namespace _4thYearProject.Api.Controllers
 
             return NoContent(); //success
         }
-
 
         [HttpPut]
         public IActionResult UpdateComment([FromBody] Comment comment)

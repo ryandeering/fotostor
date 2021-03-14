@@ -4,6 +4,7 @@ using System;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using _4thYearProject.Shared.Models.BusinessLogic;
 
 namespace _4thYearProject.Server.Services
 {

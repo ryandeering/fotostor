@@ -1,20 +1,20 @@
-﻿using FourthYearProject.IDP.Areas.Identity.Data;
+﻿using System.Text;
+using System.Threading.Tasks;
+using FourthYearProject.IDP.Areas.Identity.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FourthYearProject.IDP.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class RegisterConfirmationModel : PageModel
     {
-        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IEmailSender _sender;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public RegisterConfirmationModel(UserManager<ApplicationUser> userManager, IEmailSender sender)
         {
@@ -30,16 +30,10 @@ namespace FourthYearProject.IDP.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnGetAsync(string email)
         {
-            if (email == null)
-            {
-                return RedirectToPage("/Index");
-            }
+            if (email == null) return RedirectToPage("/Index");
 
             var user = await _userManager.FindByEmailAsync(email);
-            if (user == null)
-            {
-                return NotFound($"Unable to load user with email '{email}'.");
-            }
+            if (user == null) return NotFound($"Unable to load user with email '{email}'.");
 
             Email = email;
             // Once you add a real email sender, you should remove this code that lets you confirm the account
@@ -51,9 +45,9 @@ namespace FourthYearProject.IDP.Areas.Identity.Pages.Account
                 code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                 EmailConfirmationUrl = Url.Page(
                     "/Account/ConfirmEmail",
-                    pageHandler: null,
-                    values: new { area = "Identity", userId = userId, code = code },
-                    protocol: Request.Scheme);
+                    null,
+                    new {area = "Identity", userId, code},
+                    Request.Scheme);
             }
 
             return Page();

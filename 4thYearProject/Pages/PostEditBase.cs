@@ -118,6 +118,10 @@ namespace _4thYearProject.Server.Pages
             {
 
 
+
+
+
+
                 await PostDataService.AddPost(Post); //FIX LATER HOLY FUCK
                 StatusClass = "alert-success";
                 Message = "Fuck.";

@@ -1,6 +1,9 @@
 ﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
+using System;
+using System.Linq;
+using System.Security.Claims;
 using FourthYearProject.IDP.Areas.Identity.Data;
 using IdentityModel;
 using Microsoft.AspNetCore.Hosting;
@@ -12,10 +15,6 @@ using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
-using System;
-using System.Linq;
-using System.Security.Claims;
-
 
 namespace FourthYearProject.IDP
 {
@@ -35,7 +34,10 @@ namespace FourthYearProject.IDP
                     rollOnFileSizeLimit: true,
                     shared: true,
                     flushToDiskInterval: TimeSpan.FromSeconds(1))
-                .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}", theme: AnsiConsoleTheme.Literate)
+                .WriteTo.Console(
+                    outputTemplate:
+                    "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}",
+                    theme: AnsiConsoleTheme.Literate)
                 .CreateLogger();
 
             try
@@ -67,23 +69,18 @@ namespace FourthYearProject.IDP
                             };
 
                             var result = userManager.CreateAsync(jack, "P@ssword1").Result;
-                            if (!result.Succeeded)
-                            {
-                                throw new Exception(result.Errors.First().Description);
-                            }
+                            if (!result.Succeeded) throw new Exception(result.Errors.First().Description);
 
-                            result = userManager.AddClaimsAsync(jack, new Claim[]{
-                                new Claim(JwtClaimTypes.Name, "Jack Torrance"),
+                            result = userManager.AddClaimsAsync(jack, new[]
+                            {
+                                new(JwtClaimTypes.Name, "Jack Torrance"),
                                 new Claim(JwtClaimTypes.GivenName, "Jack"),
                                 new Claim(JwtClaimTypes.FamilyName, "Torrance"),
                                 new Claim(JwtClaimTypes.Email, "jack.torrance@email.com"),
                                 new Claim("country", "BE")
                             }).Result;
 
-                            if (!result.Succeeded)
-                            {
-                                throw new Exception(result.Errors.First().Description);
-                            }
+                            if (!result.Succeeded) throw new Exception(result.Errors.First().Description);
                         }
 
                         var wendy = userManager.FindByNameAsync("Wendy").Result;
@@ -96,23 +93,18 @@ namespace FourthYearProject.IDP
                             };
 
                             var result = userManager.CreateAsync(wendy, "P@ssword1").Result;
-                            if (!result.Succeeded)
-                            {
-                                throw new Exception(result.Errors.First().Description);
-                            }
+                            if (!result.Succeeded) throw new Exception(result.Errors.First().Description);
 
-                            result = userManager.AddClaimsAsync(wendy, new Claim[]{
-                                new Claim(JwtClaimTypes.Name, "Wendy Torrance"),
+                            result = userManager.AddClaimsAsync(wendy, new[]
+                            {
+                                new(JwtClaimTypes.Name, "Wendy Torrance"),
                                 new Claim(JwtClaimTypes.GivenName, "Wendy"),
                                 new Claim(JwtClaimTypes.FamilyName, "Torrance"),
                                 new Claim(JwtClaimTypes.Email, "wendy.torrance@email.com"),
                                 new Claim("country", "NL")
                             }).Result;
 
-                            if (!result.Succeeded)
-                            {
-                                throw new Exception(result.Errors.First().Description);
-                            }
+                            if (!result.Succeeded) throw new Exception(result.Errors.First().Description);
                         }
                     }
                     catch (Exception ex)
@@ -135,15 +127,16 @@ namespace FourthYearProject.IDP
             {
                 Log.CloseAndFlush();
             }
-
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
+        public static IHostBuilder CreateHostBuilder(string[] args)
+        {
+            return Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
                     webBuilder.UseSerilog();
                 });
+        }
     }
 }

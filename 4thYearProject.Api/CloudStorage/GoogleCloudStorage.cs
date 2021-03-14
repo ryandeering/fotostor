@@ -1,15 +1,17 @@
-﻿using System.IO;
-using System.Threading.Tasks;
-using Google.Apis.Auth.OAuth2;
-using Google.Cloud.Storage.V1;
-using Microsoft.Extensions.Configuration;
-
-namespace _4thYearProject.Api.CloudStorage
+﻿namespace _4thYearProject.Api.CloudStorage
 {
+    using Google.Apis.Auth.OAuth2;
+    using Google.Cloud.Storage.V1;
+    using Microsoft.Extensions.Configuration;
+    using System.IO;
+    using System.Threading.Tasks;
+
     public class GoogleCloudStorage : ICloudStorage
     {
         private readonly string bucketName;
+
         private readonly GoogleCredential googleCredential;
+
         private readonly StorageClient storageClient;
 
         public GoogleCloudStorage(IConfiguration configuration)

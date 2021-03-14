@@ -1,15 +1,16 @@
-﻿using _4thYearProject.Api.Models;
-using _4thYearProject.Shared.Models;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-
-namespace _4thYearProject.Api.Controllers
+﻿namespace _4thYearProject.Api.Controllers
 {
+    using _4thYearProject.Api.Models;
+    using _4thYearProject.Shared.Models;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Mvc;
+
     [Route("api/[controller]")]
     [ApiController]
     public class LikeController : Controller
     {
         private readonly ILikeRepository _likeRepository;
+
         private readonly IWebHostEnvironment env;
 
         public LikeController(ILikeRepository likeRepository, IWebHostEnvironment env)

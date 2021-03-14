@@ -2,25 +2,31 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-
-
-
 namespace _4thYearProject.Shared.Models
 {
     public class Post
     {
+        public Post()
+        {
+            UserId = string.Empty;
+            PhotoFile = string.Empty;
+            MimeType = string.Empty;
+            Caption = string.Empty;
+            UploadDate = DateTime.Now;
+            Likes = 0;
+            Comments = null;
+        }
+
         public int PostId { get; set; }
 
-        public String UserId { get; set; }
+        public string UserId { get; set; }
 
-        [MaxLength]
-        public String PhotoFile { get; set; }
+        [MaxLength] public string PhotoFile { get; set; }
 
-        [MaxLength]
-        public String Thumbnail { get; set; }
+        [MaxLength] public string Thumbnail { get; set; }
 
 
-        public String MimeType { get; set; }
+        public string MimeType { get; set; }
 
 
         public bool LicenseEnabled { get; set; }
@@ -30,32 +36,15 @@ namespace _4thYearProject.Shared.Models
         public bool PostDeleted { get; set; }
 
 
-
-
-
         [Required]
         [StringLength(150, ErrorMessage = "Your caption exceeds 150 characters.")]
         public string Caption { get; set; }
 
-        [Required]
-        public DateTime UploadDate { get; set; }
+        [Required] public DateTime UploadDate { get; set; }
 
-        [Required]
-        public int Likes { get; set; }
+        [Required] public int Likes { get; set; }
 
         public virtual ICollection<Comment> Comments { get; set; }
-
-        public Post()
-        {
-            UserId = String.Empty;
-            PhotoFile = String.Empty;
-            MimeType = String.Empty;
-            Caption = String.Empty;
-            UploadDate = DateTime.Now;
-            Likes = 0;
-            Comments = null;
-        }
-
-
+        public virtual ICollection<HashTag> HashTags { get; set; }
     }
 }

@@ -68,7 +68,7 @@ namespace _4thYearProject.Server.Services
             ShoppingCart cart = new ShoppingCart();
 
             cart.UserId = UserId;
-            cart.basketItems = new List<OrderLineItem>();
+            cart.BasketItems = new List<OrderLineItem>();
 
 
             var cartJson =

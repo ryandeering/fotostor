@@ -5,16 +5,10 @@ namespace _4thYearProject.Shared.Models.BusinessLogic
 {
     public class ShoppingCart
     {
-        [Required]
-        public int Id { get; set; }
+        [Required] public int Id { get; set; }
 
-        public List<OrderLineItem> basketItems { get; set; }
+        public List<OrderLineItem> BasketItems { get; set; }
 
         public string UserId { get; set; }
-
-
-
-
-
     }
 }

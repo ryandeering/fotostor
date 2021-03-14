@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using _4thYearProject.Shared.Models;
-
-namespace _4thYearProject.Api.Models
+﻿namespace _4thYearProject.Api.Models
 {
+    using _4thYearProject.Shared.Models;
+    using System.Collections.Generic;
+    using System.Linq;
+
     //  [Route("api/[controller]")]
     //[ApiController]
     public class PostRepository : IPostRepository
@@ -44,7 +44,6 @@ namespace _4thYearProject.Api.Models
         {
             return _appDbContext.Posts.Where(p => p.UserId.Equals(id)).OrderByDescending(p => p.UploadDate);
         }
-
 
         public Post AddPost(Post post)
         {

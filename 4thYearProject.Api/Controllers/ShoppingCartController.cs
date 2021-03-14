@@ -1,10 +1,10 @@
-﻿using _4thYearProject.Api.Models;
-using _4thYearProject.Shared.Models;
-using _4thYearProject.Shared.Models.BusinessLogic;
-using Microsoft.AspNetCore.Mvc;
-
-namespace _4thYearProject.Api.Controllers
+﻿namespace _4thYearProject.Api.Controllers
 {
+    using _4thYearProject.Api.Models;
+    using _4thYearProject.Shared.Models;
+    using _4thYearProject.Shared.Models.BusinessLogic;
+    using Microsoft.AspNetCore.Mvc;
+
     [Route("api/[controller]")]
     [ApiController]
     public class ShoppingCartController : Controller
@@ -39,7 +39,6 @@ namespace _4thYearProject.Api.Controllers
         {
             return Ok(_cartRepository.GetOrderById(OrderId));
         }
-
 
         [HttpDelete]
         [Route("empty/{UserId}")]
@@ -81,12 +80,5 @@ namespace _4thYearProject.Api.Controllers
         {
             return Ok(_cartRepository.GetCart(UserId));
         }
-
-
-        //[HttpDelete("/remove/")]
-        //public IActionResult RemoveOne(string UserId, OrderLineItem lineItem)
-        //{
-        //    return Ok(_cartRepository.RemoveOne(UserId, lineItem.Id));
-        //}
     }
 }

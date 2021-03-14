@@ -1,9 +1,9 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace _4thYearProject.Api.Migrations
+﻿namespace _4thYearProject.Api.Migrations
 {
-    public partial class _222 : Migration
+    using Microsoft.EntityFrameworkCore.Migrations;
+    using System;
+
+    public partial class 222 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

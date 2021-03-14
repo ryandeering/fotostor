@@ -1,15 +1,16 @@
-﻿using _4thYearProject.Api.Models;
-using _4thYearProject.Shared.Models;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-
-namespace _4thYearProject.Api.Controllers
+﻿namespace _4thYearProject.Api.Controllers
 {
+    using _4thYearProject.Api.Models;
+    using _4thYearProject.Shared.Models;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Mvc;
+
     [Route("api/[controller]")]
     [ApiController]
     public class FollowingController : Controller
     {
         private readonly IFollowingRepository _followingRepository;
+
         private readonly IWebHostEnvironment env;
 
         public FollowingController(IFollowingRepository followingRepository, IWebHostEnvironment env)
@@ -45,7 +46,6 @@ namespace _4thYearProject.Api.Controllers
             return NoContent(); //success
         }
 
-
         //[HttpDelete("{Follower_ID}/{Followed_ID}")]
         //public IActionResult RemoveFollowing(string Follower_ID, string Followed_ID)
         //{
@@ -56,8 +56,6 @@ namespace _4thYearProject.Api.Controllers
 
         //    return NoContent();//success
         //}
-
-
         [HttpGet("{Follower_ID}/{Followed_ID}")]
         public IActionResult VerifyFollowing(string Follower_ID, string Followed_ID)
         {
@@ -70,7 +68,6 @@ namespace _4thYearProject.Api.Controllers
                 return BadRequest();
             return Created("following", IsFollowing);
         }
-
 
         [HttpGet("{Followed_ID}")]
         public IActionResult GetFollowers(string Followed_ID)

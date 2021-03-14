@@ -1,10 +1,10 @@
-﻿using System.Security.Claims;
-using System.Threading.Tasks;
-using _4thYearProject.Shared;
-using Microsoft.AspNetCore.Http;
-
-namespace _4thYearProject.Api.Controllers.Identity
+﻿namespace _4thYearProject.Api.Controllers.Identity
 {
+    using _4thYearProject.Shared;
+    using Microsoft.AspNetCore.Http;
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+
     public class UserService : IUserService
     {
         private readonly IHttpContextAccessor accessor;

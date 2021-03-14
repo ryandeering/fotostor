@@ -17,14 +17,14 @@ namespace FourthYearProject.IDP
 {
     public class Startup
     {
-        public IWebHostEnvironment Environment { get; }
-        public IConfiguration Configuration { get; }
-
         public Startup(IWebHostEnvironment environment, IConfiguration configuration)
         {
             Environment = environment;
             Configuration = configuration;
         }
+
+        public IWebHostEnvironment Environment { get; }
+        public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -62,14 +62,13 @@ namespace FourthYearProject.IDP
             services.Configure<ForwardedHeadersOptions>(options =>
             {
                 options.ForwardedHeaders = ForwardedHeaders.XForwardedFor |
-                    ForwardedHeaders.XForwardedProto;
+                                           ForwardedHeaders.XForwardedProto;
                 // Only loopback proxies are allowed by default.
                 // Clear that restriction because forwarders are enabled by explicit 
                 // configuration.
                 options.KnownNetworks.Clear();
                 options.KnownProxies.Clear();
             });
-
 
 
             //if (Environment.IsDevelopment())
@@ -99,11 +98,6 @@ namespace FourthYearProject.IDP
             }
 
 
-
-
-
-
-
             //    // in-memory, code config
             //    if (Environment.IsProduction())
             //{
@@ -131,7 +125,7 @@ namespace FourthYearProject.IDP
             //        .AllowCredentials());
             //});
 
-            services.AddSingleton<ICorsPolicyService>((container) =>
+            services.AddSingleton<ICorsPolicyService>(container =>
             {
                 var logger = container.GetRequiredService<ILogger<DefaultCorsPolicyService>>();
                 return new DefaultCorsPolicyService(logger)
@@ -145,10 +139,7 @@ namespace FourthYearProject.IDP
 
         public void Configure(IApplicationBuilder app)
         {
-            if (Environment.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            if (Environment.IsDevelopment()) app.UseDeveloperExceptionPage();
             app.UseForwardedHeaders();
 
             app.UseCors("CorsPolicy");

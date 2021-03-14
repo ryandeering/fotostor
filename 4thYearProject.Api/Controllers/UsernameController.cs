@@ -1,8 +1,8 @@
-﻿using _4thYearProject.Shared.Models;
-using Microsoft.AspNetCore.Mvc;
-
-namespace _4thYearProject.Api.Models
+﻿namespace _4thYearProject.Api.Models
 {
+    using _4thYearProject.Shared.Models;
+    using Microsoft.AspNetCore.Mvc;
+
     [Route("api/[controller]")]
     [ApiController]
     public class UsernameController : Controller

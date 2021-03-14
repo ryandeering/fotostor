@@ -1,4 +1,4 @@
-﻿namespace _4thYearProject.Shared
+﻿namespace _4thYearProject.Shared.Models.BusinessLogic
 {
     public class StripePaymentDTO
     {

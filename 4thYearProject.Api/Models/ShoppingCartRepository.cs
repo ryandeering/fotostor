@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using _4thYearProject.Shared.Models.BusinessLogic;
-using Microsoft.EntityFrameworkCore;
-
-namespace _4thYearProject.Api.Models
+﻿namespace _4thYearProject.Api.Models
 {
+    using _4thYearProject.Shared.Models.BusinessLogic;
+    using Microsoft.EntityFrameworkCore;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class ShoppingCartRepository : IShoppingCartRepository
     {
         private readonly AppDbContext _appDbContext;
@@ -23,7 +23,7 @@ namespace _4thYearProject.Api.Models
 
             //TODO, validate the item is actually possible to be added
 
-            foreach (var ol in cart.basketItems)
+            foreach (var ol in cart.BasketItems)
                 if (ol.Post.PostId.Equals(PostId))
                     //TODO validation for type
                     ol.Quantity++;
@@ -35,7 +35,7 @@ namespace _4thYearProject.Api.Models
         {
             var cart = _appDbContext.Carts
                 .Where(x => x.UserId == UserId)
-                .Include(x => x.basketItems)
+                .Include(x => x.BasketItems)
                 .ThenInclude(x => x.Post)
                 .FirstOrDefault();
 
@@ -43,13 +43,13 @@ namespace _4thYearProject.Api.Models
 
             //TODO, validate the item is actually possible to be added
 
-            if (cart.basketItems == null)
+            if (cart.BasketItems == null)
             {
-                cart.basketItems = new List<OrderLineItem>();
+                cart.BasketItems = new List<OrderLineItem>();
             }
             else
             {
-                foreach (var ol in cart.basketItems)
+                foreach (var ol in cart.BasketItems)
                     if (ol.Post.PostId.Equals(olOG.Post.PostId) && ol.Type == olOG.Type)
                     {
                         if (ol.Type == "License")
@@ -67,7 +67,7 @@ namespace _4thYearProject.Api.Models
                         }
                     }
 
-                if (!itemFound) cart.basketItems.Add(olOG);
+                if (!itemFound) cart.BasketItems.Add(olOG);
             }
 
             try
@@ -92,7 +92,7 @@ namespace _4thYearProject.Api.Models
 
             //TODO, validate the item is actually possible to be added
 
-            foreach (var ol in cart.basketItems)
+            foreach (var ol in cart.BasketItems)
                 if (ol.Post.PostId.Equals(PostId))
                 {
                     //TODO validation for type
@@ -103,7 +103,7 @@ namespace _4thYearProject.Api.Models
                     }
                     else
                     {
-                        cart.basketItems.Remove(ol);
+                        cart.BasketItems.Remove(ol);
                         break;
                     }
                 }
@@ -116,9 +116,9 @@ namespace _4thYearProject.Api.Models
         {
             var cart = _appDbContext.Carts
                 .Where(x => x.UserId == UserId)
-                .Include(x => x.basketItems)
+                .Include(x => x.BasketItems)
                 .FirstOrDefault();
-            cart.basketItems.Clear();
+            cart.BasketItems.Clear();
             _appDbContext.SaveChanges();
             return cart;
         }
@@ -134,12 +134,11 @@ namespace _4thYearProject.Api.Models
                 .ThenInclude(ol => ol.Post).First();
         }
 
-
         public Order PlaceOrder(string UserId)
         {
             var result = _appDbContext.Carts
                 .Where(x => x.UserId == UserId)
-                .Include(x => x.basketItems)
+                .Include(x => x.BasketItems)
                 .ThenInclude(x => x.Post)
                 .FirstOrDefault();
 
@@ -148,7 +147,7 @@ namespace _4thYearProject.Api.Models
             try
             {
                 order.UserId = UserId;
-                var items = new List<OrderLineItem>(result.basketItems);
+                var items = new List<OrderLineItem>(result.BasketItems);
                 //set address
                 order.DatePlaced = DateTime.Now;
                 order.LineItems = items;
@@ -159,7 +158,7 @@ namespace _4thYearProject.Api.Models
             }
 
             _appDbContext.Orders.Add(order);
-            result.basketItems.Clear();
+            result.BasketItems.Clear();
             _appDbContext.SaveChanges();
 
             return order;
@@ -168,8 +167,8 @@ namespace _4thYearProject.Api.Models
         public ShoppingCart RemoveOne(string UserId, int LineItemId)
         {
             var cart = _appDbContext.Carts.FirstOrDefault(c => c.UserId == UserId);
-            var temp = cart.basketItems.First(i => i.Id == LineItemId);
-            cart.basketItems.Remove(temp);
+            var temp = cart.BasketItems.First(i => i.Id == LineItemId);
+            cart.BasketItems.Remove(temp);
             _appDbContext.SaveChanges();
             return cart;
         }
@@ -179,7 +178,7 @@ namespace _4thYearProject.Api.Models
             //return _appDbContext.Carts.Where(c => c.UserId == UserId).Include(c => c.basketItems).Where(p => p.).FirstOrDefault();
             var result = _appDbContext.Carts
                 .Where(x => x.UserId == UserId)
-                .Include(x => x.basketItems)
+                .Include(x => x.BasketItems)
                 .ThenInclude(x => x.Post)
                 .SingleOrDefault();
 
@@ -188,7 +187,7 @@ namespace _4thYearProject.Api.Models
 
         public ShoppingCart AddCart(ShoppingCart cart)
         {
-            cart.basketItems = new List<OrderLineItem>();
+            cart.BasketItems = new List<OrderLineItem>();
             _appDbContext.Carts.Add(cart);
             _appDbContext.SaveChanges();
             return cart;

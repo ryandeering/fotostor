@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.UI.Services;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace FourthYearProject
 {
@@ -10,5 +10,4 @@ namespace FourthYearProject
             return Task.CompletedTask;
         }
     }
-
 }

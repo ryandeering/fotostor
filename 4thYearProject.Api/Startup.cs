@@ -1,25 +1,25 @@
-using System;
-using System.Linq;
-using _4thYearProject.Api.CloudStorage;
-using _4thYearProject.Api.Controllers.Identity;
-using _4thYearProject.Api.Emailing;
-using _4thYearProject.Api.Models;
-using _4thYearProject.Shared;
-using IdentityServer4.AccessTokenValidation;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Mvc.Authorization;
-using Microsoft.AspNetCore.ResponseCompression;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Stripe;
-
 namespace _4thYearProject.Api
 {
+    using _4thYearProject.Api.CloudStorage;
+    using _4thYearProject.Api.Controllers.Identity;
+    using _4thYearProject.Api.Emailing;
+    using _4thYearProject.Api.Models;
+    using _4thYearProject.Shared;
+    using IdentityServer4.AccessTokenValidation;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Identity.UI.Services;
+    using Microsoft.AspNetCore.Mvc.Authorization;
+    using Microsoft.AspNetCore.ResponseCompression;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
+    using Stripe;
+    using System;
+    using System.Linq;
+
     public class Startup
     {
         public Startup(IConfiguration configuration, IWebHostEnvironment environment)
@@ -48,7 +48,7 @@ namespace _4thYearProject.Api
             services.AddResponseCompression(opts =>
             {
                 opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
-                    new[] {"application/octet-stream"});
+                    new[] { "application/octet-stream" });
             });
 
 

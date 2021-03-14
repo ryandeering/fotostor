@@ -45,7 +45,7 @@
         protected async override Task OnInitializedAsync()
         {
             price = 0;
-            basket.basketItems = new List<OrderLineItem>();
+            basket.BasketItems = new List<OrderLineItem>();
             identity = await _userService.GetUserAsync();
             LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
                    .Select(c => c.Value).SingleOrDefault().ToString();
@@ -62,14 +62,13 @@
 
 
 
-            StripePaymentDTO order = new StripePaymentDTO();
-
-            order.CartId = basket.Id;
-
-
-            order.UserId = LoggedInID;
-            order.Amount = ConvertEuroToCents(price);
-            order.Email = Email;
+            var order = new StripePaymentDTO
+            {
+                CartId = basket.Id,
+                UserId = LoggedInID,
+                Amount = ConvertEuroToCents(price),
+                Email = Email
+            };
 
 
 
@@ -96,7 +95,7 @@
 
         internal double getPrice()
         {
-            foreach (var orderLineItem in basket.basketItems)
+            foreach (var orderLineItem in basket.BasketItems)
             {
                 price += orderLineItem.Price * orderLineItem.Quantity;
             }

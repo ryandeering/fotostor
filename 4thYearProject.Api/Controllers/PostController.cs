@@ -1,21 +1,22 @@
-﻿using System;
-using System.IO;
-using System.Threading.Tasks;
-using _4thYearProject.Api.CloudStorage;
-using _4thYearProject.Api.Models;
-using _4thYearProject.Shared.Models;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Processing;
-
-namespace _4thYearProject.Api.Controllers
+﻿namespace _4thYearProject.Api.Controllers
 {
+    using _4thYearProject.Api.CloudStorage;
+    using _4thYearProject.Api.Models;
+    using _4thYearProject.Shared.Models;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Mvc;
+    using SixLabors.ImageSharp;
+    using SixLabors.ImageSharp.Processing;
+    using System;
+    using System.IO;
+    using System.Threading.Tasks;
+
     [Route("api/[controller]")]
     [ApiController]
     public class PostController : Controller
     {
         private readonly ICloudStorage _cloudStorage;
+
         private readonly IPostRepository _postRepository;
 
         private readonly IWebHostEnvironment env;
