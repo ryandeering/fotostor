@@ -15,6 +15,7 @@ namespace _4thYearProject.Shared.Models
             UploadDate = DateTime.Now;
             Likes = 0;
             Comments = null;
+            HashTags = new List<HashTag>();
         }
 
         public int PostId { get; set; }

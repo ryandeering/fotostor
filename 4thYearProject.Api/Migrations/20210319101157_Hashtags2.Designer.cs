@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using _4thYearProject.Api.Models;
 
 namespace _4thYearProject.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210319101157_Hashtags2")]
+    partial class Hashtags2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,12 +26,12 @@ namespace _4thYearProject.Api.Migrations
                     b.Property<int>("HashTagsId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PostsPostId")
+                    b.Property<int>("HashTagsPostId")
                         .HasColumnType("int");
 
-                    b.HasKey("HashTagsId", "PostsPostId");
+                    b.HasKey("HashTagsId", "HashTagsPostId");
 
-                    b.HasIndex("PostsPostId");
+                    b.HasIndex("HashTagsPostId");
 
                     b.ToTable("HashTagPost");
                 });
@@ -421,7 +423,7 @@ namespace _4thYearProject.Api.Migrations
 
                     b.HasOne("_4thYearProject.Shared.Models.Post", null)
                         .WithMany()
-                        .HasForeignKey("PostsPostId")
+                        .HasForeignKey("HashTagsPostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

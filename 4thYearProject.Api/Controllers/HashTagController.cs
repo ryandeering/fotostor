@@ -1,8 +1,11 @@
-﻿namespace _4thYearProject.Api.Controllers
-{
-    using _4thYearProject.Api.Models;
-    using Microsoft.AspNetCore.Mvc;
+﻿using System.Text.Encodings.Web;
+using _4thYearProject.Api.Extensions;
+using _4thYearProject.Api.Models;
+using _4thYearProject.Shared.Models;
+using Microsoft.AspNetCore.Mvc;
 
+namespace _4thYearProject.Api.Controllers
+{
     [Route("api/[controller]")]
     [ApiController]
     public class HashTagController : Controller
@@ -18,6 +21,12 @@
         public IActionResult GetLatestPostsByHashTag(string hashTag)
         {
             return Ok(_hashTagRepository.GetLatestPostsByHashTag(hashTag));
+        }
+
+        [HttpPost("{hashTag}")]
+        public IActionResult GetHashTag([FromBody]HashTag hashTag)
+        { 
+            return Ok(_hashTagRepository.GetHashTag(hashTag.Content));
         }
     }
 }

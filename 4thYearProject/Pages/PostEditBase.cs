@@ -1,30 +1,34 @@
-﻿using _4thYearProject.Server.Services;
-using _4thYearProject.Shared.Models;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace _4thYearProject.Server.Pages
+﻿namespace _4thYearProject.Server.Pages
 {
+    using _4thYearProject.Server.Services;
+    using _4thYearProject.Shared.Models;
+    using Microsoft.AspNetCore.Components;
+    using Microsoft.AspNetCore.Components.Forms;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text.RegularExpressions;
+    using System.Threading.Tasks;
+
     public partial class PostEditBase : ComponentBase
     {
         [Inject]
         public IPostDataService PostDataService { get; set; }
 
         [Inject]
-        public NavigationManager NavigationManager { get; set; }
+        public IHashTagDataService HashTagDataService { get; set; }
 
+        [Inject]
+        public NavigationManager NavigationManager { get; set; }
 
         [Parameter]
         public int PostId { get; set; }
 
         public Post Post { get; set; } = new Post();
 
-
         [Parameter]
         public EventCallback<bool> CloseEventCallback { get; set; }
+
         public bool ShowDialog { get; set; }
 
         public double Price { get; set; }
@@ -57,10 +61,10 @@ namespace _4thYearProject.Server.Pages
             StateHasChanged();
         }
 
-
-
         protected string Message = string.Empty;
+
         protected string StatusClass = string.Empty;
+
         protected bool Saved;
 
         protected override async Task OnInitializedAsync()
@@ -76,10 +80,9 @@ namespace _4thYearProject.Server.Pages
             {
                 Post = await PostDataService.GetPostDetails(PostId); //int.parse
             }
-
         }
 
-        IReadOnlyList<IBrowserFile> selectedFiles;
+        internal IReadOnlyList<IBrowserFile> selectedFiles;
 
         protected void OnInputFileChange(InputFileChangeEventArgs e)
         {
@@ -88,17 +91,18 @@ namespace _4thYearProject.Server.Pages
             this.StateHasChanged();
         }
 
-
-
-
-
         protected async Task HandleValidSubmit()
         {
 
             Saved = false;
 
+            
+
+
             if (Post.PostId == 0) //new
             {
+
+
                 var addedPost = await PostDataService.AddPost(Post);
                 if (addedPost != null)
                 {
@@ -129,9 +133,6 @@ namespace _4thYearProject.Server.Pages
             }
         }
 
-
-
-
         protected async Task DeletePost()
         {
             await PostDataService.DeletePost(Post.PostId);
@@ -147,8 +148,6 @@ namespace _4thYearProject.Server.Pages
             NavigationManager.NavigateTo("/employeeoverview");
         }
 
-
-
         public void OnChange(bool? value, string name)
         {
 
@@ -157,7 +156,5 @@ namespace _4thYearProject.Server.Pages
                 ShowDialog = true;
             }
         }
-
-
     }
 }

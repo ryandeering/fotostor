@@ -17,6 +17,10 @@
     <Compile Include="Migrations\20210314151224_resharperedits.Designer.cs" />
     <Compile Include="Migrations\20210314225709_hashtags.cs" />
     <Compile Include="Migrations\20210314225709_hashtags.Designer.cs" />
+    <Compile Include="Migrations\20210319101157_Hashtags2.cs" />
+    <Compile Include="Migrations\20210319101157_Hashtags2.Designer.cs" />
+    <Compile Include="Migrations\20210319103107_hashtag3.cs" />
+    <Compile Include="Migrations\20210319103107_hashtag3.Designer.cs" />
     <Compile Include="Migrations\AppDbContextModelSnapshot.cs" />
   </ItemGroup>
 

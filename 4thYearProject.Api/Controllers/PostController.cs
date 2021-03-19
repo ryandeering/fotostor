@@ -1,4 +1,7 @@
-﻿namespace _4thYearProject.Api.Controllers
+﻿using System.Linq;
+using System.Text.RegularExpressions;
+
+namespace _4thYearProject.Api.Controllers
 {
     using _4thYearProject.Api.CloudStorage;
     using _4thYearProject.Api.Models;
@@ -19,11 +22,14 @@
 
         private readonly IPostRepository _postRepository;
 
+        private readonly IHashTagRepository _hashTagRepository;
+
         private readonly IWebHostEnvironment env;
 
-        public PostController(IPostRepository postRepository, IWebHostEnvironment env, ICloudStorage cloudStorage)
+        public PostController(IPostRepository postRepository, IHashTagRepository hashTagRepository, IWebHostEnvironment env, ICloudStorage cloudStorage)
         {
             _postRepository = postRepository;
+            _hashTagRepository = hashTagRepository;
             this.env = env;
             _cloudStorage = cloudStorage;
         }
@@ -96,6 +102,21 @@
                     post.UserId + "_" + post.PostId + rand_num + ".JPEG");
             post.Thumbnail =
                 await _cloudStorage.UploadFileAsync(Thumbnail, post.UserId + "_" + post.PostId + rand_num + "T.JPEG");
+
+
+            var hashTags = Regex.Matches(post.Caption, @"\#\w*").Cast<Match>().Select(m => m.Value).ToArray();
+            foreach (var hashTag in hashTags)
+            {
+                Console.WriteLine("proof this works");
+                var hashTagResult = _hashTagRepository.GetHashTag(hashTag);
+                post.HashTags.Add(hashTagResult);
+            }
+            
+
+
+
+
+
 
             var createdPost = _postRepository.AddPost(post);
 

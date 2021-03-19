@@ -55,7 +55,7 @@
                 }
 
 
-            return new UserData(); //filthy hack
+            return new UserData();
         }
 
         public UserData UpdateUserData(UserData User)
