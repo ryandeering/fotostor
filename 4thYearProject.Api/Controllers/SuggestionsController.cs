@@ -18,6 +18,11 @@
         [HttpGet("{id}")]
         public IActionResult GetSuggestions(string id)
         {
+
+
+
+
+
             return Ok(_suggestionsRepository.GetSuggestions(id));
         }
     }

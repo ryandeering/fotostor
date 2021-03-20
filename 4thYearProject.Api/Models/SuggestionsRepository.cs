@@ -23,6 +23,42 @@ namespace _4thYearProject.Api.Models
                 .Where(x => x.UserId == id)
                 .Include(x => x.HashTags);
 
+
+
+
+            if (userPosts.Count().Equals(0))
+            {
+
+                var hashtags = _appDbContext.Hashtags.GroupBy(h => h.Content)
+                    .Select(group => new { Content = group.Key, Count = group.Count() }).OrderByDescending(h => h.Count);
+
+                var suggestedPostsNoInterests = new List<Post>();
+
+                foreach (var HashTag in hashtags)
+                {
+                    var HashTagActual = _appDbContext.Hashtags.Where(ht => ht.Content.Contains(HashTag.Content)).First();
+                    var PostWithHashTag = _appDbContext.Posts.Where(p => p.HashTags.Contains(HashTagActual)).OrderByDescending(p => p.Likes).FirstOrDefault();
+                    suggestedPostsNoInterests.Add(PostWithHashTag);
+                }
+
+                try
+                {
+                    foreach (var post in suggestedPostsNoInterests) post.HashTags.Clear();
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine("Possible hashtag with no posts found?");
+                }
+                
+
+                return suggestedPostsNoInterests.OrderBy(p => Guid.NewGuid()).Distinct().ToList();
+
+            }
+
+
+
+
+
             var userHashTags = new List<HashTag>();
             foreach (var userPost in userPosts)
             foreach (var hashTag in userPost.HashTags)
@@ -31,20 +67,18 @@ namespace _4thYearProject.Api.Models
             var query = userHashTags.GroupBy(h => h.Content)
                 .Select(group => new {Content = group.Key, Count = group.Count()}).OrderByDescending(h => h.Count);
 
-
             var items = query.Take(4);
 
-            var suggestedPosts = new List<Post>();
+            var suggestedPosts = (from item in items
+                select _appDbContext.Hashtags.FirstOrDefault(ht => ht.Content.Equals(item.Content))
+                into foundHashTag
+                select _appDbContext.Posts.Where(p => p.HashTags.Contains(foundHashTag))
+                into foundPosts
+                select foundPosts.OrderByDescending(x => x.Likes).First()).ToList();
 
-            foreach (var item in items)
-            {
-                var foundHashTag = _appDbContext.Hashtags.Where(ht => ht.Content.Equals((item.Content)));
-                var foundPost = _appDbContext.Posts.OrderByDescending(p => p.Likes).FirstOrDefault();
-                suggestedPosts.Add(foundPost);
-            }
+            var suggestedPostsFinal = suggestedPosts.OrderBy(p => Guid.NewGuid()).Distinct().ToList(); //shuffle
 
-            var suggestedPostsFinal = suggestedPosts.OrderBy(p => Guid.NewGuid()).ToList();
-
+            foreach (var post in suggestedPostsFinal) post.HashTags.Clear();
 
             return suggestedPostsFinal;
         }

@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace _4thYearProject.Api
 {
     using _4thYearProject.Api.CloudStorage;
@@ -104,6 +106,9 @@ namespace _4thYearProject.Api
 
             services.AddControllers(configure =>
                 configure.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy)));
+
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -113,7 +118,6 @@ namespace _4thYearProject.Api
             if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
 
             app.UseResponseCompression();
-
 
             app.UseHttpsRedirection();
 
