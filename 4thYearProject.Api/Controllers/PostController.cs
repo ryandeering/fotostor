@@ -111,12 +111,6 @@ namespace _4thYearProject.Api.Controllers
                 var hashTagResult = _hashTagRepository.GetHashTag(hashTag);
                 post.HashTags.Add(hashTagResult);
             }
-            
-
-
-
-
-
 
             var createdPost = _postRepository.AddPost(post);
 

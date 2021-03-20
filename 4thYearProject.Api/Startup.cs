@@ -85,6 +85,7 @@ namespace _4thYearProject.Api
             services.AddSingleton<ICloudStorage, GoogleCloudStorage>();
             services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
             services.AddScoped<IHashTagRepository, HashTagRepository>();
+            services.AddScoped<ISuggestionsRepository, SuggestionsRepository>();
             services.AddTransient<IEmailSender, MailKitEmailSender>();
             services.Configure<MailKitEmailSenderOptions>(options =>
             {
