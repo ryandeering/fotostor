@@ -37,9 +37,7 @@ namespace FourthYearProject.IDP.Areas.Identity.Pages.Account
 
             Email = email;
             // Once you add a real email sender, you should remove this code that lets you confirm the account
-            DisplayConfirmAccountLink = true;
-            if (DisplayConfirmAccountLink)
-            {
+    
                 var userId = await _userManager.GetUserIdAsync(user);
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
@@ -48,7 +46,7 @@ namespace FourthYearProject.IDP.Areas.Identity.Pages.Account
                     null,
                     new {area = "Identity", userId, code},
                     Request.Scheme);
-            }
+            
 
             return Page();
         }

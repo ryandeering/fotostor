@@ -18,7 +18,6 @@ namespace FourthYearProject.IDP.Areas.Identity.Data
         protected override async Task<ClaimsIdentity> GenerateClaimsAsync(ApplicationUser user)
         {
             var identity = await base.GenerateClaimsAsync(user);
-            // identity.AddClaim(new Claim("PhotoFile", user.DisplayName));
             return identity;
         }
     }

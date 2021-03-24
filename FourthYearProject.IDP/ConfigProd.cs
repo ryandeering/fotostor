@@ -10,7 +10,7 @@ namespace FourthYearProject.IDP
     public static class ConfigProd
     {
         public static IEnumerable<IdentityResource> Ids =>
-            new[]
+            new IdentityResource[]
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
@@ -20,7 +20,7 @@ namespace FourthYearProject.IDP
 
 
         public static IEnumerable<ApiResource> Apis =>
-            new[]
+            new ApiResource[]
             {
                 new("_4thyearprojectapi",
                     "4th Year Project API",
@@ -29,7 +29,7 @@ namespace FourthYearProject.IDP
 
 
         public static IEnumerable<Client> Clients =>
-            new[]
+            new Client[]
             {
                 new()
                 {

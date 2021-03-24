@@ -1,5 +1,6 @@
 ﻿using FourthYearProject.IDP.Areas.Identity;
 using FourthYearProject.IDP.Areas.Identity.Data;
+using FourthYearProject.IDP.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -41,10 +42,28 @@ namespace FourthYearProject.IDP.Areas.Identity
                 //.AddEntityFrameworkStores<dbContext>();
 
                 services.AddIdentity<ApplicationUser, IdentityRole>(
-                        options => options.SignIn.RequireConfirmedAccount = true)
+                        options =>
+                        {
+                            options.SignIn.RequireConfirmedAccount = true;
+                            options.Tokens.ProviderMap.Add("CustomEmailConfirmation",
+                                new TokenProviderDescriptor(
+                                    typeof(CustomEmailConfirmationTokenProvider<ApplicationUser>)));
+                            options.Tokens.EmailConfirmationTokenProvider = "CustomEmailConfirmation";
+                        })
                     .AddEntityFrameworkStores<dbContext>()
                     .AddDefaultTokenProviders();
+
+                services.AddTransient<CustomEmailConfirmationTokenProvider<ApplicationUser>>();
+
+
+
+
             });
+
+
+
+
+
         }
     }
 }

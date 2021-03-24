@@ -2,11 +2,14 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using System;
 using FourthYearProject.IDP.Areas.Identity.Data;
+using FourthYearProject.IDP.Services;
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,9 +32,8 @@ namespace FourthYearProject.IDP
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-
-            services.AddTransient<IEmailSender, DummyEmailSender>();
-
+         
+          
             //  services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, MyUserClaimsPrincipalFactory>();
 
             //// configures IIS out-of-proc settings (see https://github.com/aspnet/AspNetCore/issues/14882)
@@ -56,6 +58,12 @@ namespace FourthYearProject.IDP
                 options.Events.RaiseSuccessEvents = true;
             }).AddAspNetIdentity<ApplicationUser>();
 
+          
+
+            services.AddTransient<CustomEmailConfirmationTokenProvider<IdentityUser>>();
+            
+            services.AddTransient<IEmailSender, EmailSender>();
+
 
             //// in-memory, code config
 
@@ -69,19 +77,6 @@ namespace FourthYearProject.IDP
                 options.KnownNetworks.Clear();
                 options.KnownProxies.Clear();
             });
-
-
-            //if (Environment.IsDevelopment())
-            //{
-            //    builder.AddInMemoryIdentityResources(Config.Ids);
-            //    builder.AddInMemoryApiResources(Config.Apis);
-            //    builder.AddInMemoryClients(Config.Clients);
-            //} else
-            //{
-            //    builder.AddInMemoryIdentityResources(ConfigProd.Ids);
-            //    builder.AddInMemoryApiResources(ConfigProd.Apis);
-            //    builder.AddInMemoryClients(ConfigProd.Clients);
-            //}
 
 
             if (!Environment.IsDevelopment())
@@ -98,18 +93,6 @@ namespace FourthYearProject.IDP
             }
 
 
-            //    // in-memory, code config
-            //    if (Environment.IsProduction())
-            //{
-            //    builder.AddInMemoryIdentityResources(ConfigProd.Ids);
-            //    builder.AddInMemoryApiResources(ConfigProd.Apis);
-            //    builder.AddInMemoryClients(ConfigProd.Clients);
-            //} else
-            //{
-            //    builder.AddInMemoryIdentityResources(Config.Ids);
-            //    builder.AddInMemoryApiResources(Config.Apis);
-            //    builder.AddInMemoryClients(Config.Clients);
-            //}
 
 
             // not recommended for production - you need to store your key material somewhere secure
@@ -133,6 +116,16 @@ namespace FourthYearProject.IDP
                     AllowAll = true
                 };
             });
+
+            services.ConfigureApplicationCookie(o => {
+                o.ExpireTimeSpan = TimeSpan.FromDays(5);
+                o.SlidingExpiration = true;
+            });
+
+            services.Configure<DataProtectionTokenProviderOptions>(o =>
+                o.TokenLifespan = TimeSpan.FromHours(3));
+
+
 
             services.AddAuthentication();
         }
