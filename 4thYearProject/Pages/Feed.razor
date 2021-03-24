@@ -14,18 +14,37 @@
         @foreach (var Post in Posts)
         {
 
-        <div class="card">
+            <div class="card">
             <div class="card-heading">
                 <div class="card-heading-pic">
-                    <img src=""
-                         alt="profile-pic">
-                </div>
+                    @if (Post.ProfileData != null)
+                    {
+                        @if (Post.ProfileData.ProfilePicURL != null || Post.ProfileData.ProfilePicURL == String.Empty)
+                        {
+                            <img src="@Post.ProfileData.ProfilePicURL"
+                                 alt="profile-pic">
 
-                <div class="card-heading-data">
-                    <span class="user-name"> @Post.UserId</span>
-                    @*<span class="location"> Ooty</span>*@
+                        }
+                        else
+                        {
+                            <img src="images/profilePicture.jpg"
+                                 alt="profile-pic">
+                        }
+                    }
                 </div>
+                @if (Post.UserId != null)
+                {
+                    @if(Post.ProfileData != null) { 
+                        <div class="card-heading-data">
+                            @if (Post.ProfileData.Username != null || Post.ProfileData.Username == String.Empty)
+                            {
 
+                                <span class="user-name"> <a href="/profile/@Post.ProfileData.Username">@Post.ProfileData.Username</a> <br /> @Post.ProfileData.FName @Post.ProfileData.LName</span>
+                            }
+                            @*<span class="location"> Ooty</span>*@
+                        </div>
+                    }
+                }
             </div>
 
 

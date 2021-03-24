@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace _4thYearProject.Api.Controllers
@@ -23,15 +24,17 @@ namespace _4thYearProject.Api.Controllers
         private readonly IPostRepository _postRepository;
 
         private readonly IHashTagRepository _hashTagRepository;
+        private readonly IUserDataRepository _userDataRepository;
 
         private readonly IWebHostEnvironment env;
 
-        public PostController(IPostRepository postRepository, IHashTagRepository hashTagRepository, IWebHostEnvironment env, ICloudStorage cloudStorage)
+        public PostController(IPostRepository postRepository, IHashTagRepository hashTagRepository, IWebHostEnvironment env, ICloudStorage cloudStorage, IUserDataRepository userDataRepository)
         {
             _postRepository = postRepository;
             _hashTagRepository = hashTagRepository;
             this.env = env;
             _cloudStorage = cloudStorage;
+            _userDataRepository = userDataRepository;
         }
 
         // GET: api/<controller>
@@ -59,7 +62,19 @@ namespace _4thYearProject.Api.Controllers
         [Route("following/{id}")]
         public IActionResult GetPostsbyFollowing(string id)
         {
-            return Ok(_postRepository.GetAllPostsbyFollowing(id));
+
+
+
+            var Posts =_postRepository.GetAllPostsbyFollowing(id);
+
+            foreach (var Post in Posts)
+            {
+                Post.ProfileData = _userDataRepository.GetUserNameFromId(Post.UserId);
+            }
+
+            return Ok(Posts);
+
+
         }
 
         [HttpPost]

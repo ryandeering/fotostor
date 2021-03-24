@@ -34,6 +34,8 @@
 
         public DbSet<HashTag> Hashtags { get; set; }
 
+        public DbSet<FeedProfileData> FeedData { get; set; } //to get JSON to serialize...
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

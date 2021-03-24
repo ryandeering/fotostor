@@ -21,6 +21,8 @@
     <Compile Include="Migrations\20210319101157_Hashtags2.Designer.cs" />
     <Compile Include="Migrations\20210319103107_hashtag3.cs" />
     <Compile Include="Migrations\20210319103107_hashtag3.Designer.cs" />
+    <Compile Include="Migrations\20210324013949_FeedDataHack.cs" />
+    <Compile Include="Migrations\20210324013949_FeedDataHack.Designer.cs" />
     <Compile Include="Migrations\AppDbContextModelSnapshot.cs" />
   </ItemGroup>
 

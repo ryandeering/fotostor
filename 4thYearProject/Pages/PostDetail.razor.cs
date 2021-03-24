@@ -102,37 +102,37 @@ namespace _4thYearProject.Server.Pages
 
 
 
-        protected async Task GetUsernames()
-        {
+        //protected async Task GetUsernames()
+        //{
 
-            try
-            {
-                UsernameList UsernameIds = new UsernameList();
-                Usernames = new UsernameList();
-
-
-                foreach (var Comment in Comments)
-                {
-                    UsernameIds.ListofUsernames.Add(Comment.UserId);
-                    Console.WriteLine(Comment.UserId);
-                }
-
-                Usernames = await UserDataService.GetUserNameFromId(UsernameIds);
-                for (int i = 0; i < Comments.Count; i++)
-                {
-                    Comments[i].Username = Usernames.ListofUsernames[i];
-                    Console.WriteLine(Comments[i].Username);
-                }
-                StateHasChanged();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-
-            }
+        //    try
+        //    {
+        //        UsernameList UsernameIds = new UsernameList();
+        //        Usernames = new UsernameList();
 
 
-        }
+        //        foreach (var Comment in Comments)
+        //        {
+        //            UsernameIds.ListofUsernames.Add(Comment.UserId);
+        //            Console.WriteLine(Comment.UserId);
+        //        }
+
+        //        Usernames = await UserDataService.GetUserNameFromId(UsernameIds);
+        //        for (int i = 0; i < Comments.Count; i++)
+        //        {
+        //            Comments[i].Username = Usernames.ListofUsernames[i];
+        //            Console.WriteLine(Comments[i].Username);
+        //        }
+        //        StateHasChanged();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine(ex.Message);
+
+        //    }
+
+
+        //}
 
 
 

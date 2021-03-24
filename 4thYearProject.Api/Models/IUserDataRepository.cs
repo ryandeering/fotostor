@@ -17,6 +17,6 @@
 
         void DeleteUserData(string Id);
 
-        UsernameList GetUserNameFromId(UsernameList list);
+        FeedProfileData GetUserNameFromId(string UserId);
     }
 }

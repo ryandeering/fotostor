@@ -1,4 +1,5 @@
-﻿using _4thYearProject.Server.Services;
+﻿using System;
+using _4thYearProject.Server.Services;
 using _4thYearProject.Server.Shared;
 using _4thYearProject.Shared;
 using _4thYearProject.Shared.Models;
@@ -18,6 +19,9 @@ namespace _4thYearProject.Server.Pages
         public string DisplayName { get; set; }
         public UserData User { get; set; }
         public List<Post> Posts { get; set; }
+        public List<Post> SuggestedPosts { get; set; }
+        public List<Post> ActualPosts { get; set; }
+        public FeedProfileData ProfileData { get; set; }
 
         [Inject]
         public IPostDataService PostDataService { get; set; }
@@ -29,6 +33,8 @@ namespace _4thYearProject.Server.Pages
         [Inject]
         public IUserDataService UserDataService { get; set; }
 
+        [Inject]
+        public ISuggestionsDataService SuggestionsDataService { get; set; }
 
         [CascadingParameter] public IModalService Modal { get; set; }
         //https://github.com/Blazored/Modal/blob/main/samples/BlazorWebAssembly/Pages/PassDataToModal.razor
@@ -39,19 +45,35 @@ namespace _4thYearProject.Server.Pages
         {
 
             identity = await _userService.GetUserAsync();
-            //First get user claims    
+            //First get user claims     
             string claimDisplayName = identity.Claims.Where(c => c.Type.Equals("preferred_username"))
                   .Select(c => c.Value).SingleOrDefault().ToString();
 
 
             User = await UserDataService.GetUserDataDetailsByDisplayName(claimDisplayName);
 
-            Posts = (await PostDataService.GetAllPostsbyFollowing(User.Id)).ToList();
+            SuggestedPosts = (await SuggestionsDataService.GetSuggestions(User.Id)).ToList();
 
+            ActualPosts = (await PostDataService.GetAllPostsbyFollowing(User.Id)).ToList();
+
+            
+
+            var PostsBeforeShuffle = new List<Post>(ActualPosts.Count +
+                                                SuggestedPosts.Count);
+
+            PostsBeforeShuffle.AddRange(ActualPosts);
+            PostsBeforeShuffle.AddRange(SuggestedPosts);
+
+            Posts = PostsBeforeShuffle.OrderBy(x => Guid.NewGuid()).Distinct().ToList();
 
 
 
         }
+
+
+
+
+
 
         async Task BuyLicense(int PostId)
         {
@@ -80,6 +102,11 @@ namespace _4thYearProject.Server.Pages
             var result = await addPrint.Result;
         }
 
+        async Task<FeedProfileData> GetUserName(string UserId)
+        {
+            var response = await UserDataService.GetUserNameFromId(UserId);
+            return response;
+        }
 
 
 

@@ -27,6 +27,8 @@ namespace _4thYearProject.Shared.Models
         [MaxLength] public string Thumbnail { get; set; }
 
 
+        public FeedProfileData ProfileData { get; set; }
+
         public string MimeType { get; set; }
 
 

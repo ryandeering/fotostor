@@ -1,9 +1,12 @@
-﻿using _4thYearProject.Shared.Models;
+﻿using System;
+using _4thYearProject.Shared.Models;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using _4thYearProject.Server.Pages;
 
 namespace _4thYearProject.Server.Services
 {
@@ -31,16 +34,16 @@ namespace _4thYearProject.Server.Services
             return null;
         }
 
-        public async Task<UsernameList> GetUserNameFromId(UsernameList list)
+        public async Task<FeedProfileData> GetUserNameFromId(string id)
         {
-            var userJson =
-                       new StringContent(JsonSerializer.Serialize(list), Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PostAsync("api/username", userJson);
+            var response = await _httpClient.GetAsync($"api/username/{id}");
 
             if (response.IsSuccessStatusCode)
             {
-                return await JsonSerializer.DeserializeAsync<UsernameList>(await response.Content.ReadAsStreamAsync());
+                return await JsonSerializer.DeserializeAsync<FeedProfileData>(
+                    await response.Content.ReadAsStreamAsync());
+
             }
 
             return null;

@@ -1,12 +1,11 @@
-﻿namespace _4thYearProject.Api.Models
-{
-    using _4thYearProject.Shared.Models;
-    using Microsoft.EntityFrameworkCore;
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using _4thYearProject.Shared.Models;
+using Microsoft.EntityFrameworkCore;
 
+namespace _4thYearProject.Api.Models
+{
     public class UserDataRepository : IUserDataRepository
     {
         private readonly AppDbContext _appDbContext;
@@ -87,23 +86,20 @@
             _appDbContext.SaveChanges();
         }
 
-        public UsernameList GetUserNameFromId(UsernameList list)
+        public FeedProfileData GetUserNameFromId(string UserId)
         {
-            if (list.ListofUsernames.Any())
+            var User = _appDbContext.Users.FirstOrDefault(c => c.Id.Equals(UserId));
+
+            var ProfileData = new FeedProfileData
             {
-                var Usernames = new UsernameList();
+                Username = User.DisplayName,
+                ProfilePicURL = User.ProfilePic,
+                FName = User.FirstName,
+                LName = User.SecondName
+            };
 
-                foreach (var id in list.ListofUsernames)
-                {
-                    var user = _appDbContext.Users.FirstOrDefault(c => c.Id.Equals(id));
-                    Usernames.ListofUsernames.Add(user.DisplayName);
-                    Debug.WriteLine(user.DisplayName);
-                }
 
-                return Usernames;
-            }
-
-            return null;
+            return ProfileData;
         }
     }
 }

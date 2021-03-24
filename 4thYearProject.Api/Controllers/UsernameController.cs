@@ -1,4 +1,6 @@
-﻿namespace _4thYearProject.Api.Models
+﻿using System;
+
+namespace _4thYearProject.Api.Models
 {
     using _4thYearProject.Shared.Models;
     using Microsoft.AspNetCore.Mvc;
@@ -14,10 +16,10 @@
             _UserDataRepository = UserDataRepository;
         }
 
-        [HttpPost]
-        public IActionResult GetUserNameFromId([FromBody] UsernameList list)
+        [HttpGet("{id}")]
+        public IActionResult GetUserNameFromId(string id)
         {
-            return Ok(_UserDataRepository.GetUserNameFromId(list));
+            return Ok(_UserDataRepository.GetUserNameFromId(id));
         }
     }
 }

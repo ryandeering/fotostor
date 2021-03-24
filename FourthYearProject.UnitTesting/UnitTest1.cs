@@ -1,4 +1,10 @@
+using System;
+using System.Threading.Tasks;
 using _4thYearProject.Api.Models;
+using _4thYearProject.Shared.Models;
+using Microsoft.EntityFrameworkCore;
+using Moq;
+using Stripe;
 using Xunit;
 
 namespace FourthYearProject.UnitTesting
@@ -6,15 +12,19 @@ namespace FourthYearProject.UnitTesting
     public class UnitTest1
     {
 
-#pragma warning disable S3459 // Unassigned members should be removed
-        private readonly IPostRepository _postRepository;
-#pragma warning restore S3459 // Unassigned members should be removed
-
-
         [Fact]
         public void PostGetAllAsync()
         {
-            var posts = _postRepository.GetAllPosts(); // add mock authentication
+
+            var dbContextMock = new Mock<AppDbContext>();
+            var dbSetMock = new Mock<DbSet<Post>>();
+            dbContextMock.Setup(s => s.Set<Post>()).Returns(dbSetMock.Object);
+
+
+            var postRepository = new PostRepository(dbContextMock.Object);
+
+
+            var posts = postRepository.GetAllPosts();
             Assert.Single(posts);
         }
 

@@ -77,6 +77,8 @@ namespace _4thYearProject.Server
                 .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
                 builder.Services.AddHttpClient<IHashTagDataService, HashTagDataService>(client => client.BaseAddress = new Uri(APIProduction))
                     .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
+                builder.Services.AddHttpClient<ISuggestionsDataService, SuggestionsDataService>(client => client.BaseAddress = new Uri(APIProduction))
+                    .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
 
 
 
@@ -112,6 +114,8 @@ namespace _4thYearProject.Server
                 builder.Services.AddHttpClient<IStripePaymentService, StripePaymentService>(client => client.BaseAddress = new Uri(APIDevelop))
                .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
                 builder.Services.AddHttpClient<IHashTagDataService, HashTagDataService>(client => client.BaseAddress = new Uri(APIDevelop))
+                    .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
+                builder.Services.AddHttpClient<ISuggestionsDataService, SuggestionsDataService>(client => client.BaseAddress = new Uri(APIDevelop))
                     .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
 
 
