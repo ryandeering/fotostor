@@ -63,7 +63,7 @@ namespace _4thYearProject.Server.Pages
                 extendcomment.SubmittedOn = DateTime.Now;
                 await CommentDataService.AddComment(extendcomment);
                 await OnInitializedAsync();
-
+                matToaster.Add("Comment successfully made.", MatToastType.Success, "Success");
 
             }
             catch (Exception ex)
@@ -84,57 +84,15 @@ namespace _4thYearProject.Server.Pages
             {
                 await CommentDataService.DeleteComment(CommentID);
                 await OnInitializedAsync();
+                matToaster.Add("Comment deleted successfully.", MatToastType.Success, "SUCCESS");
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-                // matToaster.Add(ex.GetBaseException().Message, MatToastType.Danger);
+                matToaster.Add("Comment could not be deleted.", MatToastType.Danger, "ERROR");
             }
 
 
         }
-
-
-        string getUsername(int pos)
-        {
-            return list.ElementAt(pos);
-        }
-
-
-
-        //protected async Task GetUsernames()
-        //{
-
-        //    try
-        //    {
-        //        UsernameList UsernameIds = new UsernameList();
-        //        Usernames = new UsernameList();
-
-
-        //        foreach (var Comment in Comments)
-        //        {
-        //            UsernameIds.ListofUsernames.Add(Comment.UserId);
-        //            Console.WriteLine(Comment.UserId);
-        //        }
-
-        //        Usernames = await UserDataService.GetUserNameFromId(UsernameIds);
-        //        for (int i = 0; i < Comments.Count; i++)
-        //        {
-        //            Comments[i].Username = Usernames.ListofUsernames[i];
-        //            Console.WriteLine(Comments[i].Username);
-        //        }
-        //        StateHasChanged();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine(ex.Message);
-
-        //    }
-
-
-        //}
-
-
 
 
 
@@ -236,10 +194,6 @@ namespace _4thYearProject.Server.Pages
                 await OnInitializedAsync();
             }
         }
-
-
-
-
 
 
 

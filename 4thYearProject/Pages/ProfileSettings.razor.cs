@@ -19,6 +19,9 @@
         [Inject]
         public IUserDataService UserDataService { get; set; }
 
+        [Inject]
+        protected IMatToaster Toaster { get; set; }
+
         public UserData User = new UserData();
 
         internal List<string> list = new List<string>();
@@ -27,9 +30,9 @@
 
         private bool Saved = false;
 
-        private string Message = string.Empty;
+        protected string Message = string.Empty;
 
-        private string StatusClass = string.Empty;
+        protected string StatusClass = string.Empty;
 
         protected override async Task OnInitializedAsync()
         {
@@ -66,12 +69,11 @@
             try
             {
                 await UserDataService.UpdateUserData(User);
-                StatusClass = "alert-success";
-                Message = "Profile settings updated successfully.";
-                Saved = true;
+                Toaster.Add("Profile data successfully updated.", MatToastType.Success, "SUCCESS");
             }
             catch
             {
+                Toaster.Add("Something went wrong. Please try again.", MatToastType.Danger, "ERROR");
                 Console.WriteLine("ruh roh"); //todo
             }
         }

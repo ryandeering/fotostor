@@ -1,6 +1,7 @@
 ﻿@inject IPostDataService PostDataService
 @inject IShoppingCartService Cart
 @inject IUserService UserService
+@inject IMatToaster Toaster
 @if (PostIn != null)
 {
     <div class="card mb-4">
@@ -150,6 +151,7 @@
 
 
         Cart.AddToCart(LoggedInID, ol);
+        Toaster.Add("Shirt added to cart.", MatToastType.Success, "SUCCESS");
     }
 
     internal async Task Cancel() => await ModalInstance.CancelAsync();

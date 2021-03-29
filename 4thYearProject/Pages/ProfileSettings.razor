@@ -3,6 +3,10 @@
 @using Radzen.Blazor
 
 
+@if (Saved)
+{
+    <div class="alert @StatusClass">@Message</div>
+}
 
 <RadzenContent Container="main">
     <ChildContent>
@@ -71,7 +75,7 @@
         </div>
     </ChildContent>
 </RadzenContent>
-
+}
 
 
 

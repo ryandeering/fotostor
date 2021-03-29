@@ -4,7 +4,7 @@
 @using MatBlazor
 @inject IPostDataService postsService
 @inject NavigationManager navigationManager
-
+@inject IMatToaster Toaster
 
 <br /><br /><br /><br /><br />
 <div class="mat-layout-grid">
@@ -96,9 +96,17 @@
 
     private async Task Upload()
     {
+
+        if (post == new Post() | post.PhotoFile == String.Empty | post == null)
+        {
+            Toaster.Add("No photo added. Please add a photo.", MatToastType.Danger, "ERROR");
+            return;
+        }
+
+
         post.LicensePrice = Price;
-        await postsService.AddPost(post);
-        navigationManager.NavigateTo("/");
+        var postRecieved = await postsService.AddPost(post);
+        navigationManager.NavigateTo("/post/" + postRecieved.PostId);
     }
 
 
@@ -107,16 +115,12 @@
         IMatFileUploadEntry file = files.FirstOrDefault();
         post.MimeType = file.Type;
 
-        if (file == null)
-        {
-            return;
-        }
 
         using (var stream = new System.IO.MemoryStream())
         {
             await file.WriteToStreamAsync(stream);
             post.PhotoFile = Convert.ToBase64String(stream.ToArray());
-
+            Toaster.Add("Photo added.", MatToastType.Success, "SUCCESS");
 
 
         }

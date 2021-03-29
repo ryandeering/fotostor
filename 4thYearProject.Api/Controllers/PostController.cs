@@ -63,8 +63,6 @@ namespace _4thYearProject.Api.Controllers
         public IActionResult GetPostsbyFollowing(string id)
         {
 
-
-
             var Posts =_postRepository.GetAllPostsbyFollowing(id);
 
             foreach (var Post in Posts)

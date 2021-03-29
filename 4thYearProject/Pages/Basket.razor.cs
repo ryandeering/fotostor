@@ -1,4 +1,6 @@
-﻿namespace _4thYearProject.Server.Pages
+﻿using MatBlazor;
+
+namespace _4thYearProject.Server.Pages
 {
     using _4thYearProject.Server.Services;
     using _4thYearProject.Shared;
@@ -28,6 +30,9 @@
 
         [Inject]
         public IJSRuntime jsRuntime { get; set; }
+
+        [Inject]
+        public IMatToaster Toaster { get; set; }
 
         public AuthenticationStateProvider _AuthenticationStateProvider { get; set; }
 
@@ -59,9 +64,6 @@
         private async Task PlaceOrder(MouseEventArgs e)
         {
 
-
-
-
             var order = new StripePaymentDTO
             {
                 CartId = basket.Id,
@@ -69,8 +71,6 @@
                 Amount = ConvertEuroToCents(price),
                 Email = Email
             };
-
-
 
 
             var result = await stripePaymentService.CheckOut(order);
@@ -85,6 +85,7 @@
             await shoppingCartDataService.EmptyBasket(LoggedInID);
             basket = await shoppingCartDataService.GetCart(LoggedInID);
             getPrice();
+            Toaster.Add("Your basket has been emptied.", MatToastType.Success, "SUCCESS");
             StateHasChanged();
         }
 

@@ -1,6 +1,7 @@
 ﻿@inject IPostDataService PostDataService
 @inject IShoppingCartService Cart 
 @inject IUserService UserService
+@inject IMatToaster Toaster
 @if (PostIn != null)
 {
     <div class="card mb-4">
@@ -77,6 +78,7 @@ else
         ol.Type = "License";
 
         Cart.AddToCart(LoggedInID,ol);
+        Toaster.Add("License added to cart.", MatToastType.Success, "SUCCESS");
 
 
     }
