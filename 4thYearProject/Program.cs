@@ -66,13 +66,6 @@ namespace _4thYearProject.Server
                 .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
                 builder.Services.AddHttpClient<IStripePaymentService, StripePaymentService>(client => client.BaseAddress = new Uri(APIProduction))
                 .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
-
-                builder.Services.AddHttpClient<IEmployeeDataService, EmployeeDataService>(client => client.BaseAddress = new Uri(APIProduction))
-                .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
-                builder.Services.AddHttpClient<ICountryDataService, CountryDataService>(client => client.BaseAddress = new Uri(APIProduction))
-                .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
-                builder.Services.AddHttpClient<IJobCategoryDataService, JobCategoryDataService>(client => client.BaseAddress = new Uri(APIProduction))
-                .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
                 builder.Services.AddHttpClient<IStripePaymentService, StripePaymentService>(client => client.BaseAddress = new Uri(APIProduction))
                 .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
                 builder.Services.AddHttpClient<IHashTagDataService, HashTagDataService>(client => client.BaseAddress = new Uri(APIProduction))
@@ -104,13 +97,6 @@ namespace _4thYearProject.Server
                .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
                 builder.Services.AddHttpClient<IShoppingCartService, ShoppingCartDataService>(client => client.BaseAddress = new Uri(APIDevelop))
                .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
-
-                builder.Services.AddHttpClient<IEmployeeDataService, EmployeeDataService>(client => client.BaseAddress = new Uri(APIDevelop))
-                .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
-                builder.Services.AddHttpClient<ICountryDataService, CountryDataService>(client => client.BaseAddress = new Uri(APIDevelop))
-                .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
-                builder.Services.AddHttpClient<IJobCategoryDataService, JobCategoryDataService>(client => client.BaseAddress = new Uri(APIDevelop))
-                .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
                 builder.Services.AddHttpClient<IStripePaymentService, StripePaymentService>(client => client.BaseAddress = new Uri(APIDevelop))
                .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
                 builder.Services.AddHttpClient<IHashTagDataService, HashTagDataService>(client => client.BaseAddress = new Uri(APIDevelop))
