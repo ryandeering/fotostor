@@ -20,7 +20,7 @@ namespace _4thYearProject.Server.Pages
         public Post post { get; set; }
         public List<Comment> Comments { get; set; }
         Following follow = new Following();
-        Like like = new Like();
+        Like like = new Like(String.Empty, String.Empty);
         bool liked = false;
         int LikeCount { get; set; }
         Comment extendcomment = new Comment();
@@ -150,15 +150,8 @@ namespace _4thYearProject.Server.Pages
         {
             string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
                   .Select(c => c.Value).SingleOrDefault().ToString();
-            Like temp = await LikeService.VerifyLike(LoggedInID, post.PostId.ToString());
-            if (temp != null)
-            {
-                liked = true;
-            }
-            else
-            {
-                liked = false;
-            }
+            var temp = await LikeService.VerifyLike(LoggedInID, post.PostId.ToString());
+            liked = temp;
         }
 
         protected async Task GiveLike()

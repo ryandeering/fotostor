@@ -1,4 +1,7 @@
-﻿namespace _4thYearProject.Api.Controllers
+﻿using EllipticCurve.Utils;
+using String = System.String;
+
+namespace _4thYearProject.Api.Controllers
 {
     using _4thYearProject.Api.Models;
     using _4thYearProject.Shared.Models;
@@ -39,7 +42,7 @@
             if ((Post_ID == string.Empty) ^ (User_ID == string.Empty))
                 return BadRequest();
 
-            _likeRepository.RemoveLike(Post_ID, User_ID);
+            _likeRepository.RemoveLike(User_ID, Post_ID);
 
             return NoContent(); //success
         }
@@ -50,10 +53,10 @@
             if ((Post_ID == string.Empty) ^ (User_ID == string.Empty))
                 return BadRequest();
 
-            var IsLiked = _likeRepository.VerifyLike(User_ID, Post_ID);
+            var IsLiked = _likeRepository.VerifyLike(Post_ID, User_ID);
 
             if (IsLiked == null)
-                return BadRequest();
+                return NotFound();
             return Created("like", IsLiked);
         }
     }

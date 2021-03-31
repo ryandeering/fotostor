@@ -20,6 +20,9 @@
         [Inject]
         public IShoppingCartService _shoppingCartService { get; set; }
 
+        [Inject]
+        public NavigationManager Nav { get; set; }
+
         protected async override Task OnInitializedAsync()
         {
         }
@@ -68,8 +71,8 @@
 
                         await _shoppingCartService.AddCart(ID);
 
-
-
+                    
+                        Nav.NavigateTo("/feed/", true);
 
 
                     }

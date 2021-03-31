@@ -17,7 +17,7 @@
         public Like AddLike(Like like)
         {
             if (_appDbContext.Likes.FirstOrDefault(l => l.User_ID == like.User_ID && l.Post_ID == like.Post_ID) !=
-                null) return null;
+                null) return new Like();
             var addedEntity = _appDbContext.Likes.Add(like);
             _appDbContext.SaveChanges();
             return addedEntity.Entity;
@@ -34,7 +34,8 @@
 
         public Like VerifyLike(string PostId, string UserId)
         {
-            var foundLike = _appDbContext.Likes.FirstOrDefault(p => p.User_ID == UserId && p.Post_ID == PostId);
+            var foundLikes = _appDbContext.Likes.Where(p => p.User_ID == UserId);
+            var foundLike = foundLikes.FirstOrDefault(p => p.Post_ID == PostId);
             if (foundLike == null) return null;
 
             return foundLike;

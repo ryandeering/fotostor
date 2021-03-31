@@ -23,6 +23,8 @@
     <Compile Include="Migrations\20210319103107_hashtag3.Designer.cs" />
     <Compile Include="Migrations\20210324013949_FeedDataHack.cs" />
     <Compile Include="Migrations\20210324013949_FeedDataHack.Designer.cs" />
+    <Compile Include="Migrations\20210331185339_LikedObject.cs" />
+    <Compile Include="Migrations\20210331185339_LikedObject.Designer.cs" />
     <Compile Include="Migrations\AppDbContextModelSnapshot.cs" />
   </ItemGroup>
 

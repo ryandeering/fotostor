@@ -4,6 +4,7 @@
     {
         public string Title { get; set; }
         public int StatusCode { get; set; }
+        public int OrderId { get; set; }
         public string SuccessMessage { get; set; }
         public object Data { get; set; }
     }

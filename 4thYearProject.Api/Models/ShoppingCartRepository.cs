@@ -136,11 +136,15 @@
 
         public Order PlaceOrder(string UserId)
         {
+
             var result = _appDbContext.Carts
                 .Where(x => x.UserId == UserId)
                 .Include(x => x.BasketItems)
                 .ThenInclude(x => x.Post)
                 .FirstOrDefault();
+
+
+            if (result == null) return null;
 
             var order = new Order();
 
@@ -174,8 +178,7 @@
         }
 
         public ShoppingCart GetCart(string UserId)
-        {
-            //return _appDbContext.Carts.Where(c => c.UserId == UserId).Include(c => c.basketItems).Where(p => p.).FirstOrDefault();
+        { 
             var result = _appDbContext.Carts
                 .Where(x => x.UserId == UserId)
                 .Include(x => x.BasketItems)
