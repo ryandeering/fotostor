@@ -7,7 +7,7 @@ using Xunit;
 
 namespace FourthYearProject.UnitTesting
 {
-    public class UnitTest2
+    public class PostRepositoryUnitTests
     {
         private Mock<AppDbContext> service = new();
 
@@ -153,7 +153,7 @@ namespace FourthYearProject.UnitTesting
             var Post = GenFu.GenFu.New<Post>();
 
             var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase("Posts Update Test")
+                .UseInMemoryDatabase("Posts Delete Fail Test")
                 .Options;
 
             using var context = new AppDbContext(options);
