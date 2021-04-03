@@ -41,11 +41,5 @@
             return foundLike;
         }
 
-        public Like VerifyLike(Like like)
-        {
-            if (!_appDbContext.Likes.Any(l => l.User_ID == like.User_ID && l.Post_ID == like.Post_ID)) return null;
-
-            return like;
-        }
     }
 }

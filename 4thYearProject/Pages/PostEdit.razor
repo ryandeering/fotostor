@@ -15,10 +15,12 @@
 
             <DataAnnotationsValidator />
 
-
-            <p>
-                <InputFile OnChange="OnInputFileChange" multiple />
-            </p>
+            @if (fileUploaded == false)
+            {
+                <p>
+                    <InputFile OnChange="OnInputFileChange" multiple/>
+                </p>
+            }
 
 
             <ValidationSummary />

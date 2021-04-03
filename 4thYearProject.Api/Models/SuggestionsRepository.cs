@@ -49,7 +49,7 @@ namespace _4thYearProject.Api.Models
                 }
 
 
-                return suggestedPostsNoInterests.OrderBy(p => Guid.NewGuid()).Distinct().ToList();
+                return suggestedPostsNoInterests.OrderByDescending(p => p.UploadDate).Distinct().ToList();
             }
 
 
@@ -83,7 +83,7 @@ namespace _4thYearProject.Api.Models
 
             foreach (var post in suggestedPostsFinal) post.HashTags.Clear();
 
-            return suggestedPostsFinal;
+            return suggestedPostsFinal.Where(p => p.PostDeleted != true);
         }
     }
 }

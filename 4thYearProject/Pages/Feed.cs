@@ -9,6 +9,7 @@ using _4thYearProject.Shared;
 using _4thYearProject.Shared.Models;
 using Blazored.Modal;
 using Blazored.Modal.Services;
+using MatBlazor;
 using Microsoft.AspNetCore.Components;
 
 namespace _4thYearProject.Server.Pages
@@ -26,7 +27,6 @@ namespace _4thYearProject.Server.Pages
         public List<Post> Posts { get; set; }
         public List<Post> SuggestedPosts { get; set; }
         public List<Post> ActualPosts { get; set; }
-        public FeedProfileData ProfileData { get; set; }
 
         [Inject] public IPostDataService PostDataService { get; set; }
 
@@ -39,6 +39,9 @@ namespace _4thYearProject.Server.Pages
         [Inject] public ISuggestionsDataService SuggestionsDataService { get; set; }
 
         [Inject] public ILikeDataService LikeService { get; set; }
+
+        [Inject]
+        protected IMatToaster Toaster { get; set; }
 
 
         [CascadingParameter] public IModalService Modal { get; set; }
@@ -63,15 +66,15 @@ namespace _4thYearProject.Server.Pages
                 
 
 
-            var PostsBeforeShuffle = new List<Post>(ActualPosts.Count +
+            var PostsCombined = new List<Post>(ActualPosts.Count +
                                                     SuggestedPosts.Count);
 
-            PostsBeforeShuffle.AddRange(ActualPosts);
-            PostsBeforeShuffle.AddRange(SuggestedPosts);
+            PostsCombined.AddRange(ActualPosts);
+            PostsCombined.AddRange(SuggestedPosts);
 
 
 
-            foreach (var Post in PostsBeforeShuffle)
+            foreach (var Post in PostsCombined)
             {
                 var like = await VerifyLike(Post);
                 Post.Liked = like;
@@ -81,7 +84,7 @@ namespace _4thYearProject.Server.Pages
 
 
 
-            Posts = PostsBeforeShuffle.OrderBy(x => Guid.NewGuid()).Distinct().ToList();
+            Posts = PostsCombined.Distinct().OrderByDescending(po => po.UploadDate).ToList();
 
 
         }
@@ -114,6 +117,13 @@ namespace _4thYearProject.Server.Pages
             return await LikeService.VerifyLike(post.PostId.ToString(), LoggedIn);
         }
 
+        protected async Task DeletePost(Post post)
+        {
+            await PostDataService.DeletePost(post.PostId);
+            StateHasChanged();
+            Toaster.Add("Post deleted.", MatToastType.Success, "SUCCESS");
+
+        }
 
         private async Task BuyLicense(int PostId)
         {
@@ -141,6 +151,11 @@ namespace _4thYearProject.Server.Pages
             var addPrint = Modal.Show<AddPrint>("PostId", parameters);
             var result = await addPrint.Result;
         }
+
+
+
+
+
 
         private async Task<FeedProfileData> GetUserName(string UserId)
         {

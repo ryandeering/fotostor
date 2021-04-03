@@ -40,6 +40,7 @@ namespace _4thYearProject.Shared.Models
         public bool PostDeleted { get; set; }
 
 
+
         [Required]
         [StringLength(150, ErrorMessage = "Your caption exceeds 150 characters.")]
         public string Caption { get; set; }

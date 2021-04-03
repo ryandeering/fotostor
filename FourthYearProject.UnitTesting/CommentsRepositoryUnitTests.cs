@@ -162,6 +162,8 @@ namespace FourthYearProject.UnitTesting
             {
                 context.Comments.Add(comment);
             }
+
+            context.SaveChanges();
             var repo = new CommentRepository(context);
             repo.DeleteComment(5);
             var commentsContextContent = context.Comments;

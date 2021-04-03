@@ -35,6 +35,8 @@
 
         public bool value;
 
+        public bool fileUploaded = false;
+
         public void Show()
         {
             ResetDialog();
@@ -74,10 +76,11 @@
             if (PostId == 0) //new employee is being created
             {
                 //add some defaults
-                Post = new Post { Caption = String.Empty, PhotoFile = null, Comments = new List<Comment>(), UploadDate = DateTime.Now, Likes = 0 };
+                Post = new Post { Caption = String.Empty, PostDeleted = false, PhotoFile = null, Comments = new List<Comment>(), UploadDate = DateTime.Now, Likes = 0 };
             }
             else
             {
+                fileUploaded = true;
                 Post = await PostDataService.GetPostDetails(PostId); //int.parse
             }
         }
@@ -126,7 +129,7 @@
 
 
 
-                await PostDataService.AddPost(Post); //FIX LATER HOLY FUCK
+                await PostDataService.AddPost(Post); //TODO FIX LATER HOLY FUCK
                 StatusClass = "alert-success";
                 Message = "Fuck.";
                 Saved = true;

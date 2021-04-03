@@ -26,13 +26,17 @@
 
             var followingids = new HashSet<string>();
 
+            followingids.Add(id);
+
             foreach (var follow in followings)
                 if (follow.Follower_ID.Equals(id))
                     followingids.Add(follow.Followed_ID);
 
 
-            return _appDbContext.Posts.Where(x => followingids.Any(n => n == x.UserId))
-                .OrderByDescending(p => p.UploadDate);
+            var posts = _appDbContext.Posts.Where(x => followingids.Any(n => n == x.UserId))
+                .OrderByDescending(p => p.UploadDate).Distinct();
+
+            return posts.Where(p => p.PostDeleted != true);
         }
 
         public Post GetPostById(int postId)
@@ -42,7 +46,7 @@
 
         public IEnumerable<Post> GetPostsByUserId(string id)
         {
-            return _appDbContext.Posts.Where(p => p.UserId.Equals(id)).OrderByDescending(p => p.UploadDate);
+            return _appDbContext.Posts.Where(p => p.UserId.Equals(id) && p.PostDeleted != true).OrderByDescending(p => p.UploadDate);
         }
 
         public Post AddPost(Post post)
@@ -72,7 +76,8 @@
             var foundPost = _appDbContext.Posts.FirstOrDefault(p => p.PostId == postId);
             if (foundPost == null) return;
 
-            _appDbContext.Posts.Remove(foundPost);
+            foundPost.PostDeleted = true;
+            UpdatePost(foundPost);
             _appDbContext.SaveChanges();
         }
     }

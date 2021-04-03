@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text.RegularExpressions;
+using _4thYearProject.Shared;
+using EllipticCurve.Utils;
 
 namespace _4thYearProject.Api.Controllers
 {
@@ -25,16 +28,18 @@ namespace _4thYearProject.Api.Controllers
 
         private readonly IHashTagRepository _hashTagRepository;
         private readonly IUserDataRepository _userDataRepository;
+        private readonly IUserService _userService;
 
         private readonly IWebHostEnvironment env;
 
-        public PostController(IPostRepository postRepository, IHashTagRepository hashTagRepository, IWebHostEnvironment env, ICloudStorage cloudStorage, IUserDataRepository userDataRepository)
+        public PostController(IPostRepository postRepository, IHashTagRepository hashTagRepository, IWebHostEnvironment env, ICloudStorage cloudStorage, IUserDataRepository userDataRepository, IUserService userService)
         {
             _postRepository = postRepository;
             _hashTagRepository = hashTagRepository;
             this.env = env;
             _cloudStorage = cloudStorage;
             _userDataRepository = userDataRepository;
+            _userService = userService;
         }
 
         // GET: api/<controller>
@@ -58,6 +63,32 @@ namespace _4thYearProject.Api.Controllers
             return Ok(_postRepository.GetPostsByUserId(id));
         }
 
+        [HttpDelete("{postId}")]
+        public async Task<IActionResult> DeletePost(string postId)
+        {
+
+            var identity = await _userService.GetUserAsync();
+            var post = _postRepository.GetPostById(int.Parse(postId));
+
+
+            if (identity == null)
+                return Unauthorized();
+
+            string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+                .Select(c => c.Value).SingleOrDefault().ToString();
+
+            if (post == null)
+                return NotFound();
+
+
+            if (LoggedInID != post.UserId)
+                return Unauthorized();
+
+            _postRepository.DeletePost(int.Parse(postId));
+            return NoContent();
+        }
+
+
         [HttpGet]
         [Route("following/{id}")]
         public IActionResult GetPostsbyFollowing(string id)
@@ -71,15 +102,24 @@ namespace _4thYearProject.Api.Controllers
             }
 
             return Ok(Posts);
-
-
         }
 
         [HttpPost]
         public async Task<IActionResult> CreatePostAsync([FromBody] Post post)
         {
-            if (post == null)
-                return BadRequest();
+
+
+            var identity = await _userService.GetUserAsync();
+
+            if (identity == null)
+                return Unauthorized();
+
+            string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+                .Select(c => c.Value).SingleOrDefault().ToString();
+
+            if (LoggedInID != post.UserId)
+                return Unauthorized();
+
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -119,8 +159,7 @@ namespace _4thYearProject.Api.Controllers
 
             var hashTags = Regex.Matches(post.Caption, @"\#\w*").Cast<Match>().Select(m => m.Value).ToArray();
             foreach (var hashTag in hashTags)
-            {
-                Console.WriteLine("proof this works");
+            { 
                 var hashTagResult = _hashTagRepository.GetHashTag(hashTag);
                 post.HashTags.Add(hashTagResult);
             }

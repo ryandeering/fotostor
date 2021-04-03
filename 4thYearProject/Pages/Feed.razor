@@ -69,10 +69,16 @@
                             }
 
                     
-                    
+                        @if (Post.UserId == LoggedIn)
+                        {
+                            <MatButton OnClick="() => DeletePost(Post)">
+                                <i class="fas fa-trash-alt"></i>
+                            </MatButton>
+                        }
 
 
-                    @if (Post.LicenseEnabled)
+
+                        @if (Post.LicenseEnabled)
                     {
 
                         <a @onclick="@(e => BuyLicense(Post.PostId))" class="btn btn-light">
