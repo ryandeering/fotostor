@@ -25,7 +25,7 @@
 
         public void RemoveLike(string UserID, string PostID)
         {
-            var foundLike = _appDbContext.Likes.FirstOrDefault(l => l.User_ID == UserID);
+            var foundLike = _appDbContext.Likes.FirstOrDefault(l => l.User_ID == UserID && l.Post_ID == PostID);
             if (foundLike == null) return;
 
             _appDbContext.Likes.Remove(foundLike);
@@ -36,7 +36,6 @@
         {
             var foundLikes = _appDbContext.Likes.Where(p => p.User_ID == UserId);
             var foundLike = foundLikes.FirstOrDefault(p => p.Post_ID == PostId);
-            if (foundLike == null) return null;
 
             return foundLike;
         }

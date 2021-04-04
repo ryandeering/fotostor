@@ -101,6 +101,7 @@ namespace _4thYearProject.Server.Pages
 
             var like = new Like(LoggedInID, post.PostId.ToString());
             await LikeService.AddLike(like); //TODO fix this method
+            post.Liked = true;
             post.Likes++;
             StateHasChanged();
         }
@@ -112,6 +113,7 @@ namespace _4thYearProject.Server.Pages
 
 
             await LikeService.RemoveLike(post.PostId.ToString(), LoggedInID);
+            post.Liked = false;
             post.Likes--;
             StateHasChanged();
         }

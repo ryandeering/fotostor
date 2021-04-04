@@ -53,14 +53,6 @@ stages:
     pool:
       vmImage: $(vmImageName)
 
-    steps:
-    - task: DotNetCoreCLI@2
-      displayName: Restore project
-      inputs:
-        command: 'restore'
-        projects: '**/*.csproj'
-        feedsToUse: 'select'
-    
     - task: VSTest@2
       inputs:
         testSelector: 'testAssemblies'

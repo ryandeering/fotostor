@@ -1,4 +1,6 @@
-﻿namespace _4thYearProject.Server.Pages
+﻿using MatBlazor;
+
+namespace _4thYearProject.Server.Pages
 {
     using _4thYearProject.Server.Services;
     using _4thYearProject.Shared.Models;
@@ -20,6 +22,9 @@
 
         [Inject]
         public NavigationManager NavigationManager { get; set; }
+
+        [Inject]
+        public IMatToaster Toaster { get; set; }
 
         [Parameter]
         public int PostId { get; set; }
@@ -109,26 +114,17 @@
                 var addedPost = await PostDataService.AddPost(Post);
                 if (addedPost != null)
                 {
-
-                    StatusClass = "alert-success";
-                    Message = "New post added successfully.";
+                    Toaster.Add("Post added successfully.", MatToastType.Success, "SUCCESS");
                     Saved = true;
+                    NavigationManager.NavigateTo("/post/" + addedPost.PostId);
                 }
                 else
                 {
-                    StatusClass = "alert-danger";
-                    Message = "Something went wrong adding the new post. Please try again.";
                     Saved = false;
                 }
             }
             else
             {
-
-
-
-
-
-
                 await PostDataService.AddPost(Post); //TODO FIX LATER HOLY FUCK
                 StatusClass = "alert-success";
                 Message = "Fuck.";
@@ -139,16 +135,14 @@
         protected async Task DeletePost()
         {
             await PostDataService.DeletePost(Post.PostId);
-
-            StatusClass = "alert-success";
-            Message = "Deleted successfully";
+            Toaster.Add("Post deleted.", MatToastType.Danger);
 
             Saved = true;
         }
 
         protected void NavigateToOverview()
         {
-            NavigationManager.NavigateTo("/employeeoverview");
+            NavigationManager.NavigateTo("/feed/");
         }
 
         public void OnChange(bool? value, string name)
