@@ -24,7 +24,7 @@ namespace _4thYearProject.Api.Models
                 .Include(x => x.HashTags);
 
 
-            if (userPosts.Count().Equals(0))
+            if (userPosts.Where(up => up.PostDeleted == false ).Count().Equals(0))
             {
                 var hashtags = _appDbContext.Hashtags.GroupBy(h => h.Content)
                     .Select(group => new {Content = group.Key, Count = group.Count()}).OrderByDescending(h => h.Count);

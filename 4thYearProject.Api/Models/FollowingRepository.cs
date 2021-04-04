@@ -35,7 +35,7 @@
 
         public void RemoveFollowing(string FollowerID, string FollowingID)
         {
-            var foundFollower = _appDbContext.Followers.FirstOrDefault(f => f.Follower_ID == FollowerID);
+            var foundFollower = _appDbContext.Followers.FirstOrDefault(f => f.Follower_ID == FollowerID && f.Followed_ID == FollowingID);
             if (foundFollower == null) return;
 
             _appDbContext.Followers.Remove(foundFollower);

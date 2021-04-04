@@ -11,6 +11,7 @@ using Blazored.Modal;
 using Blazored.Modal.Services;
 using MatBlazor;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 
 namespace _4thYearProject.Server.Pages
 {
@@ -42,6 +43,9 @@ namespace _4thYearProject.Server.Pages
 
         [Inject]
         protected IMatToaster Toaster { get; set; }
+
+        [Inject]
+        public IJSRuntime JsRuntime { get; set; }
 
 
         [CascadingParameter] public IModalService Modal { get; set; }
@@ -119,10 +123,11 @@ namespace _4thYearProject.Server.Pages
 
         protected async Task DeletePost(Post post)
         {
+            if (!await JsRuntime.InvokeAsync<bool>("confirm", $"Are you sure you want to delete this post?")) return;
             await PostDataService.DeletePost(post.PostId);
             StateHasChanged();
             Toaster.Add("Post deleted.", MatToastType.Success, "SUCCESS");
-
+            Posts.Remove(post);
         }
 
         private async Task BuyLicense(int PostId)

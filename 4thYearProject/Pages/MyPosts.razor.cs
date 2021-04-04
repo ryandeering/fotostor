@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using MatBlazor;
 
 namespace _4thYearProject.Server.Pages
 {
@@ -28,6 +29,10 @@ namespace _4thYearProject.Server.Pages
         public IUserDataService UserDataService { get; set; }
         [Inject]
         public NavigationManager UriHelper { get; set; }
+
+        [Inject]
+        public IMatToaster Toaster { get; set; }
+
 
         ClaimsPrincipal identity;
 
@@ -80,7 +85,7 @@ namespace _4thYearProject.Server.Pages
             await FollowingService.AddFollowing(follow);
             IsFollowing = true;
             FollowerCount++;
-
+            Toaster.Add("User " + User.DisplayName + " followed!", MatToastType.Success);
         }
 
         protected async Task UnFollowUser()
@@ -93,6 +98,7 @@ namespace _4thYearProject.Server.Pages
             await FollowingService.RemoveFollowing(LoggedInID, User.Id);
             IsFollowing = false;
             FollowerCount--;
+            Toaster.Add("User " + User.DisplayName + " unfollowed.", MatToastType.Warning);
         }
 
 
