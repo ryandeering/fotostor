@@ -12,6 +12,7 @@ namespace _4thYearProject.Server.Services
         Task<UserData> AddUserData(UserData User);
         Task UpdateUserData(UserData User);
         Task DeleteUserData(string Id);
+        Task<UserData> GetUserDataDetailsInFull(string Id);
         Task<FeedProfileData> GetUserNameFromId(string id);
     }
 }

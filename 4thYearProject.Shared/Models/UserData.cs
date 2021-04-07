@@ -13,7 +13,7 @@ namespace _4thYearProject.Shared.Models
         public string SecondName { get; set; }
         public string ProfilePic { get; set; }
         public string Email { get; set; }
-        public List<Address> Addresses { get; set; }
+        public Address Address { get; set; }
     }
 
     public class UsernameList

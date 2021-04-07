@@ -52,20 +52,99 @@
                                                 </RadzenTextBox>
                                             </div>
                                         </div>
-                                        <div style="margin-bottom: 1rem" class="row">
-                                            <div class="col-md-3">
-                                                <MatFileUpload OnChange="@HandleMatFileSelected" Label="Upload your profile picture here."></MatFileUpload>
+
+
+
+
+
+                                        @if (User.Address != null)
+                                        {
+                                            <h4>Address</h4>
+                                            <div style="margin-bottom: 1rem" class="row">
+                                                <div class="col-md-3">
+                                                    <RadzenLabel Component="" style="width: 100%" Text="First Name">
+                                                    </RadzenLabel>
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <RadzenTextBox style="width: 100%" @bind-Value="@(User.Address.UserFName)" Name="First Name">
+                                                    </RadzenTextBox>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col offset-sm-3">
-                                                <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save">
-                                                </RadzenButton>
-                                                <RadzenButton ButtonStyle="ButtonStyle.Light" style="margin-left: 1rem" Text="Cancel" Visible="false">
-                                                </RadzenButton>
-                                            </div>
-                                        </div>
-                                    </ChildContent>
+                                            <div style="margin-bottom: 1rem" class="row">
+                                                <div class="col-md-3">
+                                                    <RadzenLabel Component="" style="width: 100%" Text="Second Name">
+                                                    </RadzenLabel>
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <RadzenTextBox style="width: 100%" @bind-Value="@(User.Address.UserLName)" Name="Second Name">
+                                                    </RadzenTextBox>
+                                                </div>
+                                                <div style="margin-bottom: 1rem" class="row">
+                                                    <div class="col-md-3">
+                                                        <RadzenLabel Component="" style="width: 100%" Text="Line 1">
+                                                        </RadzenLabel>
+                                                    </div>
+                                                    <div class="col-md-9">
+                                                        <RadzenTextBox style="width: 100%" @bind-Value="@(User.Address.UserAddress)" Name="Line1">
+                                                        </RadzenTextBox>
+                                                    </div>
+                                                </div>
+                                                <div style="margin-bottom: 1rem" class="row">
+                                                    <div class="col-md-3">
+                                                        <RadzenLabel Component="" style="width: 100%" Text="Line 2">
+                                                        </RadzenLabel>
+                                                    </div>
+                                                    <div class="col-md-9">
+                                                        <RadzenTextBox style="width: 100%" @bind-Value="@(User.Address.UserAddress2)" Name="Line2">
+                                                        </RadzenTextBox>
+                                                    </div>
+                                                </div>
+                                                <div style="margin-bottom: 1rem" class="row">
+                                                    <div class="col-md-3">
+                                                        <RadzenLabel Component="" style="width: 100%" Text="City">
+                                                        </RadzenLabel>
+                                                    </div>
+                                                    <div class="col-md-9">
+                                                        <RadzenTextBox style="width: 100%" @bind-Value="@(User.Address.UserCity)" Name="City">
+                                                        </RadzenTextBox>
+                                                    </div>
+                                                </div>
+                                                <div style="margin-bottom: 1rem" class="row">
+                                                    <div class="col-md-3">
+                                                        <RadzenLabel Component="" style="width: 100%" Text="Country">
+                                                        </RadzenLabel>
+                                                    </div>
+                                                    <div class="col-md-9">
+                                                        <RadzenTextBox style="width: 100%" @bind-Value="@(User.Address.UserCountry)" Name="Country">
+                                                        </RadzenTextBox>
+                                                    </div>
+                                                </div>
+                                                <div style="margin-bottom: 1rem" class="row">
+                                                    <div class="col-md-3">
+                                                        <RadzenLabel Component="" style="width: 100%" Text="Postcode">
+                                                        </RadzenLabel>
+                                                    </div>
+                                                    <div class="col-md-9">
+                                                        <RadzenTextBox style="width: 100%" @bind-Value="@(User.Address.UserPostcode)" Name="Postcode">
+                                                        </RadzenTextBox>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                                }
+                                                <div style="margin-bottom: 1rem" class="row">
+                                                    <div class="col-md-3">
+                                                        <MatFileUpload OnChange="@HandleMatFileSelected" Label="Upload your profile picture here."></MatFileUpload>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col offset-sm-3">
+                                                        <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save">
+                                                        </RadzenButton>
+                                                        <RadzenButton ButtonStyle="ButtonStyle.Light" style="margin-left: 1rem" Text="Cancel" Visible="false">
+                                                        </RadzenButton>
+                                                    </div>
+                                                </div>
+                                        </ChildContent>
                                 </RadzenTemplateForm>
                             </div>
                         </div>

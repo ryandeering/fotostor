@@ -25,6 +25,10 @@
     <Compile Include="Migrations\20210324013949_FeedDataHack.Designer.cs" />
     <Compile Include="Migrations\20210331185339_LikedObject.cs" />
     <Compile Include="Migrations\20210331185339_LikedObject.Designer.cs" />
+    <Compile Include="Migrations\20210407170422_AddressChange.cs" />
+    <Compile Include="Migrations\20210407170422_AddressChange.Designer.cs" />
+    <Compile Include="Migrations\20210407172801_addressupdate2.cs" />
+    <Compile Include="Migrations\20210407172801_addressupdate2.Designer.cs" />
     <Compile Include="Migrations\AppDbContextModelSnapshot.cs" />
   </ItemGroup>
 

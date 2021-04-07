@@ -1,17 +1,17 @@
-﻿namespace _4thYearProject.Api.Controllers
-{
-    using _4thYearProject.Api.Models;
-    using _4thYearProject.Shared;
-    using _4thYearProject.Shared.Models.BusinessLogic;
-    using Microsoft.AspNetCore.Identity.UI.Services;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Configuration;
-    using Stripe.Checkout;
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-    using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
+using _4thYearProject.Api.Models;
+using _4thYearProject.Shared;
+using _4thYearProject.Shared.Models.BusinessLogic;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Stripe.Checkout;
 
+namespace _4thYearProject.Api.Controllers
+{
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class StripePaymentController : Controller
@@ -39,7 +39,7 @@
             var sessionService = new SessionService();
             var session = sessionService.Get(session_id);
             var detail = string.Empty;
-            int OrderId = 0;
+            var OrderId = 0;
             var s = new SuccessModel();
 
 
@@ -48,12 +48,12 @@
                 case "paid":
 
                     var temp = _shoppingCartRepository.PlaceOrder(UserId);
-                    OrderId = (int)temp.OrderId;
+                    OrderId = (int) temp.OrderId;
                     s.OrderId = OrderId;
 
 
-
-                    s.SuccessMessage = "Your order was a success. Your order ID is: " + temp.OrderId + " and you were charged " + String.Format("€{0:0.00}", session.AmountTotal / 100);
+                    s.SuccessMessage = "Your order was a success. Your order ID is: " + temp.OrderId +
+                                       " and you were charged " + string.Format("€{0:0.00}", session.AmountTotal / 100);
 
                     var rec = _userDataRepository.GetUserDataById(UserId);
 
@@ -68,10 +68,6 @@
                     sb.Append(s.SuccessMessage);
                     sb.Append("</body>");
                     sb.Append("</html>");
-
-
-                    //TODO have a check to send the proper URL
-
 
 
                     await _emailSender.SendEmailAsync(rec.Email, subject, sb.ToString());

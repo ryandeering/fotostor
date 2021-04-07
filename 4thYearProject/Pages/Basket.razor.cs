@@ -1,4 +1,5 @@
-﻿using MatBlazor;
+﻿using _4thYearProject.Shared.Models;
+using MatBlazor;
 
 namespace _4thYearProject.Server.Pages
 {
@@ -42,6 +43,8 @@ namespace _4thYearProject.Server.Pages
 
         private ClaimsPrincipal identity { get; set; }
 
+        private UserData user { get; set; }
+
         [Parameter]
         public string LoggedInID { get; set; }
 
@@ -59,10 +62,17 @@ namespace _4thYearProject.Server.Pages
                    .Select(c => c.Value).SingleOrDefault().ToString();
 
             basket = await shoppingCartDataService.GetCart(LoggedInID);
+
+            user = await UserDataService.GetUserDataDetailsInFull(LoggedInID);
         }
 
         private async Task PlaceOrder(MouseEventArgs e)
         {
+            if (user.Address == null)
+            {
+                Toaster.Add("You have no address set. Please make sure you set one.", MatToastType.Danger, "FAILURE");
+                return;
+            }
 
             var order = new StripePaymentDTO
             {
@@ -84,7 +94,6 @@ namespace _4thYearProject.Server.Pages
 
             await shoppingCartDataService.EmptyBasket(LoggedInID);
             basket = await shoppingCartDataService.GetCart(LoggedInID);
-            getPrice();
             Toaster.Add("Your basket has been emptied.", MatToastType.Success, "SUCCESS");
             StateHasChanged();
         }

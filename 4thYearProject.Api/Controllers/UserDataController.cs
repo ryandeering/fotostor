@@ -1,4 +1,7 @@
-﻿namespace _4thYearProject.Api.Controllers
+﻿using System.Linq;
+using _4thYearProject.Shared;
+
+namespace _4thYearProject.Api.Controllers
 {
     using _4thYearProject.Api.CloudStorage;
     using _4thYearProject.Api.Models;
@@ -18,10 +21,13 @@
 
         private readonly IUserDataRepository _UserDataRepository;
 
-        public UserDataController(IUserDataRepository UserDataRepository, ICloudStorage cloudStorage)
+        private readonly IUserService _userService;
+
+        public UserDataController(IUserDataRepository UserDataRepository, ICloudStorage cloudStorage, IUserService userService)
         {
             _UserDataRepository = UserDataRepository;
             _cloudStorage = cloudStorage;
+            _userService = userService;
         }
 
         [HttpGet]
@@ -35,6 +41,27 @@
         {
             return Ok(_UserDataRepository.GetUserDataById(id));
         }
+
+        [HttpGet("full/{id}")]
+        public async Task<IActionResult> GetUserDataInFull(string id)
+        {
+
+            var identity = await _userService.GetUserAsync();
+            
+            if (identity == null)
+                return Unauthorized();
+
+            string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+                .Select(c => c.Value).SingleOrDefault().ToString();
+
+            if (LoggedInID != id)
+                return Unauthorized();
+
+
+            return Ok(_UserDataRepository.GetUserDataInFull(id));
+        }
+
+
 
         [HttpGet("displayname/{DisplayName}")]
         public IActionResult GetUserDataByDisplayName(string DisplayName)
@@ -71,6 +98,17 @@
             //{
             //    ModelState.AddModelError("Name/FirstName", "The name or first name shouldn't be empty");
             //}
+
+            var identity = await _userService.GetUserAsync();
+
+            if (identity == null)
+                return Unauthorized();
+
+            string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+                .Select(c => c.Value).SingleOrDefault().ToString();
+
+            if (LoggedInID != UserData.Id)
+                return Unauthorized();
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -118,8 +156,19 @@
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteUserData(string id)
+        public async Task<IActionResult> DeleteUserData(string id)
         {
+            var identity = await _userService.GetUserAsync();
+
+            if (identity == null)
+                return Unauthorized();
+
+            string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+                .Select(c => c.Value).SingleOrDefault().ToString();
+
+            if (LoggedInID != id)
+                return Unauthorized();
+
             if ((id == string.Empty) ^ (id == null))
                 return BadRequest();
 

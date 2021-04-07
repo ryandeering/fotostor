@@ -42,7 +42,9 @@
             String UserID = identity.Claims.Where(c => c.Type.Equals("sub"))
                   .Select(c => c.Value).SingleOrDefault().ToString();
 
-            User = await UserDataService.GetUserDataDetails(UserID);
+            User = await UserDataService.GetUserDataDetailsInFull(UserID);
+
+            User.Address ??= new Address();
         }
 
         internal async Task HandleMatFileSelected(IMatFileUploadEntry[] files)

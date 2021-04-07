@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using _4thYearProject.Api.Models;
 
 namespace _4thYearProject.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210407170422_AddressChange")]
+    partial class AddressChange
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,22 +46,13 @@ namespace _4thYearProject.Api.Migrations
                     b.Property<string>("UserAddress")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserAddress2")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("UserCity")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserCountry")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserFName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserLName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserPostcode")
+                    b.Property<string>("UserName")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

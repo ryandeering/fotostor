@@ -76,6 +76,14 @@ namespace _4thYearProject.Server.Services
                 (await _httpClient.GetStreamAsync($"api/userdata/{Id}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
         }
 
+        public async Task<UserData> GetUserDataDetailsInFull(string Id)
+        {
+            return await JsonSerializer.DeserializeAsync<UserData>
+                (await _httpClient.GetStreamAsync($"api/userdata/full/{Id}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+        }
+
+
+
 
         public async Task<UserData> GetUserDataDetailsByDisplayName(string DisplayName)
         {

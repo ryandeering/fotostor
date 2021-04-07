@@ -25,6 +25,11 @@ namespace _4thYearProject.Api.Models
             return _appDbContext.Users.FirstOrDefault(c => c.Id.Equals(Id));
         }
 
+        public UserData GetUserDataInFull(string Id)
+        {
+            return _appDbContext.Users.Include("Address").FirstOrDefault(c => c.Id.Equals(Id));
+        }
+
         public UserData GetUserDataByDisplayName(string DisplayName)
         {
             return _appDbContext.Users.Where(u => EF.Functions.Like(u.DisplayName, DisplayName)).FirstOrDefault();
@@ -67,6 +72,7 @@ namespace _4thYearProject.Api.Models
                 foundUserData.FirstName = User.FirstName;
                 foundUserData.SecondName = User.SecondName;
                 foundUserData.ProfilePic = User.ProfilePic;
+                foundUserData.Address = User.Address;
 
 
                 _appDbContext.SaveChanges();

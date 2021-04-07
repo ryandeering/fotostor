@@ -10,6 +10,7 @@
         UserData GetUserDataById(string Id);
 
         UserData GetUserDataByDisplayName(string DisplayName);
+        UserData GetUserDataInFull(string Id);
 
         UserData AddUserData(UserData User);
 
