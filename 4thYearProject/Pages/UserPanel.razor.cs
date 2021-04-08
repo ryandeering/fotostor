@@ -46,9 +46,6 @@ namespace _4thYearProject.Server.Pages
         {
             var DataItems = new List<OrderLineItemData>();
 
-            foreach (var orderLineItem in lineItems)
-                DataItems.Add(orderLineItem);
-
          
         }
 
