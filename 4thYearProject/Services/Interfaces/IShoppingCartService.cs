@@ -15,6 +15,7 @@ namespace _4thYearProject.Server.Services
         Task<ShoppingCart> AddCart(string UserId);
         Task<ShoppingCart> GetCart(string UserId);
         Task<Order> GetOrderById(int OrderID);
+        Task<IEnumerable<OrderLineItem>> GetOrderLinesForArtist(string ArtistId);
         // Task<ShoppingCart> RemoveItem(String UserId, String PostId);
     }
 }

@@ -1,10 +1,13 @@
-﻿namespace _4thYearProject.Api.Controllers
-{
-    using _4thYearProject.Api.Models;
-    using _4thYearProject.Shared.Models;
-    using _4thYearProject.Shared.Models.BusinessLogic;
-    using Microsoft.AspNetCore.Mvc;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using _4thYearProject.Api.Models;
+using _4thYearProject.Shared;
+using _4thYearProject.Shared.Models;
+using _4thYearProject.Shared.Models.BusinessLogic;
+using Microsoft.AspNetCore.Mvc;
 
+namespace _4thYearProject.Api.Controllers
+{
     [Route("api/[controller]")]
     [ApiController]
     public class ShoppingCartController : Controller
@@ -12,58 +15,161 @@
         private readonly IShoppingCartRepository _cartRepository;
 
         private readonly IPostRepository _postRepository;
+        private readonly IUserService _userService;
 
-        public ShoppingCartController(IShoppingCartRepository cartRepository, IPostRepository postRepository)
+
+        public ShoppingCartController(IShoppingCartRepository cartRepository, IPostRepository postRepository,
+            IUserService userService)
         {
             _cartRepository = cartRepository;
             _postRepository = postRepository;
+            _userService = userService;
         }
+
+        [HttpGet]
+        [Route("analysis/{ArtistId}")]
+        public async Task<IActionResult> GetOrderLinesForArtist(string ArtistId)
+        {
+            var identity = await _userService.GetUserAsync();
+
+            if (identity == null)
+                return Unauthorized();
+
+            var LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+                .Select(c => c.Value).SingleOrDefault().ToString();
+
+            if (LoggedInID != ArtistId)
+                return Unauthorized();
+
+            return Ok(_cartRepository.GetOrderLinesForArtist(ArtistId));
+        }
+
 
         [HttpPost]
         [Route("add/{UserId}")]
-        public IActionResult AddToCart(string UserId, [FromBody] OrderLineItem ol)
+        public async Task<IActionResult> AddToCart(string UserId, [FromBody] OrderLineItem ol)
         {
+            var identity = await _userService.GetUserAsync();
+
+            if (identity == null)
+                return Unauthorized();
+
+            var LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+                .Select(c => c.Value).SingleOrDefault().ToString();
+
+            if (LoggedInID != UserId)
+                return Unauthorized();
+
             return Ok(_cartRepository.AddToCart(UserId, ol));
         }
 
         [HttpGet]
         [Route("orders/{UserId}")]
-        public IActionResult GetOrders(string UserId)
+        public async Task<IActionResult> GetOrders(string UserId)
         {
+            var identity = await _userService.GetUserAsync();
+
+            if (identity == null)
+                return Unauthorized();
+
+            var LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+                .Select(c => c.Value).SingleOrDefault().ToString();
+
+            if (LoggedInID != UserId)
+                return Unauthorized();
+
             return Ok(_cartRepository.GetOrders(UserId));
         }
 
         [HttpGet]
         [Route("orders/spec/{OrderId}")]
-        public IActionResult GetOrderById(int OrderId)
+        public async Task<IActionResult> GetOrderById(int OrderId)
         {
-            return Ok(_cartRepository.GetOrderById(OrderId));
+            var identity = await _userService.GetUserAsync();
+
+            if (identity == null)
+                return Unauthorized();
+
+            var LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+                .Select(c => c.Value).SingleOrDefault().ToString();
+
+
+            var Order = _cartRepository.GetOrderById(OrderId);
+
+            if (LoggedInID != Order.UserId)
+                return Unauthorized();
+
+            return Ok(Order);
         }
 
         [HttpDelete]
         [Route("empty/{UserId}")]
-        public IActionResult EmptyBasket(string UserId)
+        public async Task<IActionResult> EmptyBasket(string UserId)
         {
+            var identity = await _userService.GetUserAsync();
+
+            if (identity == null)
+                return Unauthorized();
+
+            var LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+                .Select(c => c.Value).SingleOrDefault().ToString();
+
+            if (LoggedInID != UserId)
+                return Unauthorized();
+
             return Ok(_cartRepository.EmptyBasket(UserId));
         }
 
         [HttpPut]
         [Route("remove/{UserId}")]
-        public IActionResult RemoveOne(string UserId, [FromBody] OrderLineItem lineItem)
+        public async Task<IActionResult> RemoveOne(string UserId, [FromBody] OrderLineItem lineItem)
         {
+            var identity = await _userService.GetUserAsync();
+
+            if (identity == null)
+                return Unauthorized();
+
+            var LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+                .Select(c => c.Value).SingleOrDefault().ToString();
+
+            if (LoggedInID != UserId)
+                return Unauthorized();
+
             return Ok(_cartRepository.RemoveOne(UserId, lineItem.Id));
         }
 
         [HttpPut]
         [Route("add/incre/{UserId}")]
-        public IActionResult AddOne(string UserId, [FromBody] Post post)
+        public async Task<IActionResult> AddOne(string UserId, [FromBody] Post post)
         {
+            var identity = await _userService.GetUserAsync();
+
+            if (identity == null)
+                return Unauthorized();
+
+            var LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+                .Select(c => c.Value).SingleOrDefault().ToString();
+
+            if (LoggedInID != UserId)
+                return Unauthorized();
+
             return Ok(_cartRepository.AddOne(UserId, post.PostId));
         }
 
         [HttpPost]
-        public IActionResult AddCart([FromBody] ShoppingCart cart)
+        public async Task<IActionResult> AddCart([FromBody] ShoppingCart cart)
         {
+            var identity = await _userService.GetUserAsync();
+
+            if (identity == null)
+                return Unauthorized();
+
+            var LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+                .Select(c => c.Value).SingleOrDefault().ToString();
+
+            if (LoggedInID != cart.UserId)
+                return Unauthorized();
+
             if (_cartRepository.GetCart(cart.UserId) != null)
                 ModelState.AddModelError("UserId", "Cart already exists.");
 
@@ -76,8 +182,19 @@
 
         [HttpGet]
         [Route("{UserId}")]
-        public IActionResult GetCart(string UserId)
+        public async Task<IActionResult> GetCart(string UserId)
         {
+            var identity = await _userService.GetUserAsync();
+
+            if (identity == null)
+                return Unauthorized();
+
+            var LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+                .Select(c => c.Value).SingleOrDefault().ToString();
+
+            if (LoggedInID != UserId)
+                return Unauthorized();
+
             return Ok(_cartRepository.GetCart(UserId));
         }
     }

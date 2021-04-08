@@ -128,6 +128,13 @@
             return _appDbContext.Orders.Where(o => o.UserId.Equals(UserId));
         }
 
+        public IEnumerable<OrderLineItem> GetOrderLinesForArtist(string ArtistId)
+        {
+            return _appDbContext.Orders.Include("LineItems.Post").SelectMany(o => o.LineItems).Where(ol => ol.Post.UserId == ArtistId);
+        }
+
+
+
         public Order GetOrderById(int OrderId)
         {
             return _appDbContext.Orders.Where(o => o.OrderId.Equals(OrderId)).Include(o => o.LineItems)

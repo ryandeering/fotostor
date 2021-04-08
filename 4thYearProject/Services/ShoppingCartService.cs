@@ -142,5 +142,13 @@ namespace _4thYearProject.Server.Services
 
         }
 
+        public async Task<IEnumerable<OrderLineItem>> GetOrderLinesForArtist(string ArtistId)
+        {
+            return await JsonSerializer.DeserializeAsync<IEnumerable<OrderLineItem>>
+                (await _httpClient.GetStreamAsync($"api/shoppingcart/analysis/{ArtistId}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+        }
+
+
+
     }
 }

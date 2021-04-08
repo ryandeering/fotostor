@@ -24,5 +24,7 @@
         ShoppingCart AddCart(ShoppingCart cart);
 
         Order GetOrderById(int OrderId);
+
+        IEnumerable<OrderLineItem> GetOrderLinesForArtist(string ArtistId);
     }
 }
