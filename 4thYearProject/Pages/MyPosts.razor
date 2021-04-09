@@ -1,6 +1,5 @@
 ﻿@page "/profile/{DisplayName}"
-
-<h1 class="page-title">All employees</h1>
+<br />
 
 @if (User != null)
 {
@@ -54,7 +53,7 @@
 
                 <div class="profile-bio">
 
-                        <p><span class="profile-real-name">@User.FirstName @User.SecondName</span>  Just an average guy. </p>
+                        <p><span class="profile-real-name">@User.FirstName @User.SecondName</span> @User.Bio </p>
                     
                 </div>
 

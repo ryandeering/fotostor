@@ -3,10 +3,15 @@
 <br />
 <br />
 <br />
-<br />
-<br />
 
-<p>20% taken off by Fotostop. Not including taxes.</p>
+
+<RadzenCard Style="width: auto; margin-bottom: auto; height: auto;">
+    <div class="row">
+        <div class="col-md-6">
+            <h4>20% taken off by Fotostop. Not including taxes. Thank you for your cooperation!</h4>
+        </div>
+    </div>
+</RadzenCard>
 
 @if (PieChartItems != null)
 {
@@ -14,12 +19,23 @@
     <div class="row">
         <div class="col-md-6 col-sm-12 p-4">
             <RadzenChart>
+                <h2>Types of Items sold</h2>
                 <RadzenPieSeries Data="@PieChartItems" Title="Item Type Revenue" CategoryProperty="Type" ValueProperty="Revenue" />
             </RadzenChart>
         </div>
     </div>
 
 
-
 }
+@if (RevenueTotal != null | RevenueTotal > 0.00)
+{
+    <RadzenCard Style="width: auto; margin-bottom: auto; height: auto;">
+        <div class="row">
+            <div class="col-md-6">
+                <h4>Revenue accumulated for this period: </h4>
+                <h5>€@Math.Round(RevenueTotal, 2, MidpointRounding.AwayFromZero)</h5>
 
+            </div>
+        </div>
+    </RadzenCard>
+}

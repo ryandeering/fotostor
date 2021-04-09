@@ -29,6 +29,8 @@
     <Compile Include="Migrations\20210407170422_AddressChange.Designer.cs" />
     <Compile Include="Migrations\20210407172801_addressupdate2.cs" />
     <Compile Include="Migrations\20210407172801_addressupdate2.Designer.cs" />
+    <Compile Include="Migrations\20210409023619_userdatabio.cs" />
+    <Compile Include="Migrations\20210409023619_userdatabio.Designer.cs" />
     <Compile Include="Migrations\AppDbContextModelSnapshot.cs" />
   </ItemGroup>
 
@@ -36,6 +38,7 @@
 	  <PackageReference Include="Dahomey.Json" Version="1.10.3" />
     <PackageReference Include="Google.Cloud.Storage.V1" Version="3.4.0" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
+    <PackageReference Include="LiveSharp" Version="1.6.59" />
     <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="7.23.0" />
     <PackageReference Include="MailKit" Version="2.10.1" />
     <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />

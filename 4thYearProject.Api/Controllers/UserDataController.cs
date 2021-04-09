@@ -132,7 +132,7 @@ namespace _4thYearProject.Api.Controllers
                         image.Mutate(
                             i => i.Resize(250, 250));
 
-                        image.SaveAsJpegAsync(outStream);
+                        await image.SaveAsJpegAsync(outStream);
 
 
                         ImagetoUpload = outStream.ToArray();
@@ -145,7 +145,7 @@ namespace _4thYearProject.Api.Controllers
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.Message); //todo: move this logic to repository
+                    Console.WriteLine(e.Message);
                 }
             }
 

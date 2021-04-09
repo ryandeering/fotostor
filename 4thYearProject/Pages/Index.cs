@@ -47,7 +47,6 @@
                     try
                     {
 
-                        Console.WriteLine("Can you hear me, Major Tom?");
                         UserData newUser = new UserData();
 
 
@@ -63,6 +62,7 @@
                         newUser.Id = ID.ToString();
                         newUser.DisplayName = DisplayName.ToString();
                         newUser.Email = Email;
+                        newUser.Bio = String.Empty;
 
                         await UserDataService.AddUserData(newUser);
 

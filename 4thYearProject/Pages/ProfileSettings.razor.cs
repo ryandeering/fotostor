@@ -1,68 +1,61 @@
-﻿namespace _4thYearProject.Server.Pages
-{
-    using _4thYearProject.Server.Services;
-    using _4thYearProject.Shared;
-    using _4thYearProject.Shared.Models;
-    using MatBlazor;
-    using Microsoft.AspNetCore.Components;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Security.Claims;
-    using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using _4thYearProject.Server.Services;
+using _4thYearProject.Shared;
+using _4thYearProject.Shared.Models;
+using MatBlazor;
+using Microsoft.AspNetCore.Components;
 
+namespace _4thYearProject.Server.Pages
+{
     public partial class ProfileSettings : ComponentBase
     {
-        [Inject]
-        public IUserService _userService { get; set; }
-
-        [Inject]
-        public IUserDataService UserDataService { get; set; }
-
-        [Inject]
-        protected IMatToaster Toaster { get; set; }
-
-        public UserData User = new UserData();
-
-        internal List<string> list = new List<string>();
-
         private ClaimsPrincipal identity;
 
-        private bool Saved = false;
+        internal List<string> list = new();
 
         protected string Message = string.Empty;
 
+        private bool Saved;
+
         protected string StatusClass = string.Empty;
+
+        public UserData User = new();
+
+        [Inject] public IUserService _userService { get; set; }
+
+        [Inject] public IUserDataService UserDataService { get; set; }
+
+        [Inject] protected IMatToaster Toaster { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
-
             identity = await _userService.GetUserAsync();
             //First get user claims    
-            String UserID = identity.Claims.Where(c => c.Type.Equals("sub"))
-                  .Select(c => c.Value).SingleOrDefault().ToString();
+            var UserID = identity.Claims.Where(c => c.Type.Equals("sub"))
+                .Select(c => c.Value).SingleOrDefault().ToString();
 
             User = await UserDataService.GetUserDataDetailsInFull(UserID);
 
-            User.Address ??= new Address();
+            User.Address ??= new Address(); //generates address for form 
         }
 
         internal async Task HandleMatFileSelected(IMatFileUploadEntry[] files)
         {
-            IMatFileUploadEntry file = files.FirstOrDefault();
+            var file = files.FirstOrDefault();
 
 
-            if (file == null)
-            {
-                return;
-            }
+            if (file == null) return;
 
-            using (var stream = new System.IO.MemoryStream())
+            using (var stream = new MemoryStream())
             {
                 await file.WriteToStreamAsync(stream);
                 User.ProfilePic = Convert.ToBase64String(stream.ToArray());
             }
-
         }
 
         protected async Task HandleValidSubmit()
@@ -76,7 +69,6 @@
             catch
             {
                 Toaster.Add("Something went wrong. Please try again.", MatToastType.Danger, "ERROR");
-                Console.WriteLine("ruh roh"); //todo
             }
         }
     }

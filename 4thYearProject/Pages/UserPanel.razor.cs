@@ -15,6 +15,7 @@ namespace _4thYearProject.Server.Pages
         public double FOTOSTOP_TAX = 0.20;
         private List<CategoryItem> PieChartItems;
         private List<OrderLineItemData> RevenueChartItems;
+        private double RevenueTotal;
 
         [Inject] public IUserService UserService { get; set; }
 
@@ -39,17 +40,22 @@ namespace _4thYearProject.Server.Pages
             lineItems = (await ShoppingCartService.GetOrderLinesForArtist(ClaimID)).ToList();
 
             PieChartItems = calculatePieCharts(lineItems);
+            RevenueTotal = totalRevenue(lineItems);
         }
 
 
-        public List<OrderLineItemData> calculateRevenueChart(List<OrderLineItem> lineItems)
+
+        public double totalRevenue(List<OrderLineItem> items)
         {
-            var DataItems = new List<OrderLineItemData>();
+            double Revenue = 0.0;
+            foreach (var item in items)
+            {
+                Revenue += item.Price;
+            }
 
-         
+            Revenue -= Math.Round(Revenue * FOTOSTOP_TAX, 2, MidpointRounding.ToEven);
+            return Revenue;
         }
-
-
 
 
         public List<CategoryItem> calculatePieCharts(List<OrderLineItem> lineItems)
@@ -75,12 +81,12 @@ namespace _4thYearProject.Server.Pages
 
             if (PrintRevenue != 0)
                 PrintRevenue -= Math.Round(PrintRevenue * FOTOSTOP_TAX, 2,
-                    MidpointRounding.ToEven);
+                    MidpointRounding.AwayFromZero);
 
-            if (ShirtRevenue != 0) ShirtRevenue -= Math.Round(ShirtRevenue * FOTOSTOP_TAX, 2, MidpointRounding.ToEven);
+            if (ShirtRevenue != 0) ShirtRevenue -= Math.Round(ShirtRevenue * FOTOSTOP_TAX, 2, MidpointRounding.AwayFromZero);
 
             if (LicenseRevenue != 0)
-                LicenseRevenue -= Math.Round(LicenseRevenue * FOTOSTOP_TAX, 2, MidpointRounding.ToEven);
+                LicenseRevenue -= Math.Round(LicenseRevenue * FOTOSTOP_TAX, 2, MidpointRounding.AwayFromZero);
 
 
             categoryItems.Add(new CategoryItem {Type = "Print", Revenue = PrintRevenue});

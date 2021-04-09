@@ -66,21 +66,19 @@ namespace _4thYearProject.Api.Models
         {
             var foundUserData = _appDbContext.Users.FirstOrDefault(e => e.Equals(User));
 
-            if (foundUserData != null)
-            {
-                foundUserData.DisplayName = User.DisplayName;
-                foundUserData.FirstName = User.FirstName;
-                foundUserData.SecondName = User.SecondName;
-                foundUserData.ProfilePic = User.ProfilePic;
-                foundUserData.Address = User.Address;
+            if (foundUserData == null) return null;
+            foundUserData.DisplayName = User.DisplayName;
+            foundUserData.FirstName = User.FirstName;
+            foundUserData.SecondName = User.SecondName;
+            foundUserData.ProfilePic = User.ProfilePic;
+            foundUserData.Address = User.Address;
+            foundUserData.Bio = User.Bio;
 
 
-                _appDbContext.SaveChanges();
+            _appDbContext.SaveChanges();
 
-                return foundUserData;
-            }
+            return foundUserData;
 
-            return null;
         }
 
         public void DeleteUserData(string Id)

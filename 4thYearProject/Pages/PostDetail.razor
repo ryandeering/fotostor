@@ -1,5 +1,7 @@
 ﻿@page "/post/{PostID}"
 
+<br />
+<br>
 @if (post == null)
 {
 
@@ -18,7 +20,7 @@ else
         <tbody>
             <tr>
                 <th>@post.UploadDate.ToString("dd/MM/yyyy h:mm tt")</th>
-                <td><img src=@post.Thumbnail /></td>
+                <td><img src=@post.PhotoFile /></td>
                 <td>@post.Caption</td>
             </tr>
         </tbody>

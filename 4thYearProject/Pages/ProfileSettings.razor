@@ -2,12 +2,12 @@
 @using Radzen
 @using Radzen.Blazor
 
-
+<br /><br /><br /><br />
 @if (Saved)
 {
     <div class="alert @StatusClass">@Message</div>
 }
-
+@if(User != null) { 
 <RadzenContent Container="main">
     <ChildContent>
         <RadzenHeading Size="H1" Text="User">
@@ -49,6 +49,16 @@
                                             </div>
                                             <div class="col-md-9">
                                                 <RadzenTextBox style="width: 100%" @bind-Value="@(User.SecondName)" Name="SecondName">
+                                                </RadzenTextBox>
+                                            </div>
+                                        </div>
+                                        <div style="margin-bottom: 1rem" class="row">
+                                            <div class="col-md-3">
+                                                <RadzenLabel Component="Biog" style="width: 100%" Text="Biography">
+                                                </RadzenLabel>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <RadzenTextBox style="width: 100%;height: 200%" @bind-Value="@(User.Bio)" Name="Bio">
                                                 </RadzenTextBox>
                                             </div>
                                         </div>
