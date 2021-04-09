@@ -44,8 +44,13 @@ namespace _4thYearProject.Api.Controllers
 
         // GET: api/<controller>
         [HttpGet]
-        public IActionResult GetPosts()
+        public async Task<IActionResult> GetPosts()
         {
+            var identity = await _userService.GetUserAsync();
+
+            if (identity == null)
+                return Unauthorized();
+
             return Ok(_postRepository.GetAllPosts());
         }
 

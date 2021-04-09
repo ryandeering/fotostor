@@ -1,4 +1,8 @@
-﻿namespace _4thYearProject.Api.Controllers
+﻿using System.Linq;
+using System.Threading.Tasks;
+using _4thYearProject.Shared;
+
+namespace _4thYearProject.Api.Controllers
 {
     using _4thYearProject.Shared.Models;
     using _4thYearProject.Api.Models;
@@ -10,16 +14,28 @@
     {
         private readonly ISuggestionsRepository _suggestionsRepository;
 
-        public SuggestionsController(ISuggestionsRepository suggestionsRepository)
+        private readonly IUserService _userService;
+
+        public SuggestionsController(ISuggestionsRepository suggestionsRepository, IUserService userService)
         {
             _suggestionsRepository = suggestionsRepository;
+            _userService = userService;
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetSuggestions(string id)
+        public async Task<IActionResult> GetSuggestions(string id)
         {
 
+            var identity = await _userService.GetUserAsync();
 
+            if (identity == null)
+                return Unauthorized();
+
+            string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+                .Select(c => c.Value).SingleOrDefault().ToString();
+
+            if (LoggedInID != id)
+                return Unauthorized();
 
 
 

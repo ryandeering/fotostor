@@ -4,7 +4,7 @@
 @inject IMatToaster Toaster
 @if (PostIn != null)
 {
-    <div class="card mb-4">
+    <div class="card mb-2">
         <div class="card-body">
             <p class="card-text">
 
@@ -14,11 +14,11 @@
                 {
                     <h3>Purchase Shirt</h3>
 
-                    <img src=@PostIn.Thumbnail />
+                    <img src=@PostIn.Thumbnail width="500" height="500" />
 
 
 
-                   <p> Price: 25 Euro </p>
+                    <h2>All shirts are €25.00. Posted within 3 days. Payment through Stripe.</h2>
 
 
 
@@ -30,8 +30,9 @@
                         }
                     </select>
 
-                    <button @onclick="AddtoCart" class="btn btn-primary">Submit</button>
-                    <button @onclick="Cancel" class="btn btn-secondary">Cancel</button>
+                    <br />
+                    <RadzenButton style="align-content: flex-end" Click=@(args => AddtoCart()) Text="Add Shirt to Cart" ButtonStyle="ButtonStyle.Secondary" ></RadzenButton>
+                    <RadzenButton style="margin: 0 1rem 1rem 0" Click=@(args => Cancel()) Text="Cancel" ButtonStyle="ButtonStyle.Danger" />
                 }
                 else
                 {
@@ -80,58 +81,10 @@ else
         Thumbnail = PostIn.Thumbnail;
 
 
-        //    WebClient imgClient = new WebClient();
-        //    client.GetStringAsync(new Uri("https://i.imgur.com/b2syjUN.png", UriKind.Absolute));
-        //    String imgURL = ;
-
-        //    byte[] imageByteArray = imgClient.DownloadData(imgURL);
-        //    MemoryStream ms = new MemoryStream(imageByteArray);
-
-        //    System.Drawing.Image img = System.Drawing.Image.FromStream(ms);
-        //    var position = new Point();
-
-
-        //    var imagelayer = new ImageLayer
-        //    {
-        //        Image = img,
-        //        Position = position,
-        //        Opacity = 100,
-        //    };
-
-
-
-
-
-
-        //   // byte[] photoBytes = new System.Net.WebClient().DownloadData(new Uri(PostIn.PhotoFile, UriKind.Absolute));
-
-
-        //    // Format is automatically detected though can be changed.
-        //    ISupportedImageFormat format = new JpegFormat { Quality = 70 };
-        //    Size size = new Size(150, 0);
-        //using (MemoryStream inStream = new MemoryStream(photoBytes))
-        //    {
-        //        using (MemoryStream outStream = new MemoryStream())
-        //        {
-        //            // Initialize the ImageFactory using the overload to preserve EXIF metadata.
-        //            using (ImageFactory imageFactory = new ImageFactory(preserveExifData: true))
-        //            {
-        //                // Load, resize, set the format and quality and save an image.
-        //                imageFactory.Load(inStream)
-        //                            //.Resize(size)
-        //                            .Format(format)
-        //                            .Save(outStream);
-        //            }
-        //            // Do something with the stream.
-        //        }
-        //    }
-
-
-
         StateHasChanged();
     }
 
-    internal void AddtoCart()
+    internal async Task AddtoCart()
     {
         string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
                  .Select(c => c.Value).SingleOrDefault().ToString();
@@ -142,6 +95,7 @@ else
 
         Cart.AddToCart(LoggedInID, ol);
         Toaster.Add("Shirt added to cart.", MatToastType.Success, "SUCCESS");
+        await ModalInstance.CancelAsync();
     }
 
     internal async Task Cancel() => await ModalInstance.CancelAsync();

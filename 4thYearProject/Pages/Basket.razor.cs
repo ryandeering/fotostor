@@ -66,7 +66,7 @@ namespace _4thYearProject.Server.Pages
             user = await UserDataService.GetUserDataDetailsInFull(LoggedInID);
         }
 
-        private async Task PlaceOrder(MouseEventArgs e)
+        private async Task PlaceOrder()
         {
             if (user.Address == null)
             {
@@ -89,7 +89,7 @@ namespace _4thYearProject.Server.Pages
             await jsRuntime.InvokeVoidAsync("redirectToCheckout", result.Data.ToString());
         }
 
-        private async Task EmptyBasket(MouseEventArgs e)
+        private async Task EmptyBasket()
         {
 
             await shoppingCartDataService.EmptyBasket(LoggedInID);

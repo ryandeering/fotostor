@@ -114,9 +114,10 @@ namespace _4thYearProject.Server.Pages
                 var addedPost = await PostDataService.AddPost(Post);
                 if (addedPost != null)
                 {
+                    PostId = addedPost.PostId;
                     Toaster.Add("Post added successfully.", MatToastType.Success, "SUCCESS");
                     Saved = true;
-                    NavigationManager.NavigateTo("/post/" + addedPost.PostId);
+                    
                 }
                 else
                 {
@@ -142,10 +143,10 @@ namespace _4thYearProject.Server.Pages
 
         protected void NavigateToOverview()
         {
-            NavigationManager.NavigateTo("/feed/");
+            NavigationManager.NavigateTo("/profile/");
         }
 
-        public void OnChange(bool? value, string name)
+        public void OnChange(bool? value, string name) //I promise this makes sense
         {
 
             if (value == true)

@@ -1,4 +1,8 @@
-﻿namespace _4thYearProject.Api.Controllers
+﻿using System.Linq;
+using System.Threading.Tasks;
+using _4thYearProject.Shared;
+
+namespace _4thYearProject.Api.Controllers
 {
     using _4thYearProject.Api.Models;
     using _4thYearProject.Shared.Models;
@@ -13,10 +17,13 @@
 
         private readonly IWebHostEnvironment env;
 
-        public CommentController(ICommentRepository commentRepository, IWebHostEnvironment env)
+        private readonly IUserService _userService;
+
+        public CommentController(ICommentRepository commentRepository, IWebHostEnvironment env, IUserService userService)
         {
             _commentRepository = commentRepository;
             this.env = env;
+            _userService = userService;
         }
 
         // GET api/<controller>/5
@@ -34,10 +41,24 @@
         }
 
         [HttpPost]
-        public IActionResult CreateCommentAsync(Comment comment)
+        public async Task<IActionResult> CreateCommentAsync(Comment comment)
         {
+
             if (comment == null)
                 return BadRequest();
+
+            var identity = await _userService.GetUserAsync();
+
+            if (identity == null)
+                return Unauthorized();
+
+            string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+                .Select(c => c.Value).SingleOrDefault().ToString();
+
+            if (LoggedInID != comment.UserId)
+                return Unauthorized();
+
+        
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -49,14 +70,28 @@
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteComment(int id)
+        public async Task<IActionResult> DeleteComment(int id)
         {
+            var identity = await _userService.GetUserAsync();
+
+            if (identity == null)
+                return Unauthorized();
+
             if (id == 0)
                 return BadRequest();
 
-            var employeeToDelete = _commentRepository.GetCommentById(id);
-            if (employeeToDelete == null)
+            var commentToDelete = _commentRepository.GetCommentById(id);
+
+            if (commentToDelete == null)
                 return NotFound();
+
+            string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+                .Select(c => c.Value).SingleOrDefault().ToString();
+
+            if (LoggedInID != commentToDelete.UserId)
+                return Unauthorized();
+
+   
 
             _commentRepository.DeleteComment(id);
 
@@ -64,22 +99,26 @@
         }
 
         [HttpPut]
-        public IActionResult UpdateComment([FromBody] Comment comment)
+        public async Task<IActionResult> UpdateComment([FromBody] Comment comment)
         {
-            if (comment == null)
-                return BadRequest();
+            var identity = await _userService.GetUserAsync();
 
-            //if (comment.FirstNam == string.Empty || comment.LastName == string.Empty)
-            //{
-            //    ModelState.AddModelError("Name/FirstName", "The name or first name shouldn't be empty");
-            //}
+            if (identity == null)
+                return Unauthorized();
+
+            string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+                .Select(c => c.Value).SingleOrDefault().ToString();
+
+            if (LoggedInID != comment.UserId)
+                return Unauthorized();
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var employeeToUpdate = _commentRepository.GetCommentById(comment.Id);
 
-            if (employeeToUpdate == null)
+            var commentToUpdate = _commentRepository.GetCommentById(comment.Id);
+
+            if (commentToUpdate == null)
                 return NotFound();
 
             _commentRepository.UpdateComment(comment);

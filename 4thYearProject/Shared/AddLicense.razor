@@ -4,7 +4,7 @@
 @inject IMatToaster Toaster
 @if (PostIn != null)
 {
-    <div class="card mb-4">
+    <div class="card mb-2">
         <div class="card-body">
             <p class="card-text">
 
@@ -12,14 +12,14 @@
 
                 @if (PostIn.LicenseEnabled)
                 {
-                    <h3>Adding License</h3>
+                    <h3> Purchase License</h3>
 
-                    <img src=@PostIn.Thumbnail />
+                    <img src=@PostIn.Thumbnail  width="500" height="500"/>
 
-                    @PostIn.LicensePrice
-
-                    <button @onclick="AddtoCart" class="btn btn-primary">Submit</button>
-                    <button @onclick="Cancel" class="btn btn-secondary">Cancel</button>
+                    <h2>The price for use of this license is €@PostIn.LicensePrice</h2>
+                    <h3>This license allows you to use the artist's work in a professional capacity. Payment through Stripe.</h3>
+                    <RadzenButton style="align-content: flex-end" Click=@(args => AddtoCart()) Text="Add License to Cart" ButtonStyle="ButtonStyle.Secondary" ></RadzenButton>
+                    <RadzenButton style="margin: 0 1rem 1rem 0" Click=@(args => Cancel()) Text="Cancel" ButtonStyle="ButtonStyle.Danger" />
                 }
                 else
                 {
@@ -69,17 +69,17 @@ else
     }
 
 
-    void AddtoCart()
+    async Task AddtoCart()
     {
         string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
                  .Select(c => c.Value).SingleOrDefault().ToString();
         OrderLineItem ol = new OrderLineItem(PostIn);
         ol.Price = PostIn.LicensePrice;
-        ol.Type = "License";
+        ol.Type = "License";    
 
         Cart.AddToCart(LoggedInID,ol);
         Toaster.Add("License added to cart.", MatToastType.Success, "SUCCESS");
-
+        await ModalInstance.CancelAsync();
 
     }
 

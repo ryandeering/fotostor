@@ -7,25 +7,19 @@
     <br />
     <br />
     <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
 
 
 
 
 
-    <AuthorizeView>
+
+<AuthorizeView>
         <Authorized>
             @if (basket != null)
             {
-                @if (basket.BasketItems == null)
+                @if (basket.BasketItems.Count == 0)
                 {
-                    <h1>No items found in basket.</h1>
+                    <h2>No basket items found. Add some items to complete a purchase!</h2>
                 }
                 else
                 {
@@ -34,7 +28,7 @@
                             <tr>
                                 <th>Thumbnail</th>
                                 <th>Type</th>
-                                <th>Quanity</th>
+                                <th>Quantity</th>
                                 <th>Item Total</th>
                             </tr>
                         </thead>
@@ -52,14 +46,14 @@
                         Price: @getPrice()
                     </table>
 
-                    <button class="btn btn-success btn-sm" @onclick="PlaceOrder">
-                        <span class="glyphicon glyphicon-euro"></span> Place Order
-                    </button>
 
-                    <button class="btn btn-success btn-sm" @onclick="EmptyBasket">
-                        <span class="glyphicon glyphicon-euro"></span> Empty Basket
-                    </button>
 
+                    <div class="row">
+            <div class="col">
+                <RadzenButton style="align-content: flex-end" Click=@(args => PlaceOrder()) Text="Place Order" ButtonStyle="ButtonStyle.Secondary" ></RadzenButton>
+                <RadzenButton style="margin: 0 1rem 1rem 0" Click=@(args => EmptyBasket()) Text="Empty Basket" ButtonStyle="ButtonStyle.Danger" />
+            </div>
+        </div>
 
                 }
             }

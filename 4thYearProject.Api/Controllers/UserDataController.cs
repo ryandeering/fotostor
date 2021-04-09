@@ -31,14 +31,24 @@ namespace _4thYearProject.Api.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllUserDatas()
+        public async Task<IActionResult> GetAllUserDatas()
         {
+            var identity = await _userService.GetUserAsync();
+
+            if (identity == null)
+                return Unauthorized();
+
             return Ok(_UserDataRepository.GetAllUsers());
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetUserDataById(string id)
+        public async Task<IActionResult> GetUserDataById(string id)
         {
+            var identity = await _userService.GetUserAsync();
+
+            if (identity == null)
+                return Unauthorized();
+
             return Ok(_UserDataRepository.GetUserDataById(id));
         }
 
@@ -64,8 +74,13 @@ namespace _4thYearProject.Api.Controllers
 
 
         [HttpGet("displayname/{DisplayName}")]
-        public IActionResult GetUserDataByDisplayName(string DisplayName)
+        public async Task<IActionResult> GetUserDataByDisplayName(string DisplayName)
         {
+            var identity = await _userService.GetUserAsync();
+
+            if (identity == null)
+                return Unauthorized();
+
             return Ok(_UserDataRepository.GetUserDataByDisplayName(DisplayName));
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using _4thYearProject.Api.Models;
@@ -24,18 +25,33 @@ namespace _4thYearProject.Api.Controllers
 
         private readonly IUserDataRepository _userDataRepository;
 
+        private readonly IUserService _userService;
+
         public StripePaymentController(IConfiguration configuration, IShoppingCartRepository shoppingCartRepository,
-            IEmailSender emailSender, IUserDataRepository userDataRepository)
+            IEmailSender emailSender, IUserDataRepository userDataRepository, IUserService userService)
         {
             _configuration = configuration;
             _shoppingCartRepository = shoppingCartRepository;
             _emailSender = emailSender;
             _userDataRepository = userDataRepository;
+            _userService = userService;
         }
 
         [HttpGet("{UserId}/{session_id}")]
         public async Task<SuccessModel> OrderSuccess(string UserId, string session_id)
         {
+            var identity = await _userService.GetUserAsync();
+
+            if (identity == null)
+                return new SuccessModel();
+
+            var LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+                .Select(c => c.Value).SingleOrDefault().ToString();
+
+            if (LoggedInID != UserId)
+                return new SuccessModel();
+
+
             var sessionService = new SessionService();
             var session = sessionService.Get(session_id);
             var detail = string.Empty;
@@ -71,7 +87,6 @@ namespace _4thYearProject.Api.Controllers
 
 
                     await _emailSender.SendEmailAsync(rec.Email, subject, sb.ToString());
-
 
                     break;
 
