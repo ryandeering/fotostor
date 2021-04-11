@@ -85,9 +85,6 @@ namespace _4thYearProject.Server.Pages
                 Console.WriteLine(like);
             }
 
-
-
-
             Posts = PostsCombined.Distinct().OrderByDescending(po => po.UploadDate).ToList();
 
 
@@ -157,17 +154,6 @@ namespace _4thYearProject.Server.Pages
 
             var addPrint = Modal.Show<AddPrint>("PostId", parameters);
             var result = await addPrint.Result;
-        }
-
-
-
-
-
-
-        private async Task<FeedProfileData> GetUserName(string UserId)
-        {
-            var response = await UserDataService.GetUserNameFromId(UserId);
-            return response;
         }
     }
 }

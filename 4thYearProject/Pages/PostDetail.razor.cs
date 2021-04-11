@@ -1,220 +1,180 @@
-﻿using _4thYearProject.Server.Services;
-using _4thYearProject.Shared;
-using _4thYearProject.Shared.Models;
-using MatBlazor;
-using Microsoft.AspNetCore.Components;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using _4thYearProject.Server.Services;
+using _4thYearProject.Server.Shared;
+using _4thYearProject.Shared;
+using _4thYearProject.Shared.Models;
+using Blazored.Modal;
+using Blazored.Modal.Services;
+using MatBlazor;
+using Microsoft.AspNetCore.Components;
 
 namespace _4thYearProject.Server.Pages
 {
     public partial class PostDetail : ComponentBase
     {
-        [Parameter]
-        public string PostID { get; set; }
+        public Comment extendComment = new();
+        private readonly Following follow = new();
+
+
+        private ClaimsPrincipal identity;
+
+        [Parameter] public string PostID { get; set; }
 
         public UserData User { get; set; }
         public Post post { get; set; }
         public List<Comment> Comments { get; set; }
-        Following follow = new Following();
-        Like like = new Like(String.Empty, String.Empty);
-        bool liked = false;
-        int LikeCount { get; set; }
-        Comment extendcomment = new Comment();
 
 
-        [Inject]
-        public IPostDataService PostDataService { get; set; }
-        [Inject]
-        public ICommentDataService CommentDataService { get; set; }
-        [Inject]
-        public IUserService _userService { get; set; }
-        [Inject]
-        public IFollowingDataService FollowingService { get; set; }
-        [Inject]
-        public ILikeDataService LikeService { get; set; }
+        [Inject] public IPostDataService PostDataService { get; set; }
 
-        [Inject]
-        public IUserDataService UserDataService { get; set; }
+        [Inject] public ICommentDataService CommentDataService { get; set; }
 
-        [Inject]
-        public IMatToaster matToaster { get; set; }
+        [Inject] public IUserService _userService { get; set; }
+
+        [Inject] public IFollowingDataService FollowingService { get; set; }
+
+        [Inject] public ILikeDataService LikeService { get; set; }
+
+        [Inject] public IUserDataService UserDataService { get; set; }
+
+        [Inject] public IMatToaster matToaster { get; set; }
+
+        [CascadingParameter] public IModalService Modal { get; set; }
+
+        private string claimDisplayName { get; set; }
+
+        private string LoggedInID { get; set; }
 
 
-        ClaimsPrincipal identity;
-
-        string claimDisplayName { get; set; }
-
-        public UsernameList Usernames = new UsernameList();
-        List<string> list = new List<string>();
-
-        protected async Task MakeComment()
+        protected override async Task OnInitializedAsync()
         {
-
-            try
-            {
-                string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
-                      .Select(c => c.Value).SingleOrDefault().ToString();
-                extendcomment.UserId = LoggedInID;
-                extendcomment.PostId = post.PostId;
-                extendcomment.SubmittedOn = DateTime.Now;
-                await CommentDataService.AddComment(extendcomment);
-                await OnInitializedAsync();
-                matToaster.Add("Comment successfully made.", MatToastType.Success, "Success");
-
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                // matToaster.Add(ex.GetBaseException().Message, MatToastType.Danger);
-            }
-
-
-        }
-
-
-
-        protected async Task DeleteComment(int CommentID)
-        {
-
-            try
-            {
-                await CommentDataService.DeleteComment(CommentID);
-                await OnInitializedAsync();
-                matToaster.Add("Comment deleted successfully.", MatToastType.Success, "SUCCESS");
-            }
-            catch (Exception ex)
-            {
-                matToaster.Add("Comment could not be deleted.", MatToastType.Danger, "ERROR");
-            }
-
-
-        }
-
-
-
-        protected async override Task OnInitializedAsync()
-        {
-
             try
             {
                 Comments = (await CommentDataService.GetCommentsByPostId(int.Parse(PostID))).ToList();
 
-                // await GetUsernames();
 
                 identity = await _userService.GetUserAsync();
 
-                string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
-                     .Select(c => c.Value).SingleOrDefault().ToString();
+                var LoggedIn = identity.Claims.Where(c => c.Type.Equals("sub"))
+                    .Select(c => c.Value).SingleOrDefault().ToString();
 
-                User = await UserDataService.GetUserDataDetails(LoggedInID);
-
+                User = await UserDataService.GetUserDataDetails(LoggedIn);
 
 
                 claimDisplayName = identity.Claims.Where(c => c.Type.Equals("preferred_username"))
-                   .Select(c => c.Value).SingleOrDefault().ToString();
+                    .Select(c => c.Value).SingleOrDefault().ToString();
 
-                post = (await PostDataService.GetPostDetails(int.Parse(PostID)));
-                await VerifyLiked();
 
+                LoggedInID = LoggedIn;
+
+
+                post = await PostDataService.GetPostDetails(int.Parse(PostID));
+                post.Liked = await VerifyLiked();
             }
             catch (Exception e)
             {
-
                 Console.WriteLine(e.Message);
-
             }
-
-
-
         }
 
         protected async Task FollowUser()
         {
-            string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
-                  .Select(c => c.Value).SingleOrDefault().ToString();
-
             follow.Follower_ID = LoggedInID;
             follow.Followed_ID = User.Id;
             await FollowingService.AddFollowing(follow);
             await OnInitializedAsync();
-
         }
 
 
-
-        protected async Task VerifyLiked()
+        protected async Task<bool> VerifyLiked()
         {
-            string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
-                  .Select(c => c.Value).SingleOrDefault().ToString();
-            var temp = await LikeService.VerifyLike(LoggedInID, post.PostId.ToString());
-            liked = temp;
+            return await LikeService.VerifyLike(post.PostId.ToString(), LoggedInID);
         }
 
         protected async Task GiveLike()
         {
-
-            if (!liked)
-            {
-
-                string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
-                      .Select(c => c.Value).SingleOrDefault().ToString();
-
-                like.User_ID = LoggedInID;
-                like.Post_ID = post.PostId.ToString();
-                await LikeService.AddLike(like);
-                liked = true;
-                await OnInitializedAsync();
-            }
+            var like = new Like(LoggedInID, post.PostId.ToString());
+            await LikeService.AddLike(like);
+            post.Liked = true;
+            post.Likes++;
+            StateHasChanged();
         }
 
         protected async Task UnLike()
         {
-
-            if (!liked)
-            {
-
-                string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
-                      .Select(c => c.Value).SingleOrDefault().ToString();
-
-                like.User_ID = LoggedInID;
-                like.Post_ID = post.PostId.ToString();
-                await LikeService.RemoveLike(like.Post_ID,like.User_ID);
-                liked = false;
-                await OnInitializedAsync();
-            }
+            await LikeService.RemoveLike(post.PostId.ToString(), LoggedInID);
+            post.Liked = false;
+            post.Likes--;
+            StateHasChanged();
         }
 
+        protected async Task MakeComment()
+        {
+            extendComment.UserId = LoggedInID;
+            extendComment.PostId = post.PostId;
+            extendComment.SubmittedOn = DateTime.Now;
+            await CommentDataService.AddComment(extendComment);
+            await OnInitializedAsync();
+            matToaster.Add("Comment successfully made.", MatToastType.Success, "Success");
+        }
+
+
+        protected async Task DeleteComment(Comment comment)
+        {
+            await CommentDataService.DeleteComment(comment.Id);
+            //Comments.Remove(comment);
+            await OnInitializedAsync();
+            matToaster.Add("Comment deleted successfully.", MatToastType.Success, "SUCCESS");
+        }
 
 
         protected async Task UnFollowUser()
         {
-            string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
-                  .Select(c => c.Value).SingleOrDefault().ToString();
-
             follow.Follower_ID = LoggedInID;
             follow.Followed_ID = User.Id;
             await FollowingService.RemoveFollowing(LoggedInID, User.Id);
-
         }
-
 
 
         protected async Task<Following> VerifyFollowing()
         {
-            string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
-                  .Select(c => c.Value).SingleOrDefault().ToString();
             follow.Follower_ID = LoggedInID;
             follow.Followed_ID = User.Id;
             // follow = await FollowingService.verifyFollowing(follow);
 
 
-
             return null;
+        }
 
+        private async Task BuyLicense(int PostId)
+        {
+            var parameters = new ModalParameters();
+            parameters.Add(nameof(AddLicense.PostId), PostId);
+
+            var addLicense = Modal.Show<AddLicense>("PostId", parameters);
+            var result = await addLicense.Result;
+        }
+
+        private async Task BuyShirt(int PostId)
+        {
+            var parameters = new ModalParameters();
+            parameters.Add(nameof(AddShirt.PostId), PostId);
+
+            var addShirt = Modal.Show<AddShirt>("PostId", parameters);
+            var result = await addShirt.Result;
+        }
+
+        private async Task BuyPrint(int PostId)
+        {
+            var parameters = new ModalParameters();
+            parameters.Add(nameof(AddPrint.PostId), PostId);
+
+            var addPrint = Modal.Show<AddPrint>("PostId", parameters);
+            var result = await addPrint.Result;
         }
     }
 }

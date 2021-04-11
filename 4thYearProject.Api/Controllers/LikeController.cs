@@ -21,10 +21,11 @@ namespace _4thYearProject.Api.Controllers
 
         private readonly IUserService _userService;
 
-        public LikeController(ILikeRepository likeRepository, IWebHostEnvironment env)
+        public LikeController(ILikeRepository likeRepository, IWebHostEnvironment env, IUserService userService)
         {
             _likeRepository = likeRepository;
             this.env = env;
+            _userService = userService;
         }
 
         [HttpPost]
@@ -77,21 +78,13 @@ namespace _4thYearProject.Api.Controllers
         public async Task<IActionResult> VerifyLike(string Post_ID, string User_ID)
         {
 
-            var identity = await _userService.GetUserAsync();
-
-            if (identity == null)
-                return Unauthorized();
-
-            string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
-                .Select(c => c.Value).SingleOrDefault().ToString();
-
             if ((Post_ID == string.Empty) ^ (User_ID == string.Empty))
                 return BadRequest();
 
             var IsLiked = _likeRepository.VerifyLike(Post_ID, User_ID);
 
             if (IsLiked == null)
-                return NotFound();
+                return NoContent();
             return Created("like", IsLiked);
         }
     }

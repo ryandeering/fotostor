@@ -1,4 +1,6 @@
-﻿namespace _4thYearProject.Server.Services
+﻿using System.Net;
+
+namespace _4thYearProject.Server.Services
 {
     using _4thYearProject.Shared;
     using _4thYearProject.Shared.Models;
@@ -60,11 +62,10 @@
 
             var response = await _httpClient.GetAsync($"api/like/{Post_ID}/{User_ID}");
 
-            if (response.IsSuccessStatusCode)
+            if (response.StatusCode == HttpStatusCode.Created)
 
             {
                 return true;
-
             }
             return false;
         }

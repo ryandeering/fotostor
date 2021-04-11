@@ -5,26 +5,59 @@
 @if (post == null)
 {
 
-    <p><em>Post not found. Either moved, deleted.</em></p>
+<h1>Post not found. Either moved or deleted.</h1>
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Submission Time</th>
-                <th>Image</th>
-                <th>Caption</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th>@post.UploadDate.ToString("dd/MM/yyyy h:mm tt")</th>
-                <td><img src=@post.PhotoFile /></td>
-                <td>@post.Caption</td>
-            </tr>
-        </tbody>
-    </table>
+
+    @post.UploadDate.ToString("dd/MM/yyyy h:mm tt")
+               
+
+    @post.Caption
+
+
+<div class="card">
+    <div class="card-heading">
+        <div class="card-heading-pic">
+            @if (post.ProfileData != null)
+            {
+                @if (post.ProfileData.ProfilePicURL != null || post.ProfileData.ProfilePicURL == String.Empty)
+                {
+                    <img src="@post.ProfileData.ProfilePicURL"
+                         alt="profile-pic">
+
+                }
+                else
+                {
+                    <img src="images/profilePicture.jpg"
+                         alt="profile-pic">
+                }
+            }
+        </div>
+        <div class="card-heading-data">
+        </div>
+
+
+        <div class="card-footer">
+            
+
+
+            <div class="card-footer-left">
+                            
+           
+            </div>
+      
+        </div>
+    </div>
+    <img src=@post.PhotoFile alt="pic">
+
+</div>
+
+
+
+
+
+
 
 
     @if (Comments.Count != 0 || !Comments.Any())
@@ -38,19 +71,18 @@ else
             <tbody>
                 <tr>
                     <th>
-
-                        @for (int i = 0; i < Comments.Count; i++)
+                        
+                        @foreach (var Comment in Comments)
                         {
+                            
+                            <td> @Comment.UserId @Comment.Body</td>
 
+                            @if (Comment.UserId.Equals(LoggedInID) | post.UserId.Equals(LoggedInID))
+                            {
 
-                        <td> @Comments[i].UserId @Comments[i].Body</td>
-
-                        @if (Comments[i].UserId.Equals(User.Id) | post.UserId.Equals(User.Id))
-                        {
-
-                            <MatButton OnClick="() => DeleteComment(Comments[i].Id)">Delete</MatButton>
+                                <MatButton OnClick="() => DeleteComment(Comment)">Delete</MatButton>
+                            }
                         }
-                    }
 
                         </th>
                     </tr>
@@ -59,23 +91,45 @@ else
 
         }
 
-    @if (liked)
+
+    @if (post.Liked)
     {
-        <MatButton OnClick="GiveLike"><i class="far fa-thumbs-up"></i></MatButton>
+      
+        <MatButton OnClick="UnLike">
+            <i class="fas fa-coffee"></i>
+        </MatButton>
     }
     else
     {
-        <MatButton OnClick="UnLike">
-            <i class="fas fa-thumbs-up"></i>
-        </MatButton>
+     
+        <MatButton OnClick="GiveLike"><i class="far fa-thumbs-up"></i></MatButton>
+    }
+
+    @if (post.LicenseEnabled)
+    {
+
+        <a @onclick="@(e => BuyLicense(post.PostId))" class="btn btn-light">
+            <i class="fas fa-stamp"></i>
+        </a>
+    }
+    @if (post.ShirtsEnabled)
+    {<a @onclick="@(e => BuyShirt(post.PostId))" class="btn btn-light">
+         <i class="fas fa-tshirt"></i>
+     </a>
+    }
+    @if (post.PrintsEnabled)
+    {<a @onclick="@(e => BuyPrint(post.PostId))" class="btn btn-light">
+         <i class="fas fa-scroll"></i>
+     </a>
     }
 
 
-    <EditForm Model="@extendcomment" OnValidSubmit="@MakeComment">
+
+    <EditForm Model="@extendComment" OnValidSubmit="@MakeComment">
         <ValidationSummary />
         <fieldset>
             <div class="form-group">
-                <MatTextField @bind-Value="@extendcomment.Body" Label="Comment Body" FullWidth="true"></MatTextField>
+                <MatTextField @bind-Value="@extendComment.Body" Label="Comment Body" FullWidth="true"></MatTextField>
             </div>
         </fieldset>
     </EditForm>

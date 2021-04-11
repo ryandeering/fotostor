@@ -24,11 +24,11 @@
                 <div class="profile-user-settings">
 
                     <h1 class="profile-user-name">@DisplayName</h1>
-
                     @if (claimDisplayName.Equals(DisplayName))
                     {
                         <button class="btn profile-edit-btn" @onclick="ProfileSettings">Edit Profile</button>
                     }
+
                 </div>
 
                 <div class="profile-stats">
@@ -47,15 +47,18 @@
                         {
                             <li><span class="profile-stat-count">@FollowingCount</span> following</li>
                         }
-                    </ul>
 
+             
+                    </ul>
+               
                 </div>
 
                 <div class="profile-bio">
 
-                        <p><span class="profile-real-name">@User.FirstName @User.SecondName</span> @User.Bio </p>
+                    <p><span class="profile-real-name">@User.FirstName @User.SecondName</span> @User.Bio </p>
                     
                 </div>
+
 
                 @if (!claimDisplayName.Equals(DisplayName))
                 {
