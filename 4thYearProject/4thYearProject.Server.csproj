@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <PackageReference Include="Blazored.Modal" Version="6.0.1" />
+    <PackageReference Include="Blazored.Typeahead" Version="4.6.0" />
     <PackageReference Include="Dahomey.Json" Version="1.10.3" />
     <PackageReference Include="LiveSharp" Version="1.6.59" />
     <PackageReference Include="MatBlazor" Version="2.8.0" />

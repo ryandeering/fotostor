@@ -1,10 +1,13 @@
 ﻿@using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using Microsoft.AspNetCore.Components.WebAssembly.Hosting
+@using _4thYearProject.Server.Services.Interfaces
+@using System.Diagnostics
 @inject NavigationManager Navigation
 @inject SignOutSessionStateManager SignOutManager
 @inject IUserDataService UserDataService
 @inject IUserService _userService
+@inject ISearchDataService _SearchDataService
 @inject IWebAssemblyHostEnvironment HostEnvironment
 @inject NavigationManager UriHelper
 
@@ -16,15 +19,25 @@
         </a>
     </div>
     <div class="navigation-search-container">
-        <i class="fa fa-search"></i>
-        <input class="search-field" type="text" placeholder="Search">
-        <div class="search-container">
-            <div class="search-container-box">
-                <div class="search-results">
 
-                </div>
-            </div>
-        </div>
+        <BlazoredTypeahead SearchMethod="@_SearchDataService.GetSearchResults"
+                           TValue="SearchResult"
+                           TItem="SearchResult"
+                           Value="@resultActual"
+                           ValueExpression="@(() => resultActual)"
+                           ValueChanged="ResultChange"
+                               >
+                <SelectedTemplate>
+                    <p>@context.Content</p>
+                </SelectedTemplate>
+                <ResultTemplate>
+                    <p>@context.Type | @context.Content</p>
+                </ResultTemplate>
+                <NotFoundTemplate>
+                    Sorry, there weren't any search results.
+                </NotFoundTemplate>
+            </BlazoredTypeahead>
+        
     </div>
     <AuthorizeView>
         <NotAuthorized>
@@ -76,14 +89,17 @@
 
     ClaimsPrincipal identity;
     UserData User;
+    private SearchResult resultActual;
+    private List<SearchResult> results = new List<SearchResult>();
     string LoggedInID = String.Empty;
     string ProfileName = String.Empty;
     string URI = "images/profilePicture.jpg";
 
     protected override async Task OnInitializedAsync()
     {
-
         identity = await _userService.GetUserAsync();
+
+
 
 
         if (identity.Identity.IsAuthenticated)
@@ -93,6 +109,7 @@
             User = await UserDataService.GetUserDataDetails(LoggedInID);
             ProfileName = User.DisplayName;
 
+            
         }
 
     }
@@ -110,12 +127,12 @@
                 ProfileName = User.DisplayName;
 
 
-
+                
             }
         }
+
+
     }
-
-
 
     private async Task BeginSignOut(MouseEventArgs args)
     {
@@ -127,6 +144,23 @@
     {
         UriHelper.NavigateTo("/profile/" + User.DisplayName,true);
     }
+
+    private async Task ResultChange(SearchResult result)
+    {
+
+        switch (result.Type)
+        {
+            case "Profile":
+                Navigation.NavigateTo("profile/" + result.Content, true);
+                break;
+
+            case "Hashtag":
+                string hashTag = resultActual.Content.Substring(1, result.Content.Length);
+                Navigation.NavigateTo("tags/" + hashTag);
+                break;
+        }
+    }
+
 
 
 }

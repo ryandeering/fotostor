@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using _4thYearProject.Api.Models.Interfaces;
 
 namespace _4thYearProject.Api
 {
@@ -88,6 +89,7 @@ namespace _4thYearProject.Api
             services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
             services.AddScoped<IHashTagRepository, HashTagRepository>();
             services.AddScoped<ISuggestionsRepository, SuggestionsRepository>();
+            services.AddScoped<ISearchRepository, SearchRepository>();
             services.AddTransient<IEmailSender, MailKitEmailSender>();
             services.Configure<MailKitEmailSenderOptions>(options =>
             {

@@ -113,25 +113,6 @@
 
 
 
-        @*<table class="table">
-                <thead>
-                    <tr>
-                        <th>Submission Time</th>
-                        <th>Image</th>
-                        <th>Caption</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var Post in Posts)
-                    {
-                        <tr>
-                            <th>@Post.UploadDate.ToString("dd/MM/yyyy h:mm tt")</th>
-                            <td><img src=@Post.Thumbnail /></td>
-                            <td>@Post.Caption</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>*@
     }
 
 
