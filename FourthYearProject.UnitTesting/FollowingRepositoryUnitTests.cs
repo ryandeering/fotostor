@@ -76,8 +76,6 @@ namespace FourthYearProject.UnitTesting
             foreach (var following in test1) context.Followers.Add(following);
             context.SaveChanges();
             var repo = new FollowingRepository(context);
-            var follow = context.Followers.FirstOrDefault(f =>
-                f.Follower_ID == test1[1].Follower_ID && f.Followed_ID == test1[1].Followed_ID);
             repo.RemoveFollowing(test1[1].Follower_ID, test1[1].Followed_ID);
             Assert.Equal(2, context.Followers.Count());
         }

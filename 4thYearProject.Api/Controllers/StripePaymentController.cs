@@ -54,7 +54,7 @@ namespace _4thYearProject.Api.Controllers
 
             var sessionService = new SessionService();
             var session = sessionService.Get(session_id);
-            var detail = string.Empty;
+            var detail = string.Empty; //TODO
             var OrderId = 0;
             var s = new SuccessModel();
 
@@ -98,7 +98,7 @@ namespace _4thYearProject.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(StripePaymentDTO payment)
+        public async Task<IActionResult> Create(StripePaymentDto payment)
         {
             try
             {

@@ -16,7 +16,7 @@ namespace _4thYearProject.Server.Services
         {
             _client = client;
         }
-        public async Task<SuccessModel> CheckOut(StripePaymentDTO model)
+        public async Task<SuccessModel> CheckOut(StripePaymentDto model)
         {
             var content = JsonConvert.SerializeObject(model);
             var bodyContent = new StringContent(content, Encoding.UTF8, "application/json");

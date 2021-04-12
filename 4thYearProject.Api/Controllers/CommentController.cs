@@ -1,25 +1,25 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using _4thYearProject.Api.Models;
 using _4thYearProject.Shared;
+using _4thYearProject.Shared.Models;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 
 namespace _4thYearProject.Api.Controllers
 {
-    using _4thYearProject.Api.Models;
-    using _4thYearProject.Shared.Models;
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Mvc;
-
     [Route("api/[controller]")]
     [ApiController]
     public class CommentController : Controller
     {
         private readonly ICommentRepository _commentRepository;
 
-        private readonly IWebHostEnvironment env;
-
         private readonly IUserService _userService;
 
-        public CommentController(ICommentRepository commentRepository, IWebHostEnvironment env, IUserService userService)
+        private readonly IWebHostEnvironment env;
+
+        public CommentController(ICommentRepository commentRepository, IWebHostEnvironment env,
+            IUserService userService)
         {
             _commentRepository = commentRepository;
             this.env = env;
@@ -43,7 +43,6 @@ namespace _4thYearProject.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateCommentAsync(Comment comment)
         {
-
             if (comment == null)
                 return BadRequest();
 
@@ -52,13 +51,12 @@ namespace _4thYearProject.Api.Controllers
             if (identity == null)
                 return Unauthorized();
 
-            string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+            var LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
                 .Select(c => c.Value).SingleOrDefault().ToString();
 
             if (LoggedInID != comment.UserId)
                 return Unauthorized();
 
-        
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -85,13 +83,12 @@ namespace _4thYearProject.Api.Controllers
             if (commentToDelete == null)
                 return NotFound();
 
-            string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+            var LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
                 .Select(c => c.Value).SingleOrDefault().ToString();
 
             if (LoggedInID != commentToDelete.UserId)
                 return Unauthorized();
 
-   
 
             _commentRepository.DeleteComment(id);
 
@@ -106,7 +103,7 @@ namespace _4thYearProject.Api.Controllers
             if (identity == null)
                 return Unauthorized();
 
-            string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+            var LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
                 .Select(c => c.Value).SingleOrDefault().ToString();
 
             if (LoggedInID != comment.UserId)

@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using _4thYearProject.Api.Models.Interfaces;
+﻿using _4thYearProject.Api.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace _4thYearProject.Api.Controllers

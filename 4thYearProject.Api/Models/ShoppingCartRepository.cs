@@ -1,11 +1,11 @@
-﻿namespace _4thYearProject.Api.Models
-{
-    using _4thYearProject.Shared.Models.BusinessLogic;
-    using Microsoft.EntityFrameworkCore;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using _4thYearProject.Shared.Models.BusinessLogic;
+using Microsoft.EntityFrameworkCore;
 
+namespace _4thYearProject.Api.Models
+{
     public class ShoppingCartRepository : IShoppingCartRepository
     {
         private readonly AppDbContext _appDbContext;
@@ -73,7 +73,6 @@
             try
             {
                 _appDbContext.Entry(cart).CurrentValues.SetValues(cart);
-                // _appDbContext.Carts.Update(cart);
             }
             catch (Exception e)
             {
@@ -130,9 +129,9 @@
 
         public IEnumerable<OrderLineItem> GetOrderLinesForArtist(string ArtistId)
         {
-            return _appDbContext.Orders.Include("LineItems.Post").SelectMany(o => o.LineItems).Where(ol => ol.Post.UserId == ArtistId);
+            return _appDbContext.Orders.Include("LineItems.Post").SelectMany(o => o.LineItems)
+                .Where(ol => ol.Post.UserId == ArtistId);
         }
-
 
 
         public Order GetOrderById(int OrderId)
@@ -143,7 +142,6 @@
 
         public Order PlaceOrder(string UserId)
         {
-
             var result = _appDbContext.Carts
                 .Where(x => x.UserId == UserId)
                 .Include(x => x.BasketItems)
@@ -185,7 +183,7 @@
         }
 
         public ShoppingCart GetCart(string UserId)
-        { 
+        {
             var result = _appDbContext.Carts
                 .Where(x => x.UserId == UserId)
                 .Include(x => x.BasketItems)

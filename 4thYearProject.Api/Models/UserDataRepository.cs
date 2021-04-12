@@ -32,7 +32,7 @@ namespace _4thYearProject.Api.Models
 
         public UserData GetUserDataByDisplayName(string DisplayName)
         {
-            return _appDbContext.Users.Where(u => EF.Functions.Like(u.DisplayName, DisplayName)).FirstOrDefault();
+            return _appDbContext.Users.FirstOrDefault(u => EF.Functions.Like(u.DisplayName, DisplayName));
         }
 
         public UserData AddUserData(UserData User)
@@ -78,7 +78,6 @@ namespace _4thYearProject.Api.Models
             _appDbContext.SaveChanges();
 
             return foundUserData;
-
         }
 
         public void DeleteUserData(string Id)

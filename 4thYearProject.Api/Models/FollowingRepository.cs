@@ -1,9 +1,9 @@
-﻿namespace _4thYearProject.Api.Models
-{
-    using _4thYearProject.Shared.Models;
-    using System.Collections.Generic;
-    using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using _4thYearProject.Shared.Models;
 
+namespace _4thYearProject.Api.Models
+{
     //  [Route("api/[controller]")]
     //[ApiController]
     public class FollowingRepository : IFollowingRepository
@@ -35,7 +35,9 @@
 
         public void RemoveFollowing(string FollowerID, string FollowingID)
         {
-            var foundFollower = _appDbContext.Followers.FirstOrDefault(f => f.Follower_ID == FollowerID && f.Followed_ID == FollowingID);
+            var foundFollower =
+                _appDbContext.Followers.FirstOrDefault(f =>
+                    f.Follower_ID == FollowerID && f.Followed_ID == FollowingID);
             if (foundFollower == null) return;
 
             _appDbContext.Followers.Remove(foundFollower);

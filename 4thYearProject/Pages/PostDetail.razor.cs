@@ -16,8 +16,8 @@ namespace _4thYearProject.Server.Pages
 {
     public partial class PostDetail : ComponentBase
     {
-        public Comment extendComment = new();
         private readonly Following follow = new();
+        public Comment extendComment = new();
 
 
         private ClaimsPrincipal identity;
@@ -126,7 +126,6 @@ namespace _4thYearProject.Server.Pages
         protected async Task DeleteComment(Comment comment)
         {
             await CommentDataService.DeleteComment(comment.Id);
-            //Comments.Remove(comment);
             await OnInitializedAsync();
             matToaster.Add("Comment deleted successfully.", MatToastType.Success, "SUCCESS");
         }
@@ -140,41 +139,34 @@ namespace _4thYearProject.Server.Pages
         }
 
 
-        protected async Task<Following> VerifyFollowing()
+        protected async Task<Following> VerifyFollowing() //TODO do verify following
         {
             follow.Follower_ID = LoggedInID;
             follow.Followed_ID = User.Id;
-            // follow = await FollowingService.verifyFollowing(follow);
 
 
             return null;
         }
 
-        private async Task BuyLicense(int PostId)
+        private void BuyLicense(int PostId)
         {
             var parameters = new ModalParameters();
             parameters.Add(nameof(AddLicense.PostId), PostId);
-
-            var addLicense = Modal.Show<AddLicense>("PostId", parameters);
-            var result = await addLicense.Result;
+            Modal.Show<AddLicense>("PostId", parameters);
         }
 
-        private async Task BuyShirt(int PostId)
+        private void BuyShirt(int PostId)
         {
             var parameters = new ModalParameters();
             parameters.Add(nameof(AddShirt.PostId), PostId);
-
-            var addShirt = Modal.Show<AddShirt>("PostId", parameters);
-            var result = await addShirt.Result;
+            Modal.Show<AddShirt>("PostId", parameters);
         }
 
-        private async Task BuyPrint(int PostId)
+        private void BuyPrint(int PostId)
         {
             var parameters = new ModalParameters();
             parameters.Add(nameof(AddPrint.PostId), PostId);
-
-            var addPrint = Modal.Show<AddPrint>("PostId", parameters);
-            var result = await addPrint.Result;
+            Modal.Show<AddPrint>("PostId", parameters);
         }
     }
 }

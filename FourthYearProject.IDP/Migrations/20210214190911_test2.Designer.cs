@@ -6,10 +6,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using DbContext = FourthYearProject.IDP.Areas.Identity.Data.DbContext;
 
 namespace FourthYearProject.IDP.Migrations
 {
-    [DbContext(typeof(dbContext))]
+    [DbContext(typeof(DbContext))]
     [Migration("20210214190911_test2")]
     partial class test2
     {

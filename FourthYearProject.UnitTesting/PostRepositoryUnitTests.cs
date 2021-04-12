@@ -9,7 +9,6 @@ namespace FourthYearProject.UnitTesting
 {
     public class PostRepositoryUnitTests
     {
-        private Mock<AppDbContext> service = new();
 
         [Fact]
         public void GetAllPostsTest()
@@ -36,7 +35,6 @@ namespace FourthYearProject.UnitTesting
         {
             GenFu.GenFu.Configure<Following>().Fill(p => p.Followed_ID, "FOLLOWEDUSER");
             GenFu.GenFu.Configure<Post>().Fill(p => p.UserId, "FOLLOWEDUSER");
-            var i = 0;
 
 
             var followings = GenFu.GenFu.ListOf<Following>(3);
@@ -71,7 +69,7 @@ namespace FourthYearProject.UnitTesting
         {
             var i = 1;
             GenFu.GenFu.Configure<Post>()
-                .Fill(p => p.PostId, () => { return i++; });
+                .Fill(p => p.PostId, () => i++);
 
             var PostsActual = GenFu.GenFu.ListOf<Post>(3);
 
@@ -200,7 +198,7 @@ namespace FourthYearProject.UnitTesting
         {
             var i = 1;
             GenFu.GenFu.Configure<Post>()
-                .Fill(p => p.PostId, () => { return i++; });
+                .Fill(p => p.PostId, () => i++);
 
             var PostsActual = GenFu.GenFu.ListOf<Post>(3);
 
@@ -226,7 +224,7 @@ namespace FourthYearProject.UnitTesting
         {
             var i = 1;
             GenFu.GenFu.Configure<Post>()
-                .Fill(p => p.PostId, () => { return i++; });
+                .Fill(p => p.PostId, () => i++);
             GenFu.GenFu.Configure<Post>().Fill(p => p.UserId, "MYSELF");
 
 

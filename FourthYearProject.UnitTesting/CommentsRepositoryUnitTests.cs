@@ -9,14 +9,13 @@ namespace FourthYearProject.UnitTesting
 {
     public class CommentsRepositoryUnitTests
     {
-        private Mock<AppDbContext> service = new();
 
         [Fact]
         public void GetAllCommentsByPostId()
         {
             var i = 1;
             GenFu.GenFu.Configure<Comment>()
-                .Fill(c => c.Id, () => { return i++; });
+                .Fill(c => c.Id, () => i++);
             GenFu.GenFu.Configure<Comment>().Fill(c => c.PostId, 1);
 
             var test1 = GenFu.GenFu.ListOf<Comment>();
@@ -45,7 +44,7 @@ namespace FourthYearProject.UnitTesting
         {
             var i = 1;
             GenFu.GenFu.Configure<Comment>()
-                .Fill(c => c.Id, () => { return i++; });
+                .Fill(c => c.Id, () => i++);
 
             var test1 = GenFu.GenFu.ListOf<Comment>();
 
@@ -58,7 +57,6 @@ namespace FourthYearProject.UnitTesting
             foreach (var comment in test1) context.Comments.Add(comment);
             context.SaveChanges();
             var repo = new CommentRepository(context);
-            var comments = repo.GetCommentsByPostId(1);
 
 
             for (var j = 1; j < test1.Count; j++)
@@ -75,7 +73,7 @@ namespace FourthYearProject.UnitTesting
         {
             var i = 1;
             GenFu.GenFu.Configure<Comment>()
-                .Fill(c => c.Id, () => { return i++; });
+                .Fill(c => c.Id, () => i++);
 
             var test1 = GenFu.GenFu.New<Comment>();
 
@@ -96,7 +94,7 @@ namespace FourthYearProject.UnitTesting
         {
             var i = 1;
             GenFu.GenFu.Configure<Comment>()
-                .Fill(c => c.Id, () => { return i++; });
+                .Fill(c => c.Id, () => i++);
             var test1 = GenFu.GenFu.New<Comment>();
 
             var options = new DbContextOptionsBuilder<AppDbContext>()
@@ -126,7 +124,7 @@ namespace FourthYearProject.UnitTesting
         {
             var i = 1;
             GenFu.GenFu.Configure<Comment>()
-                .Fill(c => c.Id, () => { return i++; });
+                .Fill(c => c.Id, () => i++);
             var test1 = GenFu.GenFu.ListOf<Comment>(3);
             var specificComment = test1.FirstOrDefault(c => c.Id == 1);
 

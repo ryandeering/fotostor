@@ -10,13 +10,11 @@
     {
         private readonly string bucketName;
 
-        private readonly GoogleCredential googleCredential;
-
         private readonly StorageClient storageClient;
 
         public GoogleCloudStorage(IConfiguration configuration)
         {
-            googleCredential = GoogleCredential.FromFile(configuration.GetValue<string>("GoogleCredentialFile"));
+            var googleCredential = GoogleCredential.FromFile(configuration.GetValue<string>("GoogleCredentialFile"));
             storageClient = StorageClient.Create(googleCredential);
             bucketName = configuration.GetValue<string>("GoogleCloudStorageBucket");
         }

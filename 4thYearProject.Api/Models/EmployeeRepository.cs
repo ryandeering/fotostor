@@ -1,10 +1,10 @@
-﻿namespace _4thYearProject.Api.Models
-{
-    using _4thYearProject.Shared.Models;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using _4thYearProject.Shared.Models;
 
+namespace _4thYearProject.Api.Models
+{
     public class EmployeeRepository : IEmployeeRepository
     {
         private readonly AppDbContext _appDbContext;

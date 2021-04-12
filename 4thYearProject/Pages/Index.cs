@@ -23,9 +23,6 @@
         [Inject]
         public NavigationManager Nav { get; set; }
 
-        protected async override Task OnInitializedAsync()
-        {
-        }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
@@ -65,10 +62,6 @@
                         newUser.Bio = String.Empty;
 
                         await UserDataService.AddUserData(newUser);
-
-
-                        //  ShoppingCart cart = await _shoppingCartService.GetCart(ID);
-
                         await _shoppingCartService.AddCart(ID);
 
                     

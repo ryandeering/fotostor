@@ -1,18 +1,17 @@
-﻿using System.Linq;
+﻿using System;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using _4thYearProject.Api.CloudStorage;
+using _4thYearProject.Api.Models;
 using _4thYearProject.Shared;
+using _4thYearProject.Shared.Models;
+using Microsoft.AspNetCore.Mvc;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
 
 namespace _4thYearProject.Api.Controllers
 {
-    using _4thYearProject.Api.CloudStorage;
-    using _4thYearProject.Api.Models;
-    using _4thYearProject.Shared.Models;
-    using Microsoft.AspNetCore.Mvc;
-    using SixLabors.ImageSharp;
-    using SixLabors.ImageSharp.Processing;
-    using System;
-    using System.IO;
-    using System.Threading.Tasks;
-
     [Route("api/[controller]")]
     [ApiController]
     public class UserDataController : Controller
@@ -23,7 +22,8 @@ namespace _4thYearProject.Api.Controllers
 
         private readonly IUserService _userService;
 
-        public UserDataController(IUserDataRepository UserDataRepository, ICloudStorage cloudStorage, IUserService userService)
+        public UserDataController(IUserDataRepository UserDataRepository, ICloudStorage cloudStorage,
+            IUserService userService)
         {
             _UserDataRepository = UserDataRepository;
             _cloudStorage = cloudStorage;
@@ -55,13 +55,12 @@ namespace _4thYearProject.Api.Controllers
         [HttpGet("full/{id}")]
         public async Task<IActionResult> GetUserDataInFull(string id)
         {
-
             var identity = await _userService.GetUserAsync();
-            
+
             if (identity == null)
                 return Unauthorized();
 
-            string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+            var LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
                 .Select(c => c.Value).SingleOrDefault().ToString();
 
             if (LoggedInID != id)
@@ -70,7 +69,6 @@ namespace _4thYearProject.Api.Controllers
 
             return Ok(_UserDataRepository.GetUserDataInFull(id));
         }
-
 
 
         [HttpGet("displayname/{DisplayName}")]
@@ -90,11 +88,6 @@ namespace _4thYearProject.Api.Controllers
             if (UserData == null)
                 return null;
 
-            //if (UserData.FirstName == string.Empty || UserData.LastName == string.Empty)
-            //{
-            //    ModelState.AddModelError("Name/FirstName", "The name or first name shouldn't be empty");
-            //}
-
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
@@ -109,17 +102,12 @@ namespace _4thYearProject.Api.Controllers
             if (UserData == null)
                 return BadRequest();
 
-            //if (UserData.FirstName == string.Empty || UserData.LastName == string.Empty)
-            //{
-            //    ModelState.AddModelError("Name/FirstName", "The name or first name shouldn't be empty");
-            //}
-
             var identity = await _userService.GetUserAsync();
 
             if (identity == null)
                 return Unauthorized();
 
-            string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+            var LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
                 .Select(c => c.Value).SingleOrDefault().ToString();
 
             if (LoggedInID != UserData.Id)
@@ -178,7 +166,7 @@ namespace _4thYearProject.Api.Controllers
             if (identity == null)
                 return Unauthorized();
 
-            string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+            var LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
                 .Select(c => c.Value).SingleOrDefault().ToString();
 
             if (LoggedInID != id)

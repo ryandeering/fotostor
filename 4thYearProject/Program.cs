@@ -22,7 +22,7 @@ namespace _4thYearProject.Server
             builder.RootComponents.Add<App>("app");
 
 
-            builder.Services.AddTransient<FourthYearProjectAPIAuthorizationMessageHandler>();
+            builder.Services.AddTransient<FourthYearProjectApiAuthorizationMessageHandler>();
 
             builder.Services.AddTransient(sp =>
                 new HttpClient
@@ -52,47 +52,47 @@ namespace _4thYearProject.Server
                 builder.Services
                     .AddHttpClient<IPostDataService, PostDataService>(client =>
                         client.BaseAddress = new Uri(APIProduction))
-                    .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
+                    .AddHttpMessageHandler<FourthYearProjectApiAuthorizationMessageHandler>();
                 builder.Services
                     .AddHttpClient<IUserDataService, UserDataService>(client =>
                         client.BaseAddress = new Uri(APIProduction))
-                    .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
+                    .AddHttpMessageHandler<FourthYearProjectApiAuthorizationMessageHandler>();
                 builder.Services
                     .AddHttpClient<IFollowingDataService, FollowingDataService>(client =>
                         client.BaseAddress = new Uri(APIProduction))
-                    .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
+                    .AddHttpMessageHandler<FourthYearProjectApiAuthorizationMessageHandler>();
                 builder.Services
                     .AddHttpClient<ICommentDataService, CommentDataService>(client =>
                         client.BaseAddress = new Uri(APIProduction))
-                    .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
+                    .AddHttpMessageHandler<FourthYearProjectApiAuthorizationMessageHandler>();
                 builder.Services
                     .AddHttpClient<ILikeDataService, LikeDataService>(client =>
                         client.BaseAddress = new Uri(APIProduction))
-                    .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
+                    .AddHttpMessageHandler<FourthYearProjectApiAuthorizationMessageHandler>();
                 builder.Services
                     .AddHttpClient<IShoppingCartService, ShoppingCartDataService>(client =>
                         client.BaseAddress = new Uri(APIProduction))
-                    .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
+                    .AddHttpMessageHandler<FourthYearProjectApiAuthorizationMessageHandler>();
                 builder.Services
                     .AddHttpClient<IStripePaymentService, StripePaymentService>(client =>
                         client.BaseAddress = new Uri(APIProduction))
-                    .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
+                    .AddHttpMessageHandler<FourthYearProjectApiAuthorizationMessageHandler>();
                 builder.Services
                     .AddHttpClient<IStripePaymentService, StripePaymentService>(client =>
                         client.BaseAddress = new Uri(APIProduction))
-                    .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
+                    .AddHttpMessageHandler<FourthYearProjectApiAuthorizationMessageHandler>();
                 builder.Services
                     .AddHttpClient<IHashTagDataService, HashTagDataService>(client =>
                         client.BaseAddress = new Uri(APIProduction))
-                    .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
+                    .AddHttpMessageHandler<FourthYearProjectApiAuthorizationMessageHandler>();
                 builder.Services
                     .AddHttpClient<ISuggestionsDataService, SuggestionsDataService>(client =>
                         client.BaseAddress = new Uri(APIProduction))
-                    .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
+                    .AddHttpMessageHandler<FourthYearProjectApiAuthorizationMessageHandler>();
                 builder.Services
                     .AddHttpClient<ISearchDataService, SearchDataService>(client =>
                         client.BaseAddress = new Uri(APIProduction))
-                    .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
+                    .AddHttpMessageHandler<FourthYearProjectApiAuthorizationMessageHandler>();
 
 
                 builder.Services.AddOidcAuthentication(options =>
@@ -105,43 +105,43 @@ namespace _4thYearProject.Server
                 builder.Services
                     .AddHttpClient<IPostDataService, PostDataService
                     >(client => client.BaseAddress = new Uri(APIDevelop))
-                    .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
+                    .AddHttpMessageHandler<FourthYearProjectApiAuthorizationMessageHandler>();
                 builder.Services
                     .AddHttpClient<IUserDataService, UserDataService>(
                         client => client.BaseAddress = new Uri(APIDevelop))
-                    .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
+                    .AddHttpMessageHandler<FourthYearProjectApiAuthorizationMessageHandler>();
                 builder.Services
                     .AddHttpClient<IFollowingDataService, FollowingDataService>(client =>
                         client.BaseAddress = new Uri(APIDevelop))
-                    .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
+                    .AddHttpMessageHandler<FourthYearProjectApiAuthorizationMessageHandler>();
                 builder.Services
                     .AddHttpClient<ICommentDataService, CommentDataService>(client =>
                         client.BaseAddress = new Uri(APIDevelop))
-                    .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
+                    .AddHttpMessageHandler<FourthYearProjectApiAuthorizationMessageHandler>();
                 builder.Services
                     .AddHttpClient<ILikeDataService, LikeDataService>(
                         client => client.BaseAddress = new Uri(APIDevelop))
-                    .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
+                    .AddHttpMessageHandler<FourthYearProjectApiAuthorizationMessageHandler>();
                 builder.Services
                     .AddHttpClient<IShoppingCartService, ShoppingCartDataService>(client =>
                         client.BaseAddress = new Uri(APIDevelop))
-                    .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
+                    .AddHttpMessageHandler<FourthYearProjectApiAuthorizationMessageHandler>();
                 builder.Services
                     .AddHttpClient<IStripePaymentService, StripePaymentService>(client =>
                         client.BaseAddress = new Uri(APIDevelop))
-                    .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
+                    .AddHttpMessageHandler<FourthYearProjectApiAuthorizationMessageHandler>();
                 builder.Services
                     .AddHttpClient<IHashTagDataService, HashTagDataService>(client =>
                         client.BaseAddress = new Uri(APIDevelop))
-                    .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
+                    .AddHttpMessageHandler<FourthYearProjectApiAuthorizationMessageHandler>();
                 builder.Services
                     .AddHttpClient<ISuggestionsDataService, SuggestionsDataService>(client =>
                         client.BaseAddress = new Uri(APIDevelop))
-                    .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
+                    .AddHttpMessageHandler<FourthYearProjectApiAuthorizationMessageHandler>();
                 builder.Services
                     .AddHttpClient<ISearchDataService, SearchDataService>(client =>
                         client.BaseAddress = new Uri(APIDevelop))
-                    .AddHttpMessageHandler<FourthYearProjectAPIAuthorizationMessageHandler>();
+                    .AddHttpMessageHandler<FourthYearProjectApiAuthorizationMessageHandler>();
 
 
                 builder.Services.AddOidcAuthentication(options =>

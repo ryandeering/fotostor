@@ -38,8 +38,6 @@ namespace _4thYearProject.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase(databaseName: "_4thYearProject"));
-
             var requireAuthenticatedUserPolicy = new AuthorizationPolicyBuilder()
                 .RequireAuthenticatedUser()
                 .Build(); //change this later as we let posts become publicly visible

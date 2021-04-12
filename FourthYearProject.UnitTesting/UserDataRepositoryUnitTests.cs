@@ -9,8 +9,6 @@ namespace FourthYearProject.UnitTesting
 {
     public class UserDataRepositoryUnitTests
     {
-        private Mock<AppDbContext> service = new();
-
         [Fact]
         public void GetAllUserDatasTest()
         {

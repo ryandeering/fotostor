@@ -24,7 +24,7 @@ namespace _4thYearProject.Api.Models
                 .Include(x => x.HashTags);
 
 
-            if (userPosts.Where(up => up.PostDeleted == false ).Count().Equals(0))
+            if (userPosts.Count(up => !up.PostDeleted).Equals(0))
             {
                 var hashtags = _appDbContext.Hashtags.GroupBy(h => h.Content)
                     .Select(group => new {Content = group.Key, Count = group.Count()}).OrderByDescending(h => h.Count);
@@ -39,24 +39,14 @@ namespace _4thYearProject.Api.Models
                     suggestedPostsNoInterests.Add(PostWithHashTag);
                 }
 
-                try
-                {
-                    foreach (var post in suggestedPostsNoInterests) post.HashTags.Clear();
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine("Possible hashtag with no posts found?");
-                }
+                foreach (var post in suggestedPostsNoInterests) post.HashTags.Clear();
 
 
                 return suggestedPostsNoInterests.OrderByDescending(p => p.UploadDate).Distinct().ToList();
             }
 
 
-            var userHashTags = new List<HashTag>();
-            foreach (var userPost in userPosts)
-            foreach (var hashTag in userPost.HashTags)
-                userHashTags.Add(hashTag);
+            var userHashTags = userPosts.SelectMany(userPost => userPost.HashTags).ToList();
 
             var query = userHashTags.GroupBy(h => h.Content)
                 .Select(group => new {Content = group.Key, Count = group.Count()}).OrderByDescending(h => h.Count);
@@ -83,7 +73,7 @@ namespace _4thYearProject.Api.Models
 
             foreach (var post in suggestedPostsFinal) post.HashTags.Clear();
 
-            return suggestedPostsFinal.Where(p => p.PostDeleted != true);
+            return suggestedPostsFinal.Where(p => !p.PostDeleted);
         }
     }
 }

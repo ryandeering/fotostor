@@ -5,10 +5,11 @@ using FourthYearProject.IDP.Areas.Identity.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using DbContext = FourthYearProject.IDP.Areas.Identity.Data.DbContext;
 
 namespace FourthYearProject.IDP.Migrations
 {
-    [DbContext(typeof(dbContext))]
+    [DbContext(typeof(DbContext))]
     internal class dbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

@@ -1,9 +1,9 @@
-﻿namespace _4thYearProject.Api.Models
-{
-    using _4thYearProject.Shared.Models;
-    using System.Collections.Generic;
-    using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using _4thYearProject.Shared.Models;
 
+namespace _4thYearProject.Api.Models
+{
     //  [Route("api/[controller]")]
     //[ApiController]
     public class CommentRepository : ICommentRepository
@@ -21,9 +21,9 @@
                 .OrderBy(c => c.SubmittedOn); //make it so it's orderedby comment likes, date will do temporarily
         }
 
-        public Comment GetCommentById(int Comment_Id)
+        public Comment GetCommentById(int Comment_ID)
         {
-            return _appDbContext.Comments.FirstOrDefault(c => c.Id == Comment_Id);
+            return _appDbContext.Comments.FirstOrDefault(c => c.Id == Comment_ID);
         }
 
         public Comment AddComment(Comment comment)

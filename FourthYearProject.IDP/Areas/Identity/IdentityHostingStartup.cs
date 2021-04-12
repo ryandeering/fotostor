@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using DbContext = FourthYearProject.IDP.Areas.Identity.Data.DbContext;
 
 [assembly: HostingStartup(typeof(IdentityHostingStartup))]
 
@@ -19,27 +20,10 @@ namespace FourthYearProject.IDP.Areas.Identity
         {
             builder.ConfigureServices((context, services) =>
             {
-                services.AddDbContext<dbContext>(options =>
+                services.AddDbContext<DbContext>(options =>
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("dbContextConnection")));
 
-
-                // if (context.HostingEnvironment.IsDevelopment())
-                // {
-                //     services.AddDbContext<dbContext>(options =>
-                //    options.UseSqlServer(
-                //        context.Configuration.GetConnectionString("dbContextConnection")));
-                // } else
-                // {
-                //     services.AddDbContext<dbContext>(options =>
-                //options.UseSqlServer(
-                //    context.Configuration.GetConnectionString("dbContextConnectionPROD")));
-
-                // }
-
-
-                //services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                //.AddEntityFrameworkStores<dbContext>();
 
                 services.AddIdentity<ApplicationUser, IdentityRole>(
                         options =>
@@ -50,7 +34,7 @@ namespace FourthYearProject.IDP.Areas.Identity
                                     typeof(CustomEmailConfirmationTokenProvider<ApplicationUser>)));
                             options.Tokens.EmailConfirmationTokenProvider = "CustomEmailConfirmation";
                         })
-                    .AddEntityFrameworkStores<dbContext>()
+                    .AddEntityFrameworkStores<DbContext>()
                     .AddDefaultTokenProviders();
 
                 services.AddTransient<CustomEmailConfirmationTokenProvider<ApplicationUser>>();

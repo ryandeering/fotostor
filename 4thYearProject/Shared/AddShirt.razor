@@ -93,7 +93,7 @@ else
         ol.Type = "Shirt";
         ol.Size = size;
 
-        Cart.AddToCart(LoggedInID, ol);
+        await Cart.AddToCart(LoggedInID, ol);
         Toaster.Add("Shirt added to cart.", MatToastType.Success, "SUCCESS");
         await ModalInstance.CancelAsync();
     }

@@ -1,9 +1,9 @@
-﻿namespace _4thYearProject.Api.Models
-{
-    using _4thYearProject.Shared.Models;
-    using _4thYearProject.Shared.Models.BusinessLogic;
-    using Microsoft.EntityFrameworkCore;
+﻿using _4thYearProject.Shared.Models;
+using _4thYearProject.Shared.Models.BusinessLogic;
+using Microsoft.EntityFrameworkCore;
 
+namespace _4thYearProject.Api.Models
+{
     public class AppDbContext : DbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
@@ -35,10 +35,5 @@
         public DbSet<HashTag> Hashtags { get; set; }
 
         public DbSet<FeedProfileData> FeedData { get; set; } //to get JSON to serialize...
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-        }
     }
 }

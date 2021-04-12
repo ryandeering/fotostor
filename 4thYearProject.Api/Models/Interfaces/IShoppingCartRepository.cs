@@ -1,8 +1,8 @@
-﻿namespace _4thYearProject.Api.Models
-{
-    using _4thYearProject.Shared.Models.BusinessLogic;
-    using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using _4thYearProject.Shared.Models.BusinessLogic;
 
+namespace _4thYearProject.Api.Models
+{
     public interface IShoppingCartRepository
     {
         ShoppingCart AddToCart(string UserId, OrderLineItem olOG);
@@ -13,7 +13,7 @@
 
         ShoppingCart EmptyBasket(string UserId);
 
-        Order PlaceOrder(string UserId);// get user's basket
+        Order PlaceOrder(string UserId); // get user's basket
 
         IEnumerable<Order> GetOrders(string UserId);
 

@@ -1,15 +1,12 @@
-﻿using MatBlazor;
-
-namespace _4thYearProject.Server.Pages
+﻿namespace _4thYearProject.Server.Pages
 {
     using _4thYearProject.Server.Services;
     using _4thYearProject.Shared.Models;
+    using MatBlazor;
     using Microsoft.AspNetCore.Components;
     using Microsoft.AspNetCore.Components.Forms;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text.RegularExpressions;
     using System.Threading.Tasks;
 
     public partial class PostEditBase : ComponentBase
@@ -78,7 +75,7 @@ namespace _4thYearProject.Server.Pages
         {
             Saved = false;
 
-            if (PostId == 0) //new employee is being created
+            if (PostId == 0) 
             {
                 //add some defaults
                 Post = new Post { Caption = String.Empty, PostDeleted = false, PhotoFile = null, Comments = new List<Comment>(), UploadDate = DateTime.Now, Likes = 0 };
@@ -104,7 +101,7 @@ namespace _4thYearProject.Server.Pages
 
             Saved = false;
 
-            
+
 
 
             if (Post.PostId == 0) //new
@@ -117,7 +114,7 @@ namespace _4thYearProject.Server.Pages
                     PostId = addedPost.PostId;
                     Toaster.Add("Post added successfully.", MatToastType.Success, "SUCCESS");
                     Saved = true;
-                    
+
                 }
                 else
                 {

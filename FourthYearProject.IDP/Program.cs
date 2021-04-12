@@ -15,6 +15,7 @@ using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
+using DbContext = FourthYearProject.IDP.Areas.Identity.Data.DbContext;
 
 namespace FourthYearProject.IDP
 {
@@ -29,7 +30,9 @@ namespace FourthYearProject.IDP
                 .MinimumLevel.Override("Microsoft.AspNetCore.Authentication", LogEventLevel.Information)
                 .Enrich.FromLogContext()
                 .WriteTo.File(
+#pragma warning disable S1075 // URIs should not be hardcoded
                     @"D:\home\LogFiles\Application\identityserver.txt",
+#pragma warning restore S1075 // URIs should not be hardcoded
                     fileSizeLimitBytes: 1_000_000,
                     rollOnFileSizeLimit: true,
                     shared: true,
@@ -50,7 +53,7 @@ namespace FourthYearProject.IDP
                 {
                     try
                     {
-                        var context = scope.ServiceProvider.GetService<dbContext>();
+                        var context = scope.ServiceProvider.GetService<DbContext>();
 
                         // ensure the DB is migrated before seeding
                         context.Database.Migrate();

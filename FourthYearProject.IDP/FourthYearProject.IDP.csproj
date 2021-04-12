@@ -5,6 +5,7 @@
 	  <UserSecretsId>e8e0edd3-856b-4947-9c90-b9f4050a80b3</UserSecretsId>
 	  <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 	  <DockerfileContext>.</DockerfileContext>
+	  <SonarQubeExclude>True</SonarQubeExclude>
   </PropertyGroup>
 
   <ItemGroup>

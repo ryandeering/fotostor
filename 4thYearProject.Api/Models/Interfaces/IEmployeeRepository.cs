@@ -1,8 +1,8 @@
-﻿namespace _4thYearProject.Api.Models
-{
-    using _4thYearProject.Shared.Models;
-    using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using _4thYearProject.Shared.Models;
 
+namespace _4thYearProject.Api.Models
+{
     public interface IEmployeeRepository
     {
         IEnumerable<Employee> GetAllEmployees();

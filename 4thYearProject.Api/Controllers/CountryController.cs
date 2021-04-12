@@ -1,8 +1,8 @@
-﻿namespace _4thYearProject.Api.Controllers
-{
-    using _4thYearProject.Api.Models;
-    using Microsoft.AspNetCore.Mvc;
+﻿using _4thYearProject.Api.Models;
+using Microsoft.AspNetCore.Mvc;
 
+namespace _4thYearProject.Api.Controllers
+{
     [Route("api/[controller]")]
     [ApiController]
     public class CountryController : Controller

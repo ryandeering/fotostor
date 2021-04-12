@@ -15,7 +15,8 @@ namespace FourthYearProject.IDP
         {
             new()
             {
-                SubjectId = "06c71238-0137-4df6-bb6a-e50e62a4a7c5", Username = "ryandeering1@gmail.com",
+                SubjectId = "06c71238-0137-4df6-bb6a-e50e62a4a7c5",
+                Username = "ryandeering1@gmail.com",
                 Password = "Mywifedied1!",
                 Claims =
                 {

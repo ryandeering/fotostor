@@ -77,7 +77,7 @@ else
         ol.Price = PostIn.LicensePrice;
         ol.Type = "License";    
 
-        Cart.AddToCart(LoggedInID,ol);
+        await Cart.AddToCart(LoggedInID,ol);
         Toaster.Add("License added to cart.", MatToastType.Success, "SUCCESS");
         await ModalInstance.CancelAsync();
 

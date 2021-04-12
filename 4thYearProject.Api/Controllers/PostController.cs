@@ -1,38 +1,36 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.IO;
 using System.Linq;
-using System.Security.Claims;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using _4thYearProject.Api.CloudStorage;
+using _4thYearProject.Api.Models;
 using _4thYearProject.Shared;
-using EllipticCurve.Utils;
+using _4thYearProject.Shared.Models;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
 
 namespace _4thYearProject.Api.Controllers
 {
-    using _4thYearProject.Api.CloudStorage;
-    using _4thYearProject.Api.Models;
-    using _4thYearProject.Shared.Models;
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Mvc;
-    using SixLabors.ImageSharp;
-    using SixLabors.ImageSharp.Processing;
-    using System;
-    using System.IO;
-    using System.Threading.Tasks;
-
     [Route("api/[controller]")]
     [ApiController]
     public class PostController : Controller
     {
         private readonly ICloudStorage _cloudStorage;
 
-        private readonly IPostRepository _postRepository;
-
         private readonly IHashTagRepository _hashTagRepository;
+
+        private readonly IPostRepository _postRepository;
         private readonly IUserDataRepository _userDataRepository;
         private readonly IUserService _userService;
 
         private readonly IWebHostEnvironment env;
 
-        public PostController(IPostRepository postRepository, IHashTagRepository hashTagRepository, IWebHostEnvironment env, ICloudStorage cloudStorage, IUserDataRepository userDataRepository, IUserService userService)
+        public PostController(IPostRepository postRepository, IHashTagRepository hashTagRepository,
+            IWebHostEnvironment env, ICloudStorage cloudStorage, IUserDataRepository userDataRepository,
+            IUserService userService)
         {
             _postRepository = postRepository;
             _hashTagRepository = hashTagRepository;
@@ -71,7 +69,6 @@ namespace _4thYearProject.Api.Controllers
         [HttpDelete("{postId}")]
         public async Task<IActionResult> DeletePost(string postId)
         {
-
             var identity = await _userService.GetUserAsync();
             var post = _postRepository.GetPostById(int.Parse(postId));
 
@@ -79,7 +76,7 @@ namespace _4thYearProject.Api.Controllers
             if (identity == null)
                 return Unauthorized();
 
-            string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+            var LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
                 .Select(c => c.Value).SingleOrDefault().ToString();
 
             if (post == null)
@@ -98,13 +95,9 @@ namespace _4thYearProject.Api.Controllers
         [Route("following/{id}")]
         public IActionResult GetPostsbyFollowing(string id)
         {
+            var Posts = _postRepository.GetAllPostsbyFollowing(id);
 
-            var Posts =_postRepository.GetAllPostsbyFollowing(id);
-
-            foreach (var Post in Posts)
-            {
-                Post.ProfileData = _userDataRepository.GetUserNameFromId(Post.UserId);
-            }
+            foreach (var Post in Posts) Post.ProfileData = _userDataRepository.GetUserNameFromId(Post.UserId);
 
             return Ok(Posts);
         }
@@ -112,14 +105,12 @@ namespace _4thYearProject.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> CreatePostAsync([FromBody] Post post)
         {
-
-
             var identity = await _userService.GetUserAsync();
 
             if (identity == null)
                 return Unauthorized();
 
-            string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+            var LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
                 .Select(c => c.Value).SingleOrDefault().ToString();
 
             if (LoggedInID != post.UserId)
@@ -162,9 +153,9 @@ namespace _4thYearProject.Api.Controllers
                 await _cloudStorage.UploadFileAsync(Thumbnail, post.UserId + "_" + post.PostId + rand_num + "T.JPEG");
 
 
-            var hashTags = Regex.Matches(post.Caption, @"\#\w*").Cast<Match>().Select(m => m.Value).ToArray();
+            var hashTags = Regex.Matches(post.Caption, @"\#\w*").Select(m => m.Value).ToArray();
             foreach (var hashTag in hashTags)
-            { 
+            {
                 var hashTagResult = _hashTagRepository.GetHashTag(hashTag);
                 post.HashTags.Add(hashTagResult);
             }

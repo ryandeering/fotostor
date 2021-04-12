@@ -32,23 +32,7 @@ namespace FourthYearProject.IDP
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-         
-          
-            //  services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, MyUserClaimsPrincipalFactory>();
-
-            //// configures IIS out-of-proc settings (see https://github.com/aspnet/AspNetCore/issues/14882)
-            //services.Configure<IISOptions>(iis =>
-            //{
-            //    iis.AuthenticationDisplayName = "Windows";
-            //    iis.AutomaticAuthentication = false;
-            //});
-
-            //// configures IIS in-proc settings
-            //services.Configure<IISServerOptions>(iis =>
-            //{
-            //    iis.AuthenticationDisplayName = "Windows";
-            //    iis.AutomaticAuthentication = false;
-            //});
+            
 
             var builder = services.AddIdentityServer(options =>
             {
@@ -93,20 +77,7 @@ namespace FourthYearProject.IDP
             }
 
 
-
-
-            // not recommended for production - you need to store your key material somewhere secure
             builder.AddDeveloperSigningCredential();
-
-            //// for demo purposes, allow cors requests
-            //services.AddCors(options =>
-            //{
-            //    options.AddPolicy("CorsPolicy",
-            //        builder => builder.WithOrigins("https://localhost:44366/", "https://localhost:44304", "https://localhost:44333", "https://localhost:44340")
-            //        .AllowAnyMethod()
-            //        .AllowAnyHeader()
-            //        .AllowCredentials());
-            //});
 
             services.AddSingleton<ICorsPolicyService>(container =>
             {

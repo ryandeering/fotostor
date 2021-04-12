@@ -16,16 +16,18 @@
 
         public MailKitEmailSenderOptions Options { get; set; }
 
-        public Task SendEmailAsync(string email, string subject, string message)
+        public Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
-            return Execute(email, subject, message);
+            return Execute(email, subject, htmlMessage);
         }
 
         public Task Execute(string to, string subject, string message)
         {
             // create message
-            var email = new MimeMessage();
-            email.Sender = MailboxAddress.Parse(Options.Sender_EMail);
+            var email = new MimeMessage
+            {
+                Sender = MailboxAddress.Parse(Options.Sender_EMail)
+            };
             if (!string.IsNullOrEmpty(Options.Sender_Name))
                 email.Sender.Name = Options.Sender_Name;
             email.From.Add(email.Sender);

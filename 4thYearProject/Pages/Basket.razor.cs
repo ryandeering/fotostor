@@ -37,7 +37,7 @@ namespace _4thYearProject.Server.Pages
 
         public AuthenticationStateProvider _AuthenticationStateProvider { get; set; }
 
-        public ShoppingCart basket = new ShoppingCart();
+        private ShoppingCart basket = new ShoppingCart();
 
         public double price { get; set; }
 
@@ -74,7 +74,7 @@ namespace _4thYearProject.Server.Pages
                 return;
             }
 
-            var order = new StripePaymentDTO
+            var order = new StripePaymentDto
             {
                 CartId = basket.Id,
                 UserId = LoggedInID,

@@ -16,24 +16,19 @@ namespace _4thYearProject.Api.Models
 
         public IEnumerable<SearchResult> GetSearchResults(string searchText)
         {
-
-            List<SearchResult> results = new List<SearchResult>();
+            var results = new List<SearchResult>();
 
             var profiles = _appDbContext.Users.Where(u => u.DisplayName.ToLower().Contains(searchText.ToLower()))
-                .ToList().Take(5);
+                .AsEnumerable().Take(5);
 
             var hashtags = _appDbContext.Hashtags.Where(h => h.Content.ToLower().Contains(searchText.ToLower()))
-                .ToList().Take(5);
+                .AsEnumerable().Take(5);
 
             foreach (var profile in profiles)
-            {
-                results.Add(new SearchResult{Type = "Profile", Content = profile.DisplayName});
-            }
+                results.Add(new SearchResult {Type = "Profile", Content = profile.DisplayName});
 
             foreach (var hashtag in hashtags)
-            {
-                results.Add(new SearchResult{Type = "Hashtag", Content = hashtag.Content });
-            }
+                results.Add(new SearchResult {Type = "Hashtag", Content = hashtag.Content});
 
             return results;
         }

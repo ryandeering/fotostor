@@ -1,6 +1,6 @@
 ﻿namespace _4thYearProject.Shared.Models.BusinessLogic
 {
-    public class StripePaymentDTO
+    public class StripePaymentDto
     {
         public long Amount { get; set; }
         public string ReturnUrl { get; set; }
