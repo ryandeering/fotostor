@@ -15,21 +15,6 @@ namespace _4thYearProject.Api.Models
             _appDbContext = appDbContext;
         }
 
-        public ShoppingCart AddOne(string UserId, int PostId)
-        {
-            //TODO validate if user is the intended user
-
-            var cart = _appDbContext.Carts.FirstOrDefault(c => c.UserId == UserId);
-
-            //TODO, validate the item is actually possible to be added
-
-            foreach (var ol in cart.BasketItems)
-                if (ol.Post.PostId.Equals(PostId))
-                    //TODO validation for type
-                    ol.Quantity++;
-            _appDbContext.SaveChanges();
-            return cart;
-        }
 
         public ShoppingCart AddToCart(string UserId, OrderLineItem olOG)
         {
@@ -178,9 +163,26 @@ namespace _4thYearProject.Api.Models
 
         public ShoppingCart RemoveOne(string UserId, int LineItemId)
         {
-            var cart = _appDbContext.Carts.FirstOrDefault(c => c.UserId == UserId);
+            var cart = _appDbContext.Carts.Include("BasketItems").FirstOrDefault(c => c.UserId == UserId);
             var temp = cart.BasketItems.First(i => i.Id == LineItemId);
-            cart.BasketItems.Remove(temp);
+            if (temp.Quantity > 1)
+            {
+                temp.Quantity--;
+            }
+            else
+            {
+                cart.BasketItems.Remove(temp);
+            }
+            _appDbContext.SaveChanges();
+            return cart;
+        }
+
+
+        public ShoppingCart AddOne(string UserId, int LineItemId)
+        {
+            var cart = _appDbContext.Carts.Include("BasketItems").FirstOrDefault(c => c.UserId == UserId);
+            var temp = cart.BasketItems.First(i => i.Id == LineItemId);
+            temp.Quantity++;
             _appDbContext.SaveChanges();
             return cart;
         }

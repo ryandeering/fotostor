@@ -85,12 +85,12 @@ namespace _4thYearProject.Server.Services
         }
 
 
-        public async Task AddOne(string UserId, Post post)
+        public async Task AddOne(string UserId, OrderLineItem lineItem)
         {
             var cartJson =
-                new StringContent(JsonSerializer.Serialize(post), Encoding.UTF8, "application/json");
+                new StringContent(JsonSerializer.Serialize(lineItem), Encoding.UTF8, "application/json");
 
-            await _httpClient.PutAsync("api/shoppingcart/add/incre/{UserId}/", cartJson);
+            await _httpClient.PutAsync($"api/shoppingcart/add/incre/{UserId}/", cartJson);
         }
 
         public async Task RemoveOne(string UserId, OrderLineItem lineItem)
@@ -98,7 +98,7 @@ namespace _4thYearProject.Server.Services
             var cartJson =
                 new StringContent(JsonSerializer.Serialize(lineItem), Encoding.UTF8, "application/json");
 
-            await _httpClient.PutAsync("api/shoppingcart/add/remove/{UserId}/", cartJson);
+            await _httpClient.PutAsync($"api/shoppingcart/remove/{UserId}", cartJson);
         }
 
 

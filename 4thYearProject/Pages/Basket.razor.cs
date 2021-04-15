@@ -94,8 +94,22 @@ namespace _4thYearProject.Server.Pages
             await shoppingCartDataService.EmptyBasket(LoggedInID);
             basket = await shoppingCartDataService.GetCart(LoggedInID);
             Toaster.Add("Your basket has been emptied.", MatToastType.Success, "SUCCESS");
-            StateHasChanged();
         }
+
+        private async Task RemoveOne(OrderLineItem ol)
+        {
+            await shoppingCartDataService.RemoveOne(LoggedInID, ol);
+            basket = await shoppingCartDataService.GetCart(LoggedInID);
+            Toaster.Add("Item removed.", MatToastType.Success, "SUCCESS");
+        }
+
+        private async Task AddOne(OrderLineItem ol)
+        {
+            await shoppingCartDataService.AddOne(LoggedInID, ol);
+            basket = await shoppingCartDataService.GetCart(LoggedInID);
+            Toaster.Add("Item added.", MatToastType.Success, "SUCCESS");
+        }
+
 
         public static int ConvertEuroToCents(double euros)
         {
@@ -104,6 +118,7 @@ namespace _4thYearProject.Server.Pages
 
         internal double getPrice()
         {
+            price = 0.0;
             foreach (var orderLineItem in basket.BasketItems)
             {
                 price += orderLineItem.Price * orderLineItem.Quantity;

@@ -140,7 +140,7 @@ namespace _4thYearProject.Api.Controllers
 
         [HttpPut]
         [Route("add/incre/{UserId}")]
-        public async Task<IActionResult> AddOne(string UserId, [FromBody] Post post)
+        public async Task<IActionResult> AddOne(string UserId, [FromBody] OrderLineItem lineItem)
         {
             var identity = await _userService.GetUserAsync();
 
@@ -153,7 +153,7 @@ namespace _4thYearProject.Api.Controllers
             if (LoggedInID != UserId)
                 return Unauthorized();
 
-            return Ok(_cartRepository.AddOne(UserId, post.PostId));
+            return Ok(_cartRepository.AddOne(UserId, lineItem.Id));
         }
 
         [HttpPost]

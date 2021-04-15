@@ -31,6 +31,8 @@
                                 <th>Type</th>
                                 <th>Quantity</th>
                                 <th>Item Total</th>
+                                <th>Remove One</th>
+                                <th>Add One</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -41,6 +43,8 @@
                                     <th>@orderLineItem.Type</th>
                                     <th>@orderLineItem.Quantity</th>
                                     <th>@orderLineItem.GetItemTotal()</th>
+                                    <td><RadzenButton style="align-content: flex-end" Click=@(args => RemoveOne(orderLineItem)) ButtonStyle="ButtonStyle.Secondary" ButtonType="ButtonType.Submit" Icon="remove"></RadzenButton></td>
+                                    <td><RadzenButton style="align-content: flex-end" Click=@(args => AddOne(orderLineItem))  ButtonStyle="ButtonStyle.Secondary" ButtonType="ButtonType.Submit" Icon="add"></RadzenButton></td>
                                 </tr>
                             }
                         </tbody>
