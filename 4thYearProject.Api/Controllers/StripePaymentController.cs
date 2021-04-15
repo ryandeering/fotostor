@@ -120,7 +120,7 @@ namespace _4thYearProject.Api.Controllers
                                 Currency = "eur",
                                 ProductData = new SessionLineItemPriceDataProductDataOptions
                                 {
-                                    Name = "sample"
+                                    Name = "‎‎‏‏‎ ‎‏‏‎ ‎"
                                 }
                             },
                             Quantity = 1

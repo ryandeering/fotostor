@@ -136,7 +136,7 @@ namespace _4thYearProject.Api.Models
 
         public Order GetOrderById(int OrderId)
         {
-            return _appDbContext.Orders.Where(o => o.OrderId.Equals(OrderId)).Include(o => o.LineItems)
+            return _appDbContext.Orders.Where(o => o.OrderId.Equals(OrderId)).Include("OrderAddress").Include(o => o.LineItems)
                 .ThenInclude(ol => ol.Post).First();
         }
 
@@ -147,6 +147,8 @@ namespace _4thYearProject.Api.Models
                 .Include(x => x.BasketItems)
                 .ThenInclude(x => x.Post)
                 .FirstOrDefault();
+
+            var User = _appDbContext.Users.Where(u => u.Id == UserId).Include("Address").FirstOrDefault();
 
 
             if (result == null) return null;
@@ -160,6 +162,7 @@ namespace _4thYearProject.Api.Models
                 //set address
                 order.DatePlaced = DateTime.Now;
                 order.LineItems = items;
+                order.OrderAddress = User.Address;
             }
             catch (Exception e)
             {

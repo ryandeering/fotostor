@@ -18,13 +18,9 @@ namespace _4thYearProject.Shared.Models.BusinessLogic
         public DateTime? DatePlaced { get; set; }
 
         public string UserName { get; set; }
-
-        public string UserAddress { get; set; }
-
-        public string UserCity { get; set; }
-
-        public string UserCountry { get; set; }
-
+        
+        public Address OrderAddress { get; set; }
+        
         public List<OrderLineItem> LineItems { get; set; }
     }
 }

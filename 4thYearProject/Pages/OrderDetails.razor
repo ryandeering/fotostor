@@ -8,40 +8,66 @@
     <br />
     <br />
     <br />
-    <br />
-    <br />
-    <br />
-    <h3>Order Details: @OrderId</h3>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Thumbnail</th>
-                <th>Item Type</th>
-                <th>Quantity</th>
-                <th>Price</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var row in Order.LineItems)
-            {
+    <h3><b>Order Details: @OrderId</b></h3>
+
+
+    @if (X != null && Y != null)
+    {
+        <RadzenGoogleMap ApiKey="AIzaSyB4oXAfZlz1J1UsSymwKrIGnv9NxeFWqQ4" Center="@(new GoogleMapPosition {Lat = X, Lng = Y})" style="height: 297px" Zoom="15">
+            <Markers>
+                <RadzenGoogleMapMarker Label="Your Order Destination" Position="@(new GoogleMapPosition() {Lat = X, Lng = Y})" Title="Your Order Destination">
+                </RadzenGoogleMapMarker>
+            </Markers>
+        </RadzenGoogleMap>
+    }
+
+    <RadzenCard Style="width: 600px; margin-bottom: 20px; height: 130px;">
+        <div class="col-md-6">
+            <div>Address:</div>
+            <b>@Order.OrderAddress.UserFName @Order.OrderAddress.UserLName</b> <br />
+            <b>@Order.OrderAddress.UserAddress</b> <br />
+            <b>@Order.OrderAddress.UserAddress2</b> <br />
+            <b>@Order.OrderAddress.UserCity</b> <br />
+            <b>@Order.OrderAddress.UserCountry</b> <br />
+            <b>@Order.OrderAddress.UserPostcode</b> <br />
+        </div>
+    </RadzenCard>
+
+
+
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
                 <tr>
-                    <th><img src=@row.Post.Thumbnail width="100" height="100" /></th>
-                    <th>@row.Type</th>
-                    <th>@row.Quantity</th>
-                    <th>@row.Price</th>
+                    <th>Thumbnail</th>
+                    <th>Item Type</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
                 </tr>
+            </thead>
+            <tbody>
+                @foreach (var row in Order.LineItems)
+                {
+                    <tr>
+                        <th><img src=@row.Post.Thumbnail width="100" height="100" /></th>
+                        <th>@row.Type</th>
+                        <th>@row.Quantity</th>
+                        <th>€@row.Price</th>
+                    </tr>
 
-                TotalPrice += row.Price;
-            }
+                    TotalPrice += row.Price;
+                }
 
-            <MatH3>Price: @TotalPrice</MatH3>
+                <MatH4>Price: €@TotalPrice</MatH4>
 
 
 
-            <MatButton @onclick="() => Navigate()">Go Back</MatButton>
+                <MatButton @onclick="() => Navigate()">Go Back</MatButton>
 
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 }
 else
 {

@@ -19,14 +19,14 @@
         </a>
     </div>
     <div class="navigation-search-container">
-
-        <BlazoredTypeahead SearchMethod="@_SearchDataService.GetSearchResults"
-                           TValue="SearchResult"
-                           TItem="SearchResult"
-                           Value="@resultActual"
-                           ValueExpression="@(() => resultActual)"
-                           ValueChanged="ResultChange"
-                               >
+        @if (User != null)
+        {
+            <BlazoredTypeahead SearchMethod="@_SearchDataService.GetSearchResults"
+                               TValue="SearchResult"
+                               TItem="SearchResult"
+                               Value="@resultActual"
+                               ValueExpression="@(() => resultActual)"
+                               ValueChanged="ResultChange">
                 <SelectedTemplate>
                     <p>@context.Content</p>
                 </SelectedTemplate>
@@ -37,7 +37,7 @@
                     Sorry, there weren't any search results.
                 </NotFoundTemplate>
             </BlazoredTypeahead>
-        
+        }
     </div>
     <AuthorizeView>
         <NotAuthorized>

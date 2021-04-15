@@ -1,7 +1,8 @@
 ﻿@page "/orders/"
-    @if (orders != null)
-    {
-        <h3>Orders</h3>
+@if (orders != null)
+{
+    <h3>Orders</h3>
+
         <table class="table">
             <thead>
                 <tr>
@@ -21,12 +22,12 @@
 
             </tbody>
         </table>
-    }
-    else
-    {
+        }
+        else
+        {
 
 
 
         <h1>No orders found.</h1>
 
-    }
+        }
