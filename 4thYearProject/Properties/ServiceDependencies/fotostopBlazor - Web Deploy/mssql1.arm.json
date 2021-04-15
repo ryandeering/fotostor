@@ -4,16 +4,15 @@
   "parameters": {
     "resourceGroupName": {
       "type": "string",
-      "defaultValue": "4thYearProject",
+      "defaultValue": "4thyrproj",
       "metadata": {
         "_parameterType": "resourceGroup",
-        "description":
-          "Name of the resource group for the resource. It is recommended to put resources under same resource group for better tracking."
+        "description": "Name of the resource group for the resource. It is recommended to put resources under same resource group for better tracking."
       }
     },
     "resourceGroupLocation": {
       "type": "string",
-      "defaultValue": "uksouth",
+      "defaultValue": "centralus",
       "metadata": {
         "_parameterType": "location",
         "description": "Location of the resource group. Resource groups could have different location than resources."
@@ -24,8 +23,7 @@
       "defaultValue": "[parameters('resourceGroupLocation')]",
       "metadata": {
         "_parameterType": "location",
-        "description":
-          "Location of the resource. By default use resource group's location, unless the resource provider is not supported there."
+        "description": "Location of the resource. By default use resource group's location, unless the resource provider is not supported there."
       }
     }
   },
@@ -38,8 +36,7 @@
     },
     {
       "type": "Microsoft.Resources/deployments",
-      "name":
-        "[concat(parameters('resourceGroupName'), 'Deployment', uniqueString(concat('fourthyrprojrd', subscription().subscriptionId)))]",
+      "name": "[concat(parameters('resourceGroupName'), 'Deployment', uniqueString(concat('fourthyrprojrd', subscription().subscriptionId)))]",
       "resourceGroup": "[parameters('resourceGroupName')]",
       "apiVersion": "2019-10-01",
       "dependsOn": [

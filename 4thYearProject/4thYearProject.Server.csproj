@@ -8,10 +8,15 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
 
 	<PropertyGroup>
 	 <PublishIISAssets>true</PublishIISAssets>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+	  <DefineConstants>TRACE;LIVESHARP_DISABLE</DefineConstants>
 	</PropertyGroup>
 	
 	

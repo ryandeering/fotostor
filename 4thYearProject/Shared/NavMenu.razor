@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using Microsoft.AspNetCore.Components.WebAssembly.Hosting
+@inject IWebAssemblyHostEnvironment HostEnvironment
 @using _4thYearProject.Server.Services.Interfaces
 @using System.Diagnostics
 @inject NavigationManager Navigation
@@ -8,7 +9,6 @@
 @inject IUserDataService UserDataService
 @inject IUserService _userService
 @inject ISearchDataService _SearchDataService
-@inject IWebAssemblyHostEnvironment HostEnvironment
 @inject NavigationManager UriHelper
 
 
@@ -44,9 +44,16 @@
         <NotAuthorized>
             <div class="navigation-icons">
 
+                @(HostEnvironment.IsDevelopment()){
                 <a href="https://localhost:44333/Identity/Account/Register" id="register" class="navigation-link">
                     <i class="fas fa-user-plus"></i>
                 </a>
+                } else {
+                <a href="https://fotostopidp.azurewebsites.net/Identity/Account/Register" id="register" class="navigation-link">
+                    <i class="fas fa-user-plus"></i>
+                </a>
+                }
+              
                 <a href="authentication/login" id="signin" class="navigation-link">
                     <i class="fas fa-sign-in-alt"></i>
                 </a>
@@ -103,7 +110,7 @@
             User = await UserDataService.GetUserDataDetails(LoggedInID);
             ProfileName = User.DisplayName;
 
-            
+
         }
 
     }
@@ -121,7 +128,7 @@
                 ProfileName = User.DisplayName;
 
 
-                
+
             }
         }
 
@@ -136,7 +143,7 @@
 
     void Navigate()
     {
-        UriHelper.NavigateTo("/profile/" + User.DisplayName,true);
+        UriHelper.NavigateTo("/profile/" + User.DisplayName, true);
     }
 
     private async Task ResultChange(SearchResult result)

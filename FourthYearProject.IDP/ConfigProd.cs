@@ -45,7 +45,7 @@ namespace FourthYearProject.IDP
                     AllowedCorsOrigins =
                     {
                         "http://fourthyrprojblazor.azurewebsites.net", "https://fourthyrprojblazor.azurewebsites.net",
-                        "https://4thyearprojectrd.azurewebsites.net"
+                        "https://fotostopapi.azurewebsites.net/"
                     }
                 }
             };

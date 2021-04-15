@@ -70,8 +70,19 @@ namespace _4thYearProject.Api
                     });
 
 
-            services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            if (Environment.IsDevelopment())
+            {
+                services.AddDbContext<AppDbContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            }
+            else
+            {
+                services.AddDbContext<AppDbContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("ProdConnection")));
+            }
+
+               
 
             services.AddScoped<IFollowingRepository, FollowingRepository>();
             services.AddScoped<IUserDataRepository, UserDataRepository>();
