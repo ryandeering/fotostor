@@ -16,101 +16,108 @@
         @foreach (var Post in Posts)
         {
 
-            <div class="card">
-            <div class="card-heading">
-                <div class="card-heading-pic">
-                    @if (Post.ProfileData != null)
-                    {
-                        @if (Post.ProfileData.ProfilePicURL != null || Post.ProfileData.ProfilePicURL == String.Empty)
-                        {
-                            <img src="@Post.ProfileData.ProfilePicURL"
-                                 alt="profile-pic">
-
-                        }
-                        else
-                        {
-                            <img src="images/profilePicture.jpg"
-                                 alt="profile-pic">
-                        }
-                    }
-                </div>
-                @if (Post.UserId != null)
+<div class="card">
+    <div class="card-heading">
+        <div class="card-heading-pic">
+            @if (Post.ProfileData != null)
+            {
+                @if (Post.ProfileData.ProfilePicURL != null || Post.ProfileData.ProfilePicURL == String.Empty)
                 {
-                    @if(Post.ProfileData != null) { 
-                        <div class="card-heading-data">
-                            @if (Post.ProfileData.Username != null || Post.ProfileData.Username == String.Empty)
-                            {
+                    <img src="@Post.ProfileData.ProfilePicURL"
+                         alt="profile-pic">
 
-                                <span class="user-name"> <a href="/profile/@Post.ProfileData.Username">@Post.ProfileData.Username</a> <br /> @Post.ProfileData.FName @Post.ProfileData.LName</span>
-                            }
-                            @*<span class="location"> Ooty</span>*@
-                        </div>
-                    }
                 }
-            </div>
-
-
-            <img src=@Post.PhotoFile alt="pic">
-
-
-            <div class="card-footer">
-                <div class="card-footer-left">
-
-                        @if (Post.Liked)
-                            {
-                                <MatButton OnClick="() => UnLike(Post)">
-                                    <i class="fas fa-coffee"></i>
-                                </MatButton>
-
-                            }
-                            else
-                            {
-                                <MatButton OnClick="() => GiveLike(Post)">
-                                    <i class="far fa-thumbs-up"></i>
-                                </MatButton>
-                            }
-
-                    
-                        @if (Post.UserId == LoggedIn)
-                        {
-                            <MatButton OnClick="() => DeletePost(Post)">
-                                <i class="fas fa-trash-alt"></i>
-                            </MatButton>
-                        }
-
-
-
-                        @if (Post.LicenseEnabled)
+                else
+                {
+                    <img src="images/profilePicture.jpg"
+                         alt="profile-pic">
+                }
+            }
+        </div>
+        @if (Post.UserId != null)
+        {
+            @if (Post.ProfileData != null)
+            {
+                <div class="card-heading-data">
+                    @if (Post.ProfileData.Username != null || Post.ProfileData.Username == String.Empty)
                     {
 
-                        <a @onclick="@(e => BuyLicense(Post.PostId))" class="btn btn-light">
-                            <i class="fas fa-stamp"></i>
-                        </a>
+                        <span class="user-name"> <a href="/profile/@Post.ProfileData.Username">@Post.ProfileData.Username</a> <br /> @Post.ProfileData.FName @Post.ProfileData.LName</span>
                     }
-                    @if (Post.ShirtsEnabled)
-                    {<a @onclick="@(e => BuyShirt(Post.PostId))" class="btn btn-light">
-                            <i class="fas fa-tshirt"></i>
-                        </a>
-                    }
-                    @if (Post.PrintsEnabled)
-                    {<a @onclick="@(e => BuyPrint(Post.PostId))" class="btn btn-light">
-                         <i class="fas fa-scroll"></i>
-                        </a>
-                    }
-
-
-
-
+                    @*<span class="location"> Ooty</span>*@
                 </div>
-
-                <div>
-
-                </div>
-            </div>
-            <p>@Post.Caption</p> 
-            <div class="card-likes"> 0 likes</div>
-        </div>
+            }
         }
+    </div>
+
+
+    <img src=@Post.PhotoFile alt="pic">
+
+
+    <div class="card-footer">
+        <div class="card-footer-left">
+
+            @if (Post.Liked)
+            {
+                <MatButton OnClick="() => UnLike(Post)">
+                    <i class="fas fa-coffee"></i>
+                </MatButton>
+
+            }
+            else
+            {
+                <MatButton OnClick="() => GiveLike(Post)">
+                    <i class="far fa-thumbs-up"></i>
+                </MatButton>
+            }
+
+
+            @if (Post.UserId == LoggedIn)
+            {
+                <MatButton OnClick="() => DeletePost(Post)">
+                    <i class="fas fa-trash-alt"></i>
+                </MatButton>
+            }
+
+
+
+            @if (Post.LicenseEnabled)
+            {
+
+                <a @onclick="@(e => BuyLicense(Post.PostId))" class="btn btn-light">
+                    <i class="fas fa-stamp"></i>
+                </a>
+            }
+            @if (Post.ShirtsEnabled)
+            {<a @onclick="@(e => BuyShirt(Post.PostId))" class="btn btn-light">
+                    <i class="fas fa-tshirt"></i>
+                </a>
+            }
+            @if (Post.PrintsEnabled)
+            {<a @onclick="@(e => BuyPrint(Post.PostId))" class="btn btn-light">
+                    <i class="fas fa-scroll"></i>
+                </a>
+            }
+
+
+
+
+        </div>
+
+        <div>
+
+        </div>
+    </div>
+    <p><br />@Post.Caption</p>
+    <div class="card-likes">@Post.Likes likes</div>
+    @if (Post.Comments.Count != 0)
+    {
+        <div class="card-footer-left">
+        <a href ="/post/@Post.PostId"> View @Post.Comments.Count() comments here... </a>
+        </div>
+    }
+    </div>
+    }
 
 
 
@@ -119,10 +126,10 @@
 
 
 
-}
-else
-{
+    }
+    else
+    {
 
     <p>No user found.</p>
 
-}
+    }

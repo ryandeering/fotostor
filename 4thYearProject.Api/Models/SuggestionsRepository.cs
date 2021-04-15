@@ -19,8 +19,7 @@ namespace _4thYearProject.Api.Models
 
         public IEnumerable<Post> GetSuggestions(string id)
         {
-            var userPosts = _appDbContext.Posts
-                .Where(x => x.UserId == id)
+            var userPosts = _appDbContext.Posts.Include("Comments").Where(x => x.UserId == id)
                 .Include(x => x.HashTags);
 
 
@@ -34,7 +33,7 @@ namespace _4thYearProject.Api.Models
                 foreach (var HashTag in hashtags)
                 {
                     var HashTagActual = _appDbContext.Hashtags.First(ht => ht.Content.Contains(HashTag.Content));
-                    var PostWithHashTag = _appDbContext.Posts.Where(p => p.HashTags.Contains(HashTagActual))
+                    var PostWithHashTag = _appDbContext.Posts.Include("Comments").Where(p => p.HashTags.Contains(HashTagActual))
                         .OrderByDescending(p => p.Likes).FirstOrDefault();
                     suggestedPostsNoInterests.Add(PostWithHashTag);
                 }
@@ -60,7 +59,7 @@ namespace _4thYearProject.Api.Models
                 suggestedPosts = (from item in items
                                   select _appDbContext.Hashtags.FirstOrDefault(ht => ht.Content.Equals(item.Content))
                     into foundHashTag
-                                  select _appDbContext.Posts.Where(p => p.HashTags.Contains(foundHashTag) && p.UserId != id)
+                                  select _appDbContext.Posts.Include("Comments").Where(p => p.HashTags.Contains(foundHashTag) && p.UserId != id)
                     into foundPosts
                                   select foundPosts.OrderByDescending(x => x.Likes).First()).ToList();
             }

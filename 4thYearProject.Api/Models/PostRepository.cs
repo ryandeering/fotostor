@@ -1,6 +1,7 @@
 ﻿using _4thYearProject.Shared.Models;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace _4thYearProject.Api.Models
 {
@@ -33,7 +34,7 @@ namespace _4thYearProject.Api.Models
                     followingids.Add(follow.Followed_ID);
 
 
-            var posts = _appDbContext.Posts.Where(x => followingids.Any(n => n == x.UserId))
+            var posts = _appDbContext.Posts.Include("Comments").Where(x => followingids.Any(n => n == x.UserId))
                 .OrderByDescending(p => p.UploadDate).Distinct();
 
             return posts.Where(p => !p.PostDeleted);

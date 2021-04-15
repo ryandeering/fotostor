@@ -75,6 +75,9 @@ namespace _4thYearProject.Api.Controllers
 
                     var subject = "Order Number: #" + OrderId + " -- " + rec.DisplayName;
 
+                    var order = _shoppingCartRepository.GetOrderById(OrderId);
+
+
                     var sb = new StringBuilder("");
 
 
@@ -82,6 +85,26 @@ namespace _4thYearProject.Api.Controllers
                     sb.Append("<head></head>");
                     sb.Append("<body>");
                     sb.Append(s.SuccessMessage);
+                    sb.Append("</br>");
+
+                    sb.Append("<h2>Address</h2>");
+                    sb.Append(order.OrderAddress.UserFName + order.OrderAddress.UserLName + "</br>");
+                    sb.Append(order.OrderAddress.UserAddress + "</br>");
+                    sb.Append(order.OrderAddress.UserAddress2 + "</br>");
+                    sb.Append(order.OrderAddress.UserCity + "</br>");
+                    sb.Append(order.OrderAddress.UserCountry + "</br>");
+                    sb.Append(order.OrderAddress.UserPostcode + "</br>");
+
+
+                    sb.Append("</br>");
+                    sb.Append("<h2>Order Contents:</h2>");
+                    sb.Append("<h3>Type | Quantity | Price | Size </h3>");
+                    foreach (var olLineItem in order.LineItems)
+                    {
+                        sb.Append(olLineItem.Type + " | " + olLineItem.Quantity + " | " +
+                                  $"€{olLineItem.Price:0.00}" + " | " +olLineItem.Size);
+                    }
+                    sb.Append("</br>");
                     sb.Append("</body>");
                     sb.Append("</html>");
 
