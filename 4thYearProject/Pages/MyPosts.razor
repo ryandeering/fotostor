@@ -24,7 +24,7 @@
                 <div class="profile-user-settings">
 
                     <h1 class="profile-user-name">@DisplayName</h1>
-                    @if (claimDisplayName.Equals(DisplayName))
+                    @if (LoggedInID.Equals(User.Id))
                     {
                         <button class="btn profile-edit-btn" @onclick="ProfileSettings">Edit Profile</button>
                     }
@@ -41,26 +41,26 @@
 
                         @if (FollowerCount != null)
                         {
-                            <li><span class="profile-stat-count">@FollowerCount</span> followers</li>
+                            <li @onclick="@ShowFollowers"> <span class="profile-stat-count">@FollowerCount</span> followers</li>
                         }
                         @if (FollowingCount != null)
                         {
                             <li><span class="profile-stat-count">@FollowingCount</span> following</li>
                         }
 
-             
+
                     </ul>
-               
+
                 </div>
 
                 <div class="profile-bio">
-
+                    <br />
                     <p><span class="profile-real-name">@User.FirstName @User.SecondName</span> @User.Bio </p>
-                    
+                    <br /><br /><br /><br />
                 </div>
 
 
-                @if (!claimDisplayName.Equals(DisplayName))
+                @if (LoggedInID.Equals(User.Id))
                 {
                     if (IsFollowing)
                     {
@@ -71,6 +71,7 @@
                         <button class="btn btn-primary" @onclick="FollowUser">Follow</button>
                     }
                 }
+       
 
             </div>
             <!-- End of profile section -->

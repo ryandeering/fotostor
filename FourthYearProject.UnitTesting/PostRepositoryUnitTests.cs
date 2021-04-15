@@ -1,8 +1,7 @@
-﻿using System.Linq;
-using _4thYearProject.Api.Models;
+﻿using _4thYearProject.Api.Models;
 using _4thYearProject.Shared.Models;
 using Microsoft.EntityFrameworkCore;
-using Moq;
+using System.Linq;
 using Xunit;
 
 namespace FourthYearProject.UnitTesting

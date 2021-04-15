@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using _4thYearProject.Shared.Models;
+﻿using _4thYearProject.Shared.Models;
+using System.Collections.Generic;
 
 namespace _4thYearProject.Api.Models
 {

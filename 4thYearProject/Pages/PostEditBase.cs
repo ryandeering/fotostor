@@ -75,7 +75,7 @@
         {
             Saved = false;
 
-            if (PostId == 0) 
+            if (PostId == 0)
             {
                 //add some defaults
                 Post = new Post { Caption = String.Empty, PostDeleted = false, PhotoFile = null, Comments = new List<Comment>(), UploadDate = DateTime.Now, Likes = 0 };

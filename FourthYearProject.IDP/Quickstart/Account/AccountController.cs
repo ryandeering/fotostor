@@ -1,9 +1,6 @@
 // Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using FourthYearProject.IDP.Areas.Identity.Data;
 using IdentityModel;
 using IdentityServer4.Events;
@@ -15,6 +12,9 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace IdentityServer4.Quickstart.UI
 {
@@ -56,7 +56,7 @@ namespace IdentityServer4.Quickstart.UI
 
             if (vm.IsExternalLoginOnly)
                 // we only have one option for logging in and it's an external provider
-                return RedirectToAction("Challenge", "External", new {provider = vm.ExternalLoginScheme, returnUrl});
+                return RedirectToAction("Challenge", "External", new { provider = vm.ExternalLoginScheme, returnUrl });
 
             return View(vm);
         }
@@ -85,7 +85,7 @@ namespace IdentityServer4.Quickstart.UI
                     if (await _clientStore.IsPkceClientAsync(context.ClientId))
                         // if the client is PKCE then we assume it's native, so this change in how to
                         // return the response is for better UX for the end user.
-                        return View("Redirect", new RedirectViewModel {RedirectUrl = model.ReturnUrl});
+                        return View("Redirect", new RedirectViewModel { RedirectUrl = model.ReturnUrl });
 
                     return Redirect(model.ReturnUrl);
                 }
@@ -109,7 +109,7 @@ namespace IdentityServer4.Quickstart.UI
                         if (await _clientStore.IsPkceClientAsync(context.ClientId))
                             // if the client is PKCE then we assume it's native, so this change in how to
                             // return the response is for better UX for the end user.
-                            return View("Redirect", new RedirectViewModel {RedirectUrl = model.ReturnUrl});
+                            return View("Redirect", new RedirectViewModel { RedirectUrl = model.ReturnUrl });
 
                         // we can trust model.ReturnUrl since GetAuthorizationContextAsync returned non-null
                         return Redirect(model.ReturnUrl);
@@ -176,10 +176,10 @@ namespace IdentityServer4.Quickstart.UI
                 // build a return URL so the upstream provider will redirect back
                 // to us after the user has logged out. this allows us to then
                 // complete our single sign-out processing.
-                var url = Url.Action("Logout", new {logoutId = vm.LogoutId});
+                var url = Url.Action("Logout", new { logoutId = vm.LogoutId });
 
                 // this triggers a redirect to the external provider for sign-out
-                return SignOut(new AuthenticationProperties {RedirectUri = url}, vm.ExternalAuthenticationScheme);
+                return SignOut(new AuthenticationProperties { RedirectUri = url }, vm.ExternalAuthenticationScheme);
             }
 
             return View("LoggedOut", vm);
@@ -210,7 +210,7 @@ namespace IdentityServer4.Quickstart.UI
                     Username = context?.LoginHint
                 };
 
-                if (!local) vm.ExternalProviders = new[] {new ExternalProvider {AuthenticationScheme = context.IdP}};
+                if (!local) vm.ExternalProviders = new[] { new ExternalProvider { AuthenticationScheme = context.IdP } };
 
                 return vm;
             }
@@ -262,7 +262,7 @@ namespace IdentityServer4.Quickstart.UI
 
         private async Task<LogoutViewModel> BuildLogoutViewModelAsync(string logoutId)
         {
-            var vm = new LogoutViewModel {LogoutId = logoutId, ShowLogoutPrompt = AccountOptions.ShowLogoutPrompt};
+            var vm = new LogoutViewModel { LogoutId = logoutId, ShowLogoutPrompt = AccountOptions.ShowLogoutPrompt };
 
             if (User?.Identity.IsAuthenticated != true)
             {

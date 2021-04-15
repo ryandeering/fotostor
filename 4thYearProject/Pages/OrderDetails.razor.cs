@@ -5,7 +5,6 @@
     using _4thYearProject.Shared.Models.BusinessLogic;
     using Microsoft.AspNetCore.Components;
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
@@ -44,7 +43,7 @@
                       .Select(c => c.Value).SingleOrDefault().ToString();
 
 
-                Order = (await shoppingCartDataService.GetOrderById(Int32.Parse(OrderId)));
+            Order = (await shoppingCartDataService.GetOrderById(Int32.Parse(OrderId)));
         }
 
 

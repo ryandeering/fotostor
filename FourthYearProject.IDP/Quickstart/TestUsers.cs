@@ -2,10 +2,10 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using System.Collections.Generic;
-using System.Security.Claims;
 using IdentityModel;
 using IdentityServer4.Test;
+using System.Collections.Generic;
+using System.Security.Claims;
 
 namespace FourthYearProject.IDP
 {
@@ -29,7 +29,9 @@ namespace FourthYearProject.IDP
             },
             new()
             {
-                SubjectId = "37d0f2fa-1069-489f-9d65-48c9ba44639b", Username = "Wendy", Password = "password",
+                SubjectId = "37d0f2fa-1069-489f-9d65-48c9ba44639b",
+                Username = "Wendy",
+                Password = "password",
                 Claims =
                 {
                     new Claim(JwtClaimTypes.Name, "Wendy Torrance"),

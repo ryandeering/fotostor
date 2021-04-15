@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using _4thYearProject.Shared.Models;
+using System.Collections.Generic;
 using System.Linq;
-using _4thYearProject.Shared.Models;
 
 namespace _4thYearProject.Api.Models
 {
@@ -55,5 +55,9 @@ namespace _4thYearProject.Api.Models
             var foundFollowers = _appDbContext.Followers.Where(f => f.Follower_ID == FollowingID).ToList();
             return foundFollowers;
         }
+
+
+
+
     }
 }

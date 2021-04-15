@@ -1,20 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using _4thYearProject.Server.Services;
+﻿using _4thYearProject.Server.Services;
 using _4thYearProject.Server.Shared;
 using _4thYearProject.Shared;
 using _4thYearProject.Shared.Models;
 using Blazored.Modal;
 using Blazored.Modal.Services;
 using Microsoft.AspNetCore.Components;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace _4thYearProject.Server.Pages
 {
     public partial class HashtagPosts
-{
+    {
         [Parameter]
         public string HashTag { get; set; }
 

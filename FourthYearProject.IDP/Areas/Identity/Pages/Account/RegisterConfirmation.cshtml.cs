@@ -1,12 +1,12 @@
-﻿using System.Text;
-using System.Threading.Tasks;
-using FourthYearProject.IDP.Areas.Identity.Data;
+﻿using FourthYearProject.IDP.Areas.Identity.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace FourthYearProject.IDP.Areas.Identity.Pages.Account
 {
@@ -37,16 +37,16 @@ namespace FourthYearProject.IDP.Areas.Identity.Pages.Account
 
             Email = email;
             // Once you add a real email sender, you should remove this code that lets you confirm the account
-    
-                var userId = await _userManager.GetUserIdAsync(user);
-                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                EmailConfirmationUrl = Url.Page(
-                    "/Account/ConfirmEmail",
-                    null,
-                    new {area = "Identity", userId, code},
-                    Request.Scheme);
-            
+
+            var userId = await _userManager.GetUserIdAsync(user);
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+            EmailConfirmationUrl = Url.Page(
+                "/Account/ConfirmEmail",
+                null,
+                new { area = "Identity", userId, code },
+                Request.Scheme);
+
 
             return Page();
         }

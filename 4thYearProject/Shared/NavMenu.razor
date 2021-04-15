@@ -56,26 +56,20 @@
                 <a href="posts/upload" id="upload" class="navigation-link">
                     <i class="far fa-plus-square"></i>
                 </a>
-                <a class="navigation-link notifica">
-                    <i class="far fa-heart">
-                        <div class="notification-bubble-wrapper">
-                            <div class="notification-bubble">
-                                <span class="notifications-count">99</span>
-                            </div>
-                        </div>
-                    </i>
-                </a>
                 @if (User != null)
                 {
-                <a @onclick="() => Navigate()" class="navigation-link">
-                    <i class="far fa-user-circle"></i>
-                </a>
+                    <a href="/profile/@User.DisplayName" class="navigation-link">
+                        <i class="far fa-user-circle"></i>
+                    </a>
                 }
                 <a href="/basket/" class="navigation-link">
                     <i class="fas fa-shopping-basket"></i>
                 </a>
                 <a href="profile/analysis" class="navigation-link">
                     <i class="fas fa-chart-bar"></i>
+                </a>
+                <a href="/orders/" class="navigation-link">
+                    <i class="fas fa-file-invoice"></i>
                 </a>
                 <a id="signout" class="navigation-link" @onclick="BeginSignOut">
                     <i class="fas fa-sign-out-alt"></i>

@@ -1,13 +1,15 @@
 ﻿using _4thYearProject.Server.Services;
 using _4thYearProject.Shared;
 using _4thYearProject.Shared.Models;
+using MatBlazor;
 using Microsoft.AspNetCore.Components;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using MatBlazor;
+using _4thYearProject.Server.Shared;
+using Blazored.Modal;
+using Blazored.Modal.Services;
 
 namespace _4thYearProject.Server.Pages
 {
@@ -38,6 +40,9 @@ namespace _4thYearProject.Server.Pages
 
         string claimDisplayName { get; set; }
 
+        string LoggedInID { get; set; }
+
+        [CascadingParameter] public IModalService Modal { get; set; }
 
         Following follow = new Following();
         List<Following> followers { get; set; }
@@ -46,10 +51,10 @@ namespace _4thYearProject.Server.Pages
         bool IsFollowing { get; set; }
         int FollowerCount { get; set; }
         int FollowingCount { get; set; }
-        
 
 
-        
+
+
 
         protected async override Task OnInitializedAsync()
         {
@@ -57,6 +62,9 @@ namespace _4thYearProject.Server.Pages
             //First get user claims    
             claimDisplayName = identity.Claims.Where(c => c.Type.Equals("preferred_username"))
                   .Select(c => c.Value).SingleOrDefault().ToString();
+
+            LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+                .Select(c => c.Value).SingleOrDefault().ToString();
 
 
             User = await UserDataService.GetUserDataDetailsByDisplayName(DisplayName);
@@ -77,9 +85,6 @@ namespace _4thYearProject.Server.Pages
 
         protected async Task FollowUser()
         {
-            string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
-                  .Select(c => c.Value).SingleOrDefault().ToString();
-
             follow.Follower_ID = LoggedInID;
             follow.Followed_ID = User.Id;
             await FollowingService.AddFollowing(follow);
@@ -90,8 +95,6 @@ namespace _4thYearProject.Server.Pages
 
         protected async Task UnFollowUser()
         {
-            string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
-                  .Select(c => c.Value).SingleOrDefault().ToString();
 
             follow.Follower_ID = LoggedInID;
             follow.Followed_ID = User.Id;
@@ -104,8 +107,6 @@ namespace _4thYearProject.Server.Pages
 
         protected async Task VerifyFollowing()
         {
-            string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
-                  .Select(c => c.Value).SingleOrDefault().ToString();
             follow.Follower_ID = LoggedInID;
             Following temp = await FollowingService.verifyFollowing(LoggedInID, User.Id);
             if (temp != null)
@@ -121,10 +122,9 @@ namespace _4thYearProject.Server.Pages
 
         protected async Task<List<Following>> GetFollowers()
         {
-            string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
-                  .Select(c => c.Value).SingleOrDefault().ToString();
+
             List<Following> followerstemp = await FollowingService.GetFollowers(User.Id);
-           
+
 
             return followerstemp;
 
@@ -140,7 +140,7 @@ namespace _4thYearProject.Server.Pages
 
         void Navigate(int PostId)
         {
-            UriHelper.NavigateTo("/post/"+PostId);
+            UriHelper.NavigateTo("/post/" + PostId);
         }
 
         void ProfileSettings()
@@ -149,7 +149,13 @@ namespace _4thYearProject.Server.Pages
         }
 
 
+        private void ShowFollowers()
+        {
 
+            var parameters = new ModalParameters();
+            parameters.Add(nameof(Followers.LoggedIn), LoggedInID);
+            Modal.Show<Followers>("Followers", parameters);
+        }
 
 
 

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using _4thYearProject.Server.Services;
+﻿using _4thYearProject.Server.Services;
 using _4thYearProject.Server.Shared;
 using _4thYearProject.Shared;
 using _4thYearProject.Shared.Models;
@@ -12,6 +7,11 @@ using Blazored.Modal.Services;
 using MatBlazor;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace _4thYearProject.Server.Pages
 {
@@ -67,7 +67,7 @@ namespace _4thYearProject.Server.Pages
 
             ActualPosts = (await PostDataService.GetAllPostsbyFollowing(User.Id)).ToList();
 
-                
+
 
 
             var PostsCombined = new List<Post>(ActualPosts.Count +
@@ -134,8 +134,8 @@ namespace _4thYearProject.Server.Pages
             var parameters = new ModalParameters();
             parameters.Add(nameof(AddLicense.PostId), PostId);
 
-           Modal.Show<AddLicense>("PostId", parameters);
-            
+            Modal.Show<AddLicense>("Buy License", parameters);
+
         }
 
         private void BuyShirt(int PostId)
@@ -143,7 +143,7 @@ namespace _4thYearProject.Server.Pages
             var parameters = new ModalParameters();
             parameters.Add(nameof(AddShirt.PostId), PostId);
 
-            Modal.Show<AddShirt>("PostId", parameters);
+            Modal.Show<AddShirt>("Buy Shirt", parameters);
         }
 
         private void BuyPrint(int PostId)
@@ -151,8 +151,8 @@ namespace _4thYearProject.Server.Pages
             var parameters = new ModalParameters();
             parameters.Add(nameof(AddPrint.PostId), PostId);
 
-            Modal.Show<AddPrint>("PostId", parameters);
-           
+            Modal.Show<AddPrint>("Buy Print", parameters);
+
         }
     }
 }

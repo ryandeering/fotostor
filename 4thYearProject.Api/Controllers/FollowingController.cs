@@ -1,10 +1,11 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using _4thYearProject.Api.Models;
 using _4thYearProject.Shared;
 using _4thYearProject.Shared.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace _4thYearProject.Api.Controllers
 {
@@ -13,13 +14,15 @@ namespace _4thYearProject.Api.Controllers
     public class FollowingController : Controller
     {
         private readonly IFollowingRepository _followingRepository;
+        private readonly IUserDataRepository _userDataRepository;
         private readonly IUserService _userService;
 
         private readonly IWebHostEnvironment env;
 
         public FollowingController(IFollowingRepository followingRepository, IWebHostEnvironment env,
-            IUserService userService)
+            IUserService userService, IUserDataRepository userDataRepository)
         {
+            _userDataRepository = userDataRepository;
             _followingRepository = followingRepository;
             this.env = env;
             _userService = userService;
@@ -111,6 +114,27 @@ namespace _4thYearProject.Api.Controllers
             if (FollowingList == null)
                 return BadRequest();
             return Created("following", FollowingList);
+        }
+
+        [HttpGet("userdata/{Follower_ID}")]
+        public IActionResult GetFollowersUserData(string Follower_ID)
+        {
+            if (Follower_ID == string.Empty)
+                return BadRequest();
+
+            var FollowingList = _followingRepository.GetFollowers(Follower_ID);
+
+            List<FeedProfileData> profileDatas = new List<FeedProfileData>();
+
+            if (FollowingList == null)
+                return BadRequest();
+
+            foreach (var Following in FollowingList)
+            {
+                profileDatas.Add(_userDataRepository.GetUserNameFromId(Following.Follower_ID));
+            }
+
+            return Ok(profileDatas);
         }
     }
 }

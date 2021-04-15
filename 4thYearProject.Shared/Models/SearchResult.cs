@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace _4thYearProject.Shared.Models
+﻿namespace _4thYearProject.Shared.Models
 {
     public class SearchResult
     {

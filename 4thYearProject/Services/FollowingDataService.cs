@@ -1,4 +1,6 @@
-﻿namespace _4thYearProject.Server.Services
+﻿using _4thYearProject.Server.Pages;
+
+namespace _4thYearProject.Server.Services
 {
     using _4thYearProject.Shared;
     using _4thYearProject.Shared.Models;
@@ -88,6 +90,12 @@
                 return await JsonSerializer.DeserializeAsync<Following>(await response.Content.ReadAsStreamAsync());
             }
             else { return null; }
+        }
+
+        public async Task<List<FeedProfileData>> GetFollowingUserData(string Following_ID)
+        {
+            return await JsonSerializer.DeserializeAsync<List<FeedProfileData>>
+                (await _httpClient.GetStreamAsync($"api/following/userdata/{Following_ID}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
         }
     }
 }

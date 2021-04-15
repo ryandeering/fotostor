@@ -1,10 +1,10 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using _4thYearProject.Api.Models;
+﻿using _4thYearProject.Api.Models;
 using _4thYearProject.Shared;
 using _4thYearProject.Shared.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace _4thYearProject.Api.Controllers
 {
@@ -16,21 +16,36 @@ namespace _4thYearProject.Api.Controllers
 
         private readonly IUserService _userService;
 
+        private readonly IUserDataRepository _userDataRepository;
+
+        private readonly IPostRepository _postRepository;
+
         private readonly IWebHostEnvironment env;
 
         public CommentController(ICommentRepository commentRepository, IWebHostEnvironment env,
-            IUserService userService)
+            IUserService userService, IUserDataRepository userDataRepository, IPostRepository postRepository)
         {
             _commentRepository = commentRepository;
             this.env = env;
             _userService = userService;
+            _userDataRepository = userDataRepository;
+            _postRepository = postRepository;
         }
 
         // GET api/<controller>/5
         [HttpGet("{id}")]
         public IActionResult GetCommentsByPostId(int id)
         {
-            return Ok(_commentRepository.GetCommentsByPostId(id));
+            var Comments = _commentRepository.GetCommentsByPostId(id);
+
+            if (Comments == null)
+            {
+                return NotFound();
+            }
+
+            foreach (var Comment in Comments) Comment.ProfileData =_userDataRepository.GetUserNameFromId(Comment.UserId);
+
+            return Ok(Comments);
         }
 
         [HttpGet]
@@ -86,9 +101,8 @@ namespace _4thYearProject.Api.Controllers
             var LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
                 .Select(c => c.Value).SingleOrDefault().ToString();
 
-            if (LoggedInID != commentToDelete.UserId)
+            if (LoggedInID != commentToDelete.UserId | LoggedInID != _postRepository.GetPostById(commentToDelete.PostId).UserId)
                 return Unauthorized();
-
 
             _commentRepository.DeleteComment(id);
 

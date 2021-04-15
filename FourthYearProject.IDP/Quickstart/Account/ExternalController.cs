@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Security.Principal;
-using System.Threading.Tasks;
 using FourthYearProject.IDP.Areas.Identity.Data;
 using IdentityModel;
 using IdentityServer4.Events;
@@ -15,6 +9,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Security.Principal;
+using System.Threading.Tasks;
 
 namespace IdentityServer4.Quickstart.UI
 {
@@ -132,7 +132,7 @@ namespace IdentityServer4.Quickstart.UI
                 if (await _clientStore.IsPkceClientAsync(context.ClientId))
                     // if the client is PKCE then we assume it's native, so this change in how to
                     // return the response is for better UX for the end user.
-                    return View("Redirect", new RedirectViewModel {RedirectUrl = returnUrl});
+                    return View("Redirect", new RedirectViewModel { RedirectUrl = returnUrl });
 
             return Redirect(returnUrl);
         }
@@ -271,7 +271,7 @@ namespace IdentityServer4.Quickstart.UI
             // if the external provider issued an id_token, we'll keep it for signout
             var id_token = externalResult.Properties.GetTokenValue("id_token");
             if (id_token != null)
-                localSignInProps.StoreTokens(new[] {new AuthenticationToken {Name = "id_token", Value = id_token}});
+                localSignInProps.StoreTokens(new[] { new AuthenticationToken { Name = "id_token", Value = id_token } });
         }
 
         private void ProcessLoginCallbackForWsFed(AuthenticateResult externalResult, List<Claim> localClaims,

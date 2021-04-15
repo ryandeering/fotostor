@@ -2,8 +2,6 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using System.Linq;
-using System.Threading.Tasks;
 using IdentityServer4.Events;
 using IdentityServer4.Extensions;
 using IdentityServer4.Models;
@@ -12,6 +10,8 @@ using IdentityServer4.Stores;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace IdentityServer4.Quickstart.UI
 {
@@ -70,7 +70,7 @@ namespace IdentityServer4.Quickstart.UI
                 if (await _clientStore.IsPkceClientAsync(result.ClientId))
                     // if the client is PKCE then we assume it's native, so this change in how to
                     // return the response is for better UX for the end user.
-                    return View("Redirect", new RedirectViewModel {RedirectUrl = result.RedirectUri});
+                    return View("Redirect", new RedirectViewModel { RedirectUrl = result.RedirectUri });
 
                 return Redirect(result.RedirectUri);
             }

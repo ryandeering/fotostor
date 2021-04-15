@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using _4thYearProject.Shared.Models;
+using System.Collections.Generic;
 using System.Linq;
-using _4thYearProject.Shared.Models;
 
 namespace _4thYearProject.Api.Models
 {
@@ -18,7 +18,7 @@ namespace _4thYearProject.Api.Models
         public IEnumerable<Comment> GetCommentsByPostId(int id)
         {
             return _appDbContext.Comments.Where(c => c.PostId.Equals(id))
-                .OrderBy(c => c.SubmittedOn); //make it so it's orderedby comment likes, date will do temporarily
+                .OrderBy(c => c.SubmittedOn); //TODO make it so it's orderedby comment likes, date will do temporarily
         }
 
         public Comment GetCommentById(int Comment_ID)

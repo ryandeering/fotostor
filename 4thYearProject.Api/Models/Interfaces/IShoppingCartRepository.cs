@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using _4thYearProject.Shared.Models.BusinessLogic;
+﻿using _4thYearProject.Shared.Models.BusinessLogic;
+using System.Collections.Generic;
 
 namespace _4thYearProject.Api.Models
 {

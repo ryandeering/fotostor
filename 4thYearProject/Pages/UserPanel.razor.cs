@@ -1,12 +1,12 @@
-﻿using System;
+﻿using _4thYearProject.Server.Services;
+using _4thYearProject.Shared;
+using _4thYearProject.Shared.Models.BusinessLogic;
+using Microsoft.AspNetCore.Components;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using _4thYearProject.Server.Services;
-using _4thYearProject.Shared;
-using _4thYearProject.Shared.Models.BusinessLogic;
-using Microsoft.AspNetCore.Components;
 
 namespace _4thYearProject.Server.Pages
 {
@@ -89,9 +89,9 @@ namespace _4thYearProject.Server.Pages
                 LicenseRevenue -= Math.Round(LicenseRevenue * FOTOSTOP_TAX, 2, MidpointRounding.AwayFromZero);
 
 
-            categoryItems.Add(new CategoryItem {Type = "Print", Revenue = PrintRevenue});
-            categoryItems.Add(new CategoryItem {Type = "Shirt", Revenue = ShirtRevenue});
-            categoryItems.Add(new CategoryItem {Type = "License", Revenue = LicenseRevenue});
+            categoryItems.Add(new CategoryItem { Type = "Print", Revenue = PrintRevenue });
+            categoryItems.Add(new CategoryItem { Type = "Shirt", Revenue = ShirtRevenue });
+            categoryItems.Add(new CategoryItem { Type = "License", Revenue = LicenseRevenue });
 
             return categoryItems;
         }

@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using _4thYearProject.Api.Models;
+﻿using _4thYearProject.Api.Models;
 using _4thYearProject.Shared;
 using _4thYearProject.Shared.Models.BusinessLogic;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Stripe.Checkout;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace _4thYearProject.Api.Controllers
 {
@@ -64,7 +64,7 @@ namespace _4thYearProject.Api.Controllers
                 case "paid":
 
                     var temp = _shoppingCartRepository.PlaceOrder(UserId);
-                    OrderId = (int) temp.OrderId;
+                    OrderId = (int)temp.OrderId;
                     s.OrderId = OrderId;
 
 

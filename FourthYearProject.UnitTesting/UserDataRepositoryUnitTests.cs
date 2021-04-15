@@ -1,8 +1,7 @@
-﻿using System.Linq;
-using _4thYearProject.Api.Models;
+﻿using _4thYearProject.Api.Models;
 using _4thYearProject.Shared.Models;
 using Microsoft.EntityFrameworkCore;
-using Moq;
+using System.Linq;
 using Xunit;
 
 namespace FourthYearProject.UnitTesting
@@ -53,8 +52,8 @@ namespace FourthYearProject.UnitTesting
             var users = context.Users.ToList();
             for (int j = 0; j < test1.Count; j++)
             {
-                Assert.Equal(test1[j].FirstName,users[j].FirstName);
-                
+                Assert.Equal(test1[j].FirstName, users[j].FirstName);
+
             }
 
         }

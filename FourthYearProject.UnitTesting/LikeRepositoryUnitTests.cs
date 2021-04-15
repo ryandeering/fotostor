@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using _4thYearProject.Api.Models;
+﻿using _4thYearProject.Api.Models;
 using _4thYearProject.Shared.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
 using Xunit;
 
 namespace FourthYearProject.UnitTesting
@@ -63,9 +60,9 @@ namespace FourthYearProject.UnitTesting
             var repo = new LikeRepository(context);
             repo.AddLike(expectedLike);
 
-           var actualLike =  repo.VerifyLike(expectedLike.Post_ID, expectedLike.User_ID);
+            var actualLike = repo.VerifyLike(expectedLike.Post_ID, expectedLike.User_ID);
 
-           Assert.NotNull(actualLike);
+            Assert.NotNull(actualLike);
         }
 
 

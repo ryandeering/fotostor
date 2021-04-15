@@ -6,6 +6,8 @@
 	  <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 	  <DockerfileContext>.</DockerfileContext>
 	  <SonarQubeExclude>True</SonarQubeExclude>
+	  <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
+	  <EnableNETAnalyzers>false</EnableNETAnalyzers>
   </PropertyGroup>
 
   <ItemGroup>

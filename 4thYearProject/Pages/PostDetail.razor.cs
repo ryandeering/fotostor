@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using _4thYearProject.Server.Services;
+﻿using _4thYearProject.Server.Services;
 using _4thYearProject.Server.Shared;
 using _4thYearProject.Shared;
 using _4thYearProject.Shared.Models;
@@ -11,6 +6,12 @@ using Blazored.Modal;
 using Blazored.Modal.Services;
 using MatBlazor;
 using Microsoft.AspNetCore.Components;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using Microsoft.JSInterop;
 
 namespace _4thYearProject.Server.Pages
 {
@@ -41,13 +42,23 @@ namespace _4thYearProject.Server.Pages
 
         [Inject] public IUserDataService UserDataService { get; set; }
 
-        [Inject] public IMatToaster matToaster { get; set; }
+        [Inject] public IMatToaster Toaster { get; set; }
+
+        [Inject]
+        public NavigationManager Nav { get; set; }
+
+        [Inject]
+        public IJSRuntime JsRuntime { get; set; }
 
         [CascadingParameter] public IModalService Modal { get; set; }
 
         private string claimDisplayName { get; set; }
 
         private string LoggedInID { get; set; }
+
+
+
+
 
 
         protected override async Task OnInitializedAsync()
@@ -119,7 +130,7 @@ namespace _4thYearProject.Server.Pages
             extendComment.SubmittedOn = DateTime.Now;
             await CommentDataService.AddComment(extendComment);
             await OnInitializedAsync();
-            matToaster.Add("Comment successfully made.", MatToastType.Success, "Success");
+            Toaster.Add("Comment successfully made.", MatToastType.Success, "Success");
         }
 
 
@@ -127,7 +138,7 @@ namespace _4thYearProject.Server.Pages
         {
             await CommentDataService.DeleteComment(comment.Id);
             await OnInitializedAsync();
-            matToaster.Add("Comment deleted successfully.", MatToastType.Success, "SUCCESS");
+            Toaster.Add("Comment deleted successfully.", MatToastType.Success, "SUCCESS");
         }
 
 
@@ -152,21 +163,30 @@ namespace _4thYearProject.Server.Pages
         {
             var parameters = new ModalParameters();
             parameters.Add(nameof(AddLicense.PostId), PostId);
-            Modal.Show<AddLicense>("PostId", parameters);
+            Modal.Show<AddLicense>("Buy License", parameters);
         }
 
         private void BuyShirt(int PostId)
         {
             var parameters = new ModalParameters();
             parameters.Add(nameof(AddShirt.PostId), PostId);
-            Modal.Show<AddShirt>("PostId", parameters);
+            Modal.Show<AddShirt>("Buy Shirt", parameters);
         }
 
         private void BuyPrint(int PostId)
         {
             var parameters = new ModalParameters();
             parameters.Add(nameof(AddPrint.PostId), PostId);
-            Modal.Show<AddPrint>("PostId", parameters);
+            Modal.Show<AddPrint>("Buy Print", parameters);
+        }
+
+        protected async Task DeletePost(Post post)
+        {
+            if (!await JsRuntime.InvokeAsync<bool>("confirm", $"Are you sure you want to delete this post?")) return;
+            await PostDataService.DeletePost(post.PostId);
+            StateHasChanged();
+            Toaster.Add("Post deleted.", MatToastType.Success, "SUCCESS");
+            Nav.NavigateTo("/feed/");
         }
     }
 }

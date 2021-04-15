@@ -1,4 +1,3 @@
-using System.Text.Json.Serialization;
 using _4thYearProject.Api.Models.Interfaces;
 
 namespace _4thYearProject.Api
@@ -106,7 +105,6 @@ namespace _4thYearProject.Api
 
             services.AddControllers(configure =>
                 configure.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy)));
-
 
 
         }

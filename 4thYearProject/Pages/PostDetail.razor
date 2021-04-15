@@ -13,7 +13,6 @@ else
     @post.UploadDate.ToString("dd/MM/yyyy h:mm tt")
                
 
-    @post.Caption
 
 
 <div class="card">
@@ -34,29 +33,71 @@ else
                 }
             }
         </div>
-        <div class="card-heading-data">
-        </div>
+        @if (post.UserId != null)
+        {
+            @if (post.ProfileData != null)
+            {
+                <div class="card-heading-data">
+                    @if (post.ProfileData.Username != null || post.ProfileData.Username == String.Empty)
+                    {
 
-
-        <div class="card-footer">
-            
-
-
-            <div class="card-footer-left">
-                            
-           
-            </div>
-      
-        </div>
+                        <span class="user-name"> <a href="/profile/@post.ProfileData.Username">@post.ProfileData.Username</a> <br /> @post.ProfileData.FName @post.ProfileData.LName</span>
+                    }
+                </div>
+            }
+        }
     </div>
     <img src=@post.PhotoFile alt="pic">
+    <div class="card-footer">
+        <div class="card-footer-left">
 
+
+            @if (post.Liked)
+            {
+
+                <MatButton OnClick="UnLike">
+                    <i class="fas fa-coffee"></i>
+                </MatButton>
+            }
+            else
+            {
+
+                <MatButton OnClick="GiveLike"><i class="far fa-thumbs-up"></i></MatButton>
+            }
+            
+            @if (post.UserId == LoggedInID)
+            {
+                <MatButton OnClick="() => DeletePost(post)">
+                    <i class="fas fa-trash-alt"></i>
+                </MatButton>
+            }
+            
+
+            @if (post.LicenseEnabled)
+            {
+
+                <a @onclick="@(e => BuyLicense(post.PostId))" class="btn btn-light">
+                    <i class="fas fa-stamp"></i>
+                </a>
+            }
+            @if (post.ShirtsEnabled)
+            {<a @onclick="@(e => BuyShirt(post.PostId))" class="btn btn-light">
+                    <i class="fas fa-tshirt"></i>
+                </a>
+            }
+            @if (post.PrintsEnabled)
+            {<a @onclick="@(e => BuyPrint(post.PostId))" class="btn btn-light">
+                    <i class="fas fa-scroll"></i>
+                </a>
+            }
+
+
+
+        </div>
+    </div>
+    <h5>@post.Caption</h5>
+    <div class="card-likes">@post.Likes likes</div>
 </div>
-
-
-
-
-
 
 
 
@@ -75,7 +116,7 @@ else
                         @foreach (var Comment in Comments)
                         {
                             
-                            <td> @Comment.UserId @Comment.Body</td>
+                            <td><a href="/profile/@Comment.ProfileData.Username">@Comment.ProfileData.Username</a> @Comment.Body</td> <br />
 
                             @if (Comment.UserId.Equals(LoggedInID) | post.UserId.Equals(LoggedInID))
                             {
@@ -92,36 +133,7 @@ else
         }
 
 
-    @if (post.Liked)
-    {
-      
-        <MatButton OnClick="UnLike">
-            <i class="fas fa-coffee"></i>
-        </MatButton>
-    }
-    else
-    {
-     
-        <MatButton OnClick="GiveLike"><i class="far fa-thumbs-up"></i></MatButton>
-    }
-
-    @if (post.LicenseEnabled)
-    {
-
-        <a @onclick="@(e => BuyLicense(post.PostId))" class="btn btn-light">
-            <i class="fas fa-stamp"></i>
-        </a>
-    }
-    @if (post.ShirtsEnabled)
-    {<a @onclick="@(e => BuyShirt(post.PostId))" class="btn btn-light">
-         <i class="fas fa-tshirt"></i>
-     </a>
-    }
-    @if (post.PrintsEnabled)
-    {<a @onclick="@(e => BuyPrint(post.PostId))" class="btn btn-light">
-         <i class="fas fa-scroll"></i>
-     </a>
-    }
+   
 
 
 

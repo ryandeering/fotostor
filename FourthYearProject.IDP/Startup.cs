@@ -2,7 +2,6 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using System;
 using FourthYearProject.IDP.Areas.Identity.Data;
 using FourthYearProject.IDP.Services;
 using IdentityServer4.Services;
@@ -15,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System;
 
 namespace FourthYearProject.IDP
 {
@@ -32,7 +32,7 @@ namespace FourthYearProject.IDP
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            
+
 
             var builder = services.AddIdentityServer(options =>
             {
@@ -42,10 +42,10 @@ namespace FourthYearProject.IDP
                 options.Events.RaiseSuccessEvents = true;
             }).AddAspNetIdentity<ApplicationUser>();
 
-          
+
 
             services.AddTransient<CustomEmailConfirmationTokenProvider<IdentityUser>>();
-            
+
             services.AddTransient<IEmailSender, EmailSender>();
 
 
@@ -88,7 +88,8 @@ namespace FourthYearProject.IDP
                 };
             });
 
-            services.ConfigureApplicationCookie(o => {
+            services.ConfigureApplicationCookie(o =>
+            {
                 o.ExpireTimeSpan = TimeSpan.FromDays(5);
                 o.SlidingExpiration = true;
             });

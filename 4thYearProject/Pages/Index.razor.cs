@@ -64,7 +64,7 @@
                         await UserDataService.AddUserData(newUser);
                         await _shoppingCartService.AddCart(ID);
 
-                    
+
                         Nav.NavigateTo("/feed/", true);
 
 

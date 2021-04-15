@@ -1,9 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using _4thYearProject.Api.CloudStorage;
+﻿using _4thYearProject.Api.CloudStorage;
 using _4thYearProject.Api.Models;
 using _4thYearProject.Shared;
 using _4thYearProject.Shared.Models;
@@ -11,6 +6,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
+using System;
+using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace _4thYearProject.Api.Controllers
 {
@@ -21,6 +21,7 @@ namespace _4thYearProject.Api.Controllers
         private readonly ICloudStorage _cloudStorage;
 
         private readonly IHashTagRepository _hashTagRepository;
+        private readonly ILikeRepository _likeRepository;
 
         private readonly IPostRepository _postRepository;
         private readonly IUserDataRepository _userDataRepository;
@@ -30,7 +31,7 @@ namespace _4thYearProject.Api.Controllers
 
         public PostController(IPostRepository postRepository, IHashTagRepository hashTagRepository,
             IWebHostEnvironment env, ICloudStorage cloudStorage, IUserDataRepository userDataRepository,
-            IUserService userService)
+            IUserService userService, ILikeRepository likeRepository)
         {
             _postRepository = postRepository;
             _hashTagRepository = hashTagRepository;
@@ -38,25 +39,25 @@ namespace _4thYearProject.Api.Controllers
             _cloudStorage = cloudStorage;
             _userDataRepository = userDataRepository;
             _userService = userService;
+            _likeRepository = likeRepository;
         }
 
-        // GET: api/<controller>
-        [HttpGet]
-        public async Task<IActionResult> GetPosts()
-        {
-            var identity = await _userService.GetUserAsync();
-
-            if (identity == null)
-                return Unauthorized();
-
-            return Ok(_postRepository.GetAllPosts());
-        }
 
         // GET api/<controller>/5
         [HttpGet("{id}")]
         public IActionResult GetPostbyId(int id)
         {
-            return Ok(_postRepository.GetPostById(id));
+            var Post = _postRepository.GetPostById(id);
+
+            if (Post == null)
+            {
+                return NotFound();
+            }
+
+
+            Post.Likes = _likeRepository.GetLikeCount(id.ToString());
+            Post.ProfileData = _userDataRepository.GetUserNameFromId(Post.UserId);
+            return Ok(Post);
         }
 
         [HttpGet]

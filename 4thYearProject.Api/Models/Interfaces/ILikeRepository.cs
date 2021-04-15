@@ -9,5 +9,7 @@ namespace _4thYearProject.Api.Models
         void RemoveLike(string UserID, string PostID);
 
         Like VerifyLike(string UserID, string PostID);
+
+        int GetLikeCount(string Post_ID);
     }
 }

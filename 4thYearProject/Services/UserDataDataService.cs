@@ -1,12 +1,9 @@
-﻿using System;
-using _4thYearProject.Shared.Models;
+﻿using _4thYearProject.Shared.Models;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using _4thYearProject.Server.Pages;
 
 namespace _4thYearProject.Server.Services
 {

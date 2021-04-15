@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace FourthYearProject.IDP.Services
+﻿namespace FourthYearProject.IDP.Services
 {
     public class AuthMessageSenderOptions
     {

@@ -2,15 +2,15 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-using System.Collections.Generic;
 using IdentityServer4.Models;
+using System.Collections.Generic;
 
 namespace FourthYearProject.IDP
 {
     public static class Config
     {
         public static IEnumerable<IdentityResource> Ids =>
-            new IdentityResource []
+            new IdentityResource[]
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),

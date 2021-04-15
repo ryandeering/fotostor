@@ -1,0 +1,70 @@
+﻿@inject IFollowingDataService FollowingDataService
+@inject IUserService UserService
+@inject IMatToaster Toaster
+@inject NavigationManager NavigationManager
+
+@if (followersList != null)
+{
+    <div class="card mb-2">
+        <div class="card-body">
+            <p class="card-text">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Profile Pic</th>
+                            <th scope="col">Username</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var Follower in followersList)
+                        {
+                            <tr>
+                                <td><img src=@Follower.ProfilePicURL class="img-fluid rounded" width=40></td>
+                                @if (Follower.Username != null)
+                                {
+                                    <td><a @onclick="() => GotoProfile(Follower.Username)">@Follower.Username</a></td>
+                                }
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+
+            </p>
+        </div>
+    </div>
+
+}
+else
+{
+    <div class="card mb-4">
+        <div class="card-body">
+            <p class="card-text">
+                <h3>Invalid.</h3>
+            </p>
+        </div>
+    </div>
+
+}
+
+
+@code {
+
+    [CascadingParameter] BlazoredModalInstance ModalInstance { get; set; }
+
+    [Parameter] public string LoggedIn { get; set; }
+    List<FeedProfileData> followersList { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        followersList = await FollowingDataService.GetFollowingUserData(LoggedIn);
+
+        StateHasChanged();
+    }
+
+    void GotoProfile(string Username)
+    {
+        NavigationManager.NavigateTo("/profile/"+Username, true);
+    }
+
+}

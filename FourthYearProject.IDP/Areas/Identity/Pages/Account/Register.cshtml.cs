@@ -1,10 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using FourthYearProject.IDP.Areas.Identity.Data;
+﻿using FourthYearProject.IDP.Areas.Identity.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -13,6 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Text.Encodings.Web;
+using System.Threading.Tasks;
 
 namespace FourthYearProject.IDP.Areas.Identity.Pages.Account
 {
@@ -54,7 +54,7 @@ namespace FourthYearProject.IDP.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser {UserName = Input.DisplayName, Email = Input.Email};
+                var user = new ApplicationUser { UserName = Input.DisplayName, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
@@ -65,7 +65,7 @@ namespace FourthYearProject.IDP.Areas.Identity.Pages.Account
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
                         null,
-                        new {area = "Identity", userId = user.Id, code},
+                        new { area = "Identity", userId = user.Id, code },
                         Request.Scheme);
 
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
@@ -73,7 +73,7 @@ namespace FourthYearProject.IDP.Areas.Identity.Pages.Account
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
-                        return RedirectToPage("RegisterConfirmation", new {email = Input.Email});
+                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email });
                     }
 
                     await _signInManager.SignInAsync(user, false);

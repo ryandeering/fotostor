@@ -6,9 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\**" />
     <Compile Remove="Migrations\**" />
+    <Content Remove="Data\**" />
     <Content Remove="Migrations\**" />
+    <EmbeddedResource Remove="Data\**" />
     <EmbeddedResource Remove="Migrations\**" />
+    <None Remove="Data\**" />
     <None Remove="Migrations\**" />
   </ItemGroup>
 
@@ -31,6 +35,8 @@
     <Compile Include="Migrations\20210407172801_addressupdate2.Designer.cs" />
     <Compile Include="Migrations\20210409023619_userdatabio.cs" />
     <Compile Include="Migrations\20210409023619_userdatabio.Designer.cs" />
+    <Compile Include="Migrations\20210413194952_CommentProfileData.cs" />
+    <Compile Include="Migrations\20210413194952_CommentProfileData.Designer.cs" />
     <Compile Include="Migrations\AppDbContextModelSnapshot.cs" />
   </ItemGroup>
 
@@ -60,7 +66,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\" />
     <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
 

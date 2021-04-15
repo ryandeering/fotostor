@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using _4thYearProject.Api.Models.Interfaces;
+﻿using _4thYearProject.Api.Models.Interfaces;
 using _4thYearProject.Shared.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace _4thYearProject.Api.Models
 {
@@ -25,10 +25,10 @@ namespace _4thYearProject.Api.Models
                 .AsEnumerable().Take(5);
 
             foreach (var profile in profiles)
-                results.Add(new SearchResult {Type = "Profile", Content = profile.DisplayName});
+                results.Add(new SearchResult { Type = "Profile", Content = profile.DisplayName });
 
             foreach (var hashtag in hashtags)
-                results.Add(new SearchResult {Type = "Hashtag", Content = hashtag.Content});
+                results.Add(new SearchResult { Type = "Hashtag", Content = hashtag.Content });
 
             return results;
         }

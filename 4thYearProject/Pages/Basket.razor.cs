@@ -8,7 +8,6 @@ namespace _4thYearProject.Server.Pages
     using _4thYearProject.Shared.Models.BusinessLogic;
     using Microsoft.AspNetCore.Components;
     using Microsoft.AspNetCore.Components.Authorization;
-    using Microsoft.AspNetCore.Components.Web;
     using Microsoft.JSInterop;
     using System.Collections.Generic;
     using System.Linq;

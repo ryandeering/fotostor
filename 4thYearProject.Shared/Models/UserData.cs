@@ -17,8 +17,4 @@ namespace _4thYearProject.Shared.Models
         public Address Address { get; set; }
     }
 
-    public class UsernameList
-    {
-        public List<string> ListofUsernames { get; set; }
-    }
 }

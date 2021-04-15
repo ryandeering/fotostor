@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using _4thYearProject.Shared.Models;
+﻿using _4thYearProject.Shared.Models;
+using System.Linq;
 
 namespace _4thYearProject.Api.Models
 {
@@ -38,6 +38,12 @@ namespace _4thYearProject.Api.Models
             var foundLike = foundLikes.FirstOrDefault(p => p.Post_ID == PostId);
 
             return foundLike;
+        }
+
+        public int GetLikeCount(string Post_ID)
+        {
+            var foundLikes = _appDbContext.Likes.Where(p => p.Post_ID == Post_ID);
+            return foundLikes.Count();
         }
     }
 }

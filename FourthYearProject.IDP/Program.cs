@@ -1,9 +1,6 @@
 ﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
-using System;
-using System.Linq;
-using System.Security.Claims;
 using FourthYearProject.IDP.Areas.Identity.Data;
 using IdentityModel;
 using Microsoft.AspNetCore.Hosting;
@@ -15,6 +12,9 @@ using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
+using System;
+using System.Linq;
+using System.Security.Claims;
 using DbContext = FourthYearProject.IDP.Areas.Identity.Data.DbContext;
 
 namespace FourthYearProject.IDP

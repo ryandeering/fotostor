@@ -1,9 +1,9 @@
-﻿using System;
+﻿using _4thYearProject.Shared.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using _4thYearProject.Shared.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace _4thYearProject.Api.Models
 {
@@ -27,7 +27,7 @@ namespace _4thYearProject.Api.Models
             if (userPosts.Count(up => !up.PostDeleted).Equals(0))
             {
                 var hashtags = _appDbContext.Hashtags.GroupBy(h => h.Content)
-                    .Select(group => new {Content = group.Key, Count = group.Count()}).OrderByDescending(h => h.Count);
+                    .Select(group => new { Content = group.Key, Count = group.Count() }).OrderByDescending(h => h.Count);
 
                 var suggestedPostsNoInterests = new List<Post>();
 
@@ -49,7 +49,7 @@ namespace _4thYearProject.Api.Models
             var userHashTags = userPosts.SelectMany(userPost => userPost.HashTags).ToList();
 
             var query = userHashTags.GroupBy(h => h.Content)
-                .Select(group => new {Content = group.Key, Count = group.Count()}).OrderByDescending(h => h.Count);
+                .Select(group => new { Content = group.Key, Count = group.Count() }).OrderByDescending(h => h.Count);
 
             var items = query.Take(4);
 
@@ -58,11 +58,11 @@ namespace _4thYearProject.Api.Models
             try
             {
                 suggestedPosts = (from item in items
-                    select _appDbContext.Hashtags.FirstOrDefault(ht => ht.Content.Equals(item.Content))
+                                  select _appDbContext.Hashtags.FirstOrDefault(ht => ht.Content.Equals(item.Content))
                     into foundHashTag
-                    select _appDbContext.Posts.Where(p => p.HashTags.Contains(foundHashTag) && p.UserId != id)
+                                  select _appDbContext.Posts.Where(p => p.HashTags.Contains(foundHashTag) && p.UserId != id)
                     into foundPosts
-                    select foundPosts.OrderByDescending(x => x.Likes).First()).ToList();
+                                  select foundPosts.OrderByDescending(x => x.Likes).First()).ToList();
             }
             catch (Exception e)
             {

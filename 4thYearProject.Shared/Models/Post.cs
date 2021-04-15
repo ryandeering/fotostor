@@ -49,7 +49,7 @@ namespace _4thYearProject.Shared.Models
 
         [Required] public int Likes { get; set; }
 
-       
+
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<HashTag> HashTags { get; set; }
     }
