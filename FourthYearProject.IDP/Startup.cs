@@ -62,31 +62,43 @@ namespace FourthYearProject.IDP
                 options.KnownProxies.Clear();
             });
 
-
-            if (!Environment.IsDevelopment())
-            {
-                builder.AddInMemoryIdentityResources(ConfigProd.Ids);
-                builder.AddInMemoryApiResources(ConfigProd.Apis);
-                builder.AddInMemoryClients(ConfigProd.Clients);
-            }
-            else
+            if (Environment.IsDevelopment())
             {
                 builder.AddInMemoryIdentityResources(Config.Ids);
                 builder.AddInMemoryApiResources(Config.Apis);
                 builder.AddInMemoryClients(Config.Clients);
             }
+            else {
+                builder.AddInMemoryIdentityResources(ConfigProd.Ids);
+                builder.AddInMemoryApiResources(ConfigProd.Apis);
+                builder.AddInMemoryClients(ConfigProd.Clients);
+            }
+      
 
 
             builder.AddDeveloperSigningCredential();
 
-            services.AddSingleton<ICorsPolicyService>(container =>
+            if (Environment.IsDevelopment())
             {
-                var logger = container.GetRequiredService<ILogger<DefaultCorsPolicyService>>();
-                return new DefaultCorsPolicyService(logger)
+                services.AddSingleton<ICorsPolicyService>(container =>
                 {
-                    AllowAll = true
-                };
-            });
+                    var logger = container.GetRequiredService<ILogger<DefaultCorsPolicyService>>();
+                    return new DefaultCorsPolicyService(logger)
+                    {
+                        AllowAll = true
+                    };
+                });
+            }
+            else
+            {
+                services.AddSingleton<ICorsPolicyService>((container) => {
+                    var logger = container.GetRequiredService<ILogger<DefaultCorsPolicyService>>();
+                    return new DefaultCorsPolicyService(logger)
+                    {
+                        AllowedOrigins = { "https://gentle-stone-043437c03.azurestaticapps.net", "https://fotostopapi.azurewebsites.net" }
+                    };
+                });
+            }
 
             services.ConfigureApplicationCookie(o =>
             {

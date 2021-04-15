@@ -20,6 +20,7 @@ namespace FourthYearProject.IDP.Areas.Identity
         {
             builder.ConfigureServices((context, services) =>
             {
+
                 services.AddDbContext<DbContext>(options =>
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("dbContextConnection")));

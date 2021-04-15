@@ -38,14 +38,14 @@ namespace FourthYearProject.IDP
                     AllowedGrantTypes = GrantTypes.Code,
                     RequireClientSecret = false,
                     RequirePkce = true,
-                    RedirectUris = {"https://fourthyrprojblazor.azurewebsites.net/authentication/login-callback"},
+                    RedirectUris = {"https://gentle-stone-043437c03.azurestaticapps.net/authentication/login-callback"},
                     PostLogoutRedirectUris =
-                        {"https://fourthyrprojblazor.azurewebsites.net/authentication/logout-callback"},
+                        {"https://gentle-stone-043437c03.azurestaticapps.net/authentication/logout-callback"},
                     AllowedScopes = {"openid", "profile", "email", "_4thyearprojectapi"},
                     AllowedCorsOrigins =
                     {
-                        "http://fourthyrprojblazor.azurewebsites.net", "https://fourthyrprojblazor.azurewebsites.net",
-                        "https://fotostopapi.azurewebsites.net/"
+                        "http://fourthyrprojblazor.azurewebsites.net", "https://gentle-stone-043437c03.azurestaticapps.net",
+                        "https://fotostopapi.azurewebsites.net"
                     }
                 }
             };
