@@ -14,9 +14,10 @@
 
 
 <AuthorizeView>
-        <Authorized>
-            @if (basket != null)
-            {
+    <Authorized>
+        @if (basket != null)
+        {
+            <RadzenHeading Size="H1" Text="Basket"></RadzenHeading><br />
                 @if (basket.BasketItems.Count == 0)
                 {
                     <h2>No basket items found. Add some items to complete a purchase!</h2>
@@ -49,18 +50,18 @@
 
 
                     <div class="row">
-            <div class="col">
-                <RadzenButton style="align-content: flex-end" Click=@(args => PlaceOrder()) Text="Place Order" ButtonStyle="ButtonStyle.Secondary" ></RadzenButton>
-                <RadzenButton style="margin: 0 1rem 1rem 0" Click=@(args => EmptyBasket()) Text="Empty Basket" ButtonStyle="ButtonStyle.Danger" />
-            </div>
-        </div>
+                        <div class="col">
+                            <RadzenButton style="align-content: flex-end" Click=@(args => PlaceOrder()) Text="Place Order" ButtonStyle="ButtonStyle.Secondary"></RadzenButton>
+                            <RadzenButton style="margin: 0 1rem 1rem 0" Click=@(args => EmptyBasket()) Text="Empty Basket" ButtonStyle="ButtonStyle.Danger" />
+                        </div>
+                    </div>
 
                 }
-            }
-            else
-            {
+                }
+                else
+                {
                 <h1>No items in basket.</h1>
-            }
+                }
 
         </Authorized>
         <NotAuthorized>

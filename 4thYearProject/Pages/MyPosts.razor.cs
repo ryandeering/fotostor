@@ -58,6 +58,7 @@ namespace _4thYearProject.Server.Pages
 
         protected async override Task OnInitializedAsync()
         {
+
             identity = await _userService.GetUserAsync();
             //First get user claims    
             claimDisplayName = identity.Claims.Where(c => c.Type.Equals("preferred_username"))
@@ -80,7 +81,6 @@ namespace _4thYearProject.Server.Pages
 
 
         }
-
 
 
         protected async Task FollowUser()

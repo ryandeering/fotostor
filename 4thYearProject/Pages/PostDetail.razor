@@ -48,6 +48,8 @@ else
         }
     </div>
     <img src=@post.PhotoFile alt="pic">
+    <br /><br />
+    <h3>&nbsp;&nbsp;&nbsp;&nbsp;@post.Caption</h3>
     <div class="card-footer">
         <div class="card-footer-left">
 
@@ -56,7 +58,7 @@ else
             {
 
                 <MatButton OnClick="UnLike">
-                    <i class="fas fa-coffee"></i>
+                    <i class="fas fa-thumbs-down"></i>
                 </MatButton>
             }
             else
@@ -76,27 +78,31 @@ else
             @if (post.LicenseEnabled)
             {
 
-                <a @onclick="@(e => BuyLicense(post.PostId))" class="btn btn-light">
-                    <i class="fas fa-stamp"></i>
-                </a>
+                <MatButton @onclick="@(e => BuyLicense(post.PostId))" class="btn btn-light">
+                    <i class="fas fa-stamp"></i> &nbsp; Buy License
+                </MatButton>
             }
             @if (post.ShirtsEnabled)
-            {<a @onclick="@(e => BuyShirt(post.PostId))" class="btn btn-light">
-                    <i class="fas fa-tshirt"></i>
-                </a>
+            {<MatButton @onclick="@(e => BuyShirt(post.PostId))" class="btn btn-light">
+                 <i class="fas fa-tshirt"></i> &nbsp; Buy Shirt
+             </MatButton>
             }
             @if (post.PrintsEnabled)
-            {<a @onclick="@(e => BuyPrint(post.PostId))" class="btn btn-light">
-                    <i class="fas fa-scroll"></i>
-                </a>
+            {<MatButton @onclick="@(e => BuyPrint(post.PostId))" class="btn btn-light">
+                 <i class="fas fa-scroll"></i>  &nbsp; Buy Print
+             </MatButton>
+            }
+            
+            @if(post.Likes > 0){
+                <p>@post.Likes likes</p> 
             }
 
 
 
         </div>
     </div>
-    <h5>@post.Caption</h5>
-    <div class="card-likes">@post.Likes likes</div>
+
+
 </div>
 
 

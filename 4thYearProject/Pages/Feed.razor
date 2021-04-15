@@ -42,9 +42,8 @@
                     @if (Post.ProfileData.Username != null || Post.ProfileData.Username == String.Empty)
                     {
 
-                        <span class="user-name"> <a href="/profile/@Post.ProfileData.Username">@Post.ProfileData.Username</a> <br /> @Post.ProfileData.FName @Post.ProfileData.LName</span>
+                        <span class="user-name"> <a href="/profile/@Post.ProfileData.Username">@Post.ProfileData.Username</a> <br /> <p>  @Post.ProfileData.FName @Post.ProfileData.LName </p></span>
                     }
-                    @*<span class="location"> Ooty</span>*@
                 </div>
             }
         }
@@ -52,15 +51,16 @@
 
 
     <img src=@Post.PhotoFile alt="pic">
-
-
+    <br /><br />
+    <h3>&nbsp;&nbsp;&nbsp;&nbsp;@Post.Caption</h3>
     <div class="card-footer">
+
         <div class="card-footer-left">
 
             @if (Post.Liked)
             {
                 <MatButton OnClick="() => UnLike(Post)">
-                    <i class="fas fa-coffee"></i>
+                    <i class="fas fa-thumbs-down"></i>
                 </MatButton>
 
             }
@@ -84,21 +84,27 @@
             @if (Post.LicenseEnabled)
             {
 
-                <a @onclick="@(e => BuyLicense(Post.PostId))" class="btn btn-light">
-                    <i class="fas fa-stamp"></i>
-                </a>
+                <MatButton @onclick="@(e => BuyLicense(Post.PostId))" class="btn btn-light">
+                    <i class="fas fa-stamp"></i> &nbsp; Buy License
+                </MatButton>
             }
             @if (Post.ShirtsEnabled)
-            {<a @onclick="@(e => BuyShirt(Post.PostId))" class="btn btn-light">
-                    <i class="fas fa-tshirt"></i>
-                </a>
+            {
+            <MatButton @onclick="@(e => BuyShirt(Post.PostId))" class="btn btn-light">
+                <i class="fas fa-tshirt"></i> &nbsp; Buy Shirt
+            </MatButton>
             }
             @if (Post.PrintsEnabled)
-            {<a @onclick="@(e => BuyPrint(Post.PostId))" class="btn btn-light">
-                    <i class="fas fa-scroll"></i>
-                </a>
+            {
+            <MatButton @onclick="@(e => BuyPrint(Post.PostId))" class="btn btn-light">
+                <i class="fas fa-scroll"></i> &nbsp; Buy Print
+            </MatButton>
             }
 
+            @if (Post.Likes > 0)
+            {
+                <p>@Post.Likes likes</p>
+            }
 
 
 
@@ -108,8 +114,8 @@
 
         </div>
     </div>
-    <p><br />@Post.Caption</p>
-    <div class="card-likes">@Post.Likes likes</div>
+   
+    <div class="card-likes"></div>
     @if (Post.Comments.Count != 0)
     {
         <div class="card-footer-left">

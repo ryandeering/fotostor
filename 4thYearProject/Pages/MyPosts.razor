@@ -17,7 +17,8 @@
                     }
                     else
                     {
-                        <img src="images/profilePicture.jpg" alt="">
+                        <img src="images/profilePicture.jpg" alt="" width="250"
+                             height="250">
                     }
                 </div>
 
@@ -55,23 +56,27 @@
 
                 <div class="profile-bio">
                     <br />
-                    <p><span class="profile-real-name">@User.FirstName @User.SecondName</span> @User.Bio </p>
+                    <p><span class="profile-real-name">@User.FirstName @User.SecondName</span> @User.Bio <br />  </p>
                     <br />
                 </div>
 
 
-                @if (LoggedInID.Equals(User.Id))
+                @if (!LoggedInID.Equals(User.Id))
                 {
                     if (IsFollowing)
                     {
-                        <button class="btn btn-primary" @onclick="UnFollowUser">Unfollow</button>
+                        <MatButton Outlined="true" class="btn btn-primary" @onclick="UnFollowUser">Unfollow</MatButton>
                     }
                     else
                     {
-                        <button class="btn btn-primary" @onclick="FollowUser">Follow</button>
+                        <MatButton Outlined="true" class="btn btn-primary" @onclick="FollowUser">Follow</MatButton>
                     }
                 }
-       
+                else
+                {
+                    <button class="btn btn-primary"></button>
+                }
+
 
             </div>
             <!-- End of profile section -->
@@ -87,28 +92,28 @@
         }
         else
         {
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br /> <br />
+            <br />
+            <br /> <br />
+            <br />
+            <br /> <br />
+            <br />
+            <br /> <br />
+            <br />
+            <br /> <br />
+            <br />
+
 
 
             <div class="container">
