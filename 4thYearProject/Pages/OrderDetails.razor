@@ -12,15 +12,14 @@
     <h1>Order Details: ID @Order.OrderId</h1>
     <br />
 
-    @if (X != null && Y != null)
-    {
+
         <RadzenGoogleMap ApiKey="AIzaSyB4oXAfZlz1J1UsSymwKrIGnv9NxeFWqQ4" Center="@(new GoogleMapPosition {Lat = X, Lng = Y})" style="height: 297px" Zoom="15">
             <Markers>
                 <RadzenGoogleMapMarker Label="Your Order Destination" Position="@(new GoogleMapPosition() {Lat = X, Lng = Y})" Title="Your Order Destination">
                 </RadzenGoogleMapMarker>
             </Markers>
         </RadzenGoogleMap>
-    }
+    
 
     <RadzenCard Style="width: 600px; margin-bottom: 20px; height: 130px;">
         <div class="col-md-6">

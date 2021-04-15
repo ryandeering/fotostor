@@ -17,7 +17,6 @@ namespace _4thYearProject.Server.Services
     {
         private readonly HttpClient _httpClient;
         private readonly IUserService _userService;
-        JsonSerializerOptions options = new JsonSerializerOptions();
 
 
         public ShoppingCartDataService(HttpClient httpClient, IUserService userService)
@@ -127,20 +126,6 @@ namespace _4thYearProject.Server.Services
                     (await _httpClient.GetStreamAsync($"api/shoppingcart/{UserId}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
         }
 
-
-        public Task<ShoppingCart> AddToCart(string UserId, int PostId)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public async Task<ShoppingCart> AddOne(string UserId, int LineItemId)
-        {
-            var response = await _httpClient.PutAsync("api/shoppingcart/add/incre/{UserId}/{LineItemId}", null);
-
-            return await JsonSerializer.DeserializeAsync<ShoppingCart>(await response.Content.ReadAsStreamAsync());
-
-
-        }
 
         public async Task<IEnumerable<OrderLineItem>> GetOrderLinesForArtist(string ArtistId)
         {

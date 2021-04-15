@@ -97,7 +97,7 @@ namespace _4thYearProject.Server.Pages
                 .Select(c => c.Value).SingleOrDefault().ToString();
 
             var like = new Like(LoggedInID, post.PostId.ToString());
-            await LikeService.AddLike(like); //TODO
+            await LikeService.AddLike(like); 
             post.Liked = true;
             post.Likes++;
             StateHasChanged();

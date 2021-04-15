@@ -54,7 +54,6 @@ namespace _4thYearProject.Api.Controllers
 
             var sessionService = new SessionService();
             var session = sessionService.Get(session_id);
-            var detail = string.Empty; //TODO
             var OrderId = 0;
             var s = new SuccessModel();
 
@@ -98,11 +97,19 @@ namespace _4thYearProject.Api.Controllers
 
                     sb.Append("</br>");
                     sb.Append("<h2>Order Contents:</h2>");
-                    sb.Append("<h3>Type | Quantity | Price | Size </h3>");
+                    sb.Append("<h3>Type | Quantity | Price | Details </h3>");
                     foreach (var olLineItem in order.LineItems)
                     {
+                        String LicenseLink = String.Empty;
+
+                        if (olLineItem.Type.Equals("License"))
+                        {
+                            LicenseLink = "<a href=" + olLineItem.Post.PhotoFile + ">License Link</a>";
+                        }
                         sb.Append(olLineItem.Type + " | " + olLineItem.Quantity + " | " +
-                                  $"€{olLineItem.Price:0.00}" + " | " +olLineItem.Size);
+                                  $"€{olLineItem.Price:0.00}" + " | " +olLineItem.Size + LicenseLink);
+
+
                     }
                     sb.Append("</br>");
                     sb.Append("</body>");

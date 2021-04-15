@@ -26,8 +26,6 @@ namespace _4thYearProject.Api.Models
 
             var itemFound = false;
 
-            //TODO, validate the item is actually possible to be added
-
             if (cart.BasketItems == null)
             {
                 cart.BasketItems = new List<OrderLineItem>();
@@ -68,33 +66,6 @@ namespace _4thYearProject.Api.Models
             return cart;
         }
 
-        public ShoppingCart RemoveItem(string UserId, string PostId)
-        {
-            //TODO validate if user is the intended user
-
-            var cart = _appDbContext.Carts.FirstOrDefault(c => c.UserId == UserId);
-
-            //TODO, validate the item is actually possible to be added
-
-            foreach (var ol in cart.BasketItems)
-                if (ol.Post.PostId.Equals(PostId))
-                {
-                    //TODO validation for type
-
-                    if (ol.Quantity > 1)
-                    {
-                        ol.Quantity--;
-                    }
-                    else
-                    {
-                        cart.BasketItems.Remove(ol);
-                        break;
-                    }
-                }
-
-            _appDbContext.SaveChanges();
-            return cart;
-        }
 
         public ShoppingCart EmptyBasket(string UserId)
         {
