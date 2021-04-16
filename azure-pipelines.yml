@@ -1,112 +1,16 @@
 trigger:
-  branches:
-    include:
-    - master
+  - main
 
-variables:
-  buildConfiguration: 'Release'
-  vmImageName: 'windows-latest'
+pool:
+  vmImage: ubuntu-latest
 
-stages:
-- stage: Build
-  displayName: Build stage
+steps:
+  - checkout: self
+    submodules: true
 
-  jobs:
-  - job: Build
-    displayName: Build
-
-    pool:
-      vmImage: $(vmImageName)
-
-    steps:
-    - task: UseDotNet@2
-      displayName: Force .NET 5
-      inputs:
-        packageType: 'sdk'
-        version: '5.x'
-    - task: DotNetCoreCLI@2
-      displayName: Restore project
-      inputs:
-        command: 'restore'
-        projects: '**/*.csproj'
-        feedsToUse: 'select'
-    - task: DotNetCoreCLI@2
-      displayName: Build API
-      inputs:
-        command: 'build'
-        projects: '**/4thYearProject.Api.csproj'
-    - task: DotNetCoreCLI@2
-      displayName: Build Blazor WebAssembly
-      inputs:
-        command: 'build'
-        projects: '**/4thYearProject.Server.csproj'
-        
-    
-
-- stage: Test
-  displayName: Test stage
-
-  jobs:
-  - job: Test
-    displayName: Test
-
-    pool:
-      vmImage: $(vmImageName)
-
-    - task: VSTest@2
-      inputs:
-        testSelector: 'testAssemblies'
-        testAssemblyVer2: |
-          **\*Shared*.dll
-          **\*Api*.dll
-          **\*UnitTesting*.dll
-          **\*test*.dll
-          !**\*TestAdapter.dll
-          !**\obj\**
-        searchFolder: '$(System.DefaultWorkingDirectory)'
-        vsTestVersion: '16.0'
-        codeCoverageEnabled: true
-
-- stage: Release  
-  displayName: Release stage
-
-  jobs:
-  - job: Release
-    displayName: Release to Azure
-
-    pool:
-        vmImage: $(vmImageName)
-    steps:
-    - task: UseDotNet@2
-      displayName: Force .NET 5
-      inputs:
-        packageType: 'sdk'
-        version: '5.x'
-    - task: DotNetCoreCLI@2
-      displayName: Restore project
-      inputs:
-        command: 'restore'
-        projects: '**/*.csproj'
-        feedsToUse: 'select'
-    - task: DotNetCoreCLI@2
-      displayName: Publish project
-      inputs:
-        command: 'publish'
-        publishWebProjects: true
-        projects: '**/*.csproj'
-    - task: AzureRmWebAppDeployment@4
-      displayName: Deploy to Azure
-      inputs:
-        ConnectionType: 'AzureRM'
-        azureSubscription: 'fotostop'
-        appType: 'webApp'
-        WebAppName: 'fotostopAPI'
-        packageForLinux: '$(System.DefaultWorkingDirectory)/4thYearProject.Api/'
-    - task: AzureRmWebAppDeployment@4
-      displayName: Deploy Blazor WebAssembly to Azure
-      inputs:
-        ConnectionType: 'AzureRM'
-        azureSubscription: 'fotostop'
-        appType: 'webApp'
-        WebAppName: '4thYearProjectServer20210308215801'
-        packageForLinux: '$(System.DefaultWorkingDirectory)/4thYearProject/'
+  - task: AzureStaticWebApp@0
+    inputs:
+      app_location: "/4thYearProject" 
+      output_location: "wwwroot"
+    env:
+      azure_static_web_apps_api_token: $(deployment_token)
