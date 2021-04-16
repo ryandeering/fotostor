@@ -65,7 +65,7 @@ namespace _4thYearProject.Api
                         IdentityServerAuthenticationDefaults.AuthenticationScheme)
                     .AddIdentityServerAuthentication(options =>
                     {
-                        options.Authority = "https://fourthyrprojidp.azurewebsites.net";
+                        options.Authority = "https://fotostopidp.azurewebsites.net";
                         options.ApiName = "_4thyearprojectapi";
                     });
 

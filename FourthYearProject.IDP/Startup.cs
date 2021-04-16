@@ -95,7 +95,7 @@ namespace FourthYearProject.IDP
                     var logger = container.GetRequiredService<ILogger<DefaultCorsPolicyService>>();
                     return new DefaultCorsPolicyService(logger)
                     {
-                        AllowedOrigins = { "https://gentle-stone-043437c03.azurestaticapps.net", "https://fotostopapi.azurewebsites.net" }
+                        AllowedOrigins = { "https://red-pebble-0ad568c03.azurestaticapps.net", "https://fotostopapi.azurewebsites.net" }
                     };
                 });
             }

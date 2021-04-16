@@ -10,7 +10,7 @@ namespace _4thYearProject.Server.MessageHandlers
             : base(provider, navigation)
         {
             ConfigureHandler(
-                authorizedUrls: new[] { "https://localhost:44340/", "https://4thyearprojectrd.azurewebsites.net", "https://fotostopidp.azurewebsites.net", "https://gentle-stone-043437c03.azurestaticapps.net" });
+                authorizedUrls: new[] { "https://fotostopapi.azurewebsites.net", "https://localhost:44340/", "https://4thyearprojectrd.azurewebsites.net", "https://fotostopidp.azurewebsites.net", "https://red-pebble-0ad568c03.azurestaticapps.net" });
+                }
         }
     }
-}
