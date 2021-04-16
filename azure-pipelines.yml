@@ -9,7 +9,7 @@ variables:
 
 stages:
 - stage: Build
-  displayName: Build stage
+  displayName: Build & Testing Stage
 
   jobs:
   - job: Build
@@ -40,6 +40,12 @@ stages:
       inputs:
         command: 'build'
         projects: '**/4thYearProject.Server.csproj'
+    - task: DotNetCoreCLI@2
+      inputs:
+        displayName: Running Unit Tests
+        command: test
+        projects: '**/FourthYearProject.UnitTesting'
+        arguments: '--configuration Release'
 
 
 - stage: Release  
