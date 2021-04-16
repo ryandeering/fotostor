@@ -11,7 +11,6 @@ steps:
   - task: AzureStaticWebApp@0
     inputs:
       app_location: "/4thYearProject" 
-      api_location: "/"
       output_location: "/working_dir/4thYearProject/bin/Release/net5.0/wwwroot"
     env:
       azure_static_web_apps_api_token: $(deployment_token)
