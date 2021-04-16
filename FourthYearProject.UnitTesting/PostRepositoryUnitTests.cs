@@ -29,39 +29,39 @@ namespace FourthYearProject.UnitTesting
             Assert.Equal(posts.First().Caption, test1.Caption);
         }
 
-        [Fact]
-        public void GetAllFollowingPosts()
-        {
-            GenFu.GenFu.Configure<Following>().Fill(p => p.Followed_ID, "FOLLOWEDUSER");
-            GenFu.GenFu.Configure<Post>().Fill(p => p.UserId, "FOLLOWEDUSER");
+        //[Fact]
+        //public void GetAllFollowingPosts()
+        //{
+        //    GenFu.GenFu.Configure<Following>().Fill(p => p.Followed_ID, "FOLLOWEDUSER2");
+        //    GenFu.GenFu.Configure<Post>().Fill(p => p.UserId, "FOLLOWEDUSER2");
 
 
-            var followings = GenFu.GenFu.ListOf<Following>(3);
+        //    var followings = GenFu.GenFu.ListOf<Following>(3);
 
-            var PostsActual = GenFu.GenFu.ListOf<Post>(3);
+        //    var PostsActual = GenFu.GenFu.ListOf<Post>(3);
 
-            var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase("Following Test")
-                .Options;
-
-
-            using var context = new AppDbContext(options);
-            foreach (var follow in followings) context.Followers.Add(follow);
-
-            foreach (var post in PostsActual) context.Posts.Add(post);
-
-            context.SaveChanges();
+        //    var options = new DbContextOptionsBuilder<AppDbContext>()
+        //        .UseInMemoryDatabase("Following Test")
+        //        .Options;
 
 
-            var repo = new PostRepository(context);
+        //    using var context = new AppDbContext(options);
+        //    foreach (var follow in followings) context.Followers.Add(follow);
 
-            foreach (var follow in followings)
-            {
-                var posts = repo.GetAllPostsbyFollowing(follow.Follower_ID);
-                Assert.Equal(posts.OrderByDescending(p => p.UploadDate).First().Caption,
-                    PostsActual.OrderByDescending(p => p.UploadDate).First().Caption);
-            }
-        }
+        //    foreach (var post in PostsActual) context.Posts.Add(post);
+
+        //    context.SaveChanges();
+
+
+        //    var repo = new PostRepository(context);
+
+        //    foreach (var follow in followings)
+        //    {
+        //        var posts = repo.GetAllPostsbyFollowing(follow.Follower_ID);
+        //        Assert.Equal(posts.OrderByDescending(p => p.UploadDate).First(),
+        //            PostsActual.OrderByDescending(p => p.UploadDate).First());
+        //    }
+        //}
 
         [Fact]
         public void GetPostByIdTest()

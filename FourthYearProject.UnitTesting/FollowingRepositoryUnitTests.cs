@@ -11,7 +11,7 @@ namespace FourthYearProject.UnitTesting
         [Fact]
         public void GetFollowingTest()
         {
-            GenFu.GenFu.Configure<Following>().Fill(f => f.Follower_ID, "TESTID");
+            GenFu.GenFu.Configure<Following>().Fill(f => f.Follower_ID, "TEST2");
 
             var test1 = GenFu.GenFu.ListOf<Following>(3);
 
@@ -25,7 +25,7 @@ namespace FourthYearProject.UnitTesting
             foreach (var following in test1) context.Followers.Add(following);
             context.SaveChanges();
             var repo = new FollowingRepository(context);
-            var comments = repo.GetFollowing("TESTID");
+            var comments = repo.GetFollowing("TEST2");
 
 
             for (var j = 0; j < test1.Count; j++)
