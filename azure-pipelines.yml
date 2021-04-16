@@ -12,6 +12,6 @@ steps:
     inputs:
       app_location: "/4thYearProject" 
       api_location: "/4thYearProject.Api"
-      output_location: "/4thYearProject/build"
+      output_location: "/4thYearProject/wwwroot"
     env:
       azure_static_web_apps_api_token: $(deployment_token)
