@@ -51,7 +51,7 @@ stages:
   displayName: Testing
 
   jobs:
-  - job: Running Unit Tests...
+  - job: Running Unit Tests
     displayName: Release to Azure
 
     pool:
