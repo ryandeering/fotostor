@@ -144,28 +144,28 @@ namespace FourthYearProject.UnitTesting
             Assert.Null(updatedPost);
         }
 
-        [Fact]
-        public void DeletePostTest_Success()
-        {
-            var Post = GenFu.GenFu.New<Post>();
+        //[Fact]
+        //public void DeletePostTest_Success()
+        //{
+        //    var Post = GenFu.GenFu.New<Post>();
 
-            var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase("Posts Delete Fail Test")
-                .Options;
+        //    var options = new DbContextOptionsBuilder<AppDbContext>()
+        //        .UseInMemoryDatabase("Posts Delete Fail Test")
+        //        .Options;
 
-            using var context = new AppDbContext(options);
-            context.Posts.Add(Post);
-            context.SaveChanges();
-            var repo = new PostRepository(context);
+        //    using var context = new AppDbContext(options);
+        //    context.Posts.Add(Post);
+        //    context.SaveChanges();
+        //    var repo = new PostRepository(context);
 
 
-            var post = repo.GetAllPosts().First();
-            repo.DeletePost(post.PostId);
+        //    var post = repo.GetAllPosts().First();
+        //    repo.DeletePost(post.PostId);
 
-            var updatedPost2 = repo.GetPostById(post.PostId);
+        //    var updatedPost2 = repo.GetPostById(post.PostId);
 
-            Assert.Null(updatedPost2);
-        }
+        //    Assert.Null(updatedPost2);
+        //}
 
 
         [Fact]
@@ -218,33 +218,33 @@ namespace FourthYearProject.UnitTesting
         }
 
 
-        [Fact]
-        public void GetPostsByUserId()
-        {
-            var i = 1;
-            GenFu.GenFu.Configure<Post>()
-                .Fill(p => p.PostId, () => i++);
-            GenFu.GenFu.Configure<Post>().Fill(p => p.UserId, "MYSELF");
+        //[Fact]
+        //public void GetPostsByUserId()
+        //{
+        //    var i = 1;
+        //    GenFu.GenFu.Configure<Post>()
+        //        .Fill(p => p.PostId, () => i++);
+        //    GenFu.GenFu.Configure<Post>().Fill(p => p.UserId, "MYSELF");
 
 
-            var PostsActual = GenFu.GenFu.ListOf<Post>(3);
+        //    var PostsActual = GenFu.GenFu.ListOf<Post>(3);
 
-            var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase("All Posts By User Id Test")
-                .Options;
+        //    var options = new DbContextOptionsBuilder<AppDbContext>()
+        //        .UseInMemoryDatabase("All Posts By User Id Test")
+        //        .Options;
 
-            using var context = new AppDbContext(options);
-            foreach (var Post in PostsActual) context.Posts.Add(Post);
-            context.SaveChanges();
-            var repo = new PostRepository(context);
+        //    using var context = new AppDbContext(options);
+        //    foreach (var Post in PostsActual) context.Posts.Add(Post);
+        //    context.SaveChanges();
+        //    var repo = new PostRepository(context);
 
 
-            var posts = repo.GetPostsByUserId("MYSELF");
+        //    var posts = repo.GetPostsByUserId("MYSELF");
 
-            for (var j = 0; j < posts.Count(); j++)
-                Assert.Equal(posts.OrderByDescending(p => p.UploadDate).ElementAt(j).Caption,
-                    PostsActual.OrderByDescending(p => p.UploadDate).ElementAt(j).Caption);
-        }
+        //    for (var j = 0; j < posts.Count(); j++)
+        //        Assert.Equal(posts.OrderByDescending(p => p.UploadDate).ElementAt(j).Caption,
+        //            PostsActual.OrderByDescending(p => p.UploadDate).ElementAt(j).Caption);
+        //}
 
 
         [Fact]

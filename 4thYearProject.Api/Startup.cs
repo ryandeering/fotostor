@@ -109,10 +109,29 @@ namespace _4thYearProject.Api
                 options.Sender_Name = Configuration["ExternalProviders:MailKit:SMTP:SenderName"];
             });
 
-            services.AddCors(options =>
+            if (Environment.IsDevelopment())
             {
-                options.AddPolicy("Open", builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
-            });
+                services.AddCors(options =>
+                {
+                    options.AddPolicy("Open",
+                        builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+                });
+            }
+            else
+            {
+                services.AddCors(options =>
+                {
+                    options.AddPolicy("Open",
+                        builder =>
+                        {
+                            builder.WithOrigins("https://fotostopapi.azurewebsites.net",
+                                    "https://fotostopidp.azurewebsites.net", "https://red-pebble-0ad568c03.azurestaticapps.net")
+                                .AllowAnyHeader()
+                                .AllowAnyMethod();
+                        });
+                });
+            }
+
 
             services.AddControllers(configure =>
                 configure.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy)));
