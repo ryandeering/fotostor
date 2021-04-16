@@ -16,7 +16,6 @@ stages:
   steps:
     - checkout: self
       submodules: true
-
     - task: UseDotNet@2
       displayName: Force .NET 5
       inputs:
