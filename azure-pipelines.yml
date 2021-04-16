@@ -11,6 +11,6 @@ steps:
   - task: AzureStaticWebApp@0
     inputs:
       app_location: "/4thYearProject" 
-      output_location: "/ss-oryx/app/"
+      output_location: "wwwroot"
     env:
       azure_static_web_apps_api_token: $(deployment_token)
