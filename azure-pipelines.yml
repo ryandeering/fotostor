@@ -47,11 +47,11 @@ stages:
         projects: '**/4thYearProject.Server.csproj'
 
 
-- stage: Blazor  
-  displayName: Blazor
+- stage: Testing 
+  displayName: Testing
 
   jobs:
-  - job: Blazor
+  - job: Running Unit Tests...
     displayName: Release to Azure
 
     pool:
