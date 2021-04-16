@@ -39,10 +39,10 @@ stages:
         command: 'build'
         projects: '**/4thYearProject.Server.csproj'
 
-  - job: Release
-    displayName: Release to Azure
+    - job: Release
+      displayName: Release to Azure
 
-    pool:
+      pool:
         vmImage: $(vmImageName)
 
     - task: UseDotNet@2
