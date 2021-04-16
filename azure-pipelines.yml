@@ -36,6 +36,11 @@ stages:
         command: 'build'
         projects: '**/4thYearProject.Api.csproj'
     - task: DotNetCoreCLI@2
+      displayName: Build Identity Server
+      inputs:
+        command: 'build'
+        projects: '**/FourthYearProject.IDP.csproj'
+    - task: DotNetCoreCLI@2
       displayName: Build Blazor WebAssembly
       inputs:
         command: 'build'
@@ -76,13 +81,22 @@ stages:
         publishWebProjects: true
         projects: '**/*.csproj'
     - task: AzureRmWebAppDeployment@4
-      displayName: Deploy to Azure
+      displayName: Deploy API to Azure
       inputs:
         ConnectionType: AzureRM
         azureSubscription: fotostop
         appType: 'webApp'
         WebAppName: 'fotostopAPI'
         package: $(System.DefaultWorkingDirectory)/4thYearProject.Api
+        deploymentMethod: 'zipDeploy'
+    - task: AzureRmWebAppDeployment@4
+      displayName: Deploy Identity Server to Azure
+      inputs:
+        ConnectionType: AzureRM
+        azureSubscription: fotostop
+        appType: 'webApp'
+        WebAppName: 'fotostopIDP'
+        package: $(System.DefaultWorkingDirectory)/FourthYearProject.IDP
         deploymentMethod: 'zipDeploy'
     - task: AzureStaticWebApp@0
       displayName: Blazor Deploy to Azure Static Web Apps
