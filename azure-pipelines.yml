@@ -77,8 +77,6 @@ stages:
         appType: 'webApp'
         WebAppName: 'fotostopAPI'
         package: $(System.DefaultWorkingDirectory)/4thYearProject.Api
-        DeploymentType: 'webDeploy'
-        enableCustomDeployment: true
     - task: AzureStaticWebApp@0
       inputs:
         app_location: "/4thYearProject" 
