@@ -77,7 +77,9 @@ stages:
         appType: 'webApp'
         WebAppName: 'fotostopAPI'
         package: $(System.DefaultWorkingDirectory)/4thYearProject.Api
+        deploymentMethod: 'zipDeploy'
     - task: AzureStaticWebApp@0
+      displayName: Blazor Deploy to Azure Static Web Apps
       inputs:
         app_location: "/4thYearProject" 
         output_location: "wwwroot"
