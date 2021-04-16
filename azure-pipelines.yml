@@ -5,11 +5,11 @@ trigger:
 
 variables:
   buildConfiguration: 'Release'
-  vmImageName: 'ubuntu-latest'
+  vmImageName: 'windows-latest'
 
 stages:
 - stage: Build
-  displayName: Build & Testing Stage
+  displayName: Build
 
   jobs:
   - job: Build
@@ -45,13 +45,35 @@ stages:
       inputs:
         command: 'build'
         projects: '**/4thYearProject.Server.csproj'
+
+
+- stage: Blazor  
+  displayName: Blazor
+
+  jobs:
+  - job: Blazor
+    displayName: Release to Azure
+
+    pool:
+        vmImage: $(vmImageName)
+    steps:
+    - task: UseDotNet@2
+      displayName: Force .NET 5
+      inputs:
+        packageType: 'sdk'
+        version: '5.x'
+    - task: DotNetCoreCLI@2
+      displayName: Restore project
+      inputs:
+        command: 'restore'
+        projects: '**/*.csproj'
+        feedsToUse: 'select'
     - task: DotNetCoreCLI@2
       displayName: Running Unit Tests
       inputs:  
         command: test
         projects: '**/FourthYearProject.UnitTesting'
         arguments: '--configuration Release'
-
 
 - stage: Release  
   displayName: Release stage
@@ -88,7 +110,9 @@ stages:
         appType: 'webApp'
         WebAppName: 'fotostopAPI'
         package: $(System.DefaultWorkingDirectory)/4thYearProject.Api
-        deploymentMethod: 'webDeploy'
+        DeploymentType: 'webDeploy'
+        enableCustomDeployment: true
+
     - task: AzureRmWebAppDeployment@4
       displayName: Deploy Identity Server to Azure
       inputs:
@@ -97,7 +121,9 @@ stages:
         appType: 'webApp'
         WebAppName: 'fotostopIDP'
         package: $(System.DefaultWorkingDirectory)/FourthYearProject.IDP
-        deploymentMethod: 'webDeploy'
+        DeploymentType: 'webDeploy'
+        enableCustomDeployment: true
+
 
 
 - stage: Blazor  
