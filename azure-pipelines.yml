@@ -1,5 +1,7 @@
 trigger:
-  - master
+  branches:
+    include:
+    - master
 
 variables:
   buildConfiguration: 'Release'
@@ -12,73 +14,74 @@ stages:
   jobs:
   - job: Build
     displayName: Build
-  
-  pool:
-    vmImage: $(vmImageName)
-
-  steps:
-  - checkout: self
-    submodules: true
-        
-  - task: UseDotNet@2
-    displayName: Force .NET 5
-    inputs:
-      packageType: 'sdk'
-      version: '5.x'
-        
-  - task: DotNetCoreCLI@2
-    displayName: Restore project
-    inputs:
-      command: 'restore'
-      projects: '**/*.csproj'
-      feedsToUse: 'select'
-  - task: DotNetCoreCLI@2
-    displayName: Build API
-    inputs:
-      command: 'build'
-      projects: '**/4thYearProject.Api.csproj'
-  - task: DotNetCoreCLI@2
-    displayName: Build Blazor WebAssembly
-    inputs:
-      command: 'build'
-      projects: '**/4thYearProject.Server.csproj'
-
-  - job: Release
-    displayName: Release to Azure
 
     pool:
       vmImage: $(vmImageName)
 
-  - task: UseDotNet@2
-    displayName: Force .NET 5
-    inputs:
-      packageType: 'sdk'
-      version: '5.x'
-  - task: DotNetCoreCLI@2
-    displayName: Restore project
-    inputs:
-      command: 'restore'
-      projects: '**/*.csproj'
-      feedsToUse: 'select'
-  - task: DotNetCoreCLI@2
-    displayName: Publish project
-    inputs:
-      command: 'publish'
-      publishWebProjects: true
-      projects: '**/*.csproj'
-  - task: AzureRmWebAppDeployment@4
-    displayName: Deploy to Azure
-    inputs:
-      ConnectionType: AzureRM
-      azureSubscription: fotostop
-      appType: 'webApp'
-      WebAppName: 'fotostopAPI'
-      package: $(System.DefaultWorkingDirectory)/4thYearProject.Api
-      DeploymentType: 'webDeploy'
-      enableCustomDeployment: true
-  - task: AzureStaticWebApp@0
-    inputs:
-       app_location: "/4thYearProject" 
-       output_location: "wwwroot"
-    env:
+    steps:
+    - task: UseDotNet@2
+      displayName: Force .NET 5
+      inputs:
+        packageType: 'sdk'
+        version: '5.x'
+    - task: DotNetCoreCLI@2
+      displayName: Restore project
+      inputs:
+        command: 'restore'
+        projects: '**/*.csproj'
+        feedsToUse: 'select'
+    - task: DotNetCoreCLI@2
+      displayName: Build API
+      inputs:
+        command: 'build'
+        projects: '**/4thYearProject.Api.csproj'
+    - task: DotNetCoreCLI@2
+      displayName: Build Blazor WebAssembly
+      inputs:
+        command: 'build'
+        projects: '**/4thYearProject.Server.csproj'
+
+
+- stage: Release  
+  displayName: Release stage
+
+  jobs:
+  - job: Release
+    displayName: Release to Azure
+
+    pool:
+        vmImage: $(vmImageName)
+    steps:
+    - task: UseDotNet@2
+      displayName: Force .NET 5
+      inputs:
+        packageType: 'sdk'
+        version: '5.x'
+    - task: DotNetCoreCLI@2
+      displayName: Restore project
+      inputs:
+        command: 'restore'
+        projects: '**/*.csproj'
+        feedsToUse: 'select'
+    - task: DotNetCoreCLI@2
+      displayName: Publish project
+      inputs:
+        command: 'publish'
+        publishWebProjects: true
+        projects: '**/*.csproj'
+    - task: AzureRmWebAppDeployment@4
+      displayName: Deploy to Azure
+      inputs:
+        ConnectionType: AzureRM
+        azureSubscription: fotostop
+        appType: 'webApp'
+        WebAppName: 'fotostopAPI'
+        package: $(System.DefaultWorkingDirectory)/4thYearProject.Api
+        DeploymentType: 'webDeploy'
+        enableCustomDeployment: true
+    - task: AzureStaticWebApp@0
+      inputs:
+        app_location: "/4thYearProject" 
+        output_location: "wwwroot"
+      env:
         azure_static_web_apps_api_token: $(deployment_token)
