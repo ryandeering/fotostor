@@ -13,8 +13,8 @@ stages:
   - job: Build
     displayName: Build
   
-pool:
-  vmImage: $(vmImageName)
+  pool:
+    vmImage: $(vmImageName)
 
   steps:
   - checkout: self
