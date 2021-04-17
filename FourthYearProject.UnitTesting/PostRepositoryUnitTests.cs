@@ -1,4 +1,5 @@
-﻿using _4thYearProject.Api.Models;
+﻿using System;
+using _4thYearProject.Api.Models;
 using _4thYearProject.Shared.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace FourthYearProject.UnitTesting
 
 
             var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase("Products Test")
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
 
@@ -27,6 +28,9 @@ namespace FourthYearProject.UnitTesting
             var posts = repo.GetAllPosts();
 
             Assert.Equal(posts.First().Caption, test1.Caption);
+            
+            context.ChangeTracker.Clear();
+            context.Database.EnsureDeleted();
         }
 
         //[Fact]
@@ -72,11 +76,13 @@ namespace FourthYearProject.UnitTesting
 
             var PostsActual = GenFu.GenFu.ListOf<Post>(3);
 
+
             var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase("Posts Test")
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
             using var context = new AppDbContext(options);
+            context.ChangeTracker.Clear();
             foreach (var Post in PostsActual) context.Posts.Add(Post);
             context.SaveChanges();
             var repo = new PostRepository(context);
@@ -89,6 +95,9 @@ namespace FourthYearProject.UnitTesting
                 var PostObtained = repo.GetPostById(j);
                 Assert.Equal(PostObtained.Caption, posts.First(p => p.PostId == j).Caption);
             }
+            context.ChangeTracker.Clear();
+            context.Database.EnsureDeleted();
+            context.Dispose();
         }
 
         [Fact]
@@ -96,11 +105,13 @@ namespace FourthYearProject.UnitTesting
         {
             var Post = GenFu.GenFu.New<Post>();
 
+
             var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase("Posts Update Test")
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
             using var context = new AppDbContext(options);
+            context.ChangeTracker.Clear();
             context.Posts.Add(Post);
             context.SaveChanges();
             var repo = new PostRepository(context);
@@ -115,6 +126,9 @@ namespace FourthYearProject.UnitTesting
             var updatedPost2 = repo.GetAllPosts().First();
 
             Assert.Equal(updatedPost.Caption, updatedPost2.Caption);
+            context.ChangeTracker.Clear();
+            context.Database.EnsureDeleted();
+            context.Dispose();
         }
 
 
@@ -123,11 +137,13 @@ namespace FourthYearProject.UnitTesting
         {
             var Post = GenFu.GenFu.New<Post>();
 
+
             var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase("Posts Update Test")
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
             using var context = new AppDbContext(options);
+            context.ChangeTracker.Clear();
             context.Posts.Add(Post);
             context.SaveChanges();
             var repo = new PostRepository(context);
@@ -142,6 +158,9 @@ namespace FourthYearProject.UnitTesting
 
 
             Assert.Null(updatedPost);
+            context.ChangeTracker.Clear();
+            context.Database.EnsureDeleted();
+            context.Dispose();
         }
 
         //[Fact]
@@ -173,8 +192,9 @@ namespace FourthYearProject.UnitTesting
         {
             var Post = GenFu.GenFu.New<Post>();
 
+
             var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase("Posts Update Test")
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
             using var context = new AppDbContext(options);
@@ -189,6 +209,9 @@ namespace FourthYearProject.UnitTesting
             var updatedPost2 = repo.GetPostById(post.PostId);
 
             Assert.NotNull(updatedPost2);
+            context.ChangeTracker.Clear();
+            context.Database.EnsureDeleted();
+            context.Dispose();
         }
 
 
@@ -201,13 +224,13 @@ namespace FourthYearProject.UnitTesting
 
             var PostsActual = GenFu.GenFu.ListOf<Post>(3);
 
+
             var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase("All Posts Test")
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
             using var context = new AppDbContext(options);
             foreach (var Post in PostsActual) context.Posts.Add(Post);
-            context.SaveChanges();
             var repo = new PostRepository(context);
 
 
@@ -215,6 +238,9 @@ namespace FourthYearProject.UnitTesting
 
             for (var j = 0; j < posts.Count(); j++)
                 Assert.Equal(posts.ElementAt(j).Caption, PostsActual.ElementAt(j).Caption);
+            context.ChangeTracker.Clear();
+            context.Database.EnsureDeleted();
+            context.Dispose();
         }
 
 
@@ -253,10 +279,11 @@ namespace FourthYearProject.UnitTesting
             var PostActual = GenFu.GenFu.New<Post>();
 
             var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase("Posts Add Test")
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
             using var context = new AppDbContext(options);
+            context.ChangeTracker.Clear();
             var repo = new PostRepository(context);
 
             repo.AddPost(PostActual);
@@ -264,6 +291,9 @@ namespace FourthYearProject.UnitTesting
             var post = repo.GetAllPosts().First();
 
             Assert.Equal(PostActual.Caption, post.Caption);
+            context.ChangeTracker.Clear();
+            context.Database.EnsureDeleted();
+            context.Dispose();
         }
     }
 }

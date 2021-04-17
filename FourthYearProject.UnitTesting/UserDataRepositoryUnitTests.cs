@@ -1,4 +1,5 @@
-﻿using _4thYearProject.Api.Models;
+﻿using System;
+using _4thYearProject.Api.Models;
 using _4thYearProject.Shared.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace FourthYearProject.UnitTesting
             var test1 = GenFu.GenFu.New<UserData>();
 
             var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase("Get all User Data Test")
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
             using var context = new AppDbContext(options);
@@ -36,7 +37,7 @@ namespace FourthYearProject.UnitTesting
             var test1 = GenFu.GenFu.ListOf<UserData>(3);
 
             var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase("Delete User Data Test")
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
             using var context = new AppDbContext(options);
@@ -68,7 +69,7 @@ namespace FourthYearProject.UnitTesting
             var test1 = GenFu.GenFu.ListOf<UserData>(3);
 
             var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase("Get Username From Id Test")
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
             using var context = new AppDbContext(options);
@@ -106,7 +107,7 @@ namespace FourthYearProject.UnitTesting
             var test1 = GenFu.GenFu.ListOf<UserData>(3);
 
             var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase("Get User Data by Display Name")
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
             using var context = new AppDbContext(options);

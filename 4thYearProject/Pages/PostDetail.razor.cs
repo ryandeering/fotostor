@@ -92,15 +92,6 @@ namespace _4thYearProject.Server.Pages
             }
         }
 
-        protected async Task FollowUser()
-        {
-            follow.Follower_ID = LoggedInID;
-            follow.Followed_ID = User.Id;
-            await FollowingService.AddFollowing(follow);
-            await OnInitializedAsync();
-        }
-
-
         protected async Task<bool> VerifyLiked()
         {
             return await LikeService.VerifyLike(post.PostId.ToString(), LoggedInID);
@@ -141,23 +132,6 @@ namespace _4thYearProject.Server.Pages
             Toaster.Add("Comment deleted successfully.", MatToastType.Success, "SUCCESS");
         }
 
-
-        protected async Task UnFollowUser()
-        {
-            follow.Follower_ID = LoggedInID;
-            follow.Followed_ID = User.Id;
-            await FollowingService.RemoveFollowing(LoggedInID, User.Id);
-        }
-
-
-        protected async Task<Following> VerifyFollowing() //TODO do verify following
-        {
-            follow.Follower_ID = LoggedInID;
-            follow.Followed_ID = User.Id;
-
-
-            return null;
-        }
 
         private void BuyLicense(int PostId)
         {

@@ -16,7 +16,7 @@ namespace _4thYearProject.Api.Models
         public IEnumerable<Post> GetLatestPostsByHashTag(string hashTag)
         {
             return _appDbContext.Posts.Where(p => p.HashTags.Any(h => h.Content.EndsWith(hashTag)))
-                .OrderByDescending(p => p.UploadDate).Take(25).ToArray();
+                .OrderByDescending(p => p.UploadDate).Take(25).ToList();
         }
 
         public HashTag GetHashTag(string hashTag)

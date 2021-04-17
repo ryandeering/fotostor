@@ -16,7 +16,7 @@ namespace FourthYearProject.UnitTesting
             var expectedLike = GenFu.GenFu.New<Like>();
 
             var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase("Verify Like Success Test")
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
             using var context = new AppDbContext(options);
@@ -35,7 +35,7 @@ namespace FourthYearProject.UnitTesting
             var expectedLike = GenFu.GenFu.New<Like>();
 
             var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase("Verify Like Fail Test")
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
             using var context = new AppDbContext(options);
@@ -53,7 +53,7 @@ namespace FourthYearProject.UnitTesting
             var expectedLike = GenFu.GenFu.New<Like>();
 
             var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase("Add Like Test")
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
             using var context = new AppDbContext(options);
@@ -72,7 +72,7 @@ namespace FourthYearProject.UnitTesting
             var expectedLike = GenFu.GenFu.New<Like>();
 
             var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase("Add Like Test")
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
             using var context = new AppDbContext(options);
@@ -93,7 +93,7 @@ namespace FourthYearProject.UnitTesting
             var expectedLike = GenFu.GenFu.New<Like>();
 
             var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase("Remove Like Success Test")
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
             using var context = new AppDbContext(options);
@@ -112,7 +112,7 @@ namespace FourthYearProject.UnitTesting
             var expectedLike = GenFu.GenFu.New<Like>();
 
             var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase("Remove Like Fail Test")
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
             using var context = new AppDbContext(options);

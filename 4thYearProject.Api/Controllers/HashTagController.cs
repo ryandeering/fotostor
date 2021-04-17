@@ -10,15 +10,25 @@ namespace _4thYearProject.Api.Controllers
     {
         private readonly IHashTagRepository _hashTagRepository;
 
-        public HashTagController(IHashTagRepository hashTagRepository)
+        private readonly IUserDataRepository _userDataRepository;
+
+        public HashTagController(IHashTagRepository hashTagRepository, IUserDataRepository userDataRepository)
         {
             _hashTagRepository = hashTagRepository;
+            _userDataRepository = userDataRepository;
         }
 
         [HttpGet("{hashTag}")]
         public IActionResult GetLatestPostsByHashTag(string hashTag)
         {
-            return Ok(_hashTagRepository.GetLatestPostsByHashTag(hashTag));
+            var Posts = _hashTagRepository.GetLatestPostsByHashTag(hashTag);
+
+            foreach (var Post in Posts)
+            {
+                Post.ProfileData = _userDataRepository.GetUserNameFromId(Post.UserId);
+            }
+
+            return Ok(Posts);
         }
 
         [HttpPost("{hashTag}")]

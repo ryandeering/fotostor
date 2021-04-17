@@ -22,6 +22,7 @@ namespace FourthYearProject.UnitTesting
 
 
             using var context = new AppDbContext(options);
+            context.ChangeTracker.Clear();
             foreach (var following in test1) context.Followers.Add(following);
             context.SaveChanges();
             var repo = new FollowingRepository(context);
@@ -31,6 +32,7 @@ namespace FourthYearProject.UnitTesting
             for (var j = 0; j < test1.Count; j++)
                 Assert.Equal(test1[j].Follower_ID,
                     comments[j].Follower_ID);
+            context.ChangeTracker.Clear();
         }
 
         [Fact]
@@ -47,6 +49,7 @@ namespace FourthYearProject.UnitTesting
 
 
             using var context = new AppDbContext(options);
+            context.ChangeTracker.Clear();
             foreach (var following in test1) context.Followers.Add(following);
             context.SaveChanges();
             var repo = new FollowingRepository(context);
@@ -56,6 +59,7 @@ namespace FourthYearProject.UnitTesting
             for (var j = 0; j < test1.Count; j++)
                 Assert.Equal(test1[j].Follower_ID,
                     comments[j].Follower_ID);
+            context.ChangeTracker.Clear();
         }
 
 
@@ -73,11 +77,13 @@ namespace FourthYearProject.UnitTesting
 
 
             using var context = new AppDbContext(options);
+            context.ChangeTracker.Clear();
             foreach (var following in test1) context.Followers.Add(following);
             context.SaveChanges();
             var repo = new FollowingRepository(context);
             repo.RemoveFollowing(test1[1].Follower_ID, test1[1].Followed_ID);
             Assert.Equal(2, context.Followers.Count());
+            context.ChangeTracker.Clear();
         }
 
         [Fact]
@@ -89,6 +95,7 @@ namespace FourthYearProject.UnitTesting
 
 
             using var context = new AppDbContext(options);
+            context.ChangeTracker.Clear();
             var newFollow = new Following
             {
                 Follower_ID = "hunter",
@@ -98,6 +105,7 @@ namespace FourthYearProject.UnitTesting
 
             repo.AddFollowing(newFollow);
             Assert.Equal(1, context.Followers.Count());
+            context.ChangeTracker.Clear();
         }
 
         [Fact]
@@ -109,6 +117,7 @@ namespace FourthYearProject.UnitTesting
 
 
             using var context = new AppDbContext(options);
+            context.ChangeTracker.Clear();
             var newFollow = new Following
             {
                 Follower_ID = "hunter",
@@ -119,6 +128,7 @@ namespace FourthYearProject.UnitTesting
             repo.AddFollowing(newFollow);
             var verify = repo.VerifyFollowing("hunter", "prey");
             Assert.Equal("hunter", verify.Follower_ID);
+            context.ChangeTracker.Clear();
         }
     }
 

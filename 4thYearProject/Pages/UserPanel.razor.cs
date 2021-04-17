@@ -14,7 +14,7 @@ namespace _4thYearProject.Server.Pages
     {
         private const double FOTOSTOP_TAX = 0.20;
         private List<CategoryItem> PieChartItems;
-        private List<OrderLineItemData> RevenueChartItems;
+        //private List<OrderLineItemData> RevenueChartItems;
         private double RevenueTotal;
 
         [Inject] public IUserService UserService { get; set; }

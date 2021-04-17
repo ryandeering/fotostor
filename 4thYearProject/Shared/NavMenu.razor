@@ -85,7 +85,7 @@
 
         ClaimsPrincipal identity;
         UserData User;
-        private SearchResult resultActual;
+        private SearchResult resultActual = new SearchResult();
         private List<SearchResult> results = new List<SearchResult>();
         string LoggedInID = String.Empty;
         string ProfileName = String.Empty;
@@ -122,7 +122,7 @@
 
     private async Task ResultChange(SearchResult result)
     {
-
+        await _userService.GetUserAsync();
         switch (result.Type)
         {
             case "Profile":
@@ -135,6 +135,8 @@
                 break;
         }
     }
+
+    
 
 
 

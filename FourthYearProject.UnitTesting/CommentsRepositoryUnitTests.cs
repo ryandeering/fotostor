@@ -26,6 +26,7 @@ namespace FourthYearProject.UnitTesting
 
 
             using var context = new AppDbContext(options);
+            context.ChangeTracker.Clear();
             foreach (var comment in test1) context.Comments.Add(comment);
             context.SaveChanges();
             var repo = new CommentRepository(context);
@@ -35,6 +36,8 @@ namespace FourthYearProject.UnitTesting
             for (var j = 0; j < test1.Count; j++)
                 Assert.Equal(test1.OrderByDescending(p => p.SubmittedOn).ElementAt(j).Body,
                     comments.OrderByDescending(p => p.SubmittedOn).ElementAt(j).Body);
+            
+            context.ChangeTracker.Clear();
         }
 
 
@@ -53,6 +56,7 @@ namespace FourthYearProject.UnitTesting
 
 
             using var context = new AppDbContext(options);
+            context.ChangeTracker.Clear();
             foreach (var comment in test1) context.Comments.Add(comment);
             context.SaveChanges();
             var repo = new CommentRepository(context);
@@ -63,6 +67,7 @@ namespace FourthYearProject.UnitTesting
                 var comment = repo.GetCommentById(j);
                 Assert.Equal(comment.Body, test1.First(c => c.Id == j).Body);
             }
+            context.ChangeTracker.Clear();
 
         }
 
@@ -82,10 +87,12 @@ namespace FourthYearProject.UnitTesting
 
 
             using var context = new AppDbContext(options);
+            context.ChangeTracker.Clear();
             var repo = new CommentRepository(context);
             repo.AddComment(test1);
             var comment = repo.GetCommentById(1);
             Assert.Equal(test1.Body, comment.Body);
+            context.ChangeTracker.Clear();
         }
 
         [Fact]
@@ -101,6 +108,7 @@ namespace FourthYearProject.UnitTesting
                 .Options;
 
             using var context = new AppDbContext(options);
+            context.ChangeTracker.Clear();
             context.Comments.Add(test1);
             context.SaveChanges();
             var repo = new CommentRepository(context);
@@ -113,6 +121,7 @@ namespace FourthYearProject.UnitTesting
             var updatedComment2 = repo.GetCommentById(1);
 
             Assert.Equal(updatedComment, updatedComment2);
+            context.ChangeTracker.Clear();
 
 
         }
@@ -132,6 +141,7 @@ namespace FourthYearProject.UnitTesting
                 .Options;
 
             using var context = new AppDbContext(options);
+            context.ChangeTracker.Clear();
             foreach (var comment in test1)
             {
                 context.Comments.Add(comment);
@@ -142,6 +152,7 @@ namespace FourthYearProject.UnitTesting
             repo.DeleteComment(1);
 
             Assert.DoesNotContain(specificComment2, context.Comments.ToList());
+            context.ChangeTracker.Clear();
         }
 
         [Fact]
@@ -155,6 +166,7 @@ namespace FourthYearProject.UnitTesting
                 .Options;
 
             using var context = new AppDbContext(options);
+            context.ChangeTracker.Clear();
             foreach (var comment in test1)
             {
                 context.Comments.Add(comment);
@@ -165,6 +177,7 @@ namespace FourthYearProject.UnitTesting
             repo.DeleteComment(5);
             var commentsContextContent = context.Comments;
             Assert.Equal(test1.Count, commentsContextContent.ToList().Count);
+            context.ChangeTracker.Clear();
         }
 
     }
