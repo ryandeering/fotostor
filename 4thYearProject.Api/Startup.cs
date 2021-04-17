@@ -87,9 +87,6 @@ namespace _4thYearProject.Api
             services.AddScoped<IFollowingRepository, FollowingRepository>();
             services.AddScoped<IUserDataRepository, UserDataRepository>();
             services.AddScoped<IPostRepository, PostRepository>();
-            services.AddScoped<ICountryRepository, CountryRepository>();
-            services.AddScoped<IJobCategoryRepository, JobCategoryRepository>();
-            services.AddScoped<IEmployeeRepository, EmployeeRepository>(); //necessary?
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ICommentRepository, CommentRepository>();
             services.AddScoped<ILikeRepository, LikeRepository>();

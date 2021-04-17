@@ -39,6 +39,8 @@
     <Compile Include="Migrations\20210413194952_CommentProfileData.Designer.cs" />
     <Compile Include="Migrations\20210415005852_AddressRestructure.cs" />
     <Compile Include="Migrations\20210415005852_AddressRestructure.Designer.cs" />
+    <Compile Include="Migrations\20210417182224_RemovingDefaultClasses.cs" />
+    <Compile Include="Migrations\20210417182224_RemovingDefaultClasses.Designer.cs" />
     <Compile Include="Migrations\AppDbContextModelSnapshot.cs" />
   </ItemGroup>
 

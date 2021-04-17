@@ -44,15 +44,9 @@
         <NotAuthorized>
             <div class="navigation-icons">
 
-                @(HostEnvironment.IsDevelopment()){
-                <a href="https://localhost:44333/Identity/Account/Register" id="register" class="navigation-link">
+                <a href=@RegisterLink id="register" class="navigation-link">
                     <i class="fas fa-user-plus"></i>
                 </a>
-                } else {
-                <a href="https://fotostopidp.azurewebsites.net/Identity/Account/Register" id="register" class="navigation-link">
-                    <i class="fas fa-user-plus"></i>
-                </a>
-                }
               
                 <a href="authentication/login" id="signin" class="navigation-link">
                     <i class="fas fa-sign-in-alt"></i>
@@ -89,49 +83,29 @@
 
 @code{
 
-    ClaimsPrincipal identity;
-    UserData User;
-    private SearchResult resultActual;
-    private List<SearchResult> results = new List<SearchResult>();
-    string LoggedInID = String.Empty;
-    string ProfileName = String.Empty;
+        ClaimsPrincipal identity;
+        UserData User;
+        private SearchResult resultActual;
+        private List<SearchResult> results = new List<SearchResult>();
+        string LoggedInID = String.Empty;
+        string ProfileName = String.Empty;
+        string RegisterLink = String.Empty;
 
-    protected override async Task OnInitializedAsync()
-    {
-        identity = await _userService.GetUserAsync();
-
-
-
+        protected override async Task OnInitializedAsync()
+        {
+            identity = await _userService.GetUserAsync();
+            
+            RegisterLink = HostEnvironment.IsDevelopment() ? "https://localhost:44333/Identity/Account/Register" : "https://fotostopidp.azurewebsites.net/Identity/Account/Register";
 
         if (identity.Identity.IsAuthenticated)
         {
             LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
                  .Select(c => c.Value).SingleOrDefault().ToString();
-            User = await UserDataService.GetUserDataDetails(LoggedInID);
-            ProfileName = User.DisplayName;
+    User = await UserDataService.GetUserDataDetails(LoggedInID);
+    ProfileName = User.DisplayName;
 
 
         }
-
-    }
-
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            if (identity.Identity.IsAuthenticated)
-            {
-                LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
-                     .Select(c => c.Value).SingleOrDefault().ToString();
-                User = await UserDataService.GetUserDataDetails(LoggedInID);
-                ProfileName = User.DisplayName;
-
-
-
-            }
-        }
-
 
     }
 

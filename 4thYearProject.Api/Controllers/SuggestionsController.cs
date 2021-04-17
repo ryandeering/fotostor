@@ -14,10 +14,13 @@ namespace _4thYearProject.Api.Controllers
 
         private readonly IUserService _userService;
 
-        public SuggestionsController(ISuggestionsRepository suggestionsRepository, IUserService userService)
+        private readonly IUserDataRepository _userDataRepository;
+
+        public SuggestionsController(ISuggestionsRepository suggestionsRepository, IUserService userService, IUserDataRepository userDataRepository)
         {
             _suggestionsRepository = suggestionsRepository;
             _userService = userService;
+            _userDataRepository = userDataRepository;
         }
 
         [HttpGet("{id}")]
@@ -34,8 +37,13 @@ namespace _4thYearProject.Api.Controllers
             if (LoggedInID != id)
                 return Unauthorized();
 
+            var Posts = _suggestionsRepository.GetSuggestions(id);
+            foreach (var Post in Posts)
+            {
+                Post.ProfileData = _userDataRepository.GetUserNameFromId(Post.UserId);
+            }
 
-            return Ok(_suggestionsRepository.GetSuggestions(id));
+            return Ok(Posts);
         }
     }
 }
