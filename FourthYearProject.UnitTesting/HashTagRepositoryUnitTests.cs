@@ -13,7 +13,7 @@ namespace FourthYearProject.UnitTesting
 
 
         [Fact]
-        public void GetFollowingTest()
+        public void GetLatestPostsByHashtag_Test()
         {
 
             List<HashTag> hashTags = GenFu.GenFu.ListOf<HashTag>(5);
@@ -44,9 +44,49 @@ namespace FourthYearProject.UnitTesting
 
             context.ChangeTracker.Clear();
             context.Database.EnsureDeleted();
-            context.Dispose();
         }
 
+        [Fact]
+        public void GetHashTagSuccess_Test()
+        {
+            List<HashTag> hashTags = GenFu.GenFu.ListOf<HashTag>(3);
+
+            var options = new DbContextOptionsBuilder<AppDbContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
+                .Options;
+
+            using var context = new AppDbContext(options);
+            foreach (var Hashtag in hashTags) context.Hashtags.Add(Hashtag);
+            context.SaveChanges();
+            var repo = new HashTagRepository(context);
+
+            foreach (var hashTagActual in hashTags)
+            {
+                Assert.Equal(hashTagActual.Content, repo.GetHashTag(hashTagActual.Content).Content);
+            }
+
+        }
+
+        [Fact]
+        public void GetHashTagNewHashtag_Test()
+        {
+            List<HashTag> hashTags = GenFu.GenFu.ListOf<HashTag>(3);
+
+            var options = new DbContextOptionsBuilder<AppDbContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
+                .Options;
+
+            using var context = new AppDbContext(options);
+            foreach (var Hashtag in hashTags) context.Hashtags.Add(Hashtag);
+            context.SaveChanges();
+            var repo = new HashTagRepository(context);
+
+            foreach (var hashTagActual in hashTags)
+            {
+                Assert.Equal("dumdum",repo.GetHashTag("dumdum").Content);
+            }
+
+        }
 
 
     }

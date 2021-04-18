@@ -177,11 +177,5 @@ namespace _4thYearProject.Api.Models
             return cart;
         }
 
-        public IEnumerable<OrderLineItem> GetOrderLinesForUser(string UserId)
-        {
-            var lineitems = _appDbContext.LineItems.Where(ol => ol.Post.UserId.Contains(UserId)).ToList();
-
-            return lineitems;
-        }
     }
 }

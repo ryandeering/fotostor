@@ -6,7 +6,6 @@ namespace _4thYearProject.Server.Services
 {
     public interface IPostDataService
     {
-        Task<IEnumerable<Post>> GetAllPosts();
         Task<Post> GetPostDetails(int postId);
         Task<Post> AddPost(Post post);
         Task<IEnumerable<Post>> GetAllPostsbyFollowing(string id);

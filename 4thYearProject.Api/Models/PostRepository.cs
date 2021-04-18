@@ -16,14 +16,10 @@ namespace _4thYearProject.Api.Models
             _appDbContext = appDbContext;
         }
 
-        public IEnumerable<Post> GetAllPosts()
-        {
-            return _appDbContext.Posts;
-        }
 
         public IEnumerable<Post> GetAllPostsbyFollowing(string id)
         {
-            var followings = _appDbContext.Followers.ToList();
+            var followings = _appDbContext.Followers.AsNoTracking().ToList();
 
             var followingids = new HashSet<string>();
 
@@ -35,19 +31,19 @@ namespace _4thYearProject.Api.Models
 
 
             var posts = _appDbContext.Posts.Include("Comments").Where(x => followingids.Any(n => n == x.UserId))
-                .OrderByDescending(p => p.UploadDate).Distinct();
+                .OrderByDescending(p => p.UploadDate).Distinct().AsNoTracking();
 
             return posts.Where(p => !p.PostDeleted);
         }
 
         public Post GetPostById(int postId)
         {
-            return _appDbContext.Posts.FirstOrDefault(p => p.PostId == postId);
+            return _appDbContext.Posts.AsNoTracking().FirstOrDefault(p => p.PostId == postId);
         }
 
         public IEnumerable<Post> GetPostsByUserId(string id)
         {
-            return _appDbContext.Posts.Where(p => p.UserId.Equals(id) && !p.PostDeleted)
+            return _appDbContext.Posts.AsNoTracking().Where(p => p.UserId.Equals(id) && !p.PostDeleted)
                 .OrderByDescending(p => p.UploadDate);
         }
 
@@ -65,6 +61,9 @@ namespace _4thYearProject.Api.Models
 
             if (foundPost != null)
             {
+                foundPost.Caption = post.Caption;
+                foundPost.HashTags = post.HashTags;
+                foundPost.PostDeleted = post.PostDeleted;
                 _appDbContext.SaveChanges();
 
                 return foundPost;

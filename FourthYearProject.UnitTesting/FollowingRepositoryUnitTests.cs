@@ -22,7 +22,6 @@ namespace FourthYearProject.UnitTesting
 
 
             using var context = new AppDbContext(options);
-            context.ChangeTracker.Clear();
             foreach (var following in test1) context.Followers.Add(following);
             context.SaveChanges();
             var repo = new FollowingRepository(context);
@@ -49,7 +48,6 @@ namespace FourthYearProject.UnitTesting
 
 
             using var context = new AppDbContext(options);
-            context.ChangeTracker.Clear();
             foreach (var following in test1) context.Followers.Add(following);
             context.SaveChanges();
             var repo = new FollowingRepository(context);
@@ -77,7 +75,6 @@ namespace FourthYearProject.UnitTesting
 
 
             using var context = new AppDbContext(options);
-            context.ChangeTracker.Clear();
             foreach (var following in test1) context.Followers.Add(following);
             context.SaveChanges();
             var repo = new FollowingRepository(context);
@@ -95,7 +92,6 @@ namespace FourthYearProject.UnitTesting
 
 
             using var context = new AppDbContext(options);
-            context.ChangeTracker.Clear();
             var newFollow = new Following
             {
                 Follower_ID = "hunter",
@@ -108,6 +104,30 @@ namespace FourthYearProject.UnitTesting
             context.ChangeTracker.Clear();
         }
 
+
+        [Fact]
+        public void AddFollowing_FAILTest()
+        {
+            var options = new DbContextOptionsBuilder<AppDbContext>()
+                .UseInMemoryDatabase("Add Following")
+                .Options;
+
+
+            using var context = new AppDbContext(options);
+            var newFollow = new Following
+            {
+                Follower_ID = "hunter",
+                Followed_ID = "prey"
+            };
+            var repo = new FollowingRepository(context);
+
+            repo.AddFollowing(newFollow);
+            var follow = repo.AddFollowing(newFollow);
+            Assert.Null(follow);
+            context.ChangeTracker.Clear();
+        }
+
+
         [Fact]
         public void VerifyFollowingTest()
         {
@@ -117,7 +137,6 @@ namespace FourthYearProject.UnitTesting
 
 
             using var context = new AppDbContext(options);
-            context.ChangeTracker.Clear();
             var newFollow = new Following
             {
                 Follower_ID = "hunter",

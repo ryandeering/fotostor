@@ -10,28 +10,7 @@ namespace FourthYearProject.UnitTesting
     public class PostRepositoryUnitTests
     {
 
-        [Fact]
-        public void GetAllPostsTest()
-        {
-            var test1 = GenFu.GenFu.New<Post>();
 
-
-            var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase(Guid.NewGuid().ToString())
-                .Options;
-
-
-            using var context = new AppDbContext(options);
-            context.Posts.Add(test1);
-            context.SaveChanges();
-            var repo = new PostRepository(context);
-            var posts = repo.GetAllPosts();
-
-            Assert.Equal(posts.First().Caption, test1.Caption);
-            
-            context.ChangeTracker.Clear();
-            context.Database.EnsureDeleted();
-        }
 
         //[Fact]
         //public void GetAllFollowingPosts()
@@ -70,7 +49,7 @@ namespace FourthYearProject.UnitTesting
         [Fact]
         public void GetPostByIdTest()
         {
-            var i = 1;
+            var i = 1000;
             GenFu.GenFu.Configure<Post>()
                 .Fill(p => p.PostId, () => i++);
 
@@ -82,28 +61,23 @@ namespace FourthYearProject.UnitTesting
                 .Options;
 
             using var context = new AppDbContext(options);
-            context.ChangeTracker.Clear();
-            foreach (var Post in PostsActual) context.Posts.Add(Post);
+            context.Posts.Add(PostsActual.First(p => p.PostId == 1001));
             context.SaveChanges();
             var repo = new PostRepository(context);
 
+            var PostObtained = repo.GetPostById(1001);
+                Assert.Equal(PostObtained.Caption, PostsActual.First(p => p.PostId == 1001).Caption);
 
-            var posts = repo.GetAllPosts();
 
-            for (var j = 1; j < PostsActual.Count; j++)
-            {
-                var PostObtained = repo.GetPostById(j);
-                Assert.Equal(PostObtained.Caption, posts.First(p => p.PostId == j).Caption);
-            }
             context.ChangeTracker.Clear();
             context.Database.EnsureDeleted();
-            context.Dispose();
         }
 
         [Fact]
         public void UpdatePostTest_Success()
         {
             var Post = GenFu.GenFu.New<Post>();
+            Post.PostId = 2908203;
 
 
             var options = new DbContextOptionsBuilder<AppDbContext>()
@@ -111,24 +85,22 @@ namespace FourthYearProject.UnitTesting
                 .Options;
 
             using var context = new AppDbContext(options);
-            context.ChangeTracker.Clear();
             context.Posts.Add(Post);
             context.SaveChanges();
             var repo = new PostRepository(context);
 
 
-            var post = repo.GetAllPosts().First();
+            var post = context.Posts.First();
 
             post.Caption = "An updated post.";
 
             var updatedPost = repo.UpdatePost(post);
 
-            var updatedPost2 = repo.GetAllPosts().First();
+            var updatedPost2 = context.Posts.First(p => p.Caption == "An updated post.");
 
             Assert.Equal(updatedPost.Caption, updatedPost2.Caption);
             context.ChangeTracker.Clear();
             context.Database.EnsureDeleted();
-            context.Dispose();
         }
 
 
@@ -143,13 +115,12 @@ namespace FourthYearProject.UnitTesting
                 .Options;
 
             using var context = new AppDbContext(options);
-            context.ChangeTracker.Clear();
             context.Posts.Add(Post);
             context.SaveChanges();
             var repo = new PostRepository(context);
 
 
-            var post = repo.GetAllPosts().First();
+            var post = context.Posts.First();
 
             post.Caption = "An updated post.";
             post.PostId = 420;
@@ -160,7 +131,6 @@ namespace FourthYearProject.UnitTesting
             Assert.Null(updatedPost);
             context.ChangeTracker.Clear();
             context.Database.EnsureDeleted();
-            context.Dispose();
         }
 
         //[Fact]
@@ -203,7 +173,7 @@ namespace FourthYearProject.UnitTesting
             var repo = new PostRepository(context);
 
 
-            var post = repo.GetAllPosts().First();
+            var post = context.Posts.First();
             repo.DeletePost(post.PostId + 1);
 
             var updatedPost2 = repo.GetPostById(post.PostId);
@@ -211,14 +181,13 @@ namespace FourthYearProject.UnitTesting
             Assert.NotNull(updatedPost2);
             context.ChangeTracker.Clear();
             context.Database.EnsureDeleted();
-            context.Dispose();
         }
 
 
         [Fact]
         public void GetAllPosts()
         {
-            var i = 1;
+            var i = 500;
             GenFu.GenFu.Configure<Post>()
                 .Fill(p => p.PostId, () => i++);
 
@@ -234,13 +203,12 @@ namespace FourthYearProject.UnitTesting
             var repo = new PostRepository(context);
 
 
-            var posts = repo.GetAllPosts();
+            var posts = context.Posts;
 
             for (var j = 0; j < posts.Count(); j++)
                 Assert.Equal(posts.ElementAt(j).Caption, PostsActual.ElementAt(j).Caption);
             context.ChangeTracker.Clear();
             context.Database.EnsureDeleted();
-            context.Dispose();
         }
 
 
@@ -283,17 +251,15 @@ namespace FourthYearProject.UnitTesting
                 .Options;
 
             using var context = new AppDbContext(options);
-            context.ChangeTracker.Clear();
             var repo = new PostRepository(context);
 
             repo.AddPost(PostActual);
 
-            var post = repo.GetAllPosts().First();
+            var post = context.Posts.First();
 
             Assert.Equal(PostActual.Caption, post.Caption);
             context.ChangeTracker.Clear();
             context.Database.EnsureDeleted();
-            context.Dispose();
         }
     }
 }

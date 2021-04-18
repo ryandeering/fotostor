@@ -125,6 +125,28 @@ namespace FourthYearProject.UnitTesting
             Assert.NotEqual(0, context.Likes.Count());
         }
 
+        [Fact]
+        public void GetLikeCount()
+        {
+            var expectedLike = GenFu.GenFu.New<Like>();
+
+            var options = new DbContextOptionsBuilder<AppDbContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
+                .Options;
+
+            var Post = GenFu.GenFu.New<Post>();
+            expectedLike.Post_ID = Post.PostId.ToString();
+
+            using var context = new AppDbContext(options);
+            var repo = new LikeRepository(context);
+            context.Posts.Add(Post);
+            context.Likes.Add(expectedLike);
+            context.SaveChanges();
+            repo.GetLikeCount(Post.PostId.ToString());
+
+            Assert.Equal(1, context.Likes.Count());
+        }
+
 
 
 

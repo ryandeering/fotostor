@@ -65,11 +65,6 @@ namespace _4thYearProject.Server.Services
             await _httpClient.DeleteAsync($"api/post/{postId}");
         }
 
-        public async Task<IEnumerable<Post>> GetAllPosts()
-        {
-            return await JsonSerializer.DeserializeAsync<IEnumerable<Post>>
-                    (await _httpClient.GetStreamAsync($"api/post"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
-        }
 
         public async Task<Post> GetPostDetails(int postId)
         {

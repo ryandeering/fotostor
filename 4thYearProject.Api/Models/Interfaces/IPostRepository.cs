@@ -5,7 +5,6 @@ namespace _4thYearProject.Api.Models
 {
     public interface IPostRepository
     {
-        IEnumerable<Post> GetAllPosts();
 
         IEnumerable<Post> GetPostsByUserId(string id);
 
