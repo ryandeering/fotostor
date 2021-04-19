@@ -3,16 +3,21 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Configuration;
 
 namespace _4thYearProject.Api.Models
 {
     public class UserDataRepository : IUserDataRepository
     {
         private readonly AppDbContext _appDbContext;
+        private readonly IConfiguration _configuration;
+        private string _connectionString;
 
-        public UserDataRepository(AppDbContext appDbContext)
+        public UserDataRepository(AppDbContext appDbContext, IConfiguration configuration)
         {
             _appDbContext = appDbContext;
+            _configuration = configuration;
+         
         }
 
         public IEnumerable<UserData> GetAllUsers()
@@ -91,18 +96,38 @@ namespace _4thYearProject.Api.Models
 
         public FeedProfileData GetUserNameFromId(string UserId)
         {
-            var User = _appDbContext.Users.FirstOrDefault(c => c.Id.Equals(UserId));
+            
+                var User = _appDbContext.Users.AsNoTracking().FirstOrDefault(c => c.Id.Equals(UserId));
 
-            var ProfileData = new FeedProfileData
+                var ProfileData = new FeedProfileData
+                {
+                    Username = User.DisplayName,
+                    ProfilePicURL = User.ProfilePic,
+                    FName = User.FirstName,
+                    LName = User.SecondName
+                };
+                return ProfileData;
+            }
+
+        public FeedProfileData GetUserNameFromIdAlt(string UserId)
+        {
+            DbContextOptionsBuilder<AppDbContext> _optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
+            _connectionString = _configuration.GetConnectionString("DefaultConnection");
+            _optionsBuilder.UseSqlServer(_connectionString);
+            using (AppDbContext context = new AppDbContext(_optionsBuilder.Options))
             {
-                Username = User.DisplayName,
-                ProfilePicURL = User.ProfilePic,
-                FName = User.FirstName,
-                LName = User.SecondName
-            };
+                var User = context.Users.AsNoTracking().FirstOrDefault(c => c.Id.Equals(UserId));
 
-
-            return ProfileData;
+                var ProfileData = new FeedProfileData
+                {
+                    Username = User.DisplayName,
+                    ProfilePicURL = User.ProfilePic,
+                    FName = User.FirstName,
+                    LName = User.SecondName
+                };
+                return ProfileData;
+            }
         }
+
     }
 }

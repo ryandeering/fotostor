@@ -1,14 +1,26 @@
 ﻿using System;
+using System.Collections.Generic;
 using _4thYearProject.Api.Models;
 using _4thYearProject.Shared.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using Microsoft.Extensions.Configuration;
 using Xunit;
 
 namespace FourthYearProject.UnitTesting
 {
     public class UserDataRepositoryUnitTests
     {
+        static readonly Dictionary<string, string> inMemorySettings = new Dictionary<string, string>
+        {
+            {"TopLevelKey", "TopLevelValue"},
+            {"SectionName:SomeKey", "SectionValue"},
+        };
+
+        IConfiguration configuration = new ConfigurationBuilder()
+            .AddInMemoryCollection(inMemorySettings)
+            .Build();
+
         [Fact]
         public void GetUserDataById_Test()
         {
@@ -23,7 +35,9 @@ namespace FourthYearProject.UnitTesting
             using var context = new AppDbContext(options);
             context.Users.Add(test1);
             context.SaveChanges();
-            var repo = new UserDataRepository(context);
+
+        
+            var repo = new UserDataRepository(context, configuration);
             var userData = repo.GetUserDataInFull(test1.Id);
 
             Assert.Equal(test1.Address.UserAddress, userData.Address.UserAddress);
@@ -44,7 +58,7 @@ namespace FourthYearProject.UnitTesting
             using var context = new AppDbContext(options);
             context.Users.Add(test1);
             context.SaveChanges();
-            var repo = new UserDataRepository(context);
+            var repo = new UserDataRepository(context, configuration);
             var userData = repo.GetUserDataById(test1.Id);
 
             Assert.Equal(test1.Address.UserAddress, userData.Address.UserAddress);
@@ -65,7 +79,7 @@ namespace FourthYearProject.UnitTesting
                 .Options;
 
             using var context = new AppDbContext(options);
-            var repo = new UserDataRepository(context);
+            var repo = new UserDataRepository(context, configuration);
             repo.AddUserData(test1);
             var userData = repo.GetUserDataById(test1.Id);
 
@@ -88,7 +102,7 @@ namespace FourthYearProject.UnitTesting
                 .Options;
 
             using var context = new AppDbContext(options);
-            var repo = new UserDataRepository(context);
+            var repo = new UserDataRepository(context, configuration);
             repo.AddUserData(test1);
             repo.AddUserData(test2);
             var userData = repo.GetUserDataById(test2.Id);
@@ -110,7 +124,7 @@ namespace FourthYearProject.UnitTesting
                 .Options;
 
             using var context = new AppDbContext(options);
-            var repo = new UserDataRepository(context);
+            var repo = new UserDataRepository(context, configuration);
             repo.AddUserData(test1);
             var userData = repo.GetUserDataById(test1.Id);
             userData.DisplayName = "dumdum";
@@ -134,7 +148,7 @@ namespace FourthYearProject.UnitTesting
                 .Options;
 
             using var context = new AppDbContext(options);
-            var repo = new UserDataRepository(context);
+            var repo = new UserDataRepository(context, configuration);
             repo.AddUserData(test1);
             var userData = repo.GetUserDataById(test1.Id);
             userData.DisplayName = "dumdum";
@@ -158,7 +172,7 @@ namespace FourthYearProject.UnitTesting
                 .Options;
 
             using var context = new AppDbContext(options);
-            var repo = new UserDataRepository(context);
+            var repo = new UserDataRepository(context, configuration);
             repo.AddUserData(test1);
             repo.DeleteUserData(test1.Id);
             var userData = repo.GetUserDataById(test1.Id);
@@ -183,7 +197,7 @@ namespace FourthYearProject.UnitTesting
             using var context = new AppDbContext(options);
             context.Users.Add(test1);
             context.SaveChanges();
-            var repo = new UserDataRepository(context);
+            var repo = new UserDataRepository(context, configuration);
             var userData = repo.GetUserDataByDisplayName(test1.DisplayName);
 
             Assert.Equal(test1.Bio, userData.Bio);
@@ -203,7 +217,7 @@ namespace FourthYearProject.UnitTesting
             using var context = new AppDbContext(options);
             context.Users.Add(test1);
             context.SaveChanges();
-            var repo = new UserDataRepository(context);
+            var repo = new UserDataRepository(context, configuration);
             var UserData = repo.GetAllUsers();
 
             Assert.Equal(UserData.First().Email, test1.Email);
@@ -229,7 +243,7 @@ namespace FourthYearProject.UnitTesting
                 context.Users.Add(userData);
             }
             context.SaveChanges();
-            var repo = new UserDataRepository(context);
+            var repo = new UserDataRepository(context, configuration);
             repo.DeleteUserData(test1.FirstOrDefault(ud => ud.Id == "3")?.Id);
             test1.Remove(test1.FirstOrDefault(ud => ud.Id == "3"));
 
@@ -264,7 +278,7 @@ namespace FourthYearProject.UnitTesting
 
             context.SaveChanges();
 
-            var repo = new UserDataRepository(context);
+            var repo = new UserDataRepository(context, configuration);
 
             foreach (var userData in test1)
             {

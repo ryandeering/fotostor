@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using System.Configuration;
+using Microsoft.Extensions.Configuration;
 
 namespace _4thYearProject.Api.Models
 {
@@ -11,6 +13,7 @@ namespace _4thYearProject.Api.Models
     {
         private readonly AppDbContext _appDbContext;
 
+
         public PostRepository(AppDbContext appDbContext)
         {
             _appDbContext = appDbContext;
@@ -19,21 +22,23 @@ namespace _4thYearProject.Api.Models
 
         public IEnumerable<Post> GetAllPostsbyFollowing(string id)
         {
-            var followings = _appDbContext.Followers.AsNoTracking().ToList();
+            
+   
+                var followings = _appDbContext.Followers.AsNoTracking().ToList();
 
-            var followingids = new HashSet<string>();
+                var followingids = new HashSet<string>();
 
-            followingids.Add(id);
+                followingids.Add(id);
 
-            foreach (var follow in followings)
-                if (follow.Follower_ID.Equals(id))
-                    followingids.Add(follow.Followed_ID);
+                foreach (var follow in followings)
+                    if (follow.Follower_ID.Equals(id))
+                        followingids.Add(follow.Followed_ID);
+
+                var posts = _appDbContext.Posts.Include("Comments").Where(x => followingids.Any(n => n == x.UserId))
+                    .OrderByDescending(p => p.UploadDate).Distinct().AsNoTracking();
 
 
-            var posts = _appDbContext.Posts.Include("Comments").Where(x => followingids.Any(n => n == x.UserId))
-                .OrderByDescending(p => p.UploadDate).Distinct().AsNoTracking();
-
-            return posts.Where(p => !p.PostDeleted);
+                return posts.Where(p => !p.PostDeleted);
         }
 
         public Post GetPostById(int postId)

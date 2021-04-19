@@ -10,6 +10,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
+using SixLabors.ImageSharp;
 
 namespace _4thYearProject.Api.Controllers
 {
@@ -27,14 +30,16 @@ namespace _4thYearProject.Api.Controllers
 
         private readonly IUserService _userService;
 
+        private readonly IWebHostEnvironment _environment;
         public StripePaymentController(IConfiguration configuration, IShoppingCartRepository shoppingCartRepository,
-            IEmailSender emailSender, IUserDataRepository userDataRepository, IUserService userService)
+            IEmailSender emailSender, IUserDataRepository userDataRepository, IUserService userService, IWebHostEnvironment environment)
         {
             _configuration = configuration;
             _shoppingCartRepository = shoppingCartRepository;
             _emailSender = emailSender;
             _userDataRepository = userDataRepository;
             _userService = userService;
+            _environment = environment;
         }
 
         [HttpGet("{UserId}/{session_id}")]
@@ -115,8 +120,10 @@ namespace _4thYearProject.Api.Controllers
                     sb.Append("</body>");
                     sb.Append("</html>");
 
-
-                    await _emailSender.SendEmailAsync(rec.Email, subject, sb.ToString());
+                    if (_environment.IsDevelopment())
+                    {
+                        await _emailSender.SendEmailAsync(rec.Email, subject, sb.ToString());
+                    }
 
                     break;
 
@@ -132,8 +139,16 @@ namespace _4thYearProject.Api.Controllers
         {
             try
             {
-                var domain = "https://localhost:44366";
-
+                string domain;
+                if (_environment.IsDevelopment())
+                {
+                    domain = "https://localhost:44366";
+                }
+                else
+                {
+                    domain = "https://red-pebble-0ad568c03.azurestaticapps.net/";
+                }
+                
                 var options = new SessionCreateOptions
                 {
                     PaymentMethodTypes = new List<string>
