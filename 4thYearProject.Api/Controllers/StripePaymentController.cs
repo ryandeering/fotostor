@@ -120,10 +120,9 @@ namespace _4thYearProject.Api.Controllers
                     sb.Append("</body>");
                     sb.Append("</html>");
 
-                    if (_environment.IsDevelopment())
-                    {
+                   
                         await _emailSender.SendEmailAsync(rec.Email, subject, sb.ToString());
-                    }
+                    
 
                     break;
 

@@ -35,7 +35,7 @@ namespace _4thYearProject.Api.Models
                         followingids.Add(follow.Followed_ID);
 
                 var posts = _appDbContext.Posts.Include("Comments").Where(x => followingids.Any(n => n == x.UserId))
-                    .OrderByDescending(p => p.UploadDate).Distinct().AsNoTracking();
+                    .OrderByDescending(p => p.UploadDate).Distinct();
 
 
                 return posts.Where(p => !p.PostDeleted);

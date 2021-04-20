@@ -101,7 +101,7 @@ namespace _4thYearProject.Api.Controllers
             var LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
                 .Select(c => c.Value).SingleOrDefault().ToString();
 
-            if (LoggedInID != commentToDelete.UserId | LoggedInID != _postRepository.GetPostById(commentToDelete.PostId).UserId)
+            if (LoggedInID != commentToDelete.UserId || LoggedInID == _postRepository.GetPostById(commentToDelete.PostId).UserId) 
                 return Unauthorized();
 
             _commentRepository.DeleteComment(id);

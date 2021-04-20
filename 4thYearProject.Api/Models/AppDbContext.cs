@@ -28,6 +28,6 @@ namespace _4thYearProject.Api.Models
 
         public DbSet<HashTag> Hashtags { get; set; }
 
-        public DbSet<FeedProfileData> FeedData { get; set; } //to get JSON to serialize...
+        public DbSet<FeedProfileData> FeedData { get; set; } 
     }
 }

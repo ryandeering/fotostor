@@ -41,6 +41,10 @@
     <Compile Include="Migrations\20210415005852_AddressRestructure.Designer.cs" />
     <Compile Include="Migrations\20210417182224_RemovingDefaultClasses.cs" />
     <Compile Include="Migrations\20210417182224_RemovingDefaultClasses.Designer.cs" />
+    <Compile Include="Migrations\20210419235617_test.cs" />
+    <Compile Include="Migrations\20210419235617_test.Designer.cs" />
+    <Compile Include="Migrations\20210420001602_test4.cs" />
+    <Compile Include="Migrations\20210420001602_test4.Designer.cs" />
     <Compile Include="Migrations\AppDbContextModelSnapshot.cs" />
   </ItemGroup>
 
@@ -63,6 +67,7 @@
     <PackageReference Include="SendGrid" Version="9.22.0" />
     <PackageReference Include="SixLabors.ImageSharp" Version="1.0.2" />
     <PackageReference Include="Stripe.net" Version="39.38.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
 
   <ItemGroup>

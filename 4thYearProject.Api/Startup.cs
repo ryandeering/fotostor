@@ -7,6 +7,7 @@ namespace _4thYearProject.Api
     using _4thYearProject.Api.Emailing;
     using _4thYearProject.Api.Models;
     using _4thYearProject.Shared;
+    using Microsoft.OpenApi.Models;
     using IdentityServer4.AccessTokenValidation;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Builder;
@@ -97,6 +98,12 @@ namespace _4thYearProject.Api
                 options.Sender_Name = Configuration["ExternalProviders:MailKit:SMTP:SenderName"];
             });
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "4thYearProject.API", Version = "v1" });
+            });
+
+
             if (Environment.IsDevelopment())
             {
                 services.AddCors(options =>
@@ -131,7 +138,16 @@ namespace _4thYearProject.Api
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             StripeConfiguration.ApiKey = Configuration.GetSection("Stripe")["ApiKey"];
-            if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
+            app.UseSwagger();
+            if (env.IsDevelopment())
+            {
+                
+                app.UseDeveloperExceptionPage();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "4thYearProject.API V1");
+                });
+            }
 
             app.UseResponseCompression();
 

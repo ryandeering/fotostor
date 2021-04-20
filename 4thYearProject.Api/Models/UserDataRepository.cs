@@ -96,21 +96,6 @@ namespace _4thYearProject.Api.Models
 
         public FeedProfileData GetUserNameFromId(string UserId)
         {
-            
-                var User = _appDbContext.Users.AsNoTracking().FirstOrDefault(c => c.Id.Equals(UserId));
-
-                var ProfileData = new FeedProfileData
-                {
-                    Username = User.DisplayName,
-                    ProfilePicURL = User.ProfilePic,
-                    FName = User.FirstName,
-                    LName = User.SecondName
-                };
-                return ProfileData;
-            }
-
-        public FeedProfileData GetUserNameFromIdAlt(string UserId)
-        {
             DbContextOptionsBuilder<AppDbContext> _optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
             _connectionString = _configuration.GetConnectionString("DefaultConnection");
             _optionsBuilder.UseSqlServer(_connectionString);
@@ -127,7 +112,23 @@ namespace _4thYearProject.Api.Models
                 };
                 return ProfileData;
             }
+
         }
+
+        public FeedProfileData GetUserNameFromIdAlt(string UserId)
+        {
+            var User = _appDbContext.Users.AsNoTracking().FirstOrDefault(c => c.Id.Equals(UserId));
+
+            var ProfileData = new FeedProfileData
+            {
+                Username = User.DisplayName,
+                ProfilePicURL = User.ProfilePic,
+                FName = User.FirstName,
+                LName = User.SecondName
+            };
+            return ProfileData;
+        }
+        
 
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace _4thYearProject.Shared.Models
 {
@@ -26,7 +27,7 @@ namespace _4thYearProject.Shared.Models
 
         [MaxLength] public string Thumbnail { get; set; }
 
-
+        [NotMapped]
         public FeedProfileData ProfileData { get; set; }
 
         public string MimeType { get; set; }

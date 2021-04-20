@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using _4thYearProject.Api.Models;
 
 namespace _4thYearProject.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210419235617_test")]
+    partial class test
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -291,6 +293,9 @@ namespace _4thYearProject.Api.Migrations
                     b.Property<bool>("PrintsEnabled")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("ProfileDataId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("ShirtsEnabled")
                         .HasColumnType("bit");
 
@@ -304,6 +309,8 @@ namespace _4thYearProject.Api.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("PostId");
+
+                    b.HasIndex("ProfileDataId");
 
                     b.ToTable("Posts");
                 });
@@ -393,6 +400,15 @@ namespace _4thYearProject.Api.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("_4thYearProject.Shared.Models.FeedProfileData", "ProfileData")
+                        .WithMany()
+                        .HasForeignKey("ProfileDataId");
+
+                    b.Navigation("ProfileData");
+                });
+
+            modelBuilder.Entity("_4thYearProject.Shared.Models.Post", b =>
+                {
                     b.HasOne("_4thYearProject.Shared.Models.FeedProfileData", "ProfileData")
                         .WithMany()
                         .HasForeignKey("ProfileDataId");
