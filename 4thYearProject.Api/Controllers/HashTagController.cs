@@ -12,10 +12,13 @@ namespace _4thYearProject.Api.Controllers
 
         private readonly IUserDataRepository _userDataRepository;
 
-        public HashTagController(IHashTagRepository hashTagRepository, IUserDataRepository userDataRepository)
+        private readonly ILikeRepository _likeRepository;
+
+        public HashTagController(IHashTagRepository hashTagRepository, IUserDataRepository userDataRepository, ILikeRepository likeRepository)
         {
             _hashTagRepository = hashTagRepository;
             _userDataRepository = userDataRepository;
+            _likeRepository = likeRepository;
         }
 
         [HttpGet("{hashTag}")]
@@ -25,6 +28,7 @@ namespace _4thYearProject.Api.Controllers
 
             foreach (var Post in Posts)
             {
+                Post.Likes = _likeRepository.GetLikeCount(Post.PostId.ToString());
                 Post.ProfileData = _userDataRepository.GetUserNameFromId(Post.UserId);
             }
 

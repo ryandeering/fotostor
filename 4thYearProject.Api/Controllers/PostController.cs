@@ -58,7 +58,7 @@ namespace _4thYearProject.Api.Controllers
             Post.Likes = _likeRepository.GetLikeCount(id.ToString());
             Post.ProfileData = _userDataRepository.GetUserNameFromId(Post.UserId);
             return Ok(Post);
-        }
+         }
 
         [HttpGet]
         [Route("user/{id}")]

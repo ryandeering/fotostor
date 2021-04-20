@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using MatBlazor;
+using Microsoft.JSInterop;
 
 namespace _4thYearProject.Server.Pages
 {
@@ -16,7 +18,7 @@ namespace _4thYearProject.Server.Pages
     {
         [Parameter]
         public string HashTag { get; set; }
-
+        private string LoggedIn;
         public UserData User { get; set; }
         public List<Post> Posts { get; set; }
 
@@ -33,9 +35,16 @@ namespace _4thYearProject.Server.Pages
         [Inject]
         public IFollowingDataService FollowingService { get; set; }
 
+        [Inject] public ILikeDataService LikeService { get; set; }
 
         [Inject]
         public IUserDataService UserDataService { get; set; }
+
+        [Inject]
+        protected IMatToaster Toaster { get; set; }
+
+        [Inject]
+        public IJSRuntime JsRuntime { get; set; }
 
 
         ClaimsPrincipal identity;
@@ -47,9 +56,19 @@ namespace _4thYearProject.Server.Pages
             string claimDisplayName = identity.Claims.Where(c => c.Type.Equals("preferred_username"))
                 .Select(c => c.Value).SingleOrDefault().ToString();
 
+
+            LoggedIn = identity.Claims.Where(c => c.Type.Equals("sub"))
+                .Select(c => c.Value).SingleOrDefault().ToString();
+
             Posts = (List<Post>)await HashTagDataService.GetLatestPostsByHashTag(HashTag);
             User = await UserDataService.GetUserDataDetailsByDisplayName(claimDisplayName);
 
+
+            foreach (var Post in Posts)
+            {
+                var like = await VerifyLike(Post);
+                Post.Liked = like;
+            }
 
         }
 
@@ -80,5 +99,42 @@ namespace _4thYearProject.Server.Pages
 
         }
 
+        protected async Task GiveLike(Post post)
+        {
+            var LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+                .Select(c => c.Value).SingleOrDefault().ToString();
+
+            var like = new Like(LoggedInID, post.PostId.ToString());
+            await LikeService.AddLike(like);
+            post.Liked = true;
+            post.Likes++;
+            StateHasChanged();
+        }
+
+        protected async Task UnLike(Post post)
+        {
+            var LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+                .Select(c => c.Value).SingleOrDefault().ToString();
+
+
+            await LikeService.RemoveLike(post.PostId.ToString(), LoggedInID);
+            post.Liked = false;
+            post.Likes--;
+            StateHasChanged();
+        }
+
+        protected async Task<bool> VerifyLike(Post post)
+        {
+            return await LikeService.VerifyLike(post.PostId.ToString(), LoggedIn);
+        }
+
+        protected async Task DeletePost(Post post)
+        {
+            if (!await JsRuntime.InvokeAsync<bool>("confirm", $"Are you sure you want to delete this post?")) return;
+            await PostDataService.DeletePost(post.PostId);
+            StateHasChanged();
+            Toaster.Add("Post deleted.", MatToastType.Success, "SUCCESS");
+            Posts.Remove(post);
+        }
     }
 }

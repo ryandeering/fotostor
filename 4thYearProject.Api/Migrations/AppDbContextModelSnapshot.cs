@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using _4thYearProject.Api.Models;
+using _4thYearProject.Shared.Models;
 
 namespace _4thYearProject.Api.Migrations
 {
@@ -423,6 +424,34 @@ namespace _4thYearProject.Api.Migrations
                 {
                     b.Navigation("Comments");
                 });
+
+
+
+            modelBuilder.Entity<UserData>().HasData(
+                new UserData
+                {
+                    Id = "f3b8cafa-9bd2-4987-bb0d-1a229911e007",
+                    FirstName = "Jarid",
+                    SecondName = "Scott",
+                    DisplayName = "jrdsctt",
+                    Email = "ryan3dthemovi.e@gmail.com",
+                    Bio = "Glitch artist from Utah.",
+                    ProfilePic = "https://storage.googleapis.com/download/storage/v1/b/4thyearprojectrd/o/f3b8cafa-9bd2-4987-bb0d-1a229911e007168.JPEG?generation=1618677765473892&alt=media",
+                    Address = new Address()
+                    {
+                        UserPostcode = "\t\r\n84107-4813",
+                        UserAddress = "5207 South State Street",
+                        UserCity = "Murray",
+                        UserCountry = "United States",
+                        UserAddress2 = "",
+                        UserFName = "Jarid",
+                        UserLName = "Scott"
+                    }
+                }
+            );
+
+
+
 #pragma warning restore 612, 618
         }
     }

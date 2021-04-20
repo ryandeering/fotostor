@@ -31,6 +31,8 @@ namespace _4thYearProject.Shared.Models
         public FeedProfileData ProfileData { get; set; }
 
         public string MimeType { get; set; }
+
+        [NotMapped]
         public Boolean Liked { get; set; }
 
 

@@ -43,12 +43,12 @@ namespace _4thYearProject.Api.Models
 
         public Post GetPostById(int postId)
         {
-            return _appDbContext.Posts.AsNoTracking().FirstOrDefault(p => p.PostId == postId);
+            return _appDbContext.Posts.FirstOrDefault(p => p.PostId == postId);
         }
 
         public IEnumerable<Post> GetPostsByUserId(string id)
         {
-            return _appDbContext.Posts.AsNoTracking().Where(p => p.UserId.Equals(id) && !p.PostDeleted)
+            return _appDbContext.Posts.Where(p => p.UserId.Equals(id) && !p.PostDeleted)
                 .OrderByDescending(p => p.UploadDate);
         }
 

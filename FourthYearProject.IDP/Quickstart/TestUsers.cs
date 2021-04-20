@@ -15,31 +15,15 @@ namespace FourthYearProject.IDP
         {
             new()
             {
-                SubjectId = "06c71238-0137-4df6-bb6a-e50e62a4a7c5",
-                Username = "ryandeering1@gmail.com",
-                Password = "Mywifedied1!",
-                Claims =
-                {
-                    new Claim(JwtClaimTypes.Name, "Ryan Deering"),
-                    new Claim(JwtClaimTypes.GivenName, "Ryan"),
-                    new Claim(JwtClaimTypes.FamilyName, "Deering"),
-                    new Claim(JwtClaimTypes.Email, "ryandeering1@gmail.com"),
-                    new Claim("country", "BE")
-                }
+                SubjectId = "f3b8cafa-9bd2-4987-bb0d-1a229911e007",
+                Username = "r.yandeering1@gmail.com",
+                Password = "password",
             },
             new()
             {
-                SubjectId = "37d0f2fa-1069-489f-9d65-48c9ba44639b",
-                Username = "Wendy",
+                SubjectId = "7d6e087e-f7b6-4b58-b6ec-3672b7a41810",
+                Username = "ryandeering1@gmail.com",
                 Password = "password",
-                Claims =
-                {
-                    new Claim(JwtClaimTypes.Name, "Wendy Torrance"),
-                    new Claim(JwtClaimTypes.GivenName, "Wendy"),
-                    new Claim(JwtClaimTypes.FamilyName, "Torrance"),
-                    new Claim(JwtClaimTypes.Email, "wendy.torrance@email.com"),
-                    new Claim("country", "NL")
-                }
             }
         };
     }

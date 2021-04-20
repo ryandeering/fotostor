@@ -1,6 +1,5 @@
 ﻿@page "/tags/{HashTag}"
 
-
 @if (User != null)
 {
 
@@ -10,57 +9,101 @@
     }
     else
     {
-
+        <br />
+        <br />
+        <br />
         @foreach (var Post in Posts)
         {
 
             <div class="card">
                 <div class="card-heading">
                     <div class="card-heading-pic">
-                        <img src=""
-                             alt="profile-pic">
-                    </div>
+                        @if (Post.ProfileData != null)
+                        {
+                            @if (Post.ProfileData.ProfilePicURL != null || Post.ProfileData.ProfilePicURL == String.Empty)
+                            {
+                                <img src="@Post.ProfileData.ProfilePicURL"
+                                     alt="profile-pic">
 
-                    <div class="card-heading-data">
-                        <span class="user-name"> @Post.UserId</span>
-                        @*<span class="location"> Ooty</span>*@
+                            }
+                            else
+                            {
+                                <img src="images/profilePicture.jpg"
+                                     alt="profile-pic">
+                            }
+                        }
                     </div>
+                    @if (Post.UserId != null)
+                    {
+                        @if (Post.ProfileData != null)
+                        {
+                            <div class="card-heading-data">
+                                @if (Post.ProfileData.Username != null || Post.ProfileData.Username == String.Empty)
+                                {
 
+                                    <span class="user-name"> <a href="/profile/@Post.ProfileData.Username">@Post.ProfileData.Username</a> <br /> <p>  @Post.ProfileData.FName @Post.ProfileData.LName </p></span>
+                                }
+                            </div>
+                        }
+                    }
                 </div>
 
 
                 <img src=@Post.PhotoFile alt="pic">
-
-
+                <br /><br />
+                <h3>&nbsp;&nbsp;&nbsp;&nbsp;@Post.Caption</h3>
                 <div class="card-footer">
+
                     <div class="card-footer-left">
+
+                        @if (Post.Liked)
+                        {
+                            <MatButton OnClick="() => UnLike(Post)">
+                                <i class="fas fa-thumbs-down"></i>
+                            </MatButton>
+
+                        }
+                        else
+                        {
+                            <MatButton OnClick="() => GiveLike(Post)">
+                                <i class="far fa-thumbs-up"></i>
+                            </MatButton>
+                        }
+
+
+                        @if (Post.UserId == LoggedIn)
+                        {
+                            <MatButton OnClick="() => DeletePost(Post)">
+                                <i class="fas fa-trash-alt"></i>
+                            </MatButton>
+                        }
+
+
 
                         @if (Post.LicenseEnabled)
                         {
 
-                            <a @onclick="@(e => BuyLicense(Post.PostId))" class="btn btn-light">
-                                <i class="fas fa-stamp"></i>
-                            </a>
+                            <MatButton @onclick="@(e => BuyLicense(Post.PostId))" class="btn btn-light">
+                                <i class="fas fa-stamp"></i> &nbsp; Buy License
+                            </MatButton>
                         }
                         @if (Post.ShirtsEnabled)
-                        {<a @onclick="@(e => BuyShirt(Post.PostId))" class="btn btn-light">
-                                <i class="fas fa-tshirt"></i>
-                            </a>
+                        {
+                            <MatButton @onclick="@(e => BuyShirt(Post.PostId))" class="btn btn-light">
+                                <i class="fas fa-tshirt"></i> &nbsp; Buy Shirt
+                            </MatButton>
                         }
                         @if (Post.PrintsEnabled)
-                        {<a @onclick="@(e => BuyPrint(Post.PostId))" class="btn btn-light">
-                                <i class="fas fa-scroll"></i>
-                            </a>
+                        {
+                            <MatButton @onclick="@(e => BuyPrint(Post.PostId))" class="btn btn-light">
+                                <i class="fas fa-scroll"></i> &nbsp; Buy Print
+                            </MatButton>
                         }
 
-
-
-                        @*@if (Post.)
-                            {<a "@ToggleLike"
-                                class="btn @( liked == true ? "btn-primary" : "btn-secondary" )">
-                                    <i class="fas fa-thumbs-up fa-lg"></i>
-                                </a>
-                            }*@
+                        @if (Post.Likes > 0)
+                        {
+                            <p>@Post.Likes likes</p>
+                        }
 
 
 
@@ -68,36 +111,23 @@
 
                     <div>
 
-                        @*<svg fill="#262626" height="24" viewBox="0 0 48 48" width="24"><path d="M43.5 48c-.4 0-.8-.2-1.1-.4L24 29 5.6 47.6c-.4.4-1.1.6-1.6.3-.6-.2-1-.8-1-1.4v-45C3 .7 3.7 0 4.5 0h39c.8 0 1.5.7 1.5 1.5v45c0 .6-.4 1.2-.9 1.4-.2.1-.4.1-.6.1zM24 26c.8 0 1.6.3 2.2.9l15.8 16V3H6v39.9l15.8-16c.6-.6 1.4-.9 2.2-.9z"></path></svg>*@
                     </div>
                 </div>
-                @Post.Caption
-                <div class="card-likes"> 0 likes</div>
+
+                @*<div class="card-likes"></div>
+                @if (Post.Comments.Count != 0)
+                {
+                    <div class="card-footer-left">
+                        <a href="/post/@Post.PostId"> View @Post.Comments.Count() comments here... </a>
+                    </div>
+                }
+            </div>*@
             </div>
         }
 
 
 
 
-        @*<table class="table">
-                <thead>
-                    <tr>
-                        <th>Submission Time</th>
-                        <th>Image</th>
-                        <th>Caption</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var Post in Posts)
-                    {
-                        <tr>
-                            <th>@Post.UploadDate.ToString("dd/MM/yyyy h:mm tt")</th>
-                            <td><img src=@Post.Thumbnail /></td>
-                            <td>@Post.Caption</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>*@
     }
 
 

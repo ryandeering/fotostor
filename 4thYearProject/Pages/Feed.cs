@@ -82,7 +82,6 @@ namespace _4thYearProject.Server.Pages
             {
                 var like = await VerifyLike(Post);
                 Post.Liked = like;
-                Console.WriteLine(like);
             }
 
             Posts = PostsCombined.Distinct().OrderByDescending(po => po.UploadDate).ToList();

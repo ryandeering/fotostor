@@ -16,11 +16,14 @@ namespace _4thYearProject.Api.Controllers
 
         private readonly IUserDataRepository _userDataRepository;
 
-        public SuggestionsController(ISuggestionsRepository suggestionsRepository, IUserService userService, IUserDataRepository userDataRepository)
+        private readonly ILikeRepository _likeRepository;
+
+        public SuggestionsController(ISuggestionsRepository suggestionsRepository, IUserService userService, IUserDataRepository userDataRepository, ILikeRepository likeRepository)
         {
             _suggestionsRepository = suggestionsRepository;
             _userService = userService;
             _userDataRepository = userDataRepository;
+            _likeRepository = likeRepository;
         }
 
         [HttpGet("{id}")]
@@ -41,6 +44,8 @@ namespace _4thYearProject.Api.Controllers
             foreach (var Post in Posts)
             {
                 Post.ProfileData = _userDataRepository.GetUserNameFromId(Post.UserId);
+                Post.Likes = _likeRepository.GetLikeCount(Post.PostId.ToString());
+                
             }
 
             return Ok(Posts);

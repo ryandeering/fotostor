@@ -62,53 +62,53 @@ namespace FourthYearProject.IDP
                         var userManager = scope.ServiceProvider
                             .GetRequiredService<UserManager<ApplicationUser>>();
 
-                        var jack = userManager.FindByNameAsync("Jack").Result;
+                        var jack = userManager.FindByNameAsync("ryandeering1@gmail.com").Result;
                         if (jack == null)
                         {
                             jack = new ApplicationUser
                             {
-                                UserName = "Jack",
+                                Id = "7d6e087e-f7b6-4b58-b6ec-3672b7a41810",
+                                UserName = "shinto29",
                                 EmailConfirmed = true
                             };
 
-                            var result = userManager.CreateAsync(jack, "P@ssword1").Result;
+                            var result = userManager.CreateAsync(jack, "Password1!").Result;
                             if (!result.Succeeded) throw new Exception(result.Errors.First().Description);
 
                             result = userManager.AddClaimsAsync(jack, new[]
                             {
-                                new(JwtClaimTypes.Name, "Jack Torrance"),
-                                new Claim(JwtClaimTypes.GivenName, "Jack"),
-                                new Claim(JwtClaimTypes.FamilyName, "Torrance"),
-                                new Claim(JwtClaimTypes.Email, "jack.torrance@email.com"),
-                                new Claim("country", "BE")
+                                new(JwtClaimTypes.Name, "Ryan Deering"),
+                                new Claim(JwtClaimTypes.GivenName, "Ryan"),
+                                new Claim(JwtClaimTypes.FamilyName, "Deering"),
+                                new Claim(JwtClaimTypes.Email, "ryandeering1@gmail.com"),
                             }).Result;
 
                             if (!result.Succeeded) throw new Exception(result.Errors.First().Description);
                         }
 
-                        var wendy = userManager.FindByNameAsync("Wendy").Result;
-                        if (wendy == null)
-                        {
-                            wendy = new ApplicationUser
-                            {
-                                UserName = "Wendy",
-                                EmailConfirmed = true
-                            };
+                        //var wendy = userManager.FindByNameAsync("Wendy").Result;
+                        //if (wendy == null)
+                        //{
+                        //    wendy = new ApplicationUser
+                        //    {
+                        //        UserName = "Wendy",
+                        //        EmailConfirmed = true
+                        //    };
 
-                            var result = userManager.CreateAsync(wendy, "P@ssword1").Result;
-                            if (!result.Succeeded) throw new Exception(result.Errors.First().Description);
+                        //    var result = userManager.CreateAsync(wendy, "P@ssword1").Result;
+                        //    if (!result.Succeeded) throw new Exception(result.Errors.First().Description);
 
-                            result = userManager.AddClaimsAsync(wendy, new[]
-                            {
-                                new(JwtClaimTypes.Name, "Wendy Torrance"),
-                                new Claim(JwtClaimTypes.GivenName, "Wendy"),
-                                new Claim(JwtClaimTypes.FamilyName, "Torrance"),
-                                new Claim(JwtClaimTypes.Email, "wendy.torrance@email.com"),
-                                new Claim("country", "NL")
-                            }).Result;
+                        //    result = userManager.AddClaimsAsync(wendy, new[]
+                        //    {
+                        //        new(JwtClaimTypes.Name, "Wendy Torrance"),
+                        //        new Claim(JwtClaimTypes.GivenName, "Wendy"),
+                        //        new Claim(JwtClaimTypes.FamilyName, "Torrance"),
+                        //        new Claim(JwtClaimTypes.Email, "wendy.torrance@email.com"),
+                        //        new Claim("country", "NL")
+                        //    }).Result;
 
-                            if (!result.Succeeded) throw new Exception(result.Errors.First().Description);
-                        }
+                        //    if (!result.Succeeded) throw new Exception(result.Errors.First().Description);
+                        //}
                     }
                     catch (Exception ex)
                     {

@@ -1,3 +1,4 @@
+using _4thYearProject.Api.DataSeeding;
 using _4thYearProject.Api.Models.Interfaces;
 
 namespace _4thYearProject.Api
@@ -42,6 +43,8 @@ namespace _4thYearProject.Api
                 .RequireAuthenticatedUser()
                 .Build(); //change this later as we let posts become publicly visible
 
+            services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddHttpContextAccessor();
 
@@ -70,12 +73,9 @@ namespace _4thYearProject.Api
                         options.ApiName = "_4thyearprojectapi";
                     });
 
+           
 
-
-                services.AddDbContext<AppDbContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-         
-
+            services.AddScoped<IDbInitializer, DbInitializer>();
             services.AddScoped<IFollowingRepository, FollowingRepository>();
             services.AddScoped<IUserDataRepository, UserDataRepository>();
             services.AddScoped<IPostRepository, PostRepository>();
@@ -137,6 +137,15 @@ namespace _4thYearProject.Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
+             var scopeFactory = app.ApplicationServices.GetRequiredService<IServiceScopeFactory> ();
+         using (var scope = scopeFactory.CreateScope ()) {
+            var dbInitializer = scope.ServiceProvider.GetService<IDbInitializer> ();
+            dbInitializer.Initialize ();
+            dbInitializer.SeedData ();
+         }
+
+
             StripeConfiguration.ApiKey = Configuration.GetSection("Stripe")["ApiKey"];
             app.UseSwagger();
             if (env.IsDevelopment())

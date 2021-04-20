@@ -101,7 +101,7 @@ namespace _4thYearProject.Api.Models
             _optionsBuilder.UseSqlServer(_connectionString);
             using (AppDbContext context = new AppDbContext(_optionsBuilder.Options))
             {
-                var User = context.Users.AsNoTracking().FirstOrDefault(c => c.Id.Equals(UserId));
+                var User = context.Users.FirstOrDefault(c => c.Id.Equals(UserId));
 
                 var ProfileData = new FeedProfileData
                 {
