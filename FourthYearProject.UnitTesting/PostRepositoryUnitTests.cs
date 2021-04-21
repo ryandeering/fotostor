@@ -3,6 +3,7 @@ using _4thYearProject.Api.Models;
 using _4thYearProject.Shared.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using TestSupport.EfHelpers;
 using Xunit;
 
 namespace FourthYearProject.UnitTesting
@@ -40,9 +41,11 @@ namespace FourthYearProject.UnitTesting
 
             foreach (var follow in followings) {
                 var posts = repo.GetAllPostsbyFollowing(follow.Follower_ID);
-                Assert.Equal(posts.OrderByDescending(p => p.UploadDate).First(),
-                    PostsActual.OrderByDescending(p => p.UploadDate).First());
+                Assert.Equal(posts.OrderBy(p => p.UploadDate).First(),
+                    PostsActual.OrderBy(p => p.UploadDate).First());
             }
+            context.ChangeTracker.Clear();
+            context.Database.EnsureDeleted();
         }
 
         [Fact]
@@ -55,11 +58,10 @@ namespace FourthYearProject.UnitTesting
             var PostsActual = GenFu.GenFu.ListOf<Post>(3);
 
 
-            var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase(Guid.NewGuid().ToString())
-                .Options;
-
+            var options = SqliteInMemory.CreateOptions<AppDbContext>();
             using var context = new AppDbContext(options);
+
+            context.Database.EnsureCreated();
             context.Posts.Add(PostsActual.First(p => p.PostId == 1001));
             context.SaveChanges();
             var repo = new PostRepository(context);
@@ -137,22 +139,21 @@ namespace FourthYearProject.UnitTesting
         {
             var Post = GenFu.GenFu.New<Post>();
 
-            var options = new DbContextOptionsBuilder<AppDbContext>()
-               .UseInMemoryDatabase("Posts Delete Fail Test")
-                .Options;
+            var options = SqliteInMemory.CreateOptions<AppDbContext>();
+            using var context = new AppDbContext(options);
 
-           using var context = new AppDbContext(options);
+            context.Database.EnsureCreated();
             context.Posts.Add(Post);
             context.SaveChanges();
             var repo = new PostRepository(context);
 
 
             var post = context.Posts.First();
-            repo.DeletePost(post.PostId);
+            repo.DeletePost(context.Posts.First(p => p.Caption == Post.Caption).PostId);
 
-            var updatedPost2 = repo.GetPostById(post.PostId);
-
-            Assert.Null(updatedPost2);
+            Assert.True(context.Posts.First(p => p.Caption == Post.Caption).PostDeleted);
+            context.ChangeTracker.Clear();
+            context.Database.EnsureDeleted();
         }
 
 
@@ -222,7 +223,7 @@ namespace FourthYearProject.UnitTesting
            var PostsActual = GenFu.GenFu.ListOf<Post>(3);
 
            var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase("All Posts By User Id Test")
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
             using var context = new AppDbContext(options);
@@ -235,6 +236,9 @@ namespace FourthYearProject.UnitTesting
             for (var j = 0; j < posts.Count(); j++)
                 Assert.Equal(posts.OrderByDescending(p => p.UploadDate).ElementAt(j).Caption,
                     PostsActual.OrderByDescending(p => p.UploadDate).ElementAt(j).Caption);
+
+            context.ChangeTracker.Clear();
+            context.Database.EnsureDeleted();
         }
 
 
