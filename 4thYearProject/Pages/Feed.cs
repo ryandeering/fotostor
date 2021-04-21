@@ -53,40 +53,42 @@ namespace _4thYearProject.Server.Pages
         protected override async Task OnInitializedAsync()
         {
             identity = await _userService.GetUserAsync();
-            //First get user claims     
-            var claimDisplayName = identity.Claims.Where(c => c.Type.Equals("preferred_username"))
-                .Select(c => c.Value).SingleOrDefault().ToString();
-
-            LoggedIn = identity.Claims.Where(c => c.Type.Equals("sub"))
-                .Select(c => c.Value).SingleOrDefault().ToString();
-
-
-            User = await UserDataService.GetUserDataDetailsByDisplayName(claimDisplayName);
-
-            SuggestedPosts = (await SuggestionsDataService.GetSuggestions(User.Id)).ToList();
-
-            ActualPosts = (await PostDataService.GetAllPostsbyFollowing(User.Id)).ToList();
-
-
-
-
-            var PostsCombined = new List<Post>(ActualPosts.Count +
-                                                    SuggestedPosts.Count);
-
-            PostsCombined.AddRange(ActualPosts);
-            PostsCombined.AddRange(SuggestedPosts);
-
-
-
-            foreach (var Post in PostsCombined)
+            if (identity.Identity.IsAuthenticated)
             {
-                var like = await VerifyLike(Post);
-                Post.Liked = like;
+                //First get user claims     
+                var claimDisplayName = identity.Claims.Where(c => c.Type.Equals("preferred_username"))
+                    .Select(c => c.Value).SingleOrDefault().ToString();
+
+                LoggedIn = identity.Claims.Where(c => c.Type.Equals("sub"))
+                    .Select(c => c.Value).SingleOrDefault().ToString();
+
+
+                User = await UserDataService.GetUserDataDetailsByDisplayName(claimDisplayName);
+
+                SuggestedPosts = (await SuggestionsDataService.GetSuggestions(User.Id)).ToList();
+
+                ActualPosts = (await PostDataService.GetAllPostsbyFollowing(User.Id)).ToList();
+
+
+
+
+                var PostsCombined = new List<Post>(ActualPosts.Count +
+                                                   SuggestedPosts.Count);
+
+                PostsCombined.AddRange(ActualPosts);
+                PostsCombined.AddRange(SuggestedPosts);
+
+
+
+                foreach (var Post in PostsCombined)
+                {
+                    var like = await VerifyLike(Post);
+                    Post.Liked = like;
+                }
+
+                Posts = PostsCombined.Distinct().OrderByDescending(po => po.UploadDate).ToList();
+
             }
-
-            Posts = PostsCombined.Distinct().OrderByDescending(po => po.UploadDate).ToList();
-
-
         }
 
 

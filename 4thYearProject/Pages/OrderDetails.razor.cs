@@ -50,23 +50,27 @@ namespace _4thYearProject.Server.Pages
         protected async override Task OnInitializedAsync()
         {
 
-            //TODO validate user is owner
-            identity = await _userService.GetUserAsync();
+           
+                identity = await _userService.GetUserAsync();
 
 
-            string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
-                      .Select(c => c.Value).SingleOrDefault().ToString();
+                string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+                    .Select(c => c.Value).SingleOrDefault().ToString();
 
 
-            Order = (await shoppingCartDataService.GetOrderById(Int32.Parse(OrderId)));
+                Order = (await shoppingCartDataService.GetOrderById(Int32.Parse(OrderId)));
 
                 if (Order.OrderAddress.UserPostcode != null)
                 {
-                    var (item1, item2) = await GetCoordsAsync(Order.OrderAddress.UserAddress + " " + Order.OrderAddress.UserAddress2 + " " + Order.OrderAddress.UserCountry + " " + Order.OrderAddress.UserCity + " " + Order.OrderAddress.UserPostcode);
+                    var (item1, item2) = await GetCoordsAsync(Order.OrderAddress.UserAddress + " " +
+                                                              Order.OrderAddress.UserAddress2 + " " +
+                                                              Order.OrderAddress.UserCountry + " " +
+                                                              Order.OrderAddress.UserCity + " " +
+                                                              Order.OrderAddress.UserPostcode);
                     X = item1;
                     Y = item2;
                 }
-
+            
         }
 
 

@@ -33,7 +33,7 @@
 
                 ClaimsPrincipal identity = await _userService.GetUserAsync();
 
-                if (identity.Identity.IsAuthenticated.Equals(true))
+                if (identity.Identity.IsAuthenticated)
                 {
 
                     //First get user id

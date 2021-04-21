@@ -92,12 +92,18 @@ namespace _4thYearProject.Api.Controllers
                     sb.Append("</br>");
 
                     sb.Append("<h2>Address</h2>");
-                    sb.Append(order.OrderAddress.UserFName + order.OrderAddress.UserLName + "</br>");
-                    sb.Append(order.OrderAddress.UserAddress + "</br>");
-                    sb.Append(order.OrderAddress.UserAddress2 + "</br>");
-                    sb.Append(order.OrderAddress.UserCity + "</br>");
-                    sb.Append(order.OrderAddress.UserCountry + "</br>");
-                    sb.Append(order.OrderAddress.UserPostcode + "</br>");
+                    sb.Append(order.OrderAddress.UserFName + " " + order.OrderAddress.UserLName + "\n");
+                    sb.AppendLine("<br>");
+                    sb.Append(order.OrderAddress.UserAddress + "\n");
+                    sb.AppendLine("<br>");
+                    sb.Append(order.OrderAddress.UserAddress2 + "\n");
+                    sb.AppendLine("<br>");
+                    sb.Append(order.OrderAddress.UserCity + "\n");
+                    sb.AppendLine("<br>");
+                    sb.Append(order.OrderAddress.UserCountry + "\n");
+                    sb.AppendLine("<br>");
+                    sb.Append(order.OrderAddress.UserPostcode + "\n");
+                    sb.AppendLine("<br>");
 
 
                     sb.Append("</br>");

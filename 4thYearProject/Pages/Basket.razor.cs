@@ -54,15 +54,21 @@ namespace _4thYearProject.Server.Pages
             price = 0;
             basket.BasketItems = new List<OrderLineItem>();
             identity = await _userService.GetUserAsync();
-            LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
-                   .Select(c => c.Value).SingleOrDefault().ToString();
+            if (identity.Identity.IsAuthenticated)
+            {
+                LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+                    .Select(c => c.Value).SingleOrDefault().ToString();
 
-            Email = identity.Claims.Where(c => c.Type.Equals("email"))
-                   .Select(c => c.Value).SingleOrDefault().ToString();
+                Email = identity.Claims.Where(c => c.Type.Equals("email"))
+                    .Select(c => c.Value).SingleOrDefault().ToString();
 
-            basket = await shoppingCartDataService.GetCart(LoggedInID);
+                basket = await shoppingCartDataService.GetCart(LoggedInID);
 
-            user = await UserDataService.GetUserDataDetailsInFull(LoggedInID);
+                user = await UserDataService.GetUserDataDetailsInFull(LoggedInID);
+            }
+          
+
+           
         }
 
         private async Task PlaceOrder()

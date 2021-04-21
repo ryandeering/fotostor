@@ -60,25 +60,27 @@ namespace _4thYearProject.Server.Pages
         {
 
             identity = await _userService.GetUserAsync();
-            //First get user claims    
-            claimDisplayName = identity.Claims.Where(c => c.Type.Equals("preferred_username"))
-                  .Select(c => c.Value).SingleOrDefault().ToString();
+            if (identity.Identity.IsAuthenticated)
+            {
+                //First get user claims    
+                claimDisplayName = identity.Claims.Where(c => c.Type.Equals("preferred_username"))
+                    .Select(c => c.Value).SingleOrDefault().ToString();
 
-            LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
-                .Select(c => c.Value).SingleOrDefault().ToString();
+                LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+                    .Select(c => c.Value).SingleOrDefault().ToString();
 
 
-            User = await UserDataService.GetUserDataDetailsByDisplayName(DisplayName);
+                User = await UserDataService.GetUserDataDetailsByDisplayName(DisplayName);
 
-            Posts = (await PostDataService.GetPostsByUserId(User.Id)).ToList();
+                Posts = (await PostDataService.GetPostsByUserId(User.Id)).ToList();
 
-            followers = await GetFollowers();
-            following = await GetFollowing();
-            FollowerCount = followers.Count;
-            FollowingCount = following.Count;
+                followers = await GetFollowers();
+                following = await GetFollowing();
+                FollowerCount = followers.Count;
+                FollowingCount = following.Count;
 
-            await VerifyFollowing();
-
+                await VerifyFollowing();
+            }
 
         }
 

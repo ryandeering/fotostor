@@ -65,26 +65,28 @@ namespace _4thYearProject.Server.Pages
         {
             try
             {
-                Comments = (await CommentDataService.GetCommentsByPostId(int.Parse(PostID))).ToList();
+                
+                    Comments = (await CommentDataService.GetCommentsByPostId(int.Parse(PostID))).ToList();
 
 
-                identity = await _userService.GetUserAsync();
+                    identity = await _userService.GetUserAsync();
 
-                var LoggedIn = identity.Claims.Where(c => c.Type.Equals("sub"))
-                    .Select(c => c.Value).SingleOrDefault().ToString();
+                    var LoggedIn = identity.Claims.Where(c => c.Type.Equals("sub"))
+                        .Select(c => c.Value).SingleOrDefault().ToString();
 
-                User = await UserDataService.GetUserDataDetails(LoggedIn);
-
-
-                claimDisplayName = identity.Claims.Where(c => c.Type.Equals("preferred_username"))
-                    .Select(c => c.Value).SingleOrDefault().ToString();
+                    User = await UserDataService.GetUserDataDetails(LoggedIn);
 
 
-                LoggedInID = LoggedIn;
+                    claimDisplayName = identity.Claims.Where(c => c.Type.Equals("preferred_username"))
+                        .Select(c => c.Value).SingleOrDefault().ToString();
 
 
-                post = await PostDataService.GetPostDetails(int.Parse(PostID));
-                post.Liked = await VerifyLiked();
+                    LoggedInID = LoggedIn;
+
+
+                    post = await PostDataService.GetPostDetails(int.Parse(PostID));
+                    post.Liked = await VerifyLiked();
+                
             }
             catch (Exception e)
             {

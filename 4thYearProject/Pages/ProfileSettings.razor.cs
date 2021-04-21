@@ -35,13 +35,16 @@ namespace _4thYearProject.Server.Pages
         protected override async Task OnInitializedAsync()
         {
             identity = await _userService.GetUserAsync();
-            //First get user claims    
-            var UserID = identity.Claims.Where(c => c.Type.Equals("sub"))
-                .Select(c => c.Value).SingleOrDefault().ToString();
+            if (identity.Identity.IsAuthenticated)
+            {
+                //First get user claims    
+                var UserID = identity.Claims.Where(c => c.Type.Equals("sub"))
+                    .Select(c => c.Value).SingleOrDefault().ToString();
 
-            User = await UserDataService.GetUserDataDetailsInFull(UserID);
+                User = await UserDataService.GetUserDataDetailsInFull(UserID);
 
-            User.Address ??= new Address(); //generates address for form 
+                User.Address ??= new Address(); //generates address for form 
+            }
         }
 
         internal async Task HandleMatFileSelected(IMatFileUploadEntry[] files)

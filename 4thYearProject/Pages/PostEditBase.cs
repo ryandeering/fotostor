@@ -73,18 +73,24 @@
 
         protected override async Task OnInitializedAsync()
         {
-            Saved = false;
+      
+                Saved = false;
 
-            if (PostId == 0)
-            {
-                //add some defaults
-                Post = new Post { Caption = String.Empty, PostDeleted = false, PhotoFile = null, Comments = new List<Comment>(), UploadDate = DateTime.Now, Likes = 0 };
-            }
-            else
-            {
-                fileUploaded = true;
-                Post = await PostDataService.GetPostDetails(PostId); //int.parse
-            }
+                if (PostId == 0)
+                {
+                    //add some defaults
+                    Post = new Post
+                    {
+                        Caption = String.Empty, PostDeleted = false, PhotoFile = null, Comments = new List<Comment>(),
+                        UploadDate = DateTime.Now, Likes = 0
+                    };
+                }
+                else
+                {
+                    fileUploaded = true;
+                    Post = await PostDataService.GetPostDetails(PostId); //int.parse
+                }
+            
         }
 
         internal IReadOnlyList<IBrowserFile> selectedFiles;
@@ -114,19 +120,18 @@
                     PostId = addedPost.PostId;
                     Toaster.Add("Post added successfully.", MatToastType.Success, "SUCCESS");
                     Saved = true;
-
+                    NavigationManager.NavigateTo("/feed/");
                 }
                 else
                 {
                     Saved = false;
+                    Toaster.Add("Post submission failed.", MatToastType.Danger, "FAILURE");
+                    NavigationManager.NavigateTo("/postedit/");
                 }
             }
             else
             {
-                await PostDataService.AddPost(Post); //TODO FIX LATER HOLY FUCK
-                StatusClass = "alert-success";
-                Message = "Fuck.";
-                Saved = true;
+                await PostDataService.AddPost(Post);
             }
         }
 

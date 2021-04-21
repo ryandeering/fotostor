@@ -33,14 +33,17 @@ namespace _4thYearProject.Server.Pages
         protected override async Task OnInitializedAsync()
         {
             Identity = await UserService.GetUserAsync();
-            //First get user claims
-            ClaimID = Identity.Claims.Where(c => c.Type.Equals("sub"))
-                .Select(c => c.Value).SingleOrDefault().ToString();
+            if (Identity.Identity.IsAuthenticated)
+            {
+                //First get user claims
+                ClaimID = Identity.Claims.Where(c => c.Type.Equals("sub"))
+                    .Select(c => c.Value).SingleOrDefault().ToString();
 
-            lineItems = (await ShoppingCartService.GetOrderLinesForArtist(ClaimID)).ToList();
+                lineItems = (await ShoppingCartService.GetOrderLinesForArtist(ClaimID)).ToList();
 
-            PieChartItems = calculatePieCharts(lineItems);
-            RevenueTotal = totalRevenue(lineItems);
+                PieChartItems = calculatePieCharts(lineItems);
+                RevenueTotal = totalRevenue(lineItems);
+            }
         }
 
 

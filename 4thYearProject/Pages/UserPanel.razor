@@ -43,10 +43,10 @@
 
 @if (RevenueTotal != null | RevenueTotal > 0.00)
 {
-    <RadzenCard Style="width: auto; margin-bottom: auto; height: auto;">
+    <RadzenCard Style="width: auto; margin-bottom: auto; height: auto;" Name ="money" Id="money">
         <div class="row">
             <div class="col-md-6">
-                <h4>Revenue accumulated for this period: </h4>
+                <h4 id="money">Revenue accumulated for this period: </h4>
                 <h5>€@Math.Round(RevenueTotal, 2, MidpointRounding.AwayFromZero)</h5>
 
             </div>

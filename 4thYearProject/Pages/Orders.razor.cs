@@ -32,15 +32,16 @@
         protected async override Task OnInitializedAsync()
         {
 
+       
+                identity = await _userService.GetUserAsync();
 
-            identity = await _userService.GetUserAsync();
 
+                string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+                    .Select(c => c.Value).SingleOrDefault().ToString();
 
-            string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
-                      .Select(c => c.Value).SingleOrDefault().ToString();
-
-            orders = (await shoppingCartDataService.GetAllOrders(LoggedInID)).OrderByDescending(o => o.DatePlaced).ToList();
-   
+                orders = (await shoppingCartDataService.GetAllOrders(LoggedInID)).OrderByDescending(o => o.DatePlaced)
+                    .ToList();
+            
         }
 
 

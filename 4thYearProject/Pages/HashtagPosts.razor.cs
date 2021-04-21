@@ -52,24 +52,26 @@ namespace _4thYearProject.Server.Pages
         {
 
             identity = await _userService.GetUserAsync();
-            //First get user claims    
-            string claimDisplayName = identity.Claims.Where(c => c.Type.Equals("preferred_username"))
-                .Select(c => c.Value).SingleOrDefault().ToString();
-
-
-            LoggedIn = identity.Claims.Where(c => c.Type.Equals("sub"))
-                .Select(c => c.Value).SingleOrDefault().ToString();
-
-            Posts = (List<Post>)await HashTagDataService.GetLatestPostsByHashTag(HashTag);
-            User = await UserDataService.GetUserDataDetailsByDisplayName(claimDisplayName);
-
-
-            foreach (var Post in Posts)
+            if (identity.Identity.IsAuthenticated)
             {
-                var like = await VerifyLike(Post);
-                Post.Liked = like;
-            }
+                //First get user claims    
+                string claimDisplayName = identity.Claims.Where(c => c.Type.Equals("preferred_username"))
+                    .Select(c => c.Value).SingleOrDefault().ToString();
 
+
+                LoggedIn = identity.Claims.Where(c => c.Type.Equals("sub"))
+                    .Select(c => c.Value).SingleOrDefault().ToString();
+
+                Posts = (List<Post>) await HashTagDataService.GetLatestPostsByHashTag(HashTag);
+                User = await UserDataService.GetUserDataDetailsByDisplayName(claimDisplayName);
+
+
+                foreach (var Post in Posts)
+                {
+                    var like = await VerifyLike(Post);
+                    Post.Liked = like;
+                }
+            }
         }
 
 

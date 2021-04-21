@@ -83,26 +83,26 @@
 
 @code{
 
-        ClaimsPrincipal identity;
-        UserData User;
-        private SearchResult resultActual = new SearchResult();
-        private List<SearchResult> results = new List<SearchResult>();
-        string LoggedInID = String.Empty;
-        string ProfileName = String.Empty;
-        string RegisterLink = String.Empty;
+    ClaimsPrincipal identity;
+    UserData User;
+    private SearchResult resultActual = new SearchResult();
+    private List<SearchResult> results = new List<SearchResult>();
+    string LoggedInID = String.Empty;
+    string ProfileName = String.Empty;
+    string RegisterLink = String.Empty;
 
-        protected override async Task OnInitializedAsync()
-        {
-            identity = await _userService.GetUserAsync();
-            
-            RegisterLink = HostEnvironment.IsDevelopment() ? "https://localhost:44333/Identity/Account/Register" : "https://fotostopidp.azurewebsites.net/Identity/Account/Register";
+    protected override async Task OnInitializedAsync()
+    {
+        identity = await _userService.GetUserAsync();
+
+        RegisterLink = HostEnvironment.IsDevelopment() ? "https://localhost:44333/Identity/Account/Register" : "https://fotostopidp.azurewebsites.net/Identity/Account/Register";
 
         if (identity.Identity.IsAuthenticated)
         {
             LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
                  .Select(c => c.Value).SingleOrDefault().ToString();
-    User = await UserDataService.GetUserDataDetails(LoggedInID);
-    ProfileName = User.DisplayName;
+            User = await UserDataService.GetUserDataDetails(LoggedInID);
+            ProfileName = User.DisplayName;
 
 
         }
@@ -130,13 +130,19 @@
                 break;
 
             case "Hashtag":
-                string hashTag = resultActual.Content.Substring(1, result.Content.Length);
-                Navigation.NavigateTo("tags/" + hashTag);
+                try
+                {
+                    Navigation.NavigateTo("tags/" + result.Content.Substring(1));
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e);
+                }
                 break;
         }
     }
 
-    
+
 
 
 

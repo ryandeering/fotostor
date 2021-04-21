@@ -106,7 +106,15 @@
 
         post.LicensePrice = Price;
         var postRecieved = await postsService.AddPost(post);
-        navigationManager.NavigateTo("/post/" + postRecieved.PostId);
+        if (postRecieved != null)
+        {
+            Toaster.Add("Post uploaded.", MatToastType.Success, "SUCCESS");
+        }
+        else
+        {
+            Toaster.Add("Post upload failed..", MatToastType.Danger, "SUCCESS");
+        }
+        navigationManager.NavigateTo("/feed/");
     }
 
 
