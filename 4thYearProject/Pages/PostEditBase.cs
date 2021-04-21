@@ -1,43 +1,46 @@
-﻿namespace _4thYearProject.Server.Pages
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using _4thYearProject.Server.Services;
+using _4thYearProject.Shared.Models;
+using MatBlazor;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
+
+namespace _4thYearProject.Server.Pages
 {
-    using _4thYearProject.Server.Services;
-    using _4thYearProject.Shared.Models;
-    using MatBlazor;
-    using Microsoft.AspNetCore.Components;
-    using Microsoft.AspNetCore.Components.Forms;
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-
-    public partial class PostEditBase : ComponentBase
+    public class PostEditBase : ComponentBase
     {
-        [Inject]
-        public IPostDataService PostDataService { get; set; }
+        public bool fileUploaded;
 
-        [Inject]
-        public IHashTagDataService HashTagDataService { get; set; }
+        protected string Message = string.Empty;
 
-        [Inject]
-        public NavigationManager NavigationManager { get; set; }
+        protected bool Saved;
 
-        [Inject]
-        public IMatToaster Toaster { get; set; }
+        internal IReadOnlyList<IBrowserFile> selectedFiles;
 
-        [Parameter]
-        public int PostId { get; set; }
+        protected string StatusClass = string.Empty;
 
-        public Post Post { get; set; } = new Post();
+#pragma warning disable S1104 // Fields should not have public accessibility
+        public bool value;
+#pragma warning restore S1104 // Fields should not have public accessibility
+        [Inject] public IPostDataService PostDataService { get; set; }
 
-        [Parameter]
-        public EventCallback<bool> CloseEventCallback { get; set; }
+        [Inject] public IHashTagDataService HashTagDataService { get; set; }
+
+        [Inject] public NavigationManager NavigationManager { get; set; }
+
+        [Inject] public IMatToaster Toaster { get; set; }
+
+        [Parameter] public int PostId { get; set; }
+
+        public Post Post { get; set; } = new();
+
+        [Parameter] public EventCallback<bool> CloseEventCallback { get; set; }
 
         public bool ShowDialog { get; set; }
 
         public double Price { get; set; }
-
-        public bool value;
-
-        public bool fileUploaded = false;
 
         public void Show()
         {
@@ -65,55 +68,41 @@
             StateHasChanged();
         }
 
-        protected string Message = string.Empty;
-
-        protected string StatusClass = string.Empty;
-
-        protected bool Saved;
-
         protected override async Task OnInitializedAsync()
         {
-      
-                Saved = false;
+            Saved = false;
 
-                if (PostId == 0)
+            if (PostId == 0)
+            {
+                fileUploaded = false;
+                //add some defaults
+                Post = new Post
                 {
-                    //add some defaults
-                    Post = new Post
-                    {
-                        Caption = String.Empty, PostDeleted = false, PhotoFile = null, Comments = new List<Comment>(),
-                        UploadDate = DateTime.Now, Likes = 0
-                    };
-                }
-                else
-                {
-                    fileUploaded = true;
-                    Post = await PostDataService.GetPostDetails(PostId); //int.parse
-                }
-            
+                    Caption = string.Empty, PostDeleted = false, PhotoFile = null, Comments = new List<Comment>(),
+                    UploadDate = DateTime.Now, Likes = 0
+                };
+            }
+            else
+            {
+                fileUploaded = true;
+                Post = await PostDataService.GetPostDetails(PostId); //int.parse
+            }
         }
-
-        internal IReadOnlyList<IBrowserFile> selectedFiles;
 
         protected void OnInputFileChange(InputFileChangeEventArgs e)
         {
             selectedFiles = e.GetMultipleFiles();
             Message = $"{selectedFiles.Count} file(s) selected";
-            this.StateHasChanged();
+            StateHasChanged();
         }
 
         protected async Task HandleValidSubmit()
         {
-
             Saved = false;
-
-
 
 
             if (Post.PostId == 0) //new
             {
-
-
                 var addedPost = await PostDataService.AddPost(Post);
                 if (addedPost != null)
                 {
@@ -150,11 +139,7 @@
 
         public void OnChange(bool? value, string name) //I promise this makes sense
         {
-
-            if (value == true)
-            {
-                ShowDialog = true;
-            }
+            if (value == true) ShowDialog = true;
         }
     }
 }

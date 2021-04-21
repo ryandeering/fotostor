@@ -1,5 +1,5 @@
-﻿using _4thYearProject.Shared.Models;
-using System.Linq;
+﻿using System.Linq;
+using _4thYearProject.Shared.Models;
 
 namespace _4thYearProject.Api.Models
 {

@@ -8,6 +8,13 @@
 	  <SonarQubeExclude>True</SonarQubeExclude>
 	  <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
 	  <EnableNETAnalyzers>false</EnableNETAnalyzers>
+	  <AnalysisLevel>none</AnalysisLevel>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>0</WarningLevel>
+    <NoWarn>*</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

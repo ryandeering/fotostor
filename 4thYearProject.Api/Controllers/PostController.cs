@@ -1,16 +1,15 @@
-﻿using _4thYearProject.Api.CloudStorage;
-using _4thYearProject.Api.Models;
-using _4thYearProject.Shared;
-using _4thYearProject.Shared.Models;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Processing;
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using _4thYearProject.Api.CloudStorage;
+using _4thYearProject.Api.Models;
+using _4thYearProject.Shared;
+using _4thYearProject.Shared.Models;
+using Microsoft.AspNetCore.Mvc;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
 
 namespace _4thYearProject.Api.Controllers
 {
@@ -27,15 +26,13 @@ namespace _4thYearProject.Api.Controllers
         private readonly IUserDataRepository _userDataRepository;
         private readonly IUserService _userService;
 
-        private readonly IWebHostEnvironment env;
 
         public PostController(IPostRepository postRepository, IHashTagRepository hashTagRepository,
-            IWebHostEnvironment env, ICloudStorage cloudStorage, IUserDataRepository userDataRepository,
+            ICloudStorage cloudStorage, IUserDataRepository userDataRepository,
             IUserService userService, ILikeRepository likeRepository)
         {
             _postRepository = postRepository;
             _hashTagRepository = hashTagRepository;
-            this.env = env;
             _cloudStorage = cloudStorage;
             _userDataRepository = userDataRepository;
             _userService = userService;
@@ -49,16 +46,13 @@ namespace _4thYearProject.Api.Controllers
         {
             var Post = _postRepository.GetPostById(id);
 
-            if (Post == null)
-            {
-                return NotFound();
-            }
+            if (Post == null) return NotFound();
 
 
             Post.Likes = _likeRepository.GetLikeCount(id.ToString());
             Post.ProfileData = _userDataRepository.GetUserNameFromId(Post.UserId);
             return Ok(Post);
-         }
+        }
 
         [HttpGet]
         [Route("user/{id}")]
@@ -98,10 +92,7 @@ namespace _4thYearProject.Api.Controllers
         {
             var Posts = _postRepository.GetAllPostsbyFollowing(id);
 
-            foreach (var Post in Posts )
-            {
-                    Post.ProfileData = _userDataRepository.GetUserNameFromId(Post.UserId);
-            }
+            foreach (var Post in Posts) Post.ProfileData = _userDataRepository.GetUserNameFromId(Post.UserId);
             return Ok(Posts);
         }
 

@@ -1,7 +1,7 @@
-﻿using _4thYearProject.Shared;
-using Microsoft.AspNetCore.Http;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using System.Threading.Tasks;
+using _4thYearProject.Shared;
+using Microsoft.AspNetCore.Http;
 
 namespace _4thYearProject.Api.Controllers.Identity
 {

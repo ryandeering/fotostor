@@ -1,8 +1,7 @@
-﻿@using _4thYearProject.Shared
-@using _4thYearProject.Server.Services
+﻿@using System.IO
 <MatCard>
     <MatCardContent>
-        <EditForm Model="@post" OnValidSubmit="@(async ()=> await OnSave.InvokeAsync(post))">
+        <EditForm Model="@post" OnValidSubmit="@(async () => await OnSave.InvokeAsync(post))">
             <p>
                 <MatTextField @bind-Value="@post.Caption" Label="Description" TextArea FullWidth></MatTextField>
             </p>
@@ -17,6 +16,7 @@
 </MatCard>
 
 @code {
+
     [Parameter]
     public Post post { get; set; }
 
@@ -31,30 +31,26 @@
     [Inject]
     public IUserDataService UserDataService { get; set; }
 
-    public UserData User = new UserData();
+    public UserData User = new();
 
 
     private ClaimsPrincipal identity;
 
 
-
     protected override async Task OnInitializedAsync()
     {
-
         identity = await _userService.GetUserAsync();
-        //First get user claims
-        String UserID = identity.Claims.Where(c => c.Type.Equals("sub"))
-              .Select(c => c.Value).SingleOrDefault().ToString();
+    //First get user claims
+        var UserID = identity.Claims.Where(c => c.Type.Equals("sub"))
+            .Select(c => c.Value).SingleOrDefault().ToString();
 
         User = await UserDataService.GetUserDataDetails(UserID);
     }
 
 
-
-
     async Task HandleMatFileSelected(IMatFileUploadEntry[] files)
     {
-        IMatFileUploadEntry file = files.FirstOrDefault();
+        var file = files.FirstOrDefault();
         post.MimeType = file.Type;
 
         if (file == null)
@@ -62,12 +58,11 @@
             return;
         }
 
-        using (var stream = new System.IO.MemoryStream())
+        using (var stream = new MemoryStream())
         {
             await file.WriteToStreamAsync(stream);
             post.PhotoFile = Convert.ToBase64String(stream.ToArray());
         }
-
     }
 
 

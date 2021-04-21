@@ -1,7 +1,7 @@
-﻿using _4thYearProject.Shared;
-using Microsoft.AspNetCore.Components.Authorization;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using System.Threading.Tasks;
+using _4thYearProject.Shared;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace _4thYearProject.Server.Services.Identity
 {
@@ -19,9 +19,5 @@ namespace _4thYearProject.Server.Services.Identity
             var state = await authenticationStateProvider.GetAuthenticationStateAsync();
             return state.User;
         }
-
-
-
-
     }
 }

@@ -7,37 +7,34 @@ namespace _4thYearProject.Api.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<int>(
-                name: "ProfileDataId",
-                table: "Posts",
-                type: "int",
+                "ProfileDataId",
+                "Posts",
+                "int",
                 nullable: true);
 
             migrationBuilder.CreateTable(
-                name: "FeedData",
-                columns: table => new
+                "FeedData",
+                table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>("int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ProfilePicURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Username = table.Column<string>("nvarchar(max)", nullable: true),
+                    ProfilePicURL = table.Column<string>("nvarchar(max)", nullable: true),
+                    FName = table.Column<string>("nvarchar(max)", nullable: true),
+                    LName = table.Column<string>("nvarchar(max)", nullable: true)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_FeedData", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_FeedData", x => x.Id); });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Posts_ProfileDataId",
-                table: "Posts",
-                column: "ProfileDataId");
+                "IX_Posts_ProfileDataId",
+                "Posts",
+                "ProfileDataId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Posts_FeedData_ProfileDataId",
-                table: "Posts",
-                column: "ProfileDataId",
-                principalTable: "FeedData",
+                "FK_Posts_FeedData_ProfileDataId",
+                "Posts",
+                "ProfileDataId",
+                "FeedData",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
         }
@@ -45,19 +42,19 @@ namespace _4thYearProject.Api.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Posts_FeedData_ProfileDataId",
-                table: "Posts");
+                "FK_Posts_FeedData_ProfileDataId",
+                "Posts");
 
             migrationBuilder.DropTable(
-                name: "FeedData");
+                "FeedData");
 
             migrationBuilder.DropIndex(
-                name: "IX_Posts_ProfileDataId",
-                table: "Posts");
+                "IX_Posts_ProfileDataId",
+                "Posts");
 
             migrationBuilder.DropColumn(
-                name: "ProfileDataId",
-                table: "Posts");
+                "ProfileDataId",
+                "Posts");
         }
     }
 }

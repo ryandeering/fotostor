@@ -1,10 +1,10 @@
-﻿using _4thYearProject.Shared;
-using _4thYearProject.Shared.Models.BusinessLogic;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using _4thYearProject.Shared;
+using _4thYearProject.Shared.Models.BusinessLogic;
+using Newtonsoft.Json;
 
 namespace _4thYearProject.Server.Services
 {
@@ -16,6 +16,7 @@ namespace _4thYearProject.Server.Services
         {
             _client = client;
         }
+
         public async Task<SuccessModel> CheckOut(StripePaymentDto model)
         {
             var content = JsonConvert.SerializeObject(model);
@@ -41,7 +42,6 @@ namespace _4thYearProject.Server.Services
             var response = await _client.GetStringAsync($"api/stripepayment/OrderSuccess/{UserId}/{token}");
             var result = JsonConvert.DeserializeObject<SuccessModel>(response);
             return result;
-
         }
     }
 }

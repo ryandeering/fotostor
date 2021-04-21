@@ -1,5 +1,5 @@
-﻿using _4thYearProject.Shared.Models;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using _4thYearProject.Shared.Models;
 
 namespace _4thYearProject.Server.Services
 {
@@ -10,4 +10,3 @@ namespace _4thYearProject.Server.Services
         Task<bool> VerifyLike(string Post_ID, string User_ID);
     }
 }
-

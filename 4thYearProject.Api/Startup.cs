@@ -1,29 +1,28 @@
+using System;
+using System.Linq;
+using _4thYearProject.Api.CloudStorage;
+using _4thYearProject.Api.Controllers.Identity;
 using _4thYearProject.Api.DataSeeding;
+using _4thYearProject.Api.Emailing;
+using _4thYearProject.Api.Models;
 using _4thYearProject.Api.Models.Interfaces;
+using _4thYearProject.Shared;
+using IdentityServer4.AccessTokenValidation;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
+using Stripe;
 
 namespace _4thYearProject.Api
 {
-    using _4thYearProject.Api.CloudStorage;
-    using _4thYearProject.Api.Controllers.Identity;
-    using _4thYearProject.Api.Emailing;
-    using _4thYearProject.Api.Models;
-    using _4thYearProject.Shared;
-    using Microsoft.OpenApi.Models;
-    using IdentityServer4.AccessTokenValidation;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Identity.UI.Services;
-    using Microsoft.AspNetCore.Mvc.Authorization;
-    using Microsoft.AspNetCore.ResponseCompression;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Hosting;
-    using Stripe;
-    using System;
-    using System.Linq;
-
     public class Startup
     {
         public Startup(IConfiguration configuration, IWebHostEnvironment environment)
@@ -52,7 +51,7 @@ namespace _4thYearProject.Api
             services.AddResponseCompression(opts =>
             {
                 opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
-                    new[] { "application/octet-stream" });
+                    new[] {"application/octet-stream"});
             });
 
 
@@ -73,7 +72,6 @@ namespace _4thYearProject.Api
                         options.ApiName = "_4thyearprojectapi";
                     });
 
-           
 
             services.AddScoped<IDbInitializer, DbInitializer>();
             services.AddScoped<IFollowingRepository, FollowingRepository>();
@@ -100,62 +98,53 @@ namespace _4thYearProject.Api
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "4thYearProject.API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo {Title = "4thYearProject.API", Version = "v1"});
             });
 
 
             if (Environment.IsDevelopment())
-            {
                 services.AddCors(options =>
                 {
                     options.AddPolicy("Open",
                         builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
                 });
-            }
             else
-            {
                 services.AddCors(options =>
                 {
                     options.AddPolicy("Open",
                         builder =>
                         {
                             builder.WithOrigins("https://fotostopapi.azurewebsites.net",
-                                    "https://fotostopidp.azurewebsites.net", "https://red-pebble-0ad568c03.azurestaticapps.net")
+                                    "https://fotostopidp.azurewebsites.net",
+                                    "https://red-pebble-0ad568c03.azurestaticapps.net")
                                 .AllowAnyHeader()
                                 .AllowAnyMethod();
                         });
                 });
-            }
 
 
             services.AddControllers(configure =>
                 configure.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy)));
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-
-             var scopeFactory = app.ApplicationServices.GetRequiredService<IServiceScopeFactory> ();
-         using (var scope = scopeFactory.CreateScope ()) {
-            var dbInitializer = scope.ServiceProvider.GetService<IDbInitializer> ();
-            dbInitializer.Initialize ();
-            dbInitializer.SeedData ();
-         }
+            var scopeFactory = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
+            using (var scope = scopeFactory.CreateScope())
+            {
+                var dbInitializer = scope.ServiceProvider.GetService<IDbInitializer>();
+                dbInitializer.Initialize();
+                dbInitializer.SeedData();
+            }
 
 
             StripeConfiguration.ApiKey = Configuration.GetSection("Stripe")["ApiKey"];
             app.UseSwagger();
             if (env.IsDevelopment())
             {
-                
                 app.UseDeveloperExceptionPage();
-                app.UseSwaggerUI(c =>
-                {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "4thYearProject.API V1");
-                });
+                app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "4thYearProject.API V1"); });
             }
 
             app.UseResponseCompression();

@@ -7,33 +7,33 @@ namespace _4thYearProject.Api.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "UserAddress",
-                table: "Orders");
+                "UserAddress",
+                "Orders");
 
             migrationBuilder.DropColumn(
-                name: "UserCity",
-                table: "Orders");
+                "UserCity",
+                "Orders");
 
             migrationBuilder.DropColumn(
-                name: "UserCountry",
-                table: "Orders");
+                "UserCountry",
+                "Orders");
 
             migrationBuilder.AddColumn<int>(
-                name: "OrderAddressId",
-                table: "Orders",
-                type: "int",
+                "OrderAddressId",
+                "Orders",
+                "int",
                 nullable: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_OrderAddressId",
-                table: "Orders",
-                column: "OrderAddressId");
+                "IX_Orders_OrderAddressId",
+                "Orders",
+                "OrderAddressId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Orders_Address_OrderAddressId",
-                table: "Orders",
-                column: "OrderAddressId",
-                principalTable: "Address",
+                "FK_Orders_Address_OrderAddressId",
+                "Orders",
+                "OrderAddressId",
+                "Address",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
         }
@@ -41,33 +41,33 @@ namespace _4thYearProject.Api.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Orders_Address_OrderAddressId",
-                table: "Orders");
+                "FK_Orders_Address_OrderAddressId",
+                "Orders");
 
             migrationBuilder.DropIndex(
-                name: "IX_Orders_OrderAddressId",
-                table: "Orders");
+                "IX_Orders_OrderAddressId",
+                "Orders");
 
             migrationBuilder.DropColumn(
-                name: "OrderAddressId",
-                table: "Orders");
+                "OrderAddressId",
+                "Orders");
 
             migrationBuilder.AddColumn<string>(
-                name: "UserAddress",
-                table: "Orders",
-                type: "nvarchar(max)",
+                "UserAddress",
+                "Orders",
+                "nvarchar(max)",
                 nullable: true);
 
             migrationBuilder.AddColumn<string>(
-                name: "UserCity",
-                table: "Orders",
-                type: "nvarchar(max)",
+                "UserCity",
+                "Orders",
+                "nvarchar(max)",
                 nullable: true);
 
             migrationBuilder.AddColumn<string>(
-                name: "UserCountry",
-                table: "Orders",
-                type: "nvarchar(max)",
+                "UserCountry",
+                "Orders",
+                "nvarchar(max)",
                 nullable: true);
         }
     }

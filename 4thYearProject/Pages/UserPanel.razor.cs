@@ -1,12 +1,12 @@
-﻿using _4thYearProject.Server.Services;
-using _4thYearProject.Shared;
-using _4thYearProject.Shared.Models.BusinessLogic;
-using Microsoft.AspNetCore.Components;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using _4thYearProject.Server.Services;
+using _4thYearProject.Shared;
+using _4thYearProject.Shared.Models.BusinessLogic;
+using Microsoft.AspNetCore.Components;
 
 namespace _4thYearProject.Server.Pages
 {
@@ -14,7 +14,6 @@ namespace _4thYearProject.Server.Pages
     {
         private const double FOTOSTOP_TAX = 0.20;
         private List<CategoryItem> PieChartItems;
-        //private List<OrderLineItemData> RevenueChartItems;
         private double RevenueTotal;
 
         [Inject] public IUserService UserService { get; set; }
@@ -47,14 +46,10 @@ namespace _4thYearProject.Server.Pages
         }
 
 
-
         public double totalRevenue(List<OrderLineItem> items)
         {
-            double Revenue = 0.0;
-            foreach (var item in items)
-            {
-                Revenue += item.Price;
-            }
+            var Revenue = 0.0;
+            foreach (var item in items) Revenue += item.Price;
 
             Revenue -= Math.Round(Revenue * FOTOSTOP_TAX, 2, MidpointRounding.ToEven);
             return Revenue;
@@ -86,19 +81,19 @@ namespace _4thYearProject.Server.Pages
                 PrintRevenue -= Math.Round(PrintRevenue * FOTOSTOP_TAX, 2,
                     MidpointRounding.AwayFromZero);
 
-            if (ShirtRevenue != 0) ShirtRevenue -= Math.Round(ShirtRevenue * FOTOSTOP_TAX, 2, MidpointRounding.AwayFromZero);
+            if (ShirtRevenue != 0)
+                ShirtRevenue -= Math.Round(ShirtRevenue * FOTOSTOP_TAX, 2, MidpointRounding.AwayFromZero);
 
             if (LicenseRevenue != 0)
                 LicenseRevenue -= Math.Round(LicenseRevenue * FOTOSTOP_TAX, 2, MidpointRounding.AwayFromZero);
 
 
-            categoryItems.Add(new CategoryItem { Type = "Print", Revenue = PrintRevenue });
-            categoryItems.Add(new CategoryItem { Type = "Shirt", Revenue = ShirtRevenue });
-            categoryItems.Add(new CategoryItem { Type = "License", Revenue = LicenseRevenue });
+            categoryItems.Add(new CategoryItem {Type = "Print", Revenue = PrintRevenue});
+            categoryItems.Add(new CategoryItem {Type = "Shirt", Revenue = ShirtRevenue});
+            categoryItems.Add(new CategoryItem {Type = "License", Revenue = LicenseRevenue});
 
             return categoryItems;
         }
-
 
 
         public class CategoryItem

@@ -7,24 +7,24 @@ namespace _4thYearProject.Api.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_HashTagPost_Posts_HashTagsPostId",
-                table: "HashTagPost");
+                "FK_HashTagPost_Posts_HashTagsPostId",
+                "HashTagPost");
 
             migrationBuilder.RenameColumn(
-                name: "HashTagsPostId",
-                table: "HashTagPost",
-                newName: "PostsPostId");
+                "HashTagsPostId",
+                "HashTagPost",
+                "PostsPostId");
 
             migrationBuilder.RenameIndex(
-                name: "IX_HashTagPost_HashTagsPostId",
+                "IX_HashTagPost_HashTagsPostId",
                 table: "HashTagPost",
                 newName: "IX_HashTagPost_PostsPostId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_HashTagPost_Posts_PostsPostId",
-                table: "HashTagPost",
-                column: "PostsPostId",
-                principalTable: "Posts",
+                "FK_HashTagPost_Posts_PostsPostId",
+                "HashTagPost",
+                "PostsPostId",
+                "Posts",
                 principalColumn: "PostId",
                 onDelete: ReferentialAction.Cascade);
         }
@@ -32,24 +32,24 @@ namespace _4thYearProject.Api.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_HashTagPost_Posts_PostsPostId",
-                table: "HashTagPost");
+                "FK_HashTagPost_Posts_PostsPostId",
+                "HashTagPost");
 
             migrationBuilder.RenameColumn(
-                name: "PostsPostId",
-                table: "HashTagPost",
-                newName: "HashTagsPostId");
+                "PostsPostId",
+                "HashTagPost",
+                "HashTagsPostId");
 
             migrationBuilder.RenameIndex(
-                name: "IX_HashTagPost_PostsPostId",
+                "IX_HashTagPost_PostsPostId",
                 table: "HashTagPost",
                 newName: "IX_HashTagPost_HashTagsPostId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_HashTagPost_Posts_HashTagsPostId",
-                table: "HashTagPost",
-                column: "HashTagsPostId",
-                principalTable: "Posts",
+                "FK_HashTagPost_Posts_HashTagsPostId",
+                "HashTagPost",
+                "HashTagsPostId",
+                "Posts",
                 principalColumn: "PostId",
                 onDelete: ReferentialAction.Cascade);
         }

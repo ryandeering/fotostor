@@ -1,3 +1,6 @@
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
 using _4thYearProject.Server.MessageHandlers;
 using _4thYearProject.Server.Services;
 using _4thYearProject.Server.Services.Identity;
@@ -8,9 +11,6 @@ using MatBlazor;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace _4thYearProject.Server
 {
@@ -102,7 +102,6 @@ namespace _4thYearProject.Server
             }
             else
             {
-
                 builder.Services
                     .AddHttpClient<IPostDataService, PostDataService
                     >(client => client.BaseAddress = new Uri(APIDevelop))

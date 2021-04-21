@@ -12,39 +12,38 @@ namespace FourthYearProject.UnitTesting
 
 
 
-        //[Fact]
-        //public void GetAllFollowingPosts()
-        //{
-        //    GenFu.GenFu.Configure<Following>().Fill(p => p.Followed_ID, "FOLLOWEDUSER2");
-        //    GenFu.GenFu.Configure<Post>().Fill(p => p.UserId, "FOLLOWEDUSER2");
+        [Fact]
+        public void GetAllFollowingPosts()
+        {
+            GenFu.GenFu.Configure<Following>().Fill(p => p.Followed_ID, "FOLLOWEDUSER2");
+            GenFu.GenFu.Configure<Post>().Fill(p => p.UserId, "FOLLOWEDUSER2");
 
 
-        //    var followings = GenFu.GenFu.ListOf<Following>(3);
+            var followings = GenFu.GenFu.ListOf<Following>(3);
 
-        //    var PostsActual = GenFu.GenFu.ListOf<Post>(3);
+           var PostsActual = GenFu.GenFu.ListOf<Post>(3);
 
-        //    var options = new DbContextOptionsBuilder<AppDbContext>()
-        //        .UseInMemoryDatabase("Following Test")
-        //        .Options;
-
-
-        //    using var context = new AppDbContext(options);
-        //    foreach (var follow in followings) context.Followers.Add(follow);
-
-        //    foreach (var post in PostsActual) context.Posts.Add(post);
-
-        //    context.SaveChanges();
+           var options = new DbContextOptionsBuilder<AppDbContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
+                .Options;
 
 
-        //    var repo = new PostRepository(context);
+            using var context = new AppDbContext(options);
+            foreach (var follow in followings) context.Followers.Add(follow);
 
-        //    foreach (var follow in followings)
-        //    {
-        //        var posts = repo.GetAllPostsbyFollowing(follow.Follower_ID);
-        //        Assert.Equal(posts.OrderByDescending(p => p.UploadDate).First(),
-        //            PostsActual.OrderByDescending(p => p.UploadDate).First());
-        //    }
-        //}
+            foreach (var post in PostsActual) context.Posts.Add(post);
+
+            context.SaveChanges();
+
+
+            var repo = new PostRepository(context);
+
+            foreach (var follow in followings) {
+                var posts = repo.GetAllPostsbyFollowing(follow.Follower_ID);
+                Assert.Equal(posts.OrderByDescending(p => p.UploadDate).First(),
+                    PostsActual.OrderByDescending(p => p.UploadDate).First());
+            }
+        }
 
         [Fact]
         public void GetPostByIdTest()
@@ -133,28 +132,28 @@ namespace FourthYearProject.UnitTesting
             context.Database.EnsureDeleted();
         }
 
-        //[Fact]
-        //public void DeletePostTest_Success()
-        //{
-        //    var Post = GenFu.GenFu.New<Post>();
+        [Fact]
+        public void DeletePostTest_Success()
+        {
+            var Post = GenFu.GenFu.New<Post>();
 
-        //    var options = new DbContextOptionsBuilder<AppDbContext>()
-        //        .UseInMemoryDatabase("Posts Delete Fail Test")
-        //        .Options;
+            var options = new DbContextOptionsBuilder<AppDbContext>()
+               .UseInMemoryDatabase("Posts Delete Fail Test")
+                .Options;
 
-        //    using var context = new AppDbContext(options);
-        //    context.Posts.Add(Post);
-        //    context.SaveChanges();
-        //    var repo = new PostRepository(context);
+           using var context = new AppDbContext(options);
+            context.Posts.Add(Post);
+            context.SaveChanges();
+            var repo = new PostRepository(context);
 
 
-        //    var post = repo.GetAllPosts().First();
-        //    repo.DeletePost(post.PostId);
+            var post = context.Posts.First();
+            repo.DeletePost(post.PostId);
 
-        //    var updatedPost2 = repo.GetPostById(post.PostId);
+            var updatedPost2 = repo.GetPostById(post.PostId);
 
-        //    Assert.Null(updatedPost2);
-        //}
+            Assert.Null(updatedPost2);
+        }
 
 
         [Fact]
@@ -200,7 +199,6 @@ namespace FourthYearProject.UnitTesting
 
             using var context = new AppDbContext(options);
             foreach (var Post in PostsActual) context.Posts.Add(Post);
-            var repo = new PostRepository(context);
 
 
             var posts = context.Posts;
@@ -212,33 +210,32 @@ namespace FourthYearProject.UnitTesting
         }
 
 
-        //[Fact]
-        //public void GetPostsByUserId()
-        //{
-        //    var i = 1;
-        //    GenFu.GenFu.Configure<Post>()
-        //        .Fill(p => p.PostId, () => i++);
-        //    GenFu.GenFu.Configure<Post>().Fill(p => p.UserId, "MYSELF");
+        [Fact]
+        public void GetPostsByUserId()
+        {
+            var i = 1;
+            GenFu.GenFu.Configure<Post>()
+                .Fill(p => p.PostId, () => i++);
+            GenFu.GenFu.Configure<Post>().Fill(p => p.UserId, "MYSELF");
 
 
-        //    var PostsActual = GenFu.GenFu.ListOf<Post>(3);
+           var PostsActual = GenFu.GenFu.ListOf<Post>(3);
 
-        //    var options = new DbContextOptionsBuilder<AppDbContext>()
-        //        .UseInMemoryDatabase("All Posts By User Id Test")
-        //        .Options;
+           var options = new DbContextOptionsBuilder<AppDbContext>()
+                .UseInMemoryDatabase("All Posts By User Id Test")
+                .Options;
 
-        //    using var context = new AppDbContext(options);
-        //    foreach (var Post in PostsActual) context.Posts.Add(Post);
-        //    context.SaveChanges();
-        //    var repo = new PostRepository(context);
+            using var context = new AppDbContext(options);
+           foreach (var Post in PostsActual) context.Posts.Add(Post);
+            context.SaveChanges();
+            var repo = new PostRepository(context);
 
 
-        //    var posts = repo.GetPostsByUserId("MYSELF");
-
-        //    for (var j = 0; j < posts.Count(); j++)
-        //        Assert.Equal(posts.OrderByDescending(p => p.UploadDate).ElementAt(j).Caption,
-        //            PostsActual.OrderByDescending(p => p.UploadDate).ElementAt(j).Caption);
-        //}
+            var posts = repo.GetPostsByUserId("MYSELF");
+            for (var j = 0; j < posts.Count(); j++)
+                Assert.Equal(posts.OrderByDescending(p => p.UploadDate).ElementAt(j).Caption,
+                    PostsActual.OrderByDescending(p => p.UploadDate).ElementAt(j).Caption);
+        }
 
 
         [Fact]

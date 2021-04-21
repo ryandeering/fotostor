@@ -7,33 +7,33 @@ namespace _4thYearProject.Api.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Address_Users_UserDataId",
-                table: "Address");
+                "FK_Address_Users_UserDataId",
+                "Address");
 
             migrationBuilder.DropIndex(
-                name: "IX_Address_UserDataId",
-                table: "Address");
+                "IX_Address_UserDataId",
+                "Address");
 
             migrationBuilder.DropColumn(
-                name: "UserDataId",
-                table: "Address");
+                "UserDataId",
+                "Address");
 
             migrationBuilder.AddColumn<int>(
-                name: "AddressId",
-                table: "Users",
-                type: "int",
+                "AddressId",
+                "Users",
+                "int",
                 nullable: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_AddressId",
-                table: "Users",
-                column: "AddressId");
+                "IX_Users_AddressId",
+                "Users",
+                "AddressId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Users_Address_AddressId",
-                table: "Users",
-                column: "AddressId",
-                principalTable: "Address",
+                "FK_Users_Address_AddressId",
+                "Users",
+                "AddressId",
+                "Address",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
         }
@@ -41,33 +41,33 @@ namespace _4thYearProject.Api.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Users_Address_AddressId",
-                table: "Users");
+                "FK_Users_Address_AddressId",
+                "Users");
 
             migrationBuilder.DropIndex(
-                name: "IX_Users_AddressId",
-                table: "Users");
+                "IX_Users_AddressId",
+                "Users");
 
             migrationBuilder.DropColumn(
-                name: "AddressId",
-                table: "Users");
+                "AddressId",
+                "Users");
 
             migrationBuilder.AddColumn<string>(
-                name: "UserDataId",
-                table: "Address",
-                type: "nvarchar(450)",
+                "UserDataId",
+                "Address",
+                "nvarchar(450)",
                 nullable: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Address_UserDataId",
-                table: "Address",
-                column: "UserDataId");
+                "IX_Address_UserDataId",
+                "Address",
+                "UserDataId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Address_Users_UserDataId",
-                table: "Address",
-                column: "UserDataId",
-                principalTable: "Users",
+                "FK_Address_Users_UserDataId",
+                "Address",
+                "UserDataId",
+                "Users",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
         }

@@ -1,8 +1,8 @@
-﻿using _4thYearProject.Api.Models;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using _4thYearProject.Api.Models;
 using _4thYearProject.Shared;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace _4thYearProject.Api.Controllers
 {
@@ -10,15 +10,15 @@ namespace _4thYearProject.Api.Controllers
     [ApiController]
     public class SuggestionsController : Controller
     {
+        private readonly ILikeRepository _likeRepository;
         private readonly ISuggestionsRepository _suggestionsRepository;
-
-        private readonly IUserService _userService;
 
         private readonly IUserDataRepository _userDataRepository;
 
-        private readonly ILikeRepository _likeRepository;
+        private readonly IUserService _userService;
 
-        public SuggestionsController(ISuggestionsRepository suggestionsRepository, IUserService userService, IUserDataRepository userDataRepository, ILikeRepository likeRepository)
+        public SuggestionsController(ISuggestionsRepository suggestionsRepository, IUserService userService,
+            IUserDataRepository userDataRepository, ILikeRepository likeRepository)
         {
             _suggestionsRepository = suggestionsRepository;
             _userService = userService;
@@ -45,7 +45,6 @@ namespace _4thYearProject.Api.Controllers
             {
                 Post.ProfileData = _userDataRepository.GetUserNameFromId(Post.UserId);
                 Post.Likes = _likeRepository.GetLikeCount(Post.PostId.ToString());
-                
             }
 
             return Ok(Posts);

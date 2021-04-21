@@ -1,6 +1,6 @@
-﻿using _4thYearProject.Shared;
+﻿using System.Threading.Tasks;
+using _4thYearProject.Shared;
 using _4thYearProject.Shared.Models.BusinessLogic;
-using System.Threading.Tasks;
 
 namespace _4thYearProject.Server.Services
 {

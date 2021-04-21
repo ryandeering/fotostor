@@ -155,10 +155,6 @@ namespace FourthYearProject.UnitTesting
             repo.AddCart(cart);
             repo.AddToCart(cart.UserId, item);
 
-            var order = repo.PlaceOrder(cart.UserId);
-
-            var hh = repo.GetCart(cart.UserId);
-
             Assert.NotNull(context.Orders.First());
             context.ChangeTracker.Clear();
 

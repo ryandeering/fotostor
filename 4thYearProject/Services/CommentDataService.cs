@@ -1,6 +1,4 @@
-﻿using _4thYearProject.Shared;
-using _4thYearProject.Shared.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -8,14 +6,16 @@ using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using _4thYearProject.Shared;
+using _4thYearProject.Shared.Models;
 
 namespace _4thYearProject.Server.Services
 {
     public class CommentDataService : ICommentDataService
     {
+        private readonly HttpClient _httpClient;
 
         private readonly IUserService _userService;
-        private readonly HttpClient _httpClient;
 
         public CommentDataService(HttpClient httpClient, IUserService userService)
         {
@@ -31,10 +31,10 @@ namespace _4thYearProject.Server.Services
 
             //First get user claims    
             var claims = identity.Claims.Where(c => c.Type.Equals("sub"))
-                  .Select(c => c.Value).SingleOrDefault();
+                .Select(c => c.Value).SingleOrDefault();
 
             //Filter specific claim    
-            String UserId = claims.ToString();
+            var UserId = claims;
 
             comment.UserId = UserId;
             comment.SubmittedOn = DateTime.Now;
@@ -45,9 +45,7 @@ namespace _4thYearProject.Server.Services
             var response = await _httpClient.PostAsync("api/comment", commentJson);
 
             if (response.IsSuccessStatusCode)
-            {
                 return await JsonSerializer.DeserializeAsync<Comment>(await response.Content.ReadAsStreamAsync());
-            }
 
             return null;
         }
@@ -66,23 +64,18 @@ namespace _4thYearProject.Server.Services
         }
 
 
-
         public async Task<IEnumerable<Comment>> GetCommentsByPostId(int id)
         {
-
             return await JsonSerializer.DeserializeAsync<IEnumerable<Comment>>
-                (await _httpClient.GetStreamAsync($"api/comment/{id}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
-
+            (await _httpClient.GetStreamAsync($"api/comment/{id}"),
+                new JsonSerializerOptions {PropertyNameCaseInsensitive = true});
         }
 
         public async Task<Comment> GetCommentById(int Comment_ID)
         {
-
             return await JsonSerializer.DeserializeAsync<Comment>
-                (await _httpClient.GetStreamAsync($"api/comment/{Comment_ID}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
-
+            (await _httpClient.GetStreamAsync($"api/comment/{Comment_ID}"),
+                new JsonSerializerOptions {PropertyNameCaseInsensitive = true});
         }
-
-
     }
 }

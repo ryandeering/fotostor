@@ -7,68 +7,68 @@ namespace _4thYearProject.Api.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Hashtags_Posts_PostId",
-                table: "Hashtags");
+                "FK_Hashtags_Posts_PostId",
+                "Hashtags");
 
             migrationBuilder.DropIndex(
-                name: "IX_Hashtags_PostId",
-                table: "Hashtags");
+                "IX_Hashtags_PostId",
+                "Hashtags");
 
             migrationBuilder.DropColumn(
-                name: "PostId",
-                table: "Hashtags");
+                "PostId",
+                "Hashtags");
 
             migrationBuilder.CreateTable(
-                name: "HashTagPost",
-                columns: table => new
+                "HashTagPost",
+                table => new
                 {
-                    HashTagsId = table.Column<int>(type: "int", nullable: false),
-                    HashTagsPostId = table.Column<int>(type: "int", nullable: false)
+                    HashTagsId = table.Column<int>("int", nullable: false),
+                    HashTagsPostId = table.Column<int>("int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_HashTagPost", x => new { x.HashTagsId, x.HashTagsPostId });
+                    table.PrimaryKey("PK_HashTagPost", x => new {x.HashTagsId, x.HashTagsPostId});
                     table.ForeignKey(
-                        name: "FK_HashTagPost_Hashtags_HashTagsId",
-                        column: x => x.HashTagsId,
-                        principalTable: "Hashtags",
-                        principalColumn: "Id",
+                        "FK_HashTagPost_Hashtags_HashTagsId",
+                        x => x.HashTagsId,
+                        "Hashtags",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_HashTagPost_Posts_HashTagsPostId",
-                        column: x => x.HashTagsPostId,
-                        principalTable: "Posts",
-                        principalColumn: "PostId",
+                        "FK_HashTagPost_Posts_HashTagsPostId",
+                        x => x.HashTagsPostId,
+                        "Posts",
+                        "PostId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_HashTagPost_HashTagsPostId",
-                table: "HashTagPost",
-                column: "HashTagsPostId");
+                "IX_HashTagPost_HashTagsPostId",
+                "HashTagPost",
+                "HashTagsPostId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "HashTagPost");
+                "HashTagPost");
 
             migrationBuilder.AddColumn<int>(
-                name: "PostId",
-                table: "Hashtags",
-                type: "int",
+                "PostId",
+                "Hashtags",
+                "int",
                 nullable: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Hashtags_PostId",
-                table: "Hashtags",
-                column: "PostId");
+                "IX_Hashtags_PostId",
+                "Hashtags",
+                "PostId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Hashtags_Posts_PostId",
-                table: "Hashtags",
-                column: "PostId",
-                principalTable: "Posts",
+                "FK_Hashtags_Posts_PostId",
+                "Hashtags",
+                "PostId",
+                "Posts",
                 principalColumn: "PostId",
                 onDelete: ReferentialAction.Restrict);
         }

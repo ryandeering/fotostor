@@ -1,10 +1,10 @@
+using _4thYearProject.Api.Models;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
 namespace _4thYearProject.Api
 {
-    using _4thYearProject.Api.Models;
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Hosting;
-
     public class Program
     {
         public static void Main(string[] args)

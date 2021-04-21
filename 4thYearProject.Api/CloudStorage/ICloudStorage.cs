@@ -1,7 +1,7 @@
-﻿namespace _4thYearProject.Api.CloudStorage
-{
-    using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
+namespace _4thYearProject.Api.CloudStorage
+{
     public interface ICloudStorage
     {
         Task<string> UploadFileAsync(byte[] imageFile, string fileNameForStorage);

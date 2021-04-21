@@ -1,9 +1,8 @@
 ﻿@page "/profile/{DisplayName}"
-<br />
+<br/>
 
 @if (User != null)
 {
-
     <header>
         <div class="container">
 
@@ -40,11 +39,10 @@
                             <li><span class="profile-stat-count">@Posts.Count()</span> posts</li>
                         }
 
-                   
-                            <li @onclick="@ShowFollowers"> <span class="profile-stat-count">@FollowerCount</span> followers</li>
-                     
-                            <li><span class="profile-stat-count">@FollowingCount</span> following</li>
-                        
+
+                        <li @onclick="@ShowFollowers"> <span class="profile-stat-count">@FollowerCount</span> followers</li>
+
+                        <li><span class="profile-stat-count">@FollowingCount</span> following</li>
 
 
                     </ul>
@@ -52,9 +50,11 @@
                 </div>
 
                 <div class="profile-bio">
-                    <br />
-                    <p><span class="profile-real-name">@User.FirstName @User.SecondName</span> @User.Bio <br />  </p>
-                    <br />
+                    <br/>
+                    <p>
+                        <span class="profile-real-name">@User.FirstName @User.SecondName</span> @User.Bio <br/>
+                    </p>
+                    <br/>
                 </div>
 
 
@@ -89,53 +89,50 @@
         }
         else
         {
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br /> <br />
-            <br />
-            <br /> <br />
-            <br />
-            <br /> <br />
-            <br />
-            <br /> <br />
-            <br />
-            <br /> <br />
-            <br />
-
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
 
 
             <div class="container">
                 <div class="gallery">
                     @foreach (var Post in Posts)
                     {
-
                         <div class="gallery-item" tabindex="0">
 
                             <img src="@Post.Thumbnail" @onclick="() => Navigate(Post.PostId)" class="gallery-image" alt="">
 
                         </div>
-
-
                     }
                 </div>
             </div>
         }
     </main>
-
-
-            }
-            else
-            {
-
-            <p>No user found.</p>
-
-            }
+}
+else
+{
+    <p>No user found.</p>
+}

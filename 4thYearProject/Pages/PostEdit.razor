@@ -1,7 +1,5 @@
 ﻿@page "/postedit"
 @page "/postedit/{PostId}"
-@using _4thYearProject.Shared.Models
-@using System.IO
 
 @inherits PostEditBase
 
@@ -13,7 +11,7 @@
         <EditForm Model="@Post" OnValidSubmit="@HandleValidSubmit">
 
 
-            <DataAnnotationsValidator />
+            <DataAnnotationsValidator/>
 
             @if (fileUploaded == false)
             {
@@ -23,16 +21,16 @@
             }
 
 
-            <ValidationSummary />
+            <ValidationSummary/>
 
             <div class="form-group row">
                 <label for="Caption" class="col-sm-3">Caption: </label>
                 <InputText id="Caption" class="form-control col-sm-8" @bind-Value="@Post.Caption" placeholder="Enter caption"></InputText>
-                <ValidationMessage class="offset-sm-3 col-sm-8" For="@(() => Post.Caption)" />
+                <ValidationMessage class="offset-sm-3 col-sm-8" For="@(() => Post.Caption)"/>
             </div>
 
 
-            <RadzenSwitch @bind-Value=@value Style="margin-bottom: 20px" Change=@(args => OnChange(args, "Switch")) />
+            <RadzenSwitch @bind-Value=@value Style="margin-bottom: 20px" Change=@(args => OnChange(args, "Switch"))/>
 
 
             <button type="submit" class="btn btn-primary edit-btn">Save Post</button>
@@ -50,7 +48,6 @@
     {
         <div class="alert @StatusClass">@Message</div>
         <a class="btn btn-outline-primary" @onclick="@NavigateToOverview">Back to overview</a>
-
     }
 </section>
 
@@ -69,15 +66,14 @@
 
                     <EditForm Model="@Price" OnValidSubmit="@HandleValidSubmit">
 
-                        <DataAnnotationsValidator />
-                        <ValidationSummary />
+                        <DataAnnotationsValidator/>
+                        <ValidationSummary/>
 
                         <div class="form-group">
                             <label for="Price">Price for License: </label>
                             <InputNumber id="Price" class="form-control" @bind-Value="@Price" placeholder="Enter how much you'd like to sell the license for"></InputNumber>
-                            <ValidationMessage For="@(() => Price)" />
+                            <ValidationMessage For="@(() => Price)"/>
                         </div>
-
 
 
                         <button type="submit" class="btn btn-primary">Save</button>
@@ -89,5 +85,3 @@
         </div>
     </div>
 }
-
-

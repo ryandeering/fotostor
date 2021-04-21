@@ -1,8 +1,8 @@
-﻿using _4thYearProject.Shared.Models.BusinessLogic;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using _4thYearProject.Shared.Models.BusinessLogic;
+using Microsoft.EntityFrameworkCore;
 
 namespace _4thYearProject.Api.Models
 {
@@ -92,7 +92,8 @@ namespace _4thYearProject.Api.Models
 
         public Order GetOrderById(int OrderId)
         {
-            return _appDbContext.Orders.Where(o => o.OrderId.Equals(OrderId)).Include("OrderAddress").Include(o => o.LineItems)
+            return _appDbContext.Orders.Where(o => o.OrderId.Equals(OrderId)).Include("OrderAddress")
+                .Include(o => o.LineItems)
                 .ThenInclude(ol => ol.Post).First();
         }
 
@@ -137,13 +138,9 @@ namespace _4thYearProject.Api.Models
             var cart = _appDbContext.Carts.Include("BasketItems").FirstOrDefault(c => c.UserId == UserId);
             var temp = cart.BasketItems.First(i => i.Id == LineItemId);
             if (temp.Quantity > 1)
-            {
                 temp.Quantity--;
-            }
             else
-            {
                 cart.BasketItems.Remove(temp);
-            }
             _appDbContext.SaveChanges();
             return cart;
         }
@@ -176,6 +173,5 @@ namespace _4thYearProject.Api.Models
             _appDbContext.SaveChanges();
             return cart;
         }
-
     }
 }

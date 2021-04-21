@@ -1,18 +1,16 @@
-﻿using _4thYearProject.Api.Models;
-using _4thYearProject.Shared;
-using _4thYearProject.Shared.Models.BusinessLogic;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Stripe.Checkout;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using _4thYearProject.Api.Models;
+using _4thYearProject.Shared;
+using _4thYearProject.Shared.Models.BusinessLogic;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
-using SixLabors.ImageSharp;
+using Stripe.Checkout;
 
 namespace _4thYearProject.Api.Controllers
 {
@@ -20,9 +18,9 @@ namespace _4thYearProject.Api.Controllers
     [ApiController]
     public class StripePaymentController : Controller
     {
-        private readonly IConfiguration _configuration;
-
         private readonly IEmailSender _emailSender;
+
+        private readonly IWebHostEnvironment _environment;
 
         private readonly IShoppingCartRepository _shoppingCartRepository;
 
@@ -30,11 +28,10 @@ namespace _4thYearProject.Api.Controllers
 
         private readonly IUserService _userService;
 
-        private readonly IWebHostEnvironment _environment;
-        public StripePaymentController(IConfiguration configuration, IShoppingCartRepository shoppingCartRepository,
-            IEmailSender emailSender, IUserDataRepository userDataRepository, IUserService userService, IWebHostEnvironment environment)
+        public StripePaymentController(IShoppingCartRepository shoppingCartRepository,
+            IEmailSender emailSender, IUserDataRepository userDataRepository, IUserService userService,
+            IWebHostEnvironment environment)
         {
-            _configuration = configuration;
             _shoppingCartRepository = shoppingCartRepository;
             _emailSender = emailSender;
             _userDataRepository = userDataRepository;
@@ -68,7 +65,7 @@ namespace _4thYearProject.Api.Controllers
                 case "paid":
 
                     var temp = _shoppingCartRepository.PlaceOrder(UserId);
-                    OrderId = (int)temp.OrderId;
+                    OrderId = (int) temp.OrderId;
                     s.OrderId = OrderId;
 
 
@@ -111,24 +108,21 @@ namespace _4thYearProject.Api.Controllers
                     sb.Append("<h3>Type | Quantity | Price | Details </h3>");
                     foreach (var olLineItem in order.LineItems)
                     {
-                        String LicenseLink = String.Empty;
+                        var LicenseLink = string.Empty;
 
                         if (olLineItem.Type.Equals("License"))
-                        {
                             LicenseLink = "<a href=" + olLineItem.Post.PhotoFile + ">License Link</a>";
-                        }
                         sb.Append(olLineItem.Type + " | " + olLineItem.Quantity + " | " +
-                                  $"€{olLineItem.Price:0.00}" + " | " +olLineItem.Size + LicenseLink);
-
-
+                                  $"€{olLineItem.Price:0.00}" + " | " + olLineItem.Size + LicenseLink);
                     }
+
                     sb.Append("</br>");
                     sb.Append("</body>");
                     sb.Append("</html>");
 
-                   
-                        await _emailSender.SendEmailAsync(rec.Email, subject, sb.ToString());
-                    
+
+                    await _emailSender.SendEmailAsync(rec.Email, subject, sb.ToString());
+
 
                     break;
 
@@ -146,14 +140,10 @@ namespace _4thYearProject.Api.Controllers
             {
                 string domain;
                 if (_environment.IsDevelopment())
-                {
                     domain = "https://localhost:44366";
-                }
                 else
-                {
                     domain = "https://red-pebble-0ad568c03.azurestaticapps.net/";
-                }
-                
+
                 var options = new SessionCreateOptions
                 {
                     PaymentMethodTypes = new List<string>

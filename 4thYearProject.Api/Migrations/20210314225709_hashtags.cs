@@ -7,35 +7,35 @@ namespace _4thYearProject.Api.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Hashtags",
-                columns: table => new
+                "Hashtags",
+                table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>("int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PostId = table.Column<int>(type: "int", nullable: true)
+                    Content = table.Column<string>("nvarchar(max)", nullable: true),
+                    PostId = table.Column<int>("int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Hashtags", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Hashtags_Posts_PostId",
-                        column: x => x.PostId,
-                        principalTable: "Posts",
-                        principalColumn: "PostId",
+                        "FK_Hashtags_Posts_PostId",
+                        x => x.PostId,
+                        "Posts",
+                        "PostId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Hashtags_PostId",
-                table: "Hashtags",
-                column: "PostId");
+                "IX_Hashtags_PostId",
+                "Hashtags",
+                "PostId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Hashtags");
+                "Hashtags");
         }
     }
 }

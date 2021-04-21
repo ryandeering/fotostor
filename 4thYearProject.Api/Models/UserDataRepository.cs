@@ -1,8 +1,8 @@
-﻿using _4thYearProject.Shared.Models;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using _4thYearProject.Shared.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace _4thYearProject.Api.Models
@@ -11,13 +11,11 @@ namespace _4thYearProject.Api.Models
     {
         private readonly AppDbContext _appDbContext;
         private readonly IConfiguration _configuration;
-        private string _connectionString;
 
         public UserDataRepository(AppDbContext appDbContext, IConfiguration configuration)
         {
             _appDbContext = appDbContext;
             _configuration = configuration;
-         
         }
 
         public IEnumerable<UserData> GetAllUsers()
@@ -96,23 +94,20 @@ namespace _4thYearProject.Api.Models
 
         public FeedProfileData GetUserNameFromId(string UserId)
         {
-            DbContextOptionsBuilder<AppDbContext> _optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
-            _connectionString = _configuration.GetConnectionString("DefaultConnection");
+            var _optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
+            var _connectionString = _configuration.GetConnectionString("DefaultConnection");
             _optionsBuilder.UseSqlServer(_connectionString);
-            using (AppDbContext context = new AppDbContext(_optionsBuilder.Options))
+            using var context = new AppDbContext(_optionsBuilder.Options);
+            var User = context.Users.FirstOrDefault(c => c.Id.Equals(UserId));
+
+            var ProfileData = new FeedProfileData
             {
-                var User = context.Users.FirstOrDefault(c => c.Id.Equals(UserId));
-
-                var ProfileData = new FeedProfileData
-                {
-                    Username = User.DisplayName,
-                    ProfilePicURL = User.ProfilePic,
-                    FName = User.FirstName,
-                    LName = User.SecondName
-                };
-                return ProfileData;
-            }
-
+                Username = User.DisplayName,
+                ProfilePicURL = User.ProfilePic,
+                FName = User.FirstName,
+                LName = User.SecondName
+            };
+            return ProfileData;
         }
 
         public FeedProfileData GetUserNameFromIdAlt(string UserId)
@@ -128,7 +123,5 @@ namespace _4thYearProject.Api.Models
             };
             return ProfileData;
         }
-        
-
     }
 }

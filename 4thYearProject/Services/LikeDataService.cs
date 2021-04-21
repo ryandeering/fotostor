@@ -1,22 +1,19 @@
-﻿using System.Net;
+﻿using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Security.Claims;
+using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
+using _4thYearProject.Shared;
+using _4thYearProject.Shared.Models;
 
 namespace _4thYearProject.Server.Services
 {
-    using _4thYearProject.Shared;
-    using _4thYearProject.Shared.Models;
-    using System;
-    using System.Linq;
-    using System.Net.Http;
-    using System.Security.Claims;
-    using System.Text;
-    using System.Text.Json;
-    using System.Threading.Tasks;
-
     public class LikeDataService : ILikeDataService
     {
-        private readonly IUserService _userService;
-
         private readonly HttpClient _httpClient;
+        private readonly IUserService _userService;
 
         public LikeDataService(HttpClient httpClient, IUserService userService)
         {
@@ -32,10 +29,10 @@ namespace _4thYearProject.Server.Services
 
             //First get user claims    
             var claims = identity.Claims.Where(c => c.Type.Equals("sub"))
-                  .Select(c => c.Value).SingleOrDefault();
+                .Select(c => c.Value).SingleOrDefault();
 
             //Filter specific claim    
-            String UserId = claims.ToString();
+            var UserId = claims;
 
             like.User_ID = UserId;
 
@@ -45,9 +42,7 @@ namespace _4thYearProject.Server.Services
             var response = await _httpClient.PostAsync("api/like", followingJson);
 
             if (response.IsSuccessStatusCode)
-            {
                 return await JsonSerializer.DeserializeAsync<Like>(await response.Content.ReadAsStreamAsync());
-            }
 
             return null;
         }
@@ -59,14 +54,9 @@ namespace _4thYearProject.Server.Services
 
         public async Task<bool> VerifyLike(string Post_ID, string User_ID)
         {
-
             var response = await _httpClient.GetAsync($"api/like/{Post_ID}/{User_ID}");
 
-            if (response.StatusCode == HttpStatusCode.Created)
-
-            {
-                return true;
-            }
+            if (response.StatusCode == HttpStatusCode.Created) return true;
             return false;
         }
     }

@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using _4thYearProject.Api.Models;
 using _4thYearProject.Shared;
 using _4thYearProject.Shared.Models;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace _4thYearProject.Api.Controllers
 {
@@ -17,14 +16,12 @@ namespace _4thYearProject.Api.Controllers
         private readonly IUserDataRepository _userDataRepository;
         private readonly IUserService _userService;
 
-        private readonly IWebHostEnvironment env;
 
-        public FollowingController(IFollowingRepository followingRepository, IWebHostEnvironment env,
+        public FollowingController(IFollowingRepository followingRepository,
             IUserService userService, IUserDataRepository userDataRepository)
         {
             _userDataRepository = userDataRepository;
             _followingRepository = followingRepository;
-            this.env = env;
             _userService = userService;
         }
 
@@ -124,15 +121,13 @@ namespace _4thYearProject.Api.Controllers
 
             var FollowingList = _followingRepository.GetFollowers(Follower_ID);
 
-            List<FeedProfileData> profileDatas = new List<FeedProfileData>();
+            var profileDatas = new List<FeedProfileData>();
 
             if (FollowingList == null)
                 return BadRequest();
 
             foreach (var Following in FollowingList)
-            {
                 profileDatas.Add(_userDataRepository.GetUserNameFromId(Following.Follower_ID));
-            }
 
             return Ok(profileDatas);
         }

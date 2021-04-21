@@ -10,22 +10,26 @@
             <p class="card-text">
                 <table class="table">
                     <thead>
-                        <tr>
-                            <th>Profile Pic</th>
-                            <th scope="col">Username</th>
-                        </tr>
+                    <tr>
+                        <th>Profile Pic</th>
+                        <th scope="col">Username</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        @foreach (var Follower in followersList)
-                        {
-                            <tr>
-                                <td><img src=@Follower.ProfilePicURL class="img-fluid rounded" width=40></td>
-                                @if (Follower.Username != null)
-                                {
-                                    <td><a @onclick="() => GotoProfile(Follower.Username)">@Follower.Username</a></td>
-                                }
-                            </tr>
-                        }
+                    @foreach (var Follower in followersList)
+                    {
+                        <tr>
+                            <td>
+                                <img src=@Follower.ProfilePicURL class="img-fluid rounded" width=40>
+                            </td>
+                            @if (Follower.Username != null)
+                            {
+                                <td>
+                                    <a @onclick="() => GotoProfile(Follower.Username)">@Follower.Username</a>
+                                </td>
+                            }
+                        </tr>
+                    }
 
                     </tbody>
                 </table>
@@ -33,7 +37,6 @@
             </p>
         </div>
     </div>
-
 }
 else
 {
@@ -44,18 +47,20 @@ else
             </p>
         </div>
     </div>
-
 }
 
 
 @code {
 
-    [CascadingParameter] BlazoredModalInstance ModalInstance { get; set; }
+    [CascadingParameter]
+    BlazoredModalInstance ModalInstance { get; set; }
 
-    [Parameter] public string LoggedIn { get; set; }
+    [Parameter]
+    public string LoggedIn { get; set; }
+
     List<FeedProfileData> followersList { get; set; }
 
-    protected async override Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
         followersList = await FollowingDataService.GetFollowingUserData(LoggedIn);
 
@@ -64,7 +69,7 @@ else
 
     void GotoProfile(string Username)
     {
-        NavigationManager.NavigateTo("/profile/"+Username, true);
+        NavigationManager.NavigateTo("/profile/" + Username, true);
     }
 
 }

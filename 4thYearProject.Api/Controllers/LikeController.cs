@@ -1,10 +1,9 @@
-﻿using _4thYearProject.Api.Models;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using _4thYearProject.Api.Models;
 using _4thYearProject.Shared;
 using _4thYearProject.Shared.Models;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace _4thYearProject.Api.Controllers
 {
@@ -16,12 +15,9 @@ namespace _4thYearProject.Api.Controllers
 
         private readonly IUserService _userService;
 
-        private readonly IWebHostEnvironment env;
-
-        public LikeController(ILikeRepository likeRepository, IWebHostEnvironment env, IUserService userService)
+        public LikeController(ILikeRepository likeRepository, IUserService userService)
         {
             _likeRepository = likeRepository;
-            this.env = env;
             _userService = userService;
         }
 

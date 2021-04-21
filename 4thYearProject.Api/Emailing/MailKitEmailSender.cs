@@ -1,12 +1,12 @@
-﻿namespace _4thYearProject.Api.Emailing
-{
-    using MailKit.Net.Smtp;
-    using Microsoft.AspNetCore.Identity.UI.Services;
-    using Microsoft.Extensions.Options;
-    using MimeKit;
-    using MimeKit.Text;
-    using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using MailKit.Net.Smtp;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.Extensions.Options;
+using MimeKit;
+using MimeKit.Text;
 
+namespace _4thYearProject.Api.Emailing
+{
     public class MailKitEmailSender : IEmailSender
     {
         public MailKitEmailSender(IOptions<MailKitEmailSenderOptions> options)
@@ -33,7 +33,7 @@
             email.From.Add(email.Sender);
             email.To.Add(MailboxAddress.Parse(to));
             email.Subject = subject;
-            email.Body = new TextPart(TextFormat.Html) { Text = message };
+            email.Body = new TextPart(TextFormat.Html) {Text = message};
 
             // send email
             using (var smtp = new SmtpClient())

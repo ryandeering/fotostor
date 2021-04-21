@@ -1,7 +1,7 @@
-﻿namespace _4thYearProject.Api.Emailing
-{
-    using MailKit.Security;
+﻿using MailKit.Security;
 
+namespace _4thYearProject.Api.Emailing
+{
     public class MailKitEmailSenderOptions
     {
         public MailKitEmailSenderOptions()

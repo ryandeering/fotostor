@@ -1,10 +1,9 @@
-﻿using _4thYearProject.Api.Models;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using _4thYearProject.Api.Models;
 using _4thYearProject.Shared;
-using _4thYearProject.Shared.Models;
 using _4thYearProject.Shared.Models.BusinessLogic;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace _4thYearProject.Api.Controllers
 {
@@ -14,15 +13,13 @@ namespace _4thYearProject.Api.Controllers
     {
         private readonly IShoppingCartRepository _cartRepository;
 
-        private readonly IPostRepository _postRepository;
         private readonly IUserService _userService;
 
 
-        public ShoppingCartController(IShoppingCartRepository cartRepository, IPostRepository postRepository,
+        public ShoppingCartController(IShoppingCartRepository cartRepository,
             IUserService userService)
         {
             _cartRepository = cartRepository;
-            _postRepository = postRepository;
             _userService = userService;
         }
 

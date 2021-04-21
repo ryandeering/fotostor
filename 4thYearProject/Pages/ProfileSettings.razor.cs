@@ -1,14 +1,14 @@
-﻿using _4thYearProject.Server.Services;
-using _4thYearProject.Shared;
-using _4thYearProject.Shared.Models;
-using MatBlazor;
-using Microsoft.AspNetCore.Components;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using _4thYearProject.Server.Services;
+using _4thYearProject.Shared;
+using _4thYearProject.Shared.Models;
+using MatBlazor;
+using Microsoft.AspNetCore.Components;
 
 namespace _4thYearProject.Server.Pages
 {
@@ -24,7 +24,9 @@ namespace _4thYearProject.Server.Pages
 
         protected string StatusClass = string.Empty;
 
+#pragma warning disable S1104 // Fields should not have public accessibility
         public UserData User = new();
+#pragma warning restore S1104 // Fields should not have public accessibility
 
         [Inject] public IUserService _userService { get; set; }
 

@@ -1,6 +1,4 @@
-﻿using _4thYearProject.Shared;
-using _4thYearProject.Shared.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -8,14 +6,16 @@ using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using _4thYearProject.Shared;
+using _4thYearProject.Shared.Models;
 
 namespace _4thYearProject.Server.Services
 {
     public class PostDataService : IPostDataService
     {
+        private readonly HttpClient _httpClient;
 
         private readonly IUserService _userService;
-        private readonly HttpClient _httpClient;
 
         public PostDataService(HttpClient httpClient, IUserService userService)
         {
@@ -31,10 +31,10 @@ namespace _4thYearProject.Server.Services
 
             //First get user claims    
             var claims = identity.Claims.Where(c => c.Type.Equals("sub"))
-                  .Select(c => c.Value).SingleOrDefault();
+                .Select(c => c.Value).SingleOrDefault();
 
             //Filter specific claim    
-            String UserId = claims.ToString();
+            var UserId = claims;
 
             post.UserId = UserId;
             post.UploadDate = DateTime.Now;
@@ -45,9 +45,7 @@ namespace _4thYearProject.Server.Services
             var response = await _httpClient.PostAsync("api/post", postJson);
 
             if (response.IsSuccessStatusCode)
-            {
                 return await JsonSerializer.DeserializeAsync<Post>(await response.Content.ReadAsStreamAsync());
-            }
 
             return null;
         }
@@ -69,25 +67,22 @@ namespace _4thYearProject.Server.Services
         public async Task<Post> GetPostDetails(int postId)
         {
             return await JsonSerializer.DeserializeAsync<Post>
-                (await _httpClient.GetStreamAsync($"api/post/{postId}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+            (await _httpClient.GetStreamAsync($"api/post/{postId}"),
+                new JsonSerializerOptions {PropertyNameCaseInsensitive = true});
         }
 
         public async Task<IEnumerable<Post>> GetAllPostsbyFollowing(string id)
         {
-
             return await JsonSerializer.DeserializeAsync<IEnumerable<Post>>
-                (await _httpClient.GetStreamAsync($"api/post/following/{id}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
-
+            (await _httpClient.GetStreamAsync($"api/post/following/{id}"),
+                new JsonSerializerOptions {PropertyNameCaseInsensitive = true});
         }
 
         public async Task<IEnumerable<Post>> GetPostsByUserId(string id)
         {
-
             return await JsonSerializer.DeserializeAsync<IEnumerable<Post>>
-                (await _httpClient.GetStreamAsync($"api/post/user/{id}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
-
+            (await _httpClient.GetStreamAsync($"api/post/user/{id}"),
+                new JsonSerializerOptions {PropertyNameCaseInsensitive = true});
         }
-
-
     }
 }

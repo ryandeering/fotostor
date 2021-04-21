@@ -1,4 +1,9 @@
-﻿using _4thYearProject.Server.Services;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using _4thYearProject.Server.Services;
 using _4thYearProject.Server.Shared;
 using _4thYearProject.Shared;
 using _4thYearProject.Shared.Models;
@@ -6,11 +11,6 @@ using Blazored.Modal;
 using Blazored.Modal.Services;
 using MatBlazor;
 using Microsoft.AspNetCore.Components;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
 using Microsoft.JSInterop;
 
 namespace _4thYearProject.Server.Pages
@@ -44,11 +44,9 @@ namespace _4thYearProject.Server.Pages
 
         [Inject] public IMatToaster Toaster { get; set; }
 
-        [Inject]
-        public NavigationManager Nav { get; set; }
+        [Inject] public NavigationManager Nav { get; set; }
 
-        [Inject]
-        public IJSRuntime JsRuntime { get; set; }
+        [Inject] public IJSRuntime JsRuntime { get; set; }
 
         [CascadingParameter] public IModalService Modal { get; set; }
 
@@ -57,36 +55,30 @@ namespace _4thYearProject.Server.Pages
         private string LoggedInID { get; set; }
 
 
-
-
-
-
         protected override async Task OnInitializedAsync()
         {
             try
             {
-                
-                    Comments = (await CommentDataService.GetCommentsByPostId(int.Parse(PostID))).ToList();
+                Comments = (await CommentDataService.GetCommentsByPostId(int.Parse(PostID))).ToList();
 
 
-                    identity = await _userService.GetUserAsync();
+                identity = await _userService.GetUserAsync();
 
-                    var LoggedIn = identity.Claims.Where(c => c.Type.Equals("sub"))
-                        .Select(c => c.Value).SingleOrDefault().ToString();
+                var LoggedIn = identity.Claims.Where(c => c.Type.Equals("sub"))
+                    .Select(c => c.Value).SingleOrDefault().ToString();
 
-                    User = await UserDataService.GetUserDataDetails(LoggedIn);
-
-
-                    claimDisplayName = identity.Claims.Where(c => c.Type.Equals("preferred_username"))
-                        .Select(c => c.Value).SingleOrDefault().ToString();
+                User = await UserDataService.GetUserDataDetails(LoggedIn);
 
 
-                    LoggedInID = LoggedIn;
+                claimDisplayName = identity.Claims.Where(c => c.Type.Equals("preferred_username"))
+                    .Select(c => c.Value).SingleOrDefault().ToString();
 
 
-                    post = await PostDataService.GetPostDetails(int.Parse(PostID));
-                    post.Liked = await VerifyLiked();
-                
+                LoggedInID = LoggedIn;
+
+
+                post = await PostDataService.GetPostDetails(int.Parse(PostID));
+                post.Liked = await VerifyLiked();
             }
             catch (Exception e)
             {
@@ -158,7 +150,7 @@ namespace _4thYearProject.Server.Pages
 
         protected async Task DeletePost(Post post)
         {
-            if (!await JsRuntime.InvokeAsync<bool>("confirm", $"Are you sure you want to delete this post?")) return;
+            if (!await JsRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to delete this post?")) return;
             await PostDataService.DeletePost(post.PostId);
             StateHasChanged();
             Toaster.Add("Post deleted.", MatToastType.Success, "SUCCESS");

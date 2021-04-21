@@ -1,9 +1,9 @@
-﻿using _4thYearProject.Server.Services.Interfaces;
-using _4thYearProject.Shared.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using _4thYearProject.Server.Services.Interfaces;
+using _4thYearProject.Shared.Models;
 
 namespace _4thYearProject.Server.Services
 {
@@ -19,21 +19,19 @@ namespace _4thYearProject.Server.Services
 
         public async Task<IEnumerable<SearchResult>> GetSearchResults(string searchResults)
         {
-
             var response = await _httpClient.GetAsync($"api/search/{searchResults}");
 
             if (response.IsSuccessStatusCode)
             {
                 var result = await JsonSerializer.DeserializeAsync<IEnumerable<SearchResult>>(
-                    await response.Content.ReadAsStreamAsync(), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+                    await response.Content.ReadAsStreamAsync(),
+                    new JsonSerializerOptions {PropertyNameCaseInsensitive = true});
 
 
                 return result;
-
             }
 
             return new List<SearchResult>();
         }
-
     }
 }

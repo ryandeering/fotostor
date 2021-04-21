@@ -19,10 +19,14 @@
                     @foreach (var following in followingList)
                     {
                         <tr>
-                            <td><img src=@following.ProfilePicURL class="img-fluid rounded" width=40></td>
+                            <td>
+                                <img src=@following.ProfilePicURL class="img-fluid rounded" width=40>
+                            </td>
                             @if (following.Username != null)
                             {
-                                <td><a @onclick="() => GotoProfile(following.Username)">@following.Username</a></td>
+                                <td>
+                                    <a @onclick="() => GotoProfile(following.Username)">@following.Username</a>
+                                </td>
                             }
                         </tr>
                     }
@@ -33,7 +37,6 @@
             </p>
         </div>
     </div>
-
 }
 else
 {
@@ -44,18 +47,20 @@ else
             </p>
         </div>
     </div>
-
 }
 
 
 @code {
 
-    [CascadingParameter] BlazoredModalInstance ModalInstance { get; set; }
+    [CascadingParameter]
+    BlazoredModalInstance ModalInstance { get; set; }
 
-    [Parameter] public string LoggedIn { get; set; }
+    [Parameter]
+    public string LoggedIn { get; set; }
+
     List<FeedProfileData> followingList { get; set; }
 
-    protected async override Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
         followingList = await FollowingDataService.GetFollowingUserData(LoggedIn);
 
@@ -64,7 +69,7 @@ else
 
     void GotoProfile(string Username)
     {
-        NavigationManager.NavigateTo("/profile/"+Username, true);
+        NavigationManager.NavigateTo("/profile/" + Username, true);
     }
 
 }

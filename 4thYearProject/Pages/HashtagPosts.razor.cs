@@ -1,61 +1,55 @@
-﻿using _4thYearProject.Server.Services;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using _4thYearProject.Server.Services;
 using _4thYearProject.Server.Shared;
 using _4thYearProject.Shared;
 using _4thYearProject.Shared.Models;
 using Blazored.Modal;
 using Blazored.Modal.Services;
-using Microsoft.AspNetCore.Components;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
 using MatBlazor;
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
 namespace _4thYearProject.Server.Pages
 {
     public partial class HashtagPosts
     {
-        [Parameter]
-        public string HashTag { get; set; }
+        private ClaimsPrincipal identity;
         private string LoggedIn;
+
+        [Parameter] public string HashTag { get; set; }
+
         public UserData User { get; set; }
         public List<Post> Posts { get; set; }
 
         [CascadingParameter] public IModalService Modal { get; set; }
         //https://github.com/Blazored/Modal/blob/main/samples/BlazorWebAssembly/Pages/PassDataToModal.razor
 
-        [Inject]
-        public IHashTagDataService HashTagDataService { get; set; }
+        [Inject] public IHashTagDataService HashTagDataService { get; set; }
 
-        [Inject]
-        public IPostDataService PostDataService { get; set; }
-        [Inject]
-        public IUserService _userService { get; set; }
-        [Inject]
-        public IFollowingDataService FollowingService { get; set; }
+        [Inject] public IPostDataService PostDataService { get; set; }
+
+        [Inject] public IUserService _userService { get; set; }
+
+        [Inject] public IFollowingDataService FollowingService { get; set; }
 
         [Inject] public ILikeDataService LikeService { get; set; }
 
-        [Inject]
-        public IUserDataService UserDataService { get; set; }
+        [Inject] public IUserDataService UserDataService { get; set; }
 
-        [Inject]
-        protected IMatToaster Toaster { get; set; }
+        [Inject] protected IMatToaster Toaster { get; set; }
 
-        [Inject]
-        public IJSRuntime JsRuntime { get; set; }
+        [Inject] public IJSRuntime JsRuntime { get; set; }
 
-
-        ClaimsPrincipal identity;
-        protected async override Task OnInitializedAsync()
+        protected override async Task OnInitializedAsync()
         {
-
             identity = await _userService.GetUserAsync();
             if (identity.Identity.IsAuthenticated)
             {
                 //First get user claims    
-                string claimDisplayName = identity.Claims.Where(c => c.Type.Equals("preferred_username"))
+                var claimDisplayName = identity.Claims.Where(c => c.Type.Equals("preferred_username"))
                     .Select(c => c.Value).SingleOrDefault().ToString();
 
 
@@ -89,7 +83,6 @@ namespace _4thYearProject.Server.Pages
             parameters.Add(nameof(AddShirt.PostId), PostId);
 
             Modal.Show<AddShirt>("PostId", parameters);
-
         }
 
         private void BuyPrint(int PostId)
@@ -98,7 +91,6 @@ namespace _4thYearProject.Server.Pages
             parameters.Add(nameof(AddPrint.PostId), PostId);
 
             Modal.Show<AddPrint>("PostId", parameters);
-
         }
 
         protected async Task GiveLike(Post post)
@@ -132,7 +124,7 @@ namespace _4thYearProject.Server.Pages
 
         protected async Task DeletePost(Post post)
         {
-            if (!await JsRuntime.InvokeAsync<bool>("confirm", $"Are you sure you want to delete this post?")) return;
+            if (!await JsRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to delete this post?")) return;
             await PostDataService.DeletePost(post.PostId);
             StateHasChanged();
             Toaster.Add("Post deleted.", MatToastType.Success, "SUCCESS");

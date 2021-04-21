@@ -1,12 +1,10 @@
 ﻿@page "/posts/upload"
-@using _4thYearProject.Server.Services;
-@using _4thYearProject.Shared;
-@using MatBlazor
+@using System.IO
 @inject IPostDataService postsService
 @inject NavigationManager navigationManager
 @inject IMatToaster Toaster
 
-<br /><br /><br /><br /><br />
+<br/><br/><br/><br/><br/>
 <div class="mat-layout-grid">
     <div class="mat-layout-grid-inner">
         <div class="mat-layout-grid-cell mat-layout-grid-cell-span-12">
@@ -21,16 +19,16 @@
                     <Radzen.Blazor.RadzenLabel Text="Earnings"></Radzen.Blazor.RadzenLabel>
                     <div class="col-xl-6">
                         <Radzen.Blazor.RadzenLabel Text="License"></Radzen.Blazor.RadzenLabel>
-                        <RadzenSwitch @bind-Value=@post.LicenseEnabled Style="margin-bottom: 20px" Change=@(args => OnChange(args, "license")) />
+                        <RadzenSwitch @bind-Value="@post.LicenseEnabled" Style="margin-bottom: 20px" Change=@(args => OnChange(args, "license"))/>
                     </div>
                     <div class="col-xl-6">
                         <Radzen.Blazor.RadzenLabel Text="T-Shirt"></Radzen.Blazor.RadzenLabel>
-                        <RadzenSwitch @bind-Value=@post.ShirtsEnabled Style="margin-bottom: 20px" Change=@(args => OnChange(args, "shirt")) />
-                        </div>
-                        <div class="col-xl-6">
-                            <Radzen.Blazor.RadzenLabel Text="Prints"></Radzen.Blazor.RadzenLabel>
-                            <RadzenSwitch @bind-Value=@post.PrintsEnabled Style="margin-bottom: 20px" Change=@(args => OnChange(args, "print")) />
-                        </div>
+                        <RadzenSwitch @bind-Value="@post.ShirtsEnabled" Style="margin-bottom: 20px" Change=@(args => OnChange(args, "shirt"))/>
+                    </div>
+                    <div class="col-xl-6">
+                        <Radzen.Blazor.RadzenLabel Text="Prints"></Radzen.Blazor.RadzenLabel>
+                        <RadzenSwitch @bind-Value="@post.PrintsEnabled" Style="margin-bottom: 20px" Change=@(args => OnChange(args, "print"))/>
+                    </div>
 
 
                     <p>
@@ -42,7 +40,6 @@
         </div>
     </div>
 </div>
-
 
 
 @if (ShowDialog)
@@ -60,13 +57,13 @@
 
                     <EditForm Model="@Price" OnValidSubmit="@HandleValidSubmitPrice">
 
-                        <DataAnnotationsValidator />
-                        <ValidationSummary />
+                        <DataAnnotationsValidator/>
+                        <ValidationSummary/>
 
                         <div class="form-group">
                             <label for="Price">Price for License: </label>
                             <InputNumber id="Price" class="form-control" @bind-Value="@Price" placeholder="Enter how much you'd like to sell the license for"></InputNumber>
-                            <ValidationMessage For="@(() => Price)" />
+                            <ValidationMessage For="@(() => Price)"/>
                         </div>
 
 
@@ -86,6 +83,7 @@
 
     [Parameter]
     public EventCallback<bool> CloseEventCallback { get; set; }
+
     public bool ShowDialog { get; set; }
 
 
@@ -96,8 +94,7 @@
 
     private async Task Upload()
     {
-
-        if (post == new Post() | post.PhotoFile == String.Empty | post == null)
+        if ((post == new Post()) | (post.PhotoFile == string.Empty) | (post == null))
         {
             Toaster.Add("No photo added. Please add a photo.", MatToastType.Danger, "ERROR");
             return;
@@ -120,19 +117,16 @@
 
     async Task HandleMatFileSelected(IMatFileUploadEntry[] files)
     {
-        IMatFileUploadEntry file = files.FirstOrDefault();
+        var file = files.FirstOrDefault();
         post.MimeType = file.Type;
 
 
-        using (var stream = new System.IO.MemoryStream())
+        using (var stream = new MemoryStream())
         {
             await file.WriteToStreamAsync(stream);
             post.PhotoFile = Convert.ToBase64String(stream.ToArray());
             Toaster.Add("Photo added.", MatToastType.Success, "SUCCESS");
-
-
         }
-
     }
 
     public void Show()
@@ -145,7 +139,7 @@
     public void Close()
     {
         ShowDialog = false;
-        if(Price <= 0)
+        if (Price <= 0)
         {
             post.LicenseEnabled = false;
         }
@@ -167,7 +161,6 @@
 
     public void OnChange(bool? value, string name)
     {
-
         if (name.Equals("license"))
         {
             ShowDialog = true;

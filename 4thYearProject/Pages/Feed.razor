@@ -4,29 +4,28 @@
     <Authorized>
         @if (User != null)
         {
-
             if (Posts == null)
             {
-                <p><em>Loading...</em></p>
+                <p>
+                    <em>Loading...</em>
+                </p>
             }
             else
             {
-                <br />
-                <br />
-                <br />
+                <br/>
+                <br/>
+                <br/>
                 @foreach (var Post in Posts)
                 {
-
                     <div class="card">
                         <div class="card-heading">
                             <div class="card-heading-pic">
                                 @if (Post.ProfileData != null)
                                 {
-                                    @if (Post.ProfileData.ProfilePicURL != null || Post.ProfileData.ProfilePicURL == String.Empty)
+                                    @if (Post.ProfileData.ProfilePicURL != null || Post.ProfileData.ProfilePicURL == string.Empty)
                                     {
                                         <img src="@Post.ProfileData.ProfilePicURL"
                                              alt="profile-pic">
-
                                     }
                                     else
                                     {
@@ -40,10 +39,12 @@
                                 @if (Post.ProfileData != null)
                                 {
                                     <div class="card-heading-data">
-                                        @if (Post.ProfileData.Username != null || Post.ProfileData.Username == String.Empty)
+                                        @if (Post.ProfileData.Username != null || Post.ProfileData.Username == string.Empty)
                                         {
-
-                                            <span class="user-name"> <a href="/profile/@Post.ProfileData.Username">@Post.ProfileData.Username</a> <br /> <p>  @Post.ProfileData.FName @Post.ProfileData.LName </p></span>
+                                            <span class="user-name">
+                                                <a href="/profile/@Post.ProfileData.Username">@Post.ProfileData.Username</a> <br/>
+                                                <p> @Post.ProfileData.FName @Post.ProfileData.LName </p>
+                                            </span>
                                         }
                                     </div>
                                 }
@@ -52,7 +53,7 @@
 
 
                         <img src=@Post.PhotoFile alt="pic">
-                        <br /><br />
+                        <br/><br/>
                         <h3>&nbsp;&nbsp;&nbsp;&nbsp;@Post.Caption</h3>
                         <div class="card-footer">
 
@@ -63,7 +64,6 @@
                                     <MatButton OnClick="() => UnLike(Post)">
                                         <i class="fas fa-thumbs-down"></i>
                                     </MatButton>
-
                                 }
                                 else
                                 {
@@ -84,7 +84,6 @@
 
                                 @if (Post.LicenseEnabled)
                                 {
-
                                     <MatButton @onclick="@(e => BuyLicense(Post.PostId))" class="btn btn-light">
                                         <i class="fas fa-stamp"></i> &nbsp; Buy License
                                     </MatButton>
@@ -125,20 +124,11 @@
                         }
                     </div>
                 }
-
-
-
-
             }
-
-
-
         }
         else
         {
-
             <p>No user found.</p>
-
         }
     </Authorized>
     <NotAuthorized>

@@ -1,64 +1,57 @@
-﻿using _4thYearProject.Server.Services;
-using _4thYearProject.Shared;
-using _4thYearProject.Shared.Models;
-using MatBlazor;
-using Microsoft.AspNetCore.Components;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using _4thYearProject.Server.Services;
 using _4thYearProject.Server.Shared;
+using _4thYearProject.Shared;
+using _4thYearProject.Shared.Models;
 using Blazored.Modal;
 using Blazored.Modal.Services;
+using MatBlazor;
+using Microsoft.AspNetCore.Components;
 
 namespace _4thYearProject.Server.Pages
 {
     public partial class MyPosts : ComponentBase
     {
-        [Parameter]
-        public string DisplayName { get; set; }
+        private readonly Following follow = new();
+
+
+        private ClaimsPrincipal identity;
+
+        [Parameter] public string DisplayName { get; set; }
+
         public UserData User { get; set; }
         public List<Post> Posts { get; set; }
 
-        [Inject]
-        public IPostDataService PostDataService { get; set; }
-        [Inject]
-        public IUserService _userService { get; set; }
-        [Inject]
-        public IFollowingDataService FollowingService { get; set; }
+        [Inject] public IPostDataService PostDataService { get; set; }
 
-        [Inject]
-        public IUserDataService UserDataService { get; set; }
-        [Inject]
-        public NavigationManager UriHelper { get; set; }
+        [Inject] public IUserService _userService { get; set; }
 
-        [Inject]
-        public IMatToaster Toaster { get; set; }
+        [Inject] public IFollowingDataService FollowingService { get; set; }
 
+        [Inject] public IUserDataService UserDataService { get; set; }
 
-        ClaimsPrincipal identity;
+        [Inject] public NavigationManager UriHelper { get; set; }
 
-        string claimDisplayName { get; set; }
+        [Inject] public IMatToaster Toaster { get; set; }
 
-        string LoggedInID { get; set; }
+        private string claimDisplayName { get; set; }
+
+        private string LoggedInID { get; set; }
 
         [CascadingParameter] public IModalService Modal { get; set; }
+        private List<Following> followers { get; set; }
+        private List<Following> following { get; set; }
 
-        Following follow = new Following();
-        List<Following> followers { get; set; }
-        List<Following> following { get; set; }
-
-        bool IsFollowing { get; set; }
-        int FollowerCount { get; set; }
-        int FollowingCount { get; set; }
+        private bool IsFollowing { get; set; }
+        private int FollowerCount { get; set; }
+        private int FollowingCount { get; set; }
 
 
-
-
-
-        protected async override Task OnInitializedAsync()
+        protected override async Task OnInitializedAsync()
         {
-
             identity = await _userService.GetUserAsync();
             if (identity.Identity.IsAuthenticated)
             {
@@ -81,7 +74,6 @@ namespace _4thYearProject.Server.Pages
 
                 await VerifyFollowing();
             }
-
         }
 
 
@@ -97,7 +89,6 @@ namespace _4thYearProject.Server.Pages
 
         protected async Task UnFollowUser()
         {
-
             follow.Follower_ID = LoggedInID;
             follow.Followed_ID = User.Id;
             await FollowingService.RemoveFollowing(LoggedInID, User.Id);
@@ -110,42 +101,35 @@ namespace _4thYearProject.Server.Pages
         protected async Task VerifyFollowing()
         {
             follow.Follower_ID = LoggedInID;
-            Following temp = await FollowingService.verifyFollowing(LoggedInID, User.Id);
+            var temp = await FollowingService.verifyFollowing(LoggedInID, User.Id);
             if (temp != null)
-            {
                 IsFollowing = true;
-            }
             else
-            {
                 IsFollowing = false;
-            }
         }
 
 
         protected async Task<List<Following>> GetFollowers()
         {
-
-            List<Following> followerstemp = await FollowingService.GetFollowers(User.Id);
+            var followerstemp = await FollowingService.GetFollowers(User.Id);
 
 
             return followerstemp;
-
         }
 
         protected async Task<List<Following>> GetFollowing()
         {
-            List<Following> followingtemp = await FollowingService.GetFollowing(User.Id);
+            var followingtemp = await FollowingService.GetFollowing(User.Id);
 
             return followingtemp;
-
         }
 
-        void Navigate(int PostId)
+        private void Navigate(int PostId)
         {
             UriHelper.NavigateTo("/post/" + PostId);
         }
 
-        void ProfileSettings()
+        private void ProfileSettings()
         {
             UriHelper.NavigateTo("/profile/settings");
         }
@@ -153,15 +137,9 @@ namespace _4thYearProject.Server.Pages
 
         private void ShowFollowers()
         {
-
             var parameters = new ModalParameters();
             parameters.Add(nameof(Followers.LoggedIn), LoggedInID);
             Modal.Show<Followers>("Followers", parameters);
         }
-
-
-
-
-
     }
 }

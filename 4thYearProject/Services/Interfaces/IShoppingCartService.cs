@@ -1,7 +1,6 @@
-﻿using _4thYearProject.Shared.Models;
-using _4thYearProject.Shared.Models.BusinessLogic;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using _4thYearProject.Shared.Models.BusinessLogic;
 
 namespace _4thYearProject.Server.Services
 {

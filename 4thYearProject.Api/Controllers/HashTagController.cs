@@ -10,11 +10,12 @@ namespace _4thYearProject.Api.Controllers
     {
         private readonly IHashTagRepository _hashTagRepository;
 
-        private readonly IUserDataRepository _userDataRepository;
-
         private readonly ILikeRepository _likeRepository;
 
-        public HashTagController(IHashTagRepository hashTagRepository, IUserDataRepository userDataRepository, ILikeRepository likeRepository)
+        private readonly IUserDataRepository _userDataRepository;
+
+        public HashTagController(IHashTagRepository hashTagRepository, IUserDataRepository userDataRepository,
+            ILikeRepository likeRepository)
         {
             _hashTagRepository = hashTagRepository;
             _userDataRepository = userDataRepository;

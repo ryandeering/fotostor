@@ -1,9 +1,8 @@
-﻿@using Microsoft.AspNetCore.Components.Authorization
+﻿@using Microsoft.AspNetCore.Components.WebAssembly.Hosting
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
-@using Microsoft.AspNetCore.Components.WebAssembly.Hosting
-@inject IWebAssemblyHostEnvironment HostEnvironment
 @using _4thYearProject.Server.Services.Interfaces
 @using System.Diagnostics
+@inject IWebAssemblyHostEnvironment HostEnvironment
 @inject NavigationManager Navigation
 @inject SignOutSessionStateManager SignOutManager
 @inject IUserDataService UserDataService
@@ -44,10 +43,10 @@
         <NotAuthorized>
             <div class="navigation-icons">
 
-                <a href=@RegisterLink id="register" class="navigation-link">
+                <a href="@RegisterLink" id="register" class="navigation-link">
                     <i class="fas fa-user-plus"></i>
                 </a>
-              
+
                 <a href="authentication/login" id="signin" class="navigation-link">
                     <i class="fas fa-sign-in-alt"></i>
                 </a>
@@ -85,11 +84,11 @@
 
     ClaimsPrincipal identity;
     UserData User;
-    private SearchResult resultActual = new SearchResult();
-    private List<SearchResult> results = new List<SearchResult>();
-    string LoggedInID = String.Empty;
-    string ProfileName = String.Empty;
-    string RegisterLink = String.Empty;
+    private SearchResult resultActual = new();
+    private List<SearchResult> results = new();
+    string LoggedInID = string.Empty;
+    string ProfileName = string.Empty;
+    string RegisterLink = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
@@ -100,13 +99,10 @@
         if (identity.Identity.IsAuthenticated)
         {
             LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
-                 .Select(c => c.Value).SingleOrDefault().ToString();
+                .Select(c => c.Value).SingleOrDefault().ToString();
             User = await UserDataService.GetUserDataDetails(LoggedInID);
             ProfileName = User.DisplayName;
-
-
         }
-
     }
 
     private async Task BeginSignOut(MouseEventArgs args)

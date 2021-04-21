@@ -1,4 +1,8 @@
-﻿using _4thYearProject.Server.Services;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using _4thYearProject.Server.Services;
 using _4thYearProject.Server.Shared;
 using _4thYearProject.Shared;
 using _4thYearProject.Shared.Models;
@@ -7,11 +11,6 @@ using Blazored.Modal.Services;
 using MatBlazor;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace _4thYearProject.Server.Pages
 {
@@ -41,11 +40,9 @@ namespace _4thYearProject.Server.Pages
 
         [Inject] public ILikeDataService LikeService { get; set; }
 
-        [Inject]
-        protected IMatToaster Toaster { get; set; }
+        [Inject] protected IMatToaster Toaster { get; set; }
 
-        [Inject]
-        public IJSRuntime JsRuntime { get; set; }
+        [Inject] public IJSRuntime JsRuntime { get; set; }
 
 
         [CascadingParameter] public IModalService Modal { get; set; }
@@ -70,14 +67,11 @@ namespace _4thYearProject.Server.Pages
                 ActualPosts = (await PostDataService.GetAllPostsbyFollowing(User.Id)).ToList();
 
 
-
-
                 var PostsCombined = new List<Post>(ActualPosts.Count +
                                                    SuggestedPosts.Count);
 
                 PostsCombined.AddRange(ActualPosts);
                 PostsCombined.AddRange(SuggestedPosts);
-
 
 
                 foreach (var Post in PostsCombined)
@@ -87,7 +81,6 @@ namespace _4thYearProject.Server.Pages
                 }
 
                 Posts = PostsCombined.Distinct().OrderByDescending(po => po.UploadDate).ToList();
-
             }
         }
 
@@ -98,7 +91,7 @@ namespace _4thYearProject.Server.Pages
                 .Select(c => c.Value).SingleOrDefault().ToString();
 
             var like = new Like(LoggedInID, post.PostId.ToString());
-            await LikeService.AddLike(like); 
+            await LikeService.AddLike(like);
             post.Liked = true;
             post.Likes++;
             StateHasChanged();
@@ -123,7 +116,7 @@ namespace _4thYearProject.Server.Pages
 
         protected async Task DeletePost(Post post)
         {
-            if (!await JsRuntime.InvokeAsync<bool>("confirm", $"Are you sure you want to delete this post?")) return;
+            if (!await JsRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to delete this post?")) return;
             await PostDataService.DeletePost(post.PostId);
             StateHasChanged();
             Toaster.Add("Post deleted.", MatToastType.Success, "SUCCESS");
@@ -136,7 +129,6 @@ namespace _4thYearProject.Server.Pages
             parameters.Add(nameof(AddLicense.PostId), PostId);
 
             Modal.Show<AddLicense>("Buy License", parameters);
-
         }
 
         private void BuyShirt(int PostId)
@@ -153,7 +145,6 @@ namespace _4thYearProject.Server.Pages
             parameters.Add(nameof(AddPrint.PostId), PostId);
 
             Modal.Show<AddPrint>("Buy Print", parameters);
-
         }
     }
 }

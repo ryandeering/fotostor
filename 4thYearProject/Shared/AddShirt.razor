@@ -14,12 +14,10 @@
                 {
                     <h3>Purchase Shirt</h3>
 
-                    <img src=@PostIn.Thumbnail width="500" height="500" />
-
+                    <img src=@PostIn.Thumbnail width="500" height="500"/>
 
 
                     <h2>All shirts are €25.00. Posted within 3 days. Payment through Stripe.</h2>
-
 
 
                     <select class="form-control selectpicker" @bind="size">
@@ -30,9 +28,9 @@
                         }
                     </select>
 
-                    <br />
-                    <RadzenButton style="align-content: flex-end" Click=@(args => AddtoCart()) Text="Add Shirt to Cart" ButtonStyle="ButtonStyle.Secondary" ></RadzenButton>
-                    <RadzenButton style="margin: 0 1rem 1rem 0" Click=@(args => Cancel()) Text="Cancel" ButtonStyle="ButtonStyle.Danger" />
+                    <br/>
+                    <RadzenButton style="align-content: flex-end" Click=@(args => AddtoCart()) Text="Add Shirt to Cart" ButtonStyle="ButtonStyle.Secondary"></RadzenButton>
+                    <RadzenButton style="margin: 0 1rem 1rem 0" Click=@(args => Cancel()) Text="Cancel" ButtonStyle="ButtonStyle.Danger"/>
                 }
                 else
                 {
@@ -43,7 +41,6 @@
             </p>
         </div>
     </div>
-
 }
 else
 {
@@ -54,16 +51,17 @@ else
             </p>
         </div>
     </div>
-
 }
 
 @code{
 
-    [CascadingParameter] internal BlazoredModalInstance ModalInstance { get; set; }
+    [CascadingParameter]
+    internal BlazoredModalInstance ModalInstance { get; set; }
 
-    public String Thumbnail = String.Empty;
+    public string Thumbnail = string.Empty;
 
-    [Parameter] public int PostId { get; set; }
+    [Parameter]
+    public int PostId { get; set; }
 
     internal Post PostIn { get; set; }
 
@@ -71,10 +69,10 @@ else
 
     public string UserId { get; set; }
 
-    private List<String> sizes = new List<String>(new String[] { "XS", "S", "M", "L", "XL", "XXL" });
-    private String size;
+    private readonly List<string> sizes = new(new[] {"XS", "S", "M", "L", "XL", "XXL"});
+    private string size;
 
-    protected async override Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
         identity = await UserService.GetUserAsync();
         PostIn = await PostDataService.GetPostDetails(PostId);
@@ -86,9 +84,9 @@ else
 
     internal async Task AddtoCart()
     {
-        string LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
-                 .Select(c => c.Value).SingleOrDefault().ToString();
-        OrderLineItem ol = new OrderLineItem(PostIn);
+        var LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+            .Select(c => c.Value).SingleOrDefault().ToString();
+        var ol = new OrderLineItem(PostIn);
         ol.Price = 25.00;
         ol.Type = "Shirt";
         ol.Size = size;
@@ -98,5 +96,9 @@ else
         await ModalInstance.CancelAsync();
     }
 
-    internal async Task Cancel() => await ModalInstance.CancelAsync();
+    internal async Task Cancel()
+    {
+        await ModalInstance.CancelAsync();
+    }
+
 }

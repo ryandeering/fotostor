@@ -1,5 +1,5 @@
-﻿using _4thYearProject.Shared.Models.BusinessLogic;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using _4thYearProject.Shared.Models.BusinessLogic;
 
 namespace _4thYearProject.Api.Models
 {
@@ -11,7 +11,7 @@ namespace _4thYearProject.Api.Models
 
         ShoppingCart EmptyBasket(string UserId);
 
-        Order PlaceOrder(string UserId); 
+        Order PlaceOrder(string UserId);
 
         IEnumerable<Order> GetOrders(string UserId);
 

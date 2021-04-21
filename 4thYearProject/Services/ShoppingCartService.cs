@@ -1,15 +1,12 @@
-﻿using _4thYearProject.Shared;
-using _4thYearProject.Shared.Models;
-using _4thYearProject.Shared.Models.BusinessLogic;
-using Dahomey.Json;
-using Dahomey.Json.Serialization.Conventions;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using _4thYearProject.Shared;
+using _4thYearProject.Shared.Models.BusinessLogic;
+using Dahomey.Json;
 
 namespace _4thYearProject.Server.Services
 {
@@ -27,14 +24,10 @@ namespace _4thYearProject.Server.Services
 
         public async Task<ShoppingCart> AddToCart(string UserId, OrderLineItem olOG)
         {
-
-            JsonSerializerOptions options = new JsonSerializerOptions();
+            var options = new JsonSerializerOptions();
             options.SetupExtensions();
-            DiscriminatorConventionRegistry registry = options.GetDiscriminatorConventionRegistry();
+            var registry = options.GetDiscriminatorConventionRegistry();
             registry.ClearConventions();
-
-
-
 
 
             var cartJson =
@@ -43,9 +36,7 @@ namespace _4thYearProject.Server.Services
             var response = await _httpClient.PostAsync($"api/shoppingcart/add/{UserId}/", cartJson);
 
             if (response.IsSuccessStatusCode)
-            {
                 return await JsonSerializer.DeserializeAsync<ShoppingCart>(await response.Content.ReadAsStreamAsync());
-            }
 
             return null;
         }
@@ -53,18 +44,15 @@ namespace _4thYearProject.Server.Services
 
         public async Task<ShoppingCart> AddCart(string UserId)
         {
-            ClaimsPrincipal identity = await _userService.GetUserAsync();
+            var identity = await _userService.GetUserAsync();
 
-            string UserIdClaim = identity.Claims.Where(c => c.Type.Equals("sub"))
-                  .Select(c => c.Value).SingleOrDefault();
+            var UserIdClaim = identity.Claims.Where(c => c.Type.Equals("sub"))
+                .Select(c => c.Value).SingleOrDefault();
 
 
-            if (!UserId.Equals(UserIdClaim))
-            {
-                return null;
-            }
+            if (!UserId.Equals(UserIdClaim)) return null;
 
-            ShoppingCart cart = new ShoppingCart();
+            var cart = new ShoppingCart();
 
             cart.UserId = UserId;
             cart.BasketItems = new List<OrderLineItem>();
@@ -76,9 +64,7 @@ namespace _4thYearProject.Server.Services
             var response = await _httpClient.PostAsync("api/shoppingcart/", cartJson);
 
             if (response.IsSuccessStatusCode)
-            {
                 return await JsonSerializer.DeserializeAsync<ShoppingCart>(await response.Content.ReadAsStreamAsync());
-            }
 
             return null;
         }
@@ -109,31 +95,32 @@ namespace _4thYearProject.Server.Services
         public async Task<IEnumerable<Order>> GetAllOrders(string UserId)
         {
             return await JsonSerializer.DeserializeAsync<IEnumerable<Order>>
-                    (await _httpClient.GetStreamAsync($"api/shoppingcart/orders/{UserId}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+            (await _httpClient.GetStreamAsync($"api/shoppingcart/orders/{UserId}"),
+                new JsonSerializerOptions {PropertyNameCaseInsensitive = true});
         }
 
 
         public async Task<Order> GetOrderById(int OrderID)
         {
             return await JsonSerializer.DeserializeAsync<Order>
-                    (await _httpClient.GetStreamAsync($"api/shoppingcart/orders/spec/{OrderID}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+            (await _httpClient.GetStreamAsync($"api/shoppingcart/orders/spec/{OrderID}"),
+                new JsonSerializerOptions {PropertyNameCaseInsensitive = true});
         }
 
 
         public async Task<ShoppingCart> GetCart(string UserId)
         {
             return await JsonSerializer.DeserializeAsync<ShoppingCart>
-                    (await _httpClient.GetStreamAsync($"api/shoppingcart/{UserId}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+            (await _httpClient.GetStreamAsync($"api/shoppingcart/{UserId}"),
+                new JsonSerializerOptions {PropertyNameCaseInsensitive = true});
         }
 
 
         public async Task<IEnumerable<OrderLineItem>> GetOrderLinesForArtist(string ArtistId)
         {
             return await JsonSerializer.DeserializeAsync<IEnumerable<OrderLineItem>>
-                (await _httpClient.GetStreamAsync($"api/shoppingcart/analysis/{ArtistId}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+            (await _httpClient.GetStreamAsync($"api/shoppingcart/analysis/{ArtistId}"),
+                new JsonSerializerOptions {PropertyNameCaseInsensitive = true});
         }
-
-
-
     }
 }

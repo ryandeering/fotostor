@@ -1,6 +1,6 @@
-﻿using _4thYearProject.Shared.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using _4thYearProject.Shared.Models;
 
 namespace _4thYearProject.Server.Services
 {
@@ -16,4 +16,3 @@ namespace _4thYearProject.Server.Services
         Task<FeedProfileData> GetUserNameFromId(string id);
     }
 }
-

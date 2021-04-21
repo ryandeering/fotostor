@@ -7,25 +7,25 @@ namespace _4thYearProject.Api.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Username",
-                table: "Comments");
+                "Username",
+                "Comments");
 
             migrationBuilder.AddColumn<int>(
-                name: "ProfileDataId",
-                table: "Comments",
-                type: "int",
+                "ProfileDataId",
+                "Comments",
+                "int",
                 nullable: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_ProfileDataId",
-                table: "Comments",
-                column: "ProfileDataId");
+                "IX_Comments_ProfileDataId",
+                "Comments",
+                "ProfileDataId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Comments_FeedData_ProfileDataId",
-                table: "Comments",
-                column: "ProfileDataId",
-                principalTable: "FeedData",
+                "FK_Comments_FeedData_ProfileDataId",
+                "Comments",
+                "ProfileDataId",
+                "FeedData",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
         }
@@ -33,21 +33,21 @@ namespace _4thYearProject.Api.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Comments_FeedData_ProfileDataId",
-                table: "Comments");
+                "FK_Comments_FeedData_ProfileDataId",
+                "Comments");
 
             migrationBuilder.DropIndex(
-                name: "IX_Comments_ProfileDataId",
-                table: "Comments");
+                "IX_Comments_ProfileDataId",
+                "Comments");
 
             migrationBuilder.DropColumn(
-                name: "ProfileDataId",
-                table: "Comments");
+                "ProfileDataId",
+                "Comments");
 
             migrationBuilder.AddColumn<string>(
-                name: "Username",
-                table: "Comments",
-                type: "nvarchar(max)",
+                "Username",
+                "Comments",
+                "nvarchar(max)",
                 nullable: true);
         }
     }
