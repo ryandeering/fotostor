@@ -14,7 +14,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace _4thYearProject.Server
 {
+#pragma warning disable S1118 // Utility classes should not have public constructors
     public class Program
+#pragma warning restore S1118 // Utility classes should not have public constructors
     {
         public static async Task Main(string[] args)
         {

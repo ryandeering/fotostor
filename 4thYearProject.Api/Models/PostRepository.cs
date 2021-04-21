@@ -20,7 +20,7 @@ namespace _4thYearProject.Api.Models
 
         public IEnumerable<Post> GetAllPostsbyFollowing(string id)
         {
-            var followings = _appDbContext.Followers.AsNoTracking().ToList();
+            var followings = _appDbContext.Followers.ToList();
 
             var followingids = new HashSet<string>();
 

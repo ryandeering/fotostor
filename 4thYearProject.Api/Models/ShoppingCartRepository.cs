@@ -92,7 +92,9 @@ namespace _4thYearProject.Api.Models
 
         public Order GetOrderById(int OrderId)
         {
-            return _appDbContext.Orders.Where(o => o.OrderId.Equals(OrderId)).Include("OrderAddress")
+            return _appDbContext.Orders
+                .AsNoTracking()
+                .Where(o => o.OrderId.Equals(OrderId)).Include("OrderAddress")
                 .Include(o => o.LineItems)
                 .ThenInclude(ol => ol.Post).First();
         }

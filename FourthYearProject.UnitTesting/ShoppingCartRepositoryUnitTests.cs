@@ -141,7 +141,7 @@ namespace FourthYearProject.UnitTesting
 
             var hh = repo.GetCart(cart.UserId);
 
-            Assert.Equal(0, hh.BasketItems.Count);
+            Assert.Empty(hh.BasketItems);
 
             context.ChangeTracker.Clear();
             context.Database.EnsureDeleted();
@@ -175,10 +175,7 @@ namespace FourthYearProject.UnitTesting
         [Fact]
         public void PlaceOrder_FAIL_Test()
         {
-            var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase(Guid.NewGuid().ToString())
-                .Options;
-
+            var options = SqliteInMemory.CreateOptions<AppDbContext>();
             using var context = new AppDbContext(options);
             context.Database.EnsureCreated();
             var repo = new ShoppingCartRepository(context);
@@ -201,6 +198,8 @@ namespace FourthYearProject.UnitTesting
         [Fact]
         public void AddtoCart_Success_LicenseAlreadyExists_Test()
         {
+   
+
             var options = new DbContextOptionsBuilder<AppDbContext>()
                 .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
@@ -218,6 +217,7 @@ namespace FourthYearProject.UnitTesting
             item.Type = "License";
             item.Quantity = 1;
             context.LineItems.Add(item);
+            context.SaveChanges();
             repo.AddCart(cart);
             repo.AddToCart(cart.UserId, item);
             repo.AddToCart(cart.UserId, item);
@@ -228,6 +228,9 @@ namespace FourthYearProject.UnitTesting
             Assert.Equal(2, hh.BasketItems.First().Quantity);
             context.ChangeTracker.Clear();
             context.Database.EnsureDeleted();
+
+
+
         }
 
         [Fact]
@@ -251,6 +254,7 @@ namespace FourthYearProject.UnitTesting
             item.Size = "XL";
             item.Quantity = 1;
             context.LineItems.Add(item);
+            context.SaveChanges();
             repo.AddCart(cart);
             repo.AddToCart(cart.UserId, item);
             repo.AddToCart(cart.UserId, item);
@@ -285,6 +289,7 @@ namespace FourthYearProject.UnitTesting
             item.Size = "XL";
             item.Quantity = 1;
             context.LineItems.Add(item);
+            context.SaveChanges();
             repo.AddCart(cart);
             repo.AddToCart(cart.UserId, item);
 
@@ -308,7 +313,7 @@ namespace FourthYearProject.UnitTesting
             var repo = new ShoppingCartRepository(context);
 
             var order = GenFu.GenFu.New<Order>();
-            order.OrderId = 1;
+            order.OrderId = 222;
             order.LineItems = new List<OrderLineItem>();
             var lineitem = GenFu.GenFu.New<OrderLineItem>();
             var post = GenFu.GenFu.New<Post>();

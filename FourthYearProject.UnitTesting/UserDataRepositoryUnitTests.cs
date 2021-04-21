@@ -17,7 +17,7 @@ namespace FourthYearProject.UnitTesting
             {"SectionName:SomeKey", "SectionValue"},
         };
 
-        IConfiguration configuration = new ConfigurationBuilder()
+        readonly IConfiguration configuration = new ConfigurationBuilder()
             .AddInMemoryCollection(inMemorySettings)
             .Build();
 
@@ -105,7 +105,6 @@ namespace FourthYearProject.UnitTesting
             var repo = new UserDataRepository(context, configuration);
             repo.AddUserData(test1);
             repo.AddUserData(test2);
-            var userData = repo.GetUserDataById(test2.Id);
 
             Assert.Equal(test2.DisplayName, test2.DisplayName);
             context.ChangeTracker.Clear();

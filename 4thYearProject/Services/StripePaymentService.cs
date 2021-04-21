@@ -29,12 +29,8 @@ namespace _4thYearProject.Server.Services
                 var result = JsonConvert.DeserializeObject<SuccessModel>(contentTemp);
                 return result;
             }
-            else
-            {
-                var contentTemp = await response.Content.ReadAsStringAsync();
-                var errorModel = JsonConvert.DeserializeObject<ErrorModel>(contentTemp);
-                throw new Exception(errorModel.ErrorMessage);
-            }
+
+            return null;
         }
 
         public async Task<SuccessModel> OrderSuccess(string UserId, string token)

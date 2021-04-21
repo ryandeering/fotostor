@@ -16,6 +16,11 @@ namespace FourthYearProject.UnitTesting
         public void GetLatestPostsByHashtag_Test()
         {
 
+            var i = 6000;
+            GenFu.GenFu.Configure<HashTag>()
+                .Fill(p => p.Id, () => i++);
+
+
             List<HashTag> hashTags = GenFu.GenFu.ListOf<HashTag>(5);
 
             GenFu.GenFu.Configure<Post>().Fill(p => p.HashTags, hashTags);
@@ -49,6 +54,10 @@ namespace FourthYearProject.UnitTesting
         [Fact]
         public void GetHashTagSuccess_Test()
         {
+            var i = 6100;
+            GenFu.GenFu.Configure<HashTag>()
+                .Fill(p => p.Id, () => i++);
+
             List<HashTag> hashTags = GenFu.GenFu.ListOf<HashTag>(3);
 
             var options = new DbContextOptionsBuilder<AppDbContext>()
@@ -70,6 +79,10 @@ namespace FourthYearProject.UnitTesting
         [Fact]
         public void GetHashTagNewHashtag_Test()
         {
+
+            var i = 6200;
+            GenFu.GenFu.Configure<HashTag>()
+                .Fill(p => p.Id, () => i++);
             List<HashTag> hashTags = GenFu.GenFu.ListOf<HashTag>(3);
 
             var options = new DbContextOptionsBuilder<AppDbContext>()

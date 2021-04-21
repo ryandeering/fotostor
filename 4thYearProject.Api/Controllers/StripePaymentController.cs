@@ -112,7 +112,7 @@ namespace _4thYearProject.Api.Controllers
 
                         if (olLineItem.Type.Equals("License"))
                             LicenseLink = "<a href=" + olLineItem.Post.PhotoFile + ">License Link</a>";
-                        sb.Append(olLineItem.Type + " | " + olLineItem.Quantity + " | " +
+                        sb.AppendLine(olLineItem.Type + " | " + olLineItem.Quantity + " | " +
                                   $"€{olLineItem.Price:0.00}" + " | " + olLineItem.Size + LicenseLink);
                     }
 

@@ -58,9 +58,9 @@ namespace _4thYearProject.Server.Services
             await _httpClient.PutAsync("api/post", commentJson);
         }
 
-        public async Task DeleteComment(int Comment_ID)
+        public async Task DeleteComment(int Comment_Id)
         {
-            await _httpClient.DeleteAsync($"api/comment/{Comment_ID}");
+            await _httpClient.DeleteAsync($"api/comment/{Comment_Id}");
         }
 
 
@@ -71,10 +71,10 @@ namespace _4thYearProject.Server.Services
                 new JsonSerializerOptions {PropertyNameCaseInsensitive = true});
         }
 
-        public async Task<Comment> GetCommentById(int Comment_ID)
+        public async Task<Comment> GetCommentById(int Comment_Id)
         {
             return await JsonSerializer.DeserializeAsync<Comment>
-            (await _httpClient.GetStreamAsync($"api/comment/{Comment_ID}"),
+            (await _httpClient.GetStreamAsync($"api/comment/{Comment_Id}"),
                 new JsonSerializerOptions {PropertyNameCaseInsensitive = true});
         }
     }
