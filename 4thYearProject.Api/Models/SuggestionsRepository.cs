@@ -29,14 +29,14 @@ namespace _4thYearProject.Api.Models
                 var hashtags = _appDbContext.Hashtags.GroupBy(h => h.Content)
                     .Select(group => new {Content = group.Key, Count = group.Count()}).OrderByDescending(h => h.Count)
                     .Take(3);
-
+                
                 var suggestedPostsNoInterests = new List<Post>();
 
                 foreach (var HashTag in hashtags)
                 {
                     var HashTagActual = _appDbContext.Hashtags.First(ht => ht.Content.Contains(HashTag.Content));
-                    var PostWithHashTag = _appDbContext.Posts.Include("HashTags")
-                        .Where(p => p.HashTags.Contains(HashTagActual))
+                    var PostWithHashTag = _appDbContext.Posts.Include("HashTags").Include("Comments")
+                        .Where(p => p.HashTags.Contains(HashTagActual) && p.UserId != id)
                         .OrderBy(p => p.Likes).FirstOrDefault(); //gets the most popular post per popular hashtag
                     suggestedPostsNoInterests.Add(PostWithHashTag);
                 }
@@ -57,17 +57,6 @@ namespace _4thYearProject.Api.Models
                 hashTags.Add(_appDbContext.Hashtags.Include(h => h.Posts).ThenInclude(p => p.Comments).First(p => p.Id == hashTag.Id));
             }
 
-
-
-            //foreach (var likedPost in userLikesPosts)
-            //    userLikesPosts.Add(_appDbContext.Posts.Include("HashTags").First(up => up.PostId == likedPost.PostId));
-
-            //var userHashTagsLikesPosts = userLikesPosts.SelectMany(userPost => userPost.HashTags).ToList();
-
-            //var query = userHashTagsLikesPosts.GroupBy(h => h.Content)
-            //    .Select(group => new {Content = group.Key, Count = group.Count()}).OrderByDescending(h => h.Count);
-
-
             var items = hashTags.Take(4);
 
             var suggestedPosts = new List<Post>();
@@ -78,17 +67,6 @@ namespace _4thYearProject.Api.Models
                 {
                     suggestedPosts.Add(hashtag.Posts.OrderBy(p => p.Comments.Count).First());
                 }//based on engagement
-
-
-
-                //suggestedPosts = (from item in items
-                //        select _appDbContext.Hashtags.FirstOrDefault(ht => ht.Content.Equals(item.Content))
-                //        into foundHashTag
-                //        select _appDbContext.Posts.Include("Comments")
-                //            .Where(p => p.HashTags.Contains(foundHashTag) && p.UserId != id)
-                //        into foundPosts
-                //        select foundPosts.OrderBy(x => x.Likes).First())
-                //    .ToList(); //gets posts that have the same hashtag, but do NOT have the same author 
             }
             catch (Exception e)
             {

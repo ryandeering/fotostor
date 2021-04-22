@@ -125,6 +125,7 @@ namespace _4thYearProject.Api
 
             services.AddControllers(configure =>
                 configure.Filters.Add(new AuthorizeFilter(requireAuthenticatedUserPolicy)));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -137,6 +138,8 @@ namespace _4thYearProject.Api
                 dbInitializer.Initialize();
                 dbInitializer.SeedData();
             }
+
+
 
 
             StripeConfiguration.ApiKey = Configuration.GetSection("Stripe")["ApiKey"];

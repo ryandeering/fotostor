@@ -66,7 +66,6 @@ namespace _4thYearProject.Server.Pages
 
                 ActualPosts = (await PostDataService.GetAllPostsbyFollowing(User.Id)).ToList();
 
-
                 var PostsCombined = new List<Post>(ActualPosts.Count +
                                                    SuggestedPosts.Count);
 
@@ -80,7 +79,8 @@ namespace _4thYearProject.Server.Pages
                     Post.Liked = like;
                 }
 
-                Posts = PostsCombined.Distinct().OrderByDescending(po => po.UploadDate).ToList();
+                Posts = PostsCombined.GroupBy(p => p.PostId).Select(p => p.First()).OrderByDescending(p => p.UploadDate)
+                    .ToList();
             }
         }
 

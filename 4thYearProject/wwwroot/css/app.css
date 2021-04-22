@@ -7,6 +7,16 @@
 
 @import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
+.banner {
+    width: 100%;
+    height: 400px;
+    background-image: url(../images/banner.jpg);
+    background-position: center center;
+    background-size: cover;
+}
+
+
+
 @font-face {
     font-family: 'gt_america_expanded';
     font-style: normal;
@@ -30,7 +40,7 @@ h1 {
 
 body {
     background: #fafafa;
-    font-family: 'Ubuntu', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     overflow-x: hidden;
 }
 
