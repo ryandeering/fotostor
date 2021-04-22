@@ -158,30 +158,5 @@ namespace _4thYearProject.Api.Controllers
             return NoContent(); //success
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUserData(string id)
-        {
-            var identity = await _userService.GetUserAsync();
-
-            if (identity == null)
-                return Unauthorized();
-
-            var LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
-                .Select(c => c.Value).SingleOrDefault().ToString();
-
-            if (LoggedInID != id)
-                return Unauthorized();
-
-            if ((id == string.Empty) ^ (id == null))
-                return BadRequest();
-
-            var UserDataToDelete = _UserDataRepository.GetUserDataById(id);
-            if (UserDataToDelete == null)
-                return NotFound();
-
-            _UserDataRepository.DeleteUserData(id);
-
-            return NoContent(); //success
-        }
     }
 }

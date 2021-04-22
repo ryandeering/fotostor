@@ -92,7 +92,11 @@ namespace _4thYearProject.Api.Controllers
         {
             var Posts = _postRepository.GetAllPostsbyFollowing(id);
 
-            foreach (var Post in Posts) Post.ProfileData = _userDataRepository.GetUserNameFromId(Post.UserId);
+            foreach (var Post in Posts)
+            {
+                Post.ProfileData = _userDataRepository.GetUserNameFromId(Post.UserId);
+                Post.Likes = _likeRepository.GetLikeCount(Post.PostId.ToString());
+            } 
             return Ok(Posts);
         }
 

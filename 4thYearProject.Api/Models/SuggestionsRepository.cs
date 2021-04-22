@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Policy;
 using _4thYearProject.Shared.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -47,39 +48,47 @@ namespace _4thYearProject.Api.Models
             }
 
 
-            var userLikesPosts = new List<Post>();
+            var userHashTags = userPosts.SelectMany(userPost => userPost.HashTags).Distinct().ToList();
+
+            List<HashTag> hashTags = new List<HashTag>();
+
+            foreach (var hashTag in userHashTags)
+            {
+                hashTags.Add(_appDbContext.Hashtags.Include(h => h.Posts).ThenInclude(p => p.Comments).First(p => p.Id == hashTag.Id));
+            }
 
 
-            var userHashTags = userPosts.SelectMany(userPost => userPost.HashTags).ToList();
 
-            foreach (var likedPost in userLikesPosts)
-                userLikesPosts.Add(_appDbContext.Posts.Include("HashTags").First(up => up.PostId == likedPost.PostId));
+            //foreach (var likedPost in userLikesPosts)
+            //    userLikesPosts.Add(_appDbContext.Posts.Include("HashTags").First(up => up.PostId == likedPost.PostId));
 
-            var userHashTagsLikesPosts = userLikesPosts.SelectMany(userPost => userPost.HashTags).ToList();
+            //var userHashTagsLikesPosts = userLikesPosts.SelectMany(userPost => userPost.HashTags).ToList();
 
-            var query = userHashTagsLikesPosts.GroupBy(h => h.Content)
-                .Select(group => new {Content = group.Key, Count = group.Count()}).OrderByDescending(h => h.Count);
-
-            var query2 = userHashTags.GroupBy(h => h.Content)
-                .Select(group => new {Content = group.Key, Count = group.Count()}).OrderByDescending(h => h.Count);
-
-            var query3 = query.Union(query2);
+            //var query = userHashTagsLikesPosts.GroupBy(h => h.Content)
+            //    .Select(group => new {Content = group.Key, Count = group.Count()}).OrderByDescending(h => h.Count);
 
 
-            var items = query.Take(4);
+            var items = hashTags.Take(4);
 
             var suggestedPosts = new List<Post>();
-
             try
             {
-                suggestedPosts = (from item in items
-                        select _appDbContext.Hashtags.FirstOrDefault(ht => ht.Content.Equals(item.Content))
-                        into foundHashTag
-                        select _appDbContext.Posts.Include("Comments")
-                            .Where(p => p.HashTags.Contains(foundHashTag) && p.UserId != id)
-                        into foundPosts
-                        select foundPosts.OrderBy(x => x.Likes).First())
-                    .ToList(); //gets posts that have the same hashtag, but do NOT have the same author 
+
+                foreach (var hashtag in items)
+                {
+                    suggestedPosts.Add(hashtag.Posts.OrderBy(p => p.Comments.Count).First());
+                }//based on engagement
+
+
+
+                //suggestedPosts = (from item in items
+                //        select _appDbContext.Hashtags.FirstOrDefault(ht => ht.Content.Equals(item.Content))
+                //        into foundHashTag
+                //        select _appDbContext.Posts.Include("Comments")
+                //            .Where(p => p.HashTags.Contains(foundHashTag) && p.UserId != id)
+                //        into foundPosts
+                //        select foundPosts.OrderBy(x => x.Likes).First())
+                //    .ToList(); //gets posts that have the same hashtag, but do NOT have the same author 
             }
             catch (Exception e)
             {

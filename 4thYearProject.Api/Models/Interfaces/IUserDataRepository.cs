@@ -16,8 +16,6 @@ namespace _4thYearProject.Api.Models
 
         UserData UpdateUserData(UserData User);
 
-        void DeleteUserData(string Id);
-
         FeedProfileData GetUserNameFromId(string UserId);
     }
 }

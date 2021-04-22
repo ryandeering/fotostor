@@ -17,34 +17,35 @@ namespace FourthYearProject.UnitTesting
         public void GetAllFollowingPosts()
         {
 
-           // var i = 3000;
-           // GenFu.GenFu.Configure<Post>()
-           //     .Fill(p => p.PostId, () => i++);
-           // GenFu.GenFu.Configure<Following>().Fill(p => p.Followed_ID, "FOLLOWEDUSER2");
-           // GenFu.GenFu.Configure<Post>().Fill(p => p.UserId, "FOLLOWEDUSER2");
+            //var i = 3000;
+            //GenFu.GenFu.Configure<Post>()
+            //    .Fill(p => p.PostId, () => i++);
+            //GenFu.GenFu.Configure<Following>().Fill(p => p.Followed_ID, "FOLLOWEDUSER2");
+            //GenFu.GenFu.Configure<Post>().Fill(p => p.UserId, "FOLLOWEDUSER2");
 
 
-           // var followings = GenFu.GenFu.ListOf<Following>(3);
+            //var followings = GenFu.GenFu.ListOf<Following>(3);
 
-           //var PostsActual = GenFu.GenFu.ListOf<Post>(2);
-           //var options = SqliteInMemory.CreateOptions<AppDbContext>();
-           //using var context = new AppDbContext(options);
-           //context.Database.EnsureCreated();
-           // foreach (var follow in followings) context.Followers.Add(follow);
+            //var PostsActual = GenFu.GenFu.ListOf<Post>(2);
+            //var options = SqliteInMemory.CreateOptions<AppDbContext>();
+            //using var context = new AppDbContext(options);
+            //context.Database.EnsureCreated();
+            //foreach (var follow in followings) context.Followers.Add(follow);
 
-           // foreach (var post in PostsActual) context.Posts.Add(post);
+            //foreach (var post in PostsActual) context.Posts.Add(post);
 
-           // context.SaveChanges();
+            //context.SaveChanges();
 
 
-           // var repo = new PostRepository(context);
+            //var repo = new PostRepository(context);
 
-           // foreach (var follow in followings) {
-           //     var posts = repo.GetAllPostsbyFollowing(follow.Follower_ID);
-           //     Assert.NotNull(posts.OrderBy(p => p.UploadDate).First().Caption);
-           // }
-           // context.ChangeTracker.Clear();
-           // context.Database.EnsureDeleted();
+            //foreach (var follow in followings)
+            //{
+            //    var posts = repo.GetAllPostsbyFollowing(follow.Follower_ID);
+            //    Assert.NotNull(posts.OrderBy(p => p.UploadDate).First().Caption);
+            //}
+            //context.ChangeTracker.Clear();
+            //context.Database.EnsureDeleted();
         }
 
         [Fact]

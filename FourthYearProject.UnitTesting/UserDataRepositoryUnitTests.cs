@@ -159,28 +159,6 @@ namespace FourthYearProject.UnitTesting
         }
 
 
-        [Fact]
-        public void DeleteUserData_Test()
-        {
-            var test1 = GenFu.GenFu.New<UserData>();
-            var test1Address = GenFu.GenFu.New<Address>();
-            test1.Address = test1Address;
-
-            var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase(Guid.NewGuid().ToString())
-                .Options;
-
-            using var context = new AppDbContext(options);
-            var repo = new UserDataRepository(context, configuration);
-            repo.AddUserData(test1);
-            repo.DeleteUserData(test1.Id);
-            var userData = repo.GetUserDataById(test1.Id);
-            Assert.Null(userData);
-
-            context.ChangeTracker.Clear();
-
-        }
-
 
         [Fact]
         public void GetUserDataByDisplayName_Test()
@@ -223,38 +201,7 @@ namespace FourthYearProject.UnitTesting
             context.ChangeTracker.Clear();
         }
 
-        [Fact]
-        public void DeleteUserData()
-        {
-            var i = 20;
-            GenFu.GenFu.Configure<UserData>()
-                .Fill(ud => ud.Id, () => i++.ToString());
 
-            var test1 = GenFu.GenFu.ListOf<UserData>(3);
-
-            var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase(Guid.NewGuid().ToString())
-                .Options;
-
-            using var context = new AppDbContext(options);
-            foreach (var userData in test1)
-            {
-                context.Users.Add(userData);
-            }
-            context.SaveChanges();
-            var repo = new UserDataRepository(context, configuration);
-            repo.DeleteUserData(test1.FirstOrDefault(ud => ud.Id == "3")?.Id);
-            test1.Remove(test1.FirstOrDefault(ud => ud.Id == "3"));
-
-            var users = context.Users.ToList();
-            for (int j = 20; j < test1.Count; j++)
-            {
-                Assert.Equal(test1[j].FirstName, users[j].FirstName);
-
-            }
-            context.ChangeTracker.Clear();
-
-        }
 
         [Fact]
         public void GetUserNameFromId()

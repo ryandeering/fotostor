@@ -83,14 +83,6 @@ namespace _4thYearProject.Api.Models
             return foundUserData;
         }
 
-        public void DeleteUserData(string Id)
-        {
-            var foundUserData = _appDbContext.Users.FirstOrDefault(u => u.Id.Equals(Id));
-            if (foundUserData == null) return;
-
-            _appDbContext.Users.Remove(foundUserData);
-            _appDbContext.SaveChanges();
-        }
 
         public FeedProfileData GetUserNameFromId(string UserId)
         {
