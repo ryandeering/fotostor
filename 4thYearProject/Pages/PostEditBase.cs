@@ -11,7 +11,9 @@ namespace _4thYearProject.Server.Pages
 {
     public class PostEditBase : ComponentBase
     {
+#pragma warning disable S1104 // Fields should not have public accessibility
         public bool fileUploaded;
+#pragma warning restore S1104 // Fields should not have public accessibility
 
         protected string Message = string.Empty;
 
@@ -114,7 +116,6 @@ namespace _4thYearProject.Server.Pages
                 else
                 {
                     Saved = false;
-                    Toaster.Add("Post submission failed.", MatToastType.Danger, "FAILURE");
                     NavigationManager.NavigateTo("/postedit/");
                 }
             }
