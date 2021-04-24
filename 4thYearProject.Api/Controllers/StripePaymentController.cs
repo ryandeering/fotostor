@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -112,8 +113,10 @@ namespace _4thYearProject.Api.Controllers
 
                         if (olLineItem.Type.Equals("License"))
                             LicenseLink = "<a href=" + olLineItem.Post.PhotoFile + ">License Link</a>";
-                        sb.AppendLine(olLineItem.Type + " | " + olLineItem.Quantity + " | " +
-                                  $"€{olLineItem.Price:0.00}" + " | " + olLineItem.Size + LicenseLink);
+                        sb.AppendLine("<br>");
+                        sb.Append(olLineItem.Type + " | " + olLineItem.Quantity + " | " +
+                                  $"€{olLineItem.Price:0.00}" + " | " + olLineItem.Size + LicenseLink + "\n");
+                        sb.AppendLine("<br>");
                     }
 
                     sb.Append("</br>");
@@ -188,5 +191,9 @@ namespace _4thYearProject.Api.Controllers
                 });
             }
         }
+
+
+
+
     }
 }

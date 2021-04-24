@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 
 namespace _4thYearProject.Shared.Models.BusinessLogic
 {
@@ -32,9 +33,10 @@ namespace _4thYearProject.Shared.Models.BusinessLogic
 
         public Post Post { get; set; }
 
-        public double GetItemTotal()
+        public string GetItemTotal()
         {
-            return Price * Quantity;
+            double Priceval = Price * Quantity;
+            return Priceval.ToString("C", CultureInfo.CurrentCulture = new CultureInfo("en-IE"));
         }
     }
 }

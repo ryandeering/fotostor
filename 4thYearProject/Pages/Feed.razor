@@ -81,13 +81,15 @@
                                 }
 
 
-
+                            @if (Post.UserId != LoggedIn)
+                            {
                                 @if (Post.LicenseEnabled)
                                 {
                                     <MatButton @onclick="@(e => BuyLicense(Post.PostId))" class="btn btn-light">
                                         <i class="fas fa-stamp"></i> &nbsp; Buy License
                                     </MatButton>
                                 }
+                            }
                                 @if (Post.ShirtsEnabled)
                                 {
                                     <MatButton @onclick="@(e => BuyShirt(Post.PostId))" class="btn btn-light">

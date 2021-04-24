@@ -57,7 +57,7 @@ namespace _4thYearProject.Server.Pages
                     .Select(c => c.Value).SingleOrDefault().ToString();
 
                 Posts = (List<Post>) await HashTagDataService.GetLatestPostsByHashTag(HashTag);
-                User = await UserDataService.GetUserDataDetailsByDisplayName(claimDisplayName);
+                User = await UserDataService.GetUserDataDetailsInFull(LoggedIn);
 
 
                 foreach (var Post in Posts)

@@ -34,6 +34,8 @@ namespace _4thYearProject.Server.Pages
 
         [Inject] protected IMatToaster Toaster { get; set; }
 
+        [Inject] private NavigationManager navigationManager { get; set; }
+
         protected override async Task OnInitializedAsync()
         {
             identity = await _userService.GetUserAsync();
@@ -66,15 +68,10 @@ namespace _4thYearProject.Server.Pages
         protected async Task HandleValidSubmit()
         {
             Saved = false;
-            try
-            {
-                await UserDataService.UpdateUserData(User);
+            await UserDataService.UpdateUserData(User);
                 Toaster.Add("Profile data successfully updated.", MatToastType.Success, "SUCCESS");
-            }
-            catch
-            {
-                Toaster.Add("Something went wrong. Please try again.", MatToastType.Danger, "ERROR");
-            }
+            navigationManager.NavigateTo("/profile/"+User.DisplayName, forceLoad:true);
+
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -110,12 +111,12 @@ namespace _4thYearProject.Server.Pages
             return (int) (euros * 100);
         }
 
-        internal double getPrice()
+        internal string getPrice()
         {
             price = 0.0;
             foreach (var orderLineItem in basket.BasketItems) price += orderLineItem.Price * orderLineItem.Quantity;
 
-            return price;
+            return price.ToString("C", CultureInfo.CurrentCulture = new CultureInfo("en-IE"));
         }
     }
 }

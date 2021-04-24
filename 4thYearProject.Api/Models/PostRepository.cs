@@ -58,13 +58,14 @@ namespace _4thYearProject.Api.Models
 
         public Post UpdatePost(Post post)
         {
-            var foundPost = _appDbContext.Posts.FirstOrDefault(p => p.PostId == post.PostId);
+            var foundPost = _appDbContext.Posts.Include("HashTags").Include("Comments").FirstOrDefault(p => p.PostId == post.PostId);
 
             if (foundPost != null)
             {
                 foundPost.Caption = post.Caption;
                 foundPost.HashTags = post.HashTags;
                 foundPost.PostDeleted = post.PostDeleted;
+                foundPost.Comments = post.Comments;
                 _appDbContext.SaveChanges();
 
                 return foundPost;

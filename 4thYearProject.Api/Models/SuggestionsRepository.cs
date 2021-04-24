@@ -36,7 +36,7 @@ namespace _4thYearProject.Api.Models
                 {
                     var HashTagActual = _appDbContext.Hashtags.First(ht => ht.Content.Contains(HashTag.Content));
                     var PostWithHashTag = _appDbContext.Posts.Include("HashTags").Include("Comments")
-                        .Where(p => p.HashTags.Contains(HashTagActual) && p.UserId != id)
+                        .Where(p => p.HashTags.Contains(HashTagActual) && p.UserId != id && !p.PostDeleted)
                         .OrderBy(p => p.Likes).FirstOrDefault(); //gets the most popular post per popular hashtag
                     suggestedPostsNoInterests.Add(PostWithHashTag);
                 }

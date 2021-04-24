@@ -21,38 +21,38 @@
             }
             else
             {
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>Thumbnail</th>
-                        <th>Type</th>
-                        <th>Quantity</th>
-                        <th>Item Total</th>
-                        <th>Remove One</th>
-                        <th>Add One</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach (var orderLineItem in basket.BasketItems)
-                    {
-                        <tr>
-                            <th>
-                                <img src=@orderLineItem.Post.Thumbnail width="100" height="100"/>
-                            </th>
-                            <th>@orderLineItem.Type</th>
-                            <th>@orderLineItem.Quantity</th>
-                            <th>@orderLineItem.GetItemTotal()</th>
-                            <td>
-                                <RadzenButton style="align-content: flex-end" Click=@(args => RemoveOne(orderLineItem)) ButtonStyle="ButtonStyle.Secondary" ButtonType="ButtonType.Submit" Icon="remove"></RadzenButton>
-                            </td>
-                            <td>
-                                <RadzenButton style="align-content: flex-end" Click=@(args => AddOne(orderLineItem)) ButtonStyle="ButtonStyle.Secondary" ButtonType="ButtonType.Submit" Icon="add"></RadzenButton>
-                            </td>
-                        </tr>
-                    }
-                    </tbody>
-                    Total: @getPrice()
-                </table>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Thumbnail</th>
+                <th>Type</th>
+                <th>Quantity</th>
+                <th>Item Total</th>
+                <th>Remove One</th>
+                <th>Add One</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var orderLineItem in basket.BasketItems)
+            {
+                <tr>
+                    <th>
+                        <img src=@orderLineItem.Post.Thumbnail width="100" height="100" />
+                    </th>
+                    <th>@orderLineItem.Type</th>
+                    <th>@orderLineItem.Quantity</th>
+                    <th>@orderLineItem.GetItemTotal()</th>
+                    <td>
+                        <RadzenButton style="align-content: flex-end" Click=@(args => RemoveOne(orderLineItem)) ButtonStyle="ButtonStyle.Secondary" ButtonType="ButtonType.Submit" Icon="remove"></RadzenButton>
+                    </td>
+                    <td>
+                        <RadzenButton style="align-content: flex-end" Click=@(args => AddOne(orderLineItem)) ButtonStyle="ButtonStyle.Secondary" ButtonType="ButtonType.Submit" Icon="add"></RadzenButton>
+                    </td>
+                </tr>
+            }
+        </tbody>
+        Total: @getPrice()
+    </table>
 
 
                 <div class="row">
