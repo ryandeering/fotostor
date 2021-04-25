@@ -116,7 +116,9 @@ namespace _4thYearProject.Server.Pages
             price = 0.0;
             foreach (var orderLineItem in basket.BasketItems) price += orderLineItem.Price * orderLineItem.Quantity;
 
+#pragma warning disable S1121 // Assignments should not be made from within sub-expressions
             return price.ToString("C", CultureInfo.CurrentCulture = new CultureInfo("en-IE"));
+#pragma warning restore S1121 // Assignments should not be made from within sub-expressions
         }
     }
 }

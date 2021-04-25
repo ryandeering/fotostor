@@ -36,7 +36,9 @@ namespace _4thYearProject.Shared.Models.BusinessLogic
         public string GetItemTotal()
         {
             double Priceval = Price * Quantity;
+#pragma warning disable S1121 // Assignments should not be made from within sub-expressions
             return Priceval.ToString("C", CultureInfo.CurrentCulture = new CultureInfo("en-IE"));
+#pragma warning restore S1121 // Assignments should not be made from within sub-expressions
         }
     }
 }

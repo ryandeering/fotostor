@@ -49,10 +49,7 @@ namespace _4thYearProject.Server.Pages
             if (identity.Identity.IsAuthenticated)
             {
                 //First get user claims    
-                var claimDisplayName = identity.Claims.Where(c => c.Type.Equals("preferred_username"))
-                    .Select(c => c.Value).SingleOrDefault().ToString();
-
-
+                
                 LoggedIn = identity.Claims.Where(c => c.Type.Equals("sub"))
                     .Select(c => c.Value).SingleOrDefault().ToString();
 
