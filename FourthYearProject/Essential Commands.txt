@@ -1,7 +1,0 @@
-Add-Migration NewMigration -Project FourthYearProject.IDP // adds migrations for specific project, I use it for ApplicationUser class
-
-Migration trouble: Just delete Migrations folder and MigrationsHistory. Share to save a life
-
-
- "Server=tcp:4thyearproject.database.windows.net,1433;Initial Catalog=4thYearProjectDB;Persist Security Info=False;User ID=rd;Password=Mywifedied1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
-    

@@ -1,0 +1,140 @@
+﻿@page "/success-payment"
+@using Microsoft.Extensions.Configuration
+@using Microsoft.AspNetCore.WebUtilities
+@using System.Text
+@using System.Data
+@using System.IO
+@inject NavigationManager NavManager
+@inject IHttpClientFactory _clientFactory;
+@inject IStripePaymentService stripePaymentService
+@inject IUserDataService UserDataService
+@inject IUserService _userService
+@inject IMatToaster Toaster
+@inject IConfiguration Configuration
+
+<div class="container">
+
+    @if (content == null)
+    {
+        <div style="left: 50%; margin-left: -100px; margin-top: -50px; position: fixed; top: 50%;">
+            <img src="images/loader.gif"/>
+        </div>
+    }
+    else
+    {
+        <div class="row mt-4 pt-4">
+            <div class="col-10 offset-1 text-center">
+                <br /><br /><br /><br /><br /><br /><br />
+                
+                    <p><b>
+    @content
+                </b></p>
+
+            </div>
+            <div class="col-8 offset-2">
+                @if (User != null)
+                {
+                    @if (ShowMap)
+                    {
+                        
+                            <RadzenGoogleMap ApiKey="" Center="@(new GoogleMapPosition {Lat = X, Lng = Y})" style="height: 297px" Zoom="15">
+                                <Markers>
+                                    <RadzenGoogleMapMarker Label="Your Order Destination" Position="@(new GoogleMapPosition {Lat = X, Lng = Y})" Title="Your Order Destination">
+                                    </RadzenGoogleMapMarker>
+                                </Markers>
+                            </RadzenGoogleMap>
+                    }
+                    }
+                
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private bool IsPaymentComplete { get; set; } = false;
+    private int OrderId { get; set; }
+    private string content { get; set; }
+    private ClaimsPrincipal identity { get; set; }
+    private string LoggedInID { get; set; }
+    public UserData User { get; set; }
+    private bool ShowMap { get; set; }
+    private double X { get; set; }
+    private double Y { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        ShowMap = false;
+        identity = await _userService.GetUserAsync();
+        if (identity.Identity.IsAuthenticated)
+        {
+            LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+                .Select(c => c.Value).SingleOrDefault().ToString();
+            User = await UserDataService.GetUserDataDetailsInFull(LoggedInID);
+
+            var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
+
+            if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("session_id", out var id))
+            {
+                var response = await stripePaymentService.OrderSuccess(LoggedInID, id);
+                content = response.SuccessMessage;
+                Toaster.Add("Your order has been successful!", MatToastType.Success, "SUCCESS");
+            }
+
+            if (User != null)
+            {
+                if (User.Address.UserPostcode != null)
+                {
+                    var (item1, item2) = await GetCoordsAsync(User.Address.UserAddress + " " + User.Address.UserAddress2 + " " + User.Address.UserCountry + " " + User.Address.UserCity + " " + User.Address.UserPostcode);
+                    X = item1;
+                    Y = item2;
+                    ShowMap = true;
+                }
+            }
+        }
+    }
+
+    public async Task<Tuple<double, double>> GetCoordsAsync(string postcode)
+    {
+        var url = string.Format("https://maps.google.com/maps/api/geocode/xml?key={1}&address={0}&sensor=false", Uri.EscapeDataString(postcode), Configuration["GoogleMapAPI"]);
+
+        Console.WriteLine(url);
+
+        var request = new HttpRequestMessage(HttpMethod.Get,
+            url);
+
+        var client = _clientFactory.CreateClient();
+        var response = await client.SendAsync(request);
+
+
+        var recieveStream = await response.Content.ReadAsStreamAsync();
+        var encode = Encoding.GetEncoding("utf-8");
+
+        var readstream = new StreamReader(recieveStream, encode);
+
+        var dsResult = new DataSet();
+
+        dsResult.ReadXml(readstream);
+
+        readstream.Close();
+
+        var output = new Tuple<double, double>(0, 0);
+
+        var dt = new DataTable();
+
+        foreach (DataRow row in dsResult.Tables["result"].Rows)
+        {
+            var geometry_id = dsResult.Tables["geometry"].Select("result_id = " + row["result_id"])[0]["geometry_id"].ToString();
+
+            var location = dsResult.Tables["location"].Select("geometry_id=" + geometry_id)[0];
+
+            output = Tuple.Create(Convert.ToDouble(location["lat"]), Convert.ToDouble(location["lng"]));
+        }
+        ;
+
+        return output;
+    }
+
+
+
+}
