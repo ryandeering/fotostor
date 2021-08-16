@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace _4thYearProject.Api.Migrations
+namespace FourthYearProject.Api.Migrations
 {
     public partial class RemovingDefaultClasses : Migration
     {

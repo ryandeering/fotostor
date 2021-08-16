@@ -1,0 +1,138 @@
+﻿@page "/profile/{DisplayName}"
+<br/>
+
+@if (User != null)
+{
+    <header>
+        <div class="container">
+
+            <div class="profile">
+
+                <div class="profile-image">
+
+                    @if (User.ProfilePic != null)
+                    {
+                        <img src=@User.ProfilePic alt="">
+                    }
+                    else
+                    {
+                        <img src="images/profilePicture.jpg" alt="" width="250"
+                             height="250">
+                    }
+                </div>
+
+                <div class="profile-user-settings">
+
+                    <h1 class="profile-user-name">@DisplayName</h1>
+                    @if (LoggedInID.Equals(User.Id))
+                    {
+                        <button class="btn profile-edit-btn" @onclick="ProfileSettings">Edit Profile</button>
+                    }
+
+                </div>
+
+                <div class="profile-stats">
+
+                    <ul>
+                        @if (Posts != null)
+                        {
+                            <li><span class="profile-stat-count">@Posts.Count()</span> posts</li>
+                        }
+
+
+                        <li @onclick="@ShowFollowers"> <span class="profile-stat-count">@FollowerCount</span> followers</li>
+
+                        <li><span class="profile-stat-count">@FollowingCount</span> following</li>
+
+
+                    </ul>
+
+                </div>
+
+                <div class="profile-bio">
+                    <br/>
+                    <p>
+                        <span class="profile-real-name">@User.FirstName @User.SecondName</span> @User.Bio <br/>
+                    </p>
+                    <br/>
+                </div>
+
+
+                @if (!LoggedInID.Equals(User.Id))
+                {
+                    if (IsFollowing)
+                    {
+                        <MatButton Outlined="true" class="btn btn-primary" @onclick="UnFollowUser">Unfollow</MatButton>
+                    }
+                    else
+                    {
+                        <MatButton Outlined="true" class="btn btn-primary" @onclick="FollowUser">Follow</MatButton>
+                    }
+                }
+                else
+                {
+                    <button class="btn btn-primary"></button>
+                }
+
+
+            </div>
+            <!-- End of profile section -->
+
+        </div>
+        <!-- End of container -->
+    </header>
+    <main>
+
+        @if (Posts == null)
+        {
+            <div class="loader"></div>
+        }
+        else
+        {
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+
+
+            <div class="container">
+                <div class="gallery">
+                    @foreach (var Post in Posts)
+                    {
+                        <div class="gallery-item" tabindex="0">
+
+                            <img src="@Post.Thumbnail" @onclick="() => Navigate(Post.PostId)" class="gallery-image" alt="">
+
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </main>
+}
+else
+{
+    <p>No user found.</p>
+}

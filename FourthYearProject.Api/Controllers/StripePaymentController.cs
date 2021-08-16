@@ -4,16 +4,16 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using _4thYearProject.Api.Models;
-using _4thYearProject.Shared;
-using _4thYearProject.Shared.Models.BusinessLogic;
+using FourthYearProject.Api.Models;
+using FourthYearProject.Shared;
+using FourthYearProject.Shared.Models.BusinessLogic;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using Stripe.Checkout;
 
-namespace _4thYearProject.Api.Controllers
+namespace FourthYearProject.Api.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]

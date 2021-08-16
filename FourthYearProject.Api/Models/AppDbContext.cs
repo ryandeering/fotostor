@@ -1,8 +1,8 @@
-﻿using _4thYearProject.Shared.Models;
-using _4thYearProject.Shared.Models.BusinessLogic;
+﻿using FourthYearProject.Shared.Models;
+using FourthYearProject.Shared.Models.BusinessLogic;
 using Microsoft.EntityFrameworkCore;
 
-namespace _4thYearProject.Api.Models
+namespace FourthYearProject.Api.Models
 {
     public class AppDbContext : DbContext
     {

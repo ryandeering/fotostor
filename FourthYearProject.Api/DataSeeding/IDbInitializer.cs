@@ -1,4 +1,4 @@
-﻿namespace _4thYearProject.Api.DataSeeding
+﻿namespace FourthYearProject.Api.DataSeeding
 {
     public interface IDbInitializer
     {

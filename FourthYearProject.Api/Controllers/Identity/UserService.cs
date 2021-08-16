@@ -1,9 +1,9 @@
 ﻿using System.Security.Claims;
 using System.Threading.Tasks;
-using _4thYearProject.Shared;
+using FourthYearProject.Shared;
 using Microsoft.AspNetCore.Http;
 
-namespace _4thYearProject.Api.Controllers.Identity
+namespace FourthYearProject.Api.Controllers.Identity
 {
     public class UserService : IUserService
     {

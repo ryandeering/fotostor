@@ -7,4 +7,4 @@ using System.Diagnostics.CodeAnalysis;
 
 [assembly:
     SuppressMessage("Major Code Smell", "S1118:Utility classes should not have public constructors",
-        Justification = "<Pending>", Scope = "type", Target = "~T:_4thYearProject.Api.Program")]
+        Justification = "<Pending>", Scope = "type", Target = "~T:FourthYearProject.Api.Program")]

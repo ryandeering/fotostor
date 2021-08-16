@@ -1,0 +1,98 @@
+﻿@inject IPostDataService PostDataService
+@inject IShoppingCartService Cart
+@inject IUserService UserService
+@inject IMatToaster Toaster
+@if (PostIn != null)
+{
+    <div class="card mb-2">
+        <div class="card-body">
+            <p class="card-text">
+
+
+
+                @if (PostIn.LicenseEnabled)
+                {
+                    <h3> Purchase License</h3>
+
+                    <img src=@PostIn.Thumbnail width="500" height="500"/>
+
+                    <h2>The price for use of this license is €@PostIn.LicensePrice</h2>
+                    <h3>This license allows you to use the artist's work in a professional capacity. Payment through Stripe.</h3>
+                    <RadzenButton style="align-content: flex-end" Click=@(args => AddtoCart()) Text="Add License to Cart" ButtonStyle="ButtonStyle.Secondary"></RadzenButton>
+                    <RadzenButton style="margin: 0 1rem 1rem 0" Click=@(args => Cancel()) Text="Cancel" ButtonStyle="ButtonStyle.Danger"/>
+                }
+                else
+                {
+                    <h3>Invalid.</h3>
+                }
+
+
+            </p>
+        </div>
+    </div>
+}
+else
+{
+    <div class="card mb-4">
+        <div class="card-body">
+            <p class="card-text">
+                <h3>Invalid.</h3>
+            </p>
+        </div>
+    </div>
+}
+
+
+@code {
+
+    [CascadingParameter]
+    BlazoredModalInstance ModalInstance { get; set; }
+
+
+    public string Thumbnail = string.Empty;
+    public double LicensePrice;
+
+    [Parameter]
+    public int PostId { get; set; }
+
+    Post PostIn { get; set; }
+    ClaimsPrincipal identity;
+    public string UserId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        identity = await UserService.GetUserAsync();
+        PostIn = await PostDataService.GetPostDetails(PostId);
+        Thumbnail = PostIn.Thumbnail;
+        LicensePrice = PostIn.LicensePrice;
+
+        StateHasChanged();
+    }
+
+
+    async Task AddtoCart()
+    {
+        var LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+            .Select(c => c.Value).SingleOrDefault().ToString();
+        var ol = new OrderLineItem(PostIn);
+        ol.Price = PostIn.LicensePrice;
+        ol.Type = "License";
+
+        await Cart.AddToCart(LoggedInID, ol);
+        Toaster.Add("License added to cart.", MatToastType.Success, "SUCCESS");
+        await ModalInstance.CancelAsync();
+    }
+
+
+    async Task Cancel()
+    {
+        await ModalInstance.CancelAsync();
+    }
+
+    //void SaveMovie()
+    //{
+    //    MovieService.Save(Movie);
+    //    ModalInstance.CloseAsync(ModalResult.Ok<Movie>(Movie));
+    //}
+
+}

@@ -1,10 +1,10 @@
-﻿using _4thYearProject.Api.Models;
-using _4thYearProject.Shared.Models.BusinessLogic;
+﻿using FourthYearProject.Api.Models;
+using FourthYearProject.Shared.Models.BusinessLogic;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using _4thYearProject.Shared.Models;
+using FourthYearProject.Shared.Models;
 using TestSupport.EfHelpers;
 using Xunit;
 

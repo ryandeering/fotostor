@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace _4thYearProject.Shared.Models
+namespace FourthYearProject.Shared.Models
 {
     public class Post
     {

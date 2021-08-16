@@ -1,0 +1,145 @@
+﻿@using Microsoft.AspNetCore.Components.WebAssembly.Hosting
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using FourthYearProject.Blazor.Services.Interfaces
+@using System.Diagnostics
+@inject IWebAssemblyHostEnvironment HostEnvironment
+@inject NavigationManager Navigation
+@inject SignOutSessionStateManager SignOutManager
+@inject IUserDataService UserDataService
+@inject IUserService _userService
+@inject ISearchDataService _SearchDataService
+@inject NavigationManager UriHelper
+
+
+<div class="navigation">
+    <div class="logo">
+        <a class="no-underline" href="feed">
+            <h1>fotostor.</h1>
+        </a>
+    </div>
+    <div class="navigation-search-container">
+        @if (User != null)
+        {
+            <BlazoredTypeahead SearchMethod="@_SearchDataService.GetSearchResults"
+                               TValue="SearchResult"
+                               TItem="SearchResult"
+                               Value="@resultActual"
+                               ValueExpression="@(() => resultActual)"
+                               ValueChanged="ResultChange"
+                               placeholder="Search users & trends.">
+                <SelectedTemplate>
+                    <p>@context.Content</p>
+                </SelectedTemplate>
+                <ResultTemplate>
+                    <p>@context.Type | @context.Content</p>
+                </ResultTemplate>
+                <NotFoundTemplate>
+                    Sorry, there weren't any search results.
+                </NotFoundTemplate>
+            </BlazoredTypeahead>
+        }
+    </div>
+    <AuthorizeView>
+        <NotAuthorized>
+            <div class="navigation-icons">
+
+                <a href="@RegisterLink" id="register" class="navigation-link">
+                    <i class="fas fa-user-plus"></i>
+                </a>
+
+                <a href="authentication/login" id="signin" class="navigation-link">
+                    <i class="fas fa-sign-in-alt"></i>
+                </a>
+            </div>
+        </NotAuthorized>
+        <Authorized>
+            <div class="navigation-icons">
+                <a href="posts/upload" id="upload" class="navigation-link">
+                    <i class="far fa-plus-square"></i>
+                </a>
+                @if (User != null)
+                {
+                    <a href="/profile/@User.DisplayName" class="navigation-link">
+                        <i class="far fa-user-circle"></i>
+                    </a>
+                }
+                <a href="/basket/" class="navigation-link">
+                    <i class="fas fa-shopping-basket"></i>
+                </a>
+                <a href="profile/analysis" class="navigation-link">
+                    <i class="fas fa-chart-bar"></i>
+                </a>
+                <a href="/orders/" class="navigation-link">
+                    <i class="fas fa-file-invoice"></i>
+                </a>
+                <a id="signout" class="navigation-link" @onclick="BeginSignOut">
+                    <i class="fas fa-sign-out-alt"></i>
+                </a>
+            </div>
+        </Authorized>
+    </AuthorizeView>
+</div>
+
+@code{
+
+    ClaimsPrincipal identity;
+    UserData User;
+    private SearchResult resultActual = new();
+    private List<SearchResult> results = new();
+    string LoggedInID = string.Empty;
+    string ProfileName = string.Empty;
+    string RegisterLink = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        identity = await _userService.GetUserAsync();
+
+        RegisterLink = HostEnvironment.IsDevelopment() ? "https://localhost:44333/Identity/Account/Register" : "https://fotostopidp.azurewebsites.net/Identity/Account/Register";
+
+        if (identity.Identity.IsAuthenticated)
+        {
+            LoggedInID = identity.Claims.Where(c => c.Type.Equals("sub"))
+                .Select(c => c.Value).SingleOrDefault().ToString();
+            User = await UserDataService.GetUserDataDetails(LoggedInID);
+            ProfileName = User.DisplayName;
+        }
+    }
+
+    private async Task BeginSignOut(MouseEventArgs args)
+    {
+        await SignOutManager.SetSignOutState();
+        Navigation.NavigateTo("authentication/logout");
+    }
+
+    void Navigate()
+    {
+        UriHelper.NavigateTo("/profile/" + User.DisplayName, true);
+    }
+
+    private async Task ResultChange(SearchResult result)
+    {
+        await _userService.GetUserAsync();
+        switch (result.Type)
+        {
+            case "Profile":
+                Navigation.NavigateTo("profile/" + result.Content, true);
+                break;
+
+            case "Hashtag":
+                try
+                {
+                    Navigation.NavigateTo("tags/" + result.Content.Substring(1));
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e);
+                }
+                break;
+        }
+    }
+
+
+
+
+
+}

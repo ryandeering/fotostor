@@ -1,4 +1,4 @@
-﻿namespace _4thYearProject.Shared
+﻿namespace FourthYearProject.Shared
 {
     public class ApplicationUser
     {

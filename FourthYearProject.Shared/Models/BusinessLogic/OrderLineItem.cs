@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 
-namespace _4thYearProject.Shared.Models.BusinessLogic
+namespace FourthYearProject.Shared.Models.BusinessLogic
 {
     public class OrderLineItem
     {

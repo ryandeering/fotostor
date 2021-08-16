@@ -48,8 +48,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\4thYearProject.Api\4thYearProject.Api.csproj" />
-    <ProjectReference Include="..\4thYearProject.Shared\4thYearProject.Shared.csproj" />
+    <ProjectReference Include="..\FourthYearProject.Api\FourthYearProject.Api.csproj" />
+    <ProjectReference Include="..\FourthYearProject.Shared\FourthYearProject.Shared.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using _4thYearProject.Api.Models.Interfaces;
-using _4thYearProject.Shared.Models;
+using FourthYearProject.Api.Models.Interfaces;
+using FourthYearProject.Shared.Models;
 
-namespace _4thYearProject.Api.Models
+namespace FourthYearProject.Api.Models
 {
     public class SearchRepository : ISearchRepository
     {

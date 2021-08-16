@@ -1,12 +1,12 @@
 ﻿using System.Linq;
 using System.Reflection.Metadata;
 using System.Threading.Tasks;
-using _4thYearProject.Api.Models;
-using _4thYearProject.Shared;
-using _4thYearProject.Shared.Models;
+using FourthYearProject.Api.Models;
+using FourthYearProject.Shared;
+using FourthYearProject.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace _4thYearProject.Api.Controllers
+namespace FourthYearProject.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

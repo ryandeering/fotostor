@@ -4,7 +4,7 @@ using Google.Apis.Auth.OAuth2;
 using Google.Cloud.Storage.V1;
 using Microsoft.Extensions.Configuration;
 
-namespace _4thYearProject.Api.CloudStorage
+namespace FourthYearProject.Api.CloudStorage
 {
     public class GoogleCloudStorage : ICloudStorage
     {

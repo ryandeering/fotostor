@@ -137,7 +137,7 @@
       "id": "a9b084a5-73be-4729-8848-7ecedb932739",
       "comment": "",
       "command": "open",
-      "target": "https://localhost:44333/Account/Login?ReturnUrl=%2Fconnect%2Fauthorize%2Fcallback%3Fclient_id%3D_4thyearproject%26redirect_uri%3Dhttps%253A%252F%252Flocalhost%253A44366%252F%252Fauthentication%252Flogin-callback%26response_type%3Dcode%26scope%3Dopenid%2520profile%2520openid%2520profile%2520email%2520_4thyearprojectapi%26state%3Ddd92a4d44aff4baa9ee6b62e990b53c6%26code_challenge%3DSA1TfVLU2cxRLMgUmbhJn49_z3pWHnt05Xy_JtoskTU%26code_challenge_method%3DS256%26response_mode%3Dquery",
+      "target": "https://localhost:44333/Account/Login?ReturnUrl=%2Fconnect%2Fauthorize%2Fcallback%3Fclient_id%3DFourthYearProject%26redirect_uri%3Dhttps%253A%252F%252Flocalhost%253A44366%252F%252Fauthentication%252Flogin-callback%26response_type%3Dcode%26scope%3Dopenid%2520profile%2520openid%2520profile%2520email%2520FourthYearProjectapi%26state%3Ddd92a4d44aff4baa9ee6b62e990b53c6%26code_challenge%3DSA1TfVLU2cxRLMgUmbhJn49_z3pWHnt05Xy_JtoskTU%26code_challenge_method%3DS256%26response_mode%3Dquery",
       "targets": [],
       "value": ""
     }, {
@@ -3223,6 +3223,6 @@
     "timeout": 300,
     "tests": []
   }],
-  "urls": ["https://localhost:44366/", "https://localhost:44333/Account/Login?ReturnUrl=%2Fconnect%2Fauthorize%2Fcallback%3Fclient_id%3D_4thyearproject%26redirect_uri%3Dhttps%253A%252F%252Flocalhost%253A44366%252F%252Fauthentication%252Flogin-callback%26response_type%3Dcode%26scope%3Dopenid%2520profile%2520openid%2520profile%2520email%2520_4thyearprojectapi%26state%3Ddd92a4d44aff4baa9ee6b62e990b53c6%26code_challenge%3DSA1TfVLU2cxRLMgUmbhJn49_z3pWHnt05Xy_JtoskTU%26code_challenge_method%3DS256%26response_mode%3Dquery"],
+  "urls": ["https://localhost:44366/", "https://localhost:44333/Account/Login?ReturnUrl=%2Fconnect%2Fauthorize%2Fcallback%3Fclient_id%3DFourthYearProject%26redirect_uri%3Dhttps%253A%252F%252Flocalhost%253A44366%252F%252Fauthentication%252Flogin-callback%26response_type%3Dcode%26scope%3Dopenid%2520profile%2520openid%2520profile%2520email%2520FourthYearProjectapi%26state%3Ddd92a4d44aff4baa9ee6b62e990b53c6%26code_challenge%3DSA1TfVLU2cxRLMgUmbhJn49_z3pWHnt05Xy_JtoskTU%26code_challenge_method%3DS256%26response_mode%3Dquery"],
   "plugins": []
 }

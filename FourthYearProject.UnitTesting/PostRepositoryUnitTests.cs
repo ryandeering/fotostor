@@ -1,6 +1,6 @@
 ﻿using System;
-using _4thYearProject.Api.Models;
-using _4thYearProject.Shared.Models;
+using FourthYearProject.Api.Models;
+using FourthYearProject.Shared.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using TestSupport.EfHelpers;

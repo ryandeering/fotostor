@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using _4thYearProject.Shared.Models.BusinessLogic;
+using FourthYearProject.Shared.Models.BusinessLogic;
 using Microsoft.EntityFrameworkCore;
 
-namespace _4thYearProject.Api.Models
+namespace FourthYearProject.Api.Models
 {
     public class ShoppingCartRepository : IShoppingCartRepository
     {

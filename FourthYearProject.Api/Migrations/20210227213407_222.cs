@@ -1,4 +1,4 @@
-﻿namespace _4thYearProject.Api.Migrations
+﻿namespace FourthYearProject.Api.Migrations
 {
     using Microsoft.EntityFrameworkCore.Migrations;
     using System;

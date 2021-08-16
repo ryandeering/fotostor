@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace _4thYearProject.Api.CloudStorage
+namespace FourthYearProject.Api.CloudStorage
 {
     public interface ICloudStorage
     {

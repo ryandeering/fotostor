@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using _4thYearProject.Shared.Models.BusinessLogic;
+using FourthYearProject.Shared.Models.BusinessLogic;
 
-namespace _4thYearProject.Api.Models
+namespace FourthYearProject.Api.Models
 {
     public interface IShoppingCartRepository
     {

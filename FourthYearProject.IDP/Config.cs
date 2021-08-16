@@ -22,7 +22,7 @@ namespace FourthYearProject.IDP
         public static IEnumerable<ApiResource> Apis =>
             new ApiResource[]
             {
-                new("_4thyearprojectapi",
+                new("FourthYearProjectapi",
                     "4th Year Project API",
                     new[] {"country"}) //useful when using an authorisation policy
             };
@@ -33,14 +33,14 @@ namespace FourthYearProject.IDP
             {
                 new()
                 {
-                    ClientId = "_4thyearproject",
+                    ClientId = "FourthYearProject",
                     ClientName = "4th Year Project",
                     AllowedGrantTypes = GrantTypes.Code,
                     RequireClientSecret = false,
                     RequirePkce = true,
                     RedirectUris = {"https://localhost:44366//authentication/login-callback"},
                     PostLogoutRedirectUris = {"https://localhost:44366//authentication/logout-callback"},
-                    AllowedScopes = {"openid", "profile", "email", "_4thyearprojectapi"},
+                    AllowedScopes = {"openid", "profile", "email", "FourthYearProjectapi"},
                     AllowedCorsOrigins = {"http://localhost:44341"}
                 }
             };

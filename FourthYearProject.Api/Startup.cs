@@ -1,12 +1,12 @@
 using System;
 using System.Linq;
-using _4thYearProject.Api.CloudStorage;
-using _4thYearProject.Api.Controllers.Identity;
-using _4thYearProject.Api.DataSeeding;
-using _4thYearProject.Api.Emailing;
-using _4thYearProject.Api.Models;
-using _4thYearProject.Api.Models.Interfaces;
-using _4thYearProject.Shared;
+using FourthYearProject.Api.CloudStorage;
+using FourthYearProject.Api.Controllers.Identity;
+using FourthYearProject.Api.DataSeeding;
+using FourthYearProject.Api.Emailing;
+using FourthYearProject.Api.Models;
+using FourthYearProject.Api.Models.Interfaces;
+using FourthYearProject.Shared;
 using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -21,7 +21,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Stripe;
 
-namespace _4thYearProject.Api
+namespace FourthYearProject.Api
 {
     public class Startup
     {
@@ -61,7 +61,7 @@ namespace _4thYearProject.Api
                     .AddIdentityServerAuthentication(options =>
                     {
                         options.Authority = "https://localhost:44333/";
-                        options.ApiName = "_4thyearprojectapi";
+                        options.ApiName = "FourthYearProjectapi";
                     });
             else
                 services.AddAuthentication(
@@ -69,7 +69,7 @@ namespace _4thYearProject.Api
                     .AddIdentityServerAuthentication(options =>
                     {
                         options.Authority = "https://fotostopidp.azurewebsites.net";
-                        options.ApiName = "_4thyearprojectapi";
+                        options.ApiName = "FourthYearProjectapi";
                     });
 
 

@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace _4thYearProject.Shared
+namespace FourthYearProject.Shared
 {
     public interface IUserService
     {

@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using _4thYearProject.Api.Models;
+using FourthYearProject.Api.Models;
 
-namespace _4thYearProject.Api.Migrations
+namespace FourthYearProject.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     [Migration("20210419235617_test")]
@@ -36,7 +36,7 @@ namespace _4thYearProject.Api.Migrations
                     b.ToTable("HashTagPost");
                 });
 
-            modelBuilder.Entity("_4thYearProject.Shared.Models.Address", b =>
+            modelBuilder.Entity("FourthYearProject.Shared.Models.Address", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -69,7 +69,7 @@ namespace _4thYearProject.Api.Migrations
                     b.ToTable("Address");
                 });
 
-            modelBuilder.Entity("_4thYearProject.Shared.Models.BusinessLogic.Order", b =>
+            modelBuilder.Entity("FourthYearProject.Shared.Models.BusinessLogic.Order", b =>
                 {
                     b.Property<int?>("OrderId")
                         .ValueGeneratedOnAdd()
@@ -95,7 +95,7 @@ namespace _4thYearProject.Api.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("_4thYearProject.Shared.Models.BusinessLogic.OrderLineItem", b =>
+            modelBuilder.Entity("FourthYearProject.Shared.Models.BusinessLogic.OrderLineItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -134,7 +134,7 @@ namespace _4thYearProject.Api.Migrations
                     b.ToTable("LineItems");
                 });
 
-            modelBuilder.Entity("_4thYearProject.Shared.Models.BusinessLogic.ShoppingCart", b =>
+            modelBuilder.Entity("FourthYearProject.Shared.Models.BusinessLogic.ShoppingCart", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -149,7 +149,7 @@ namespace _4thYearProject.Api.Migrations
                     b.ToTable("Carts");
                 });
 
-            modelBuilder.Entity("_4thYearProject.Shared.Models.Comment", b =>
+            modelBuilder.Entity("FourthYearProject.Shared.Models.Comment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -180,7 +180,7 @@ namespace _4thYearProject.Api.Migrations
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("_4thYearProject.Shared.Models.FeedProfileData", b =>
+            modelBuilder.Entity("FourthYearProject.Shared.Models.FeedProfileData", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -204,7 +204,7 @@ namespace _4thYearProject.Api.Migrations
                     b.ToTable("FeedData");
                 });
 
-            modelBuilder.Entity("_4thYearProject.Shared.Models.Following", b =>
+            modelBuilder.Entity("FourthYearProject.Shared.Models.Following", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -223,7 +223,7 @@ namespace _4thYearProject.Api.Migrations
                     b.ToTable("Followers");
                 });
 
-            modelBuilder.Entity("_4thYearProject.Shared.Models.HashTag", b =>
+            modelBuilder.Entity("FourthYearProject.Shared.Models.HashTag", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -238,7 +238,7 @@ namespace _4thYearProject.Api.Migrations
                     b.ToTable("Hashtags");
                 });
 
-            modelBuilder.Entity("_4thYearProject.Shared.Models.Like", b =>
+            modelBuilder.Entity("FourthYearProject.Shared.Models.Like", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -257,7 +257,7 @@ namespace _4thYearProject.Api.Migrations
                     b.ToTable("Likes");
                 });
 
-            modelBuilder.Entity("_4thYearProject.Shared.Models.Post", b =>
+            modelBuilder.Entity("FourthYearProject.Shared.Models.Post", b =>
                 {
                     b.Property<int>("PostId")
                         .ValueGeneratedOnAdd()
@@ -315,7 +315,7 @@ namespace _4thYearProject.Api.Migrations
                     b.ToTable("Posts");
                 });
 
-            modelBuilder.Entity("_4thYearProject.Shared.Models.UserData", b =>
+            modelBuilder.Entity("FourthYearProject.Shared.Models.UserData", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -351,91 +351,91 @@ namespace _4thYearProject.Api.Migrations
 
             modelBuilder.Entity("HashTagPost", b =>
                 {
-                    b.HasOne("_4thYearProject.Shared.Models.HashTag", null)
+                    b.HasOne("FourthYearProject.Shared.Models.HashTag", null)
                         .WithMany()
                         .HasForeignKey("HashTagsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("_4thYearProject.Shared.Models.Post", null)
+                    b.HasOne("FourthYearProject.Shared.Models.Post", null)
                         .WithMany()
                         .HasForeignKey("PostsPostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("_4thYearProject.Shared.Models.BusinessLogic.Order", b =>
+            modelBuilder.Entity("FourthYearProject.Shared.Models.BusinessLogic.Order", b =>
                 {
-                    b.HasOne("_4thYearProject.Shared.Models.Address", "OrderAddress")
+                    b.HasOne("FourthYearProject.Shared.Models.Address", "OrderAddress")
                         .WithMany()
                         .HasForeignKey("OrderAddressId");
 
                     b.Navigation("OrderAddress");
                 });
 
-            modelBuilder.Entity("_4thYearProject.Shared.Models.BusinessLogic.OrderLineItem", b =>
+            modelBuilder.Entity("FourthYearProject.Shared.Models.BusinessLogic.OrderLineItem", b =>
                 {
-                    b.HasOne("_4thYearProject.Shared.Models.BusinessLogic.Order", null)
+                    b.HasOne("FourthYearProject.Shared.Models.BusinessLogic.Order", null)
                         .WithMany("LineItems")
                         .HasForeignKey("OrderId");
 
-                    b.HasOne("_4thYearProject.Shared.Models.Post", "Post")
+                    b.HasOne("FourthYearProject.Shared.Models.Post", "Post")
                         .WithMany()
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("_4thYearProject.Shared.Models.BusinessLogic.ShoppingCart", null)
+                    b.HasOne("FourthYearProject.Shared.Models.BusinessLogic.ShoppingCart", null)
                         .WithMany("BasketItems")
                         .HasForeignKey("ShoppingCartId");
 
                     b.Navigation("Post");
                 });
 
-            modelBuilder.Entity("_4thYearProject.Shared.Models.Comment", b =>
+            modelBuilder.Entity("FourthYearProject.Shared.Models.Comment", b =>
                 {
-                    b.HasOne("_4thYearProject.Shared.Models.Post", null)
+                    b.HasOne("FourthYearProject.Shared.Models.Post", null)
                         .WithMany("Comments")
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("_4thYearProject.Shared.Models.FeedProfileData", "ProfileData")
+                    b.HasOne("FourthYearProject.Shared.Models.FeedProfileData", "ProfileData")
                         .WithMany()
                         .HasForeignKey("ProfileDataId");
 
                     b.Navigation("ProfileData");
                 });
 
-            modelBuilder.Entity("_4thYearProject.Shared.Models.Post", b =>
+            modelBuilder.Entity("FourthYearProject.Shared.Models.Post", b =>
                 {
-                    b.HasOne("_4thYearProject.Shared.Models.FeedProfileData", "ProfileData")
+                    b.HasOne("FourthYearProject.Shared.Models.FeedProfileData", "ProfileData")
                         .WithMany()
                         .HasForeignKey("ProfileDataId");
 
                     b.Navigation("ProfileData");
                 });
 
-            modelBuilder.Entity("_4thYearProject.Shared.Models.UserData", b =>
+            modelBuilder.Entity("FourthYearProject.Shared.Models.UserData", b =>
                 {
-                    b.HasOne("_4thYearProject.Shared.Models.Address", "Address")
+                    b.HasOne("FourthYearProject.Shared.Models.Address", "Address")
                         .WithMany()
                         .HasForeignKey("AddressId");
 
                     b.Navigation("Address");
                 });
 
-            modelBuilder.Entity("_4thYearProject.Shared.Models.BusinessLogic.Order", b =>
+            modelBuilder.Entity("FourthYearProject.Shared.Models.BusinessLogic.Order", b =>
                 {
                     b.Navigation("LineItems");
                 });
 
-            modelBuilder.Entity("_4thYearProject.Shared.Models.BusinessLogic.ShoppingCart", b =>
+            modelBuilder.Entity("FourthYearProject.Shared.Models.BusinessLogic.ShoppingCart", b =>
                 {
                     b.Navigation("BasketItems");
                 });
 
-            modelBuilder.Entity("_4thYearProject.Shared.Models.Post", b =>
+            modelBuilder.Entity("FourthYearProject.Shared.Models.Post", b =>
                 {
                     b.Navigation("Comments");
                 });

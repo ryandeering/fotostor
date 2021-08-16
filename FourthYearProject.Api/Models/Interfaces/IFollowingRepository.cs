@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using _4thYearProject.Shared.Models;
+using FourthYearProject.Shared.Models;
 
-namespace _4thYearProject.Api.Models
+namespace FourthYearProject.Api.Models
 {
     public interface IFollowingRepository
     {

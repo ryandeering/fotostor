@@ -1,0 +1,69 @@
+﻿@using System.IO
+<MatCard>
+    <MatCardContent>
+        <EditForm Model="@post" OnValidSubmit="@(async () => await OnSave.InvokeAsync(post))">
+            <p>
+                <MatTextField @bind-Value="@post.Caption" Label="Description" TextArea FullWidth></MatTextField>
+            </p>
+            <p>
+                <MatFileUpload OnChange="@HandleMatFileSelected"></MatFileUpload>
+            </p>
+            <p>
+                <MatButton Type="submit">Upload</MatButton>
+            </p>
+        </EditForm>
+    </MatCardContent>
+</MatCard>
+
+@code {
+
+    [Parameter]
+    public Post post { get; set; }
+
+
+    [Parameter]
+    public EventCallback<Post> OnSave { get; set; }
+
+
+    [Inject]
+    public IUserService _userService { get; set; }
+
+    [Inject]
+    public IUserDataService UserDataService { get; set; }
+
+    public UserData User = new();
+
+
+    private ClaimsPrincipal identity;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        identity = await _userService.GetUserAsync();
+    //First get user claims
+        var UserID = identity.Claims.Where(c => c.Type.Equals("sub"))
+            .Select(c => c.Value).SingleOrDefault().ToString();
+
+        User = await UserDataService.GetUserDataDetails(UserID);
+    }
+
+
+    async Task HandleMatFileSelected(IMatFileUploadEntry[] files)
+    {
+        var file = files.FirstOrDefault();
+        post.MimeType = file.Type;
+
+        if (file == null)
+        {
+            return;
+        }
+
+        using (var stream = new MemoryStream())
+        {
+            await file.WriteToStreamAsync(stream);
+            post.PhotoFile = Convert.ToBase64String(stream.ToArray());
+        }
+    }
+
+
+}

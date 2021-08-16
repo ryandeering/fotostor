@@ -1,7 +1,7 @@
 ﻿using System.Linq;
-using _4thYearProject.Shared.Models;
+using FourthYearProject.Shared.Models;
 
-namespace _4thYearProject.Api.Models
+namespace FourthYearProject.Api.Models
 {
     //  [Route("api/[controller]")]
     //[ApiController]

@@ -2,15 +2,15 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using _4thYearProject.Api.CloudStorage;
-using _4thYearProject.Api.Models;
-using _4thYearProject.Shared;
-using _4thYearProject.Shared.Models;
+using FourthYearProject.Api.CloudStorage;
+using FourthYearProject.Api.Models;
+using FourthYearProject.Shared;
+using FourthYearProject.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 
-namespace _4thYearProject.Api.Controllers
+namespace FourthYearProject.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

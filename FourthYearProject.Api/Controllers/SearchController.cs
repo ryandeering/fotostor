@@ -1,7 +1,7 @@
-﻿using _4thYearProject.Api.Models.Interfaces;
+﻿using FourthYearProject.Api.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace _4thYearProject.Api.Controllers
+namespace FourthYearProject.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

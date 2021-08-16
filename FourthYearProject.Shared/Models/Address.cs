@@ -1,4 +1,4 @@
-﻿namespace _4thYearProject.Shared.Models
+﻿namespace FourthYearProject.Shared.Models
 {
     public class Address
     {

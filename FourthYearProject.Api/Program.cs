@@ -1,9 +1,9 @@
-using _4thYearProject.Api.Models;
+using FourthYearProject.Api.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace _4thYearProject.Api
+namespace FourthYearProject.Api
 {
     public class Program
     {

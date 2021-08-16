@@ -1,6 +1,6 @@
 ﻿using MailKit.Security;
 
-namespace _4thYearProject.Api.Emailing
+namespace FourthYearProject.Api.Emailing
 {
     public class MailKitEmailSenderOptions
     {

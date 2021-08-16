@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
-using _4thYearProject.Api.Models;
-using _4thYearProject.Shared.Models;
+using FourthYearProject.Api.Models;
+using FourthYearProject.Shared.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace _4thYearProject.Api.DataSeeding
+namespace FourthYearProject.Api.DataSeeding
 {
     public class DbInitializer : IDbInitializer
     {

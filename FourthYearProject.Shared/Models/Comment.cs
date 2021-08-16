@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace _4thYearProject.Shared.Models
+namespace FourthYearProject.Shared.Models
 {
     public class Comment
     {

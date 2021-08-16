@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using System.Web;
 
-namespace _4thYearProject.Api.Extensions
+namespace FourthYearProject.Api.Extensions
 {
     public static class Extensions
     {
