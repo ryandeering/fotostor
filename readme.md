@@ -31,7 +31,7 @@ On the e-commerce side of the functionality, users can set their address to purc
 
 * [Project Research Document](https://github.com/ryandeering/fotostor/blob/master/documentation/Research%20Document.pdf) - Prepared before a line of code was written. Details similar applications, stack and development risks.
 * [Use Cases and Logical Architecture](https://github.com/ryandeering/fotostor/blob/master/documentation/Use%20Cases%20and%20Logical%20Architecture.pdf) - Details user use cases for the functionality of the project, and a graph of the logical architecture of the project.
-* [Security & Durability Analysis](https://github.com/ryandeering/fotostor/tree/master/documentation) - OWASP Zap and k6 scalability testing reports are included within the repo.
+* [Security & Scalability Testing of API Analysis](https://github.com/ryandeering/fotostor/tree/master/documentation) - OWASP Zap and k6 scalability testing reports are included within the repo.
 
 
 <h1> Special Thanks </h1>
