@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30517.126
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FourthYearProject.Blazor", "FourthYearProject.Blazor\FourthYearProject.Blazor.csproj", "{406AD955-9C06-44E2-985A-2C5F3F9550D7}"
 EndProject
@@ -36,8 +36,8 @@ Global
 		{305AD63F-0366-4B2B-BCBD-7D5057B819D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{305AD63F-0366-4B2B-BCBD-7D5057B819D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{305AD63F-0366-4B2B-BCBD-7D5057B819D8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CFCF9217-9A00-49D9-986A-E9CD38CA0060}.Debug|Any CPU.ActiveCfg = Release|Any CPU
-		{CFCF9217-9A00-49D9-986A-E9CD38CA0060}.Debug|Any CPU.Build.0 = Release|Any CPU
+		{CFCF9217-9A00-49D9-986A-E9CD38CA0060}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFCF9217-9A00-49D9-986A-E9CD38CA0060}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CFCF9217-9A00-49D9-986A-E9CD38CA0060}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CFCF9217-9A00-49D9-986A-E9CD38CA0060}.Release|Any CPU.Build.0 = Release|Any CPU
 		{62FA00CF-52E6-4863-8782-6FDCB1215620}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

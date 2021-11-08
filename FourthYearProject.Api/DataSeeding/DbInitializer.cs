@@ -20,7 +20,6 @@ namespace FourthYearProject.Api.DataSeeding
         {
             using var serviceScope = _scopeFactory.CreateScope();
             using var context = serviceScope.ServiceProvider.GetService<AppDbContext>();
-            context.Database.Migrate();
         }
 
         public void SeedData()
